@@ -1,0 +1,23 @@
+<p>
+  <strong>First name:</strong>
+  <%= @patient.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @patient.last_name %>
+</p>
+
+<p>
+  <strong>Date of bird:</strong>
+  <%= @patient.date_of_bird %>
+</p>
+
+
+<p>
+  <strong>Gender:</strong>
+  <%= @patient.gender_id %>
+</p>
+
+<%= link_to 'Edit', edit_patient_path(@patient) %> |
+<%= link_to 'Back', patients_path %>

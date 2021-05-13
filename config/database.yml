@@ -1,0 +1,24 @@
+development:
+  adapter: postgresql
+  database: tunurivida_development
+  username: user_seven
+  password: 7777777
+  host: localhost
+  port: 5432
+
+test:
+  adapter: postgresql
+  database: tunurivida_test
+  username: user_seven
+  password: 7777777
+  host: localhost
+  port: 5432
+
+
+production:
+  adapter: postgresql
+  database: tunurivida_production
+  username: user_seven
+  password: 7777777
+  host: localhost
+  port: 5432

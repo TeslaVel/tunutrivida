@@ -1,0 +1,28 @@
+<div class="row col-12">
+  <%= simple_form_for(@patient) do |f| %>
+    <h1><%= t(title) %></h1>
+
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <%= f.input :first_name, label: t('.first_name'), input_html: { class: "form-control" } %>
+      <%= f.input :last_name, label: t('.last_name'), input_html: { class: "form-control" } %>
+      <div class="">
+          <%= f.label t('.date_of_bird') %>
+        <div class="select-date-wrapper">
+          <%= f.date_select(:date_of_bird,
+                options = { start_year: DateTime.now.year - 18, end_year: DateTime.now.year - 75, order: [:month, :day, :year], include_blank: true},
+                html_options = { class: 'select-date'})%>
+        </div>
+      </div>
+      <%= f.input :gender_id, collection: @genders, label_method: :name, value_method: :id,name: "Gender", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.button :submit , class: "btn btn-primary" %>
+       <%= link_to t('patients.back'), patients_path %>
+    </div>
+  <% end %>
+
+</div>
