@@ -1,0 +1,41 @@
+Laura
+
+22/05/2021
+
+1 l 68.1
+2 - 26.6
+3 %  35.5
+4 % 47.8
+5 kg 41.7
+6 2
+7 kg 2.2
+8 1358 kg
+9 46
+10 5
+
+Waist : cintura 83.2
+hip: 94.2
+High AbdomenL: 82
+
+
+water_percentage
+bone_mass
+metabolic_age
+physical_complexion
+basal_metabolic_rate
+
+
+1 peso corporal
+2 bmi indice masa corpola
+3 % grasa corporal
+4 % agua total cuerpo
+5 kg masa muscular
+6 complexion fisica
+7 kg masa osea
+8 BMR Tasa metabólica basal cantidad de kg a comer
+9 edad metabolica
+10 % grasa visceral
+
+
+1 sendentario  x1
+

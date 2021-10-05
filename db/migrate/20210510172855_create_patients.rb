@@ -4,9 +4,11 @@ class CreatePatients < ActiveRecord::Migration[6.1]
       t.string :first_name
       t.string :last_name
       t.string :slug
+      t.integer :age
       t.date :date_of_bird
-      t.integer :dietitian_id, null: false
+      # t.references :dietitian, foreign_key: true
       t.integer :gender_id, null: false
+      t.integer :dietitian_id, null: false
 
       t.timestamps
     end

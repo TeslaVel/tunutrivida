@@ -1,0 +1,31 @@
+<h1>packages</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('packages.new_package'), new_package_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @packages.each do |package| %>
+      <tr>
+        <td><%= package.name %></td>
+        <td><%= package.price %></td>
+        <td><%= package.description %></td>
+        <td><%= link_to t('packages.show'), package %></td>
+        <td><%= link_to t('packages.edit'), edit_package_path(package) %></td>
+        <td><%= link_to t('packages.delete'), package, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

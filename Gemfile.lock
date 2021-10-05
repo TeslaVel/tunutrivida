@@ -265,6 +265,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actiontext (~> 6.1, >= 6.1.3.2)
   annotate
   bootsnap (>= 1.4.2)
   bootstrap (~> 4.0)

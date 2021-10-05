@@ -1,122 +1,252 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+public
+	def create_patient_packages_and_sessions(patient,package,dietitian,height,days_week,date_base)
+
+		h2 = (height*height).round(2)
+
+		patient_package =PatientPackage.create(package: package, patient: patient, dietitian_id: dietitian.id, date: date_base)
+		
+		limite = package.weeks
+		iterador = 0
+		while iterador < limite
+		  puts "creating session #{( limite * days_week ) - (days_week * iterador)} days ago"
+			created = date_base + (days_week * iterador).days
+			weight = rand(50.20...60).round(2)
+			high_abdomen = rand(60.3...65).round(2)
+			waist = rand(60.3...67.2).round(2)
+			hip = rand(50.3...57.5).round(2)
+			imc = (weight / h2 ).round(2)
+			body_grease = rand(10.3...15.90).round(2)
+			visceral_grease = rand(8.3...11.90).round(2)
+			muscle_mass = rand(10.1...22.90).round(2)
+			bone_mass = rand(1.0...3.1),
+			bmr = rand(1000...1600),
+			metabolic_age = rand(30...45),
+			water_percentage =  rand(30.2...40.5)
+			physical_complexion = rand(1..4),
+			ideal_weight = nil
+			if iterador == 0
+				ideal_weight = (imc * h2 )
+			end
+			Session.create!(
+				weight: weight,height: height,
+				waist: waist,hip: hip,
+				imc: imc,
+				high_abdomen: high_abdomen, date: created,
+				dietitian_id: dietitian.id,
+				patient_id: patient.id,
+				ideal_weight: ideal_weight,
+				body_grease: body_grease,
+				visceral_grease: visceral_grease,
+				muscle_mass: muscle_mass,
+				patient_package: patient_package,
+				bone_mass:bone_mass,
+				bmr: bmr,
+				metabolic_age: metabolic_age,
+				water_percentage: water_percentage,
+				physical_complexion: physical_complexion,
+				activity_factor_id: rand(1...3)
+			)
+		  iterador += 1
+		end
+
+	end
+
+private
+
+	puts "Creating Genders"
+	male = Gender.create(name: "Male", description: "Male")
+	female = Gender.create(name: "Female", description: "Female")
+	other = Gender.create(name: "Ohter", description: "Ohter")
+	both = Gender.create(name: "Both", description: "Both")
+
+	puts "Creating IndicatorTypes"
+	typeImc = IndicatorType.create(name:"IMC", description: "IMC")
+	typePdc = IndicatorType.create(name:"PDC", description: "Perimetro de cintura")
+	typeIcc = IndicatorType.create(name:"ICC", description: "Indice cintura cadera ")
+
+	puts "Creating Indicators"
+	Indicator.create(value_min: 0.0, value_max: 18.4 , description: 'Bajo peso', gender: both, position: 1, indicator_type: typeImc)
+	Indicator.create(value_min: 18.41, value_max: 24.9 , description: 'Normo peso', gender: both, position: 2, indicator_type: typeImc)
+	Indicator.create(value_min: 25.0, value_max: 29.9 , description: 'Sobre Peso', gender: both, position: 3, indicator_type: typeImc)
+	Indicator.create(value_min: 30.0, value_max: 34.9 , description: 'Obesidad I', gender: both, position: 4, indicator_type: typeImc)
+	Indicator.create(value_min: 35.0, value_max: 39.9 , description: 'Obesidad II', gender: both, position: 5, indicator_type: typeImc)
+	Indicator.create(value_min: 40, value_max: 999 , description: 'Obesidad morbida', gender: both, position: 6, indicator_type: typeImc)
+
+	Indicator.create(value_min: 0.0, value_max: 80 , description: 'Bajo', gender: female, position: 1, indicator_type: typePdc)
+	Indicator.create(value_min: 80, value_max: 88.1 , description: 'Aumentado', gender: female, position: 2, indicator_type: typePdc)
+	Indicator.create(value_min: 88.0, value_max: 999 , description: 'Aumentado', gender: female, position: 2, indicator_type: typePdc)
+
+	#compara cintura
+	Indicator.create(value_min: 0.0, value_max: 94 , description: 'Bajo', gender: male, position: 1, indicator_type: typePdc)
+	Indicator.create(value_min: 94.0, value_max: 102.1 , description: 'Aumentado', gender: male, position: 2, indicator_type: typePdc)
+	Indicator.create(value_min: 102.0, value_max: 999 , description: 'Aumentado', gender: male, position: 3, indicator_type: typePdc)
+
+	#icc cintura / cadera
+	Indicator.create(value_min: 0.0, value_max: 0.80 , description: 'Sin riesgo', gender: female, position: 1, indicator_type: typeIcc)
+	Indicator.create(value_min: 0.80, value_max: 999 , description: 'Con Riesgo', gender: female, position: 2, indicator_type: typeIcc)
+
+	Indicator.create(value_min: 0.0, value_max: 0.9 , description: 'Sin riesgo', gender: male, position: 1, indicator_type: typeIcc)
+	Indicator.create(value_min: 0.9, value_max: 999 , description: 'Con Riesgo', gender: male, position: 2, indicator_type: typeIcc)
+
+	puts "Creating Packages"
+	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 80.00, weeks: 1)
+	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 140, weeks: 2)
+	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 224, weeks: 3)
+	package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 310.00, weeks: 4)
+	package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 480.00, weeks: 5)
+
+	puts "Creating ActivityFactor"
+	activity_factor1 = ActivityFactor.create!(name: "Sedentario", description: "(poco o ningun ejercicio)", value: 1.2)
+	activity_factor2 = ActivityFactor.create!(name: "Ligeramente activo", description: "(ejercicio ligero / deportes 1-3 dias / semana)", value: 1.375)
+	activity_factor3 = ActivityFactor.create!(name: "Moderadamente activo", description: "(ejercicio moderado / deportes 3-5 dias / semana)", value: 1.55)
+	activity_factor4 = ActivityFactor.create!(name: "Muy activo", description: "(ejercicio duro / deportes 6-7 dias a la semana)", value: 1.725)
+	activity_factor5 = ActivityFactor.create!(name: "Extra activo", description: "(ejercicio muy duro / deportes y trabajo fisico o entrenamiento 2x)", value: 1.9)
+
+	role_dietitian = Role.create(name: 'dietitian', description: "Dietitian")
+	role_amin = Role.create(name: 'super_admin', description: "Super Admin")
+	role_patient = Role.create(name: 'patient', description: "Patient")
+
+	puts "User admin "
+	user = User.create(
+		email: 'admin@example.com',
+		first_name: 'Admin 1',
+		last_name: 'Admin 1',
+		password: '2351310',
+		password_confirmation: '2351310'
+	)
+	UserRole.create(user:user ,role: role_dietitian)
+	UserRole.create(user:user ,role: role_amin)
+
+	puts "User dietitian"
+	dietitian = User.create(
+		email: 'dietitian1@example.com',
+		first_name: "Mary",
+		last_name: "Watson",
+		password: '2351310',
+		password_confirmation: '2351310'
+	)
+	UserRole.create(user: dietitian ,role: role_dietitian)
 
 
 
-male =Gender.create(name: "Male", description: "Male")
-female =Gender.create(name: "Female", description: "Female")
-other =Gender.create(name: "Ohter", description: "Ohter")
-
-role_dietitian = Role.create(name: 'dietitian', description: "Dietitian")
-role_amin = Role.create(name: 'super_admin', description: "Super Admin")
-
-user = User.create(
-	email: 'admin@example.com',
-	first_name: 'Admin 1',
-	last_name: 'Admin 1',
-	password: '2351310',
-	password_confirmation: '2351310'
-)
-UserRole.create(user:user ,role: role_dietitian)
-UserRole.create(user:user ,role: role_amin)
+	y1=15
+	y2=70
+	gender = rand(1..2)
+	days_week = 7
 
 
-dietitian = User.create(
-	email: 'dietitian1@example.com',
-	first_name: "Mary",
-	last_name: "Watson",
-	password: '2351310',
-	password_confirmation: '2351310'
-)
-UserRole.create(user:dietitian ,role: role_dietitian)
+	# Pactient 1
+	dob =Time.now - rand(y1...y2).years
+	created = Time.now - 14.days
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient1 = Patient.create(first_name: "Lucia", last_name: "Mora", dietitian_id: dietitian.id, gender: female , date_of_bird: dob , age: age)
+	puts "Patient #{patient1.first_name} Created."
+
+	height = rand(1.50...1.90).round(2)
+	date_base = Time.now - (days_week * package1.weeks ).days
+
+	create_patient_packages_and_sessions(patient1,package1,dietitian,height,days_week,date_base)
 
 
+	# Pactient 2
+	dob =Time.now - rand(y1...y2).years
+	created = Time.now - 14.days
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient2 = Patient.create(first_name: "Marina", last_name: "Perdomo", dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patient2.first_name} Created."
 
-y1=15
-y2=70
-gender = rand(1..2)
 
-weight = rand(50.20...88.90).round(2)
-height = rand(1.50...1.90).round(2)
-waist = rand(60.3...75.90).round(2)
-hip = rand(70.3...99.90).round(2)
-dob =Time.now - rand(y1...y2).years
-created = Time.now - rand(1..7).days
-imc = (weight / (height*height)).round(2)
-patient1 = Patient.create(first_name: "Lucia", last_name: "Mora", dietitian_id: dietitian.id, gender: female , date_of_bird: dob)
-Session.create(
-	weight: weight,height: height,
-	waist: waist,hip: hip,
-	imc: imc,desired_imc: imc,
-	date: created,
-	dietitian_id: dietitian.id,
-	patient_id: patient1.id
-)
-weight = weight+rand(1..4)
-imc = (weight / (height*height)).round(2)
-Session.create(
-	weight: weight,height: height,
-	waist: waist+rand(1..4),hip: hip+rand(1..2),
-	imc: imc,desired_imc: imc,
-	date: created + 7.day,
-	dietitian_id: dietitian.id,
-	patient_id: patient1.id
-)
+	height = rand(1.50...1.90).round(2)
+	date_base = Time.now - (days_week * package2.weeks ).days
+	create_patient_packages_and_sessions(patient2,package2,dietitian,height,days_week,date_base)
 
-weight = rand(50.20...88.90).round(2)
-height = rand(1.50...1.90).round(2)
-waist = rand(60.3...75.90).round(2)
-hip = rand(70.3...99.90).round(2)
-dob =Time.now - rand(y1...y2).years
-created = Time.now - rand(1..7).days
-patient2 = Patient.create(first_name: "Marina", last_name: "Perdomo", dietitian_id: dietitian.id, gender: female , date_of_bird: dob)
-Session.create(
-weight: weight,height: height,
-waist: waist,hip: hip,
-imc: imc,desired_imc: imc,
-date: created,
-dietitian_id: dietitian.id,
-patient_id: patient2.id
-)
-weight = weight+rand(1..4)
-imc = (weight / (height*height)).round(2)
-Session.create(
-	weight: weight,height: height,
-	waist: waist+rand(1..4),hip: hip+rand(1..2),
-	imc: imc,desired_imc: imc,
-	date: created + 7.day,
-	dietitian_id: dietitian.id,
-	patient_id: patient2.id
-)
+	# Pactient 3
+	dob =Time.now - rand(y1...y2).years
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient3 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patient3.first_name} Created."
 
-weight = rand(50.20...88.90).round(2)
-height = rand(1.50...1.90).round(2)
-waist = rand(60.3...75.90).round(2)
-hip = rand(70.3...99.90).round(2)
-dob =Time.now - rand(y1...y2).years
-created = Time.now - rand(1..7).days
-patient3 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob)
-Session.create(
-	weight: weight,height: height,
-	waist: waist,hip: hip,
-	imc: imc,desired_imc: imc,
-	date: created,
-	dietitian_id: dietitian.id,
-	patient_id: patient3.id
-)
+	height = rand(1.50...1.90).round(2)
+	date_base = Time.now - (days_week * package3.weeks ).days
+	create_patient_packages_and_sessions(patient3,package3,dietitian,height,days_week,date_base)
 
-weight = weight+rand(1..4)
-imc = (weight / (height*height)).round(2)
-Session.create(
-	weight: weight,height: height,
-	waist: waist+rand(1..4),hip: hip+rand(1..2),
-	imc: imc,desired_imc: imc,
-	date: created + 7.day,
-	dietitian_id: dietitian.id,
-	patient_id: patient3.id
-)
+	# Pactient 4
+	dob =Time.now - rand(y1...y2).years
+	created = Time.now - 14.days
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient4 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patient4.first_name} Created."
+
+	height = rand(1.50...1.90).round(2)
+	date_base = Time.now - (days_week * package4.weeks ).days
+	create_patient_packages_and_sessions(patient4,package4,dietitian,height,days_week,date_base)
+
+	# Pactient 5 with two packages
+	dob =Time.now - rand(y1...y2).years
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient5 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patient5.first_name} Created."
+
+	height = rand(1.50...1.90).round(2)
+	# primer paquete 
+	date_base = Time.now - (days_week * package3.weeks ).days
+	create_patient_packages_and_sessions(patient5,package3,dietitian,height,days_week,date_base)
+
+	# segundo paquete
+	date_base = date_base - (days_week * package5.weeks ).days
+	create_patient_packages_and_sessions(patient5,package5,dietitian,height,days_week,date_base)
+
+	# Pactient 6 with 0 packages
+	dob =Time.now - rand(y1...y2).years
+	created = Time.now - 14.days
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patient6 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patient6.first_name} Created."
+
+
+	# Pactient Laura
+	dob = "1990-02-20".to_date
+	date_base = "2021-05-22".to_date
+	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
+	patientL = Patient.create(first_name: "Laura", last_name: "Berrios", dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	puts "Patient #{patientL.first_name} Created."
+
+	patient_package =PatientPackage.create(package: package5, patient: patientL, dietitian_id: dietitian.id, date: date_base)
+
+	created = date_base
+	height = 1.6
+	h2 = (height*height).round(2)
+	weight = 68.1
+	high_abdomen = 82.0
+	waist = 83.2
+	hip = 94.2
+	imc = (weight / h2 ).round(2)
+	body_grease = 35.5
+	visceral_grease = 5
+	muscle_mass = 41.7
+	water_percentage = 47.8
+	bone_mass = 2.2
+	bmr = 1358
+	metabolic_age = 46
+	physical_complexion = 
+	ideal_weight = (imc * h2 )
+
+	Session.create!(
+		weight: weight,height: height,
+		waist: waist,hip: hip,
+		imc: imc,
+		high_abdomen: high_abdomen, date: created,
+		dietitian_id: dietitian.id,
+		patient_id: patientL.id,
+		ideal_weight: ideal_weight,
+		body_grease: body_grease,
+		visceral_grease: visceral_grease,
+		muscle_mass: muscle_mass,
+		bone_mass: bone_mass,
+		bmr: bmr,
+		metabolic_age: metabolic_age,
+		water_percentage: water_percentage,
+		physical_complexion: physical_complexion,
+		activity_factor_id: activity_factor1.id,
+		patient_package: patient_package,
+	)

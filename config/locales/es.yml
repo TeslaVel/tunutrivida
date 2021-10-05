@@ -44,7 +44,6 @@ es:
       create_gender: 'Crear Genero'
       update_gender: 'Actualizar genero'
   
-
   patients:
     new_patient: 'Nuevo Paciente'
     edit_patient: 'Editar Paciente'
@@ -58,6 +57,35 @@ es:
       last_name: 'Apellidos'
       date_of_bird: 'Fecha de nacimiento'
       gender: 'Genero'
+
+  packages:
+    new_package: 'Nuevo Paquete'
+    edit_package: 'Editar Paquete'
+    back: 'Atras'
+    form:
+      create_package: 'Crear paquete'
+      update_package: 'Actualizar paquete'
+
+  patient_packages:
+    new_package: 'Nuevo Paquete'
+    back: 'Atras'
+    new:
+      agregate_package: 'Agregar paquete'
+
+  sessions:
+    new_session: 'Nueva sesion'
+    edit_session: 'Editar sesion'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    name: 'Nombre'
+    form:
+      create_session: 'Crear sesion'
+      update_session: 'Actualizar sesion'
+    new:
+      create_session: 'Crear sesion'
 
   roles:
     new_role: 'Nuevo Rol'
@@ -74,3 +102,21 @@ es:
       description: 'Descripcion'
       create_role: 'create_role Rol'
       update_role: 'Actualizar Rol'
+
+
+  indicator_types:
+    new_indicator_type: 'Nuevo indicador'
+    edit_indicator_type: 'Editar indicador'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    name: 'Nombre'
+    form:
+      create_indicator_type: 'Crear indicador'
+      update_indicator_type: 'Actualizar indicador'
+    new:
+      create_indicator_type: 'Crear indicador'
+
+

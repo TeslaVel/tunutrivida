@@ -1,6 +1,6 @@
 development:
   adapter: postgresql
-  database: tunurivida_development
+  database: tunutrivida_development
   username: user_seven
   password: 7777777
   host: localhost
@@ -8,7 +8,7 @@ development:
 
 test:
   adapter: postgresql
-  database: tunurivida_test
+  database: tunutrivida_test
   username: user_seven
   password: 7777777
   host: localhost
@@ -17,7 +17,7 @@ test:
 
 production:
   adapter: postgresql
-  database: tunurivida_production
+  database: tunutrivida_production
   username: user_seven
   password: 7777777
   host: localhost

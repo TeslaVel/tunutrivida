@@ -1,6 +1,7 @@
-
 <h1>Patients</h1>
-
+<div class="w-100 text-right mb-4">
+  <%= link_to t('patients.new_patient'), new_patient_path , class: "btn btn-primary" %>
+</div>
 <table class="table">
   <thead>
     <tr>
@@ -8,6 +9,7 @@
       <th>Last name</th>
       <th>Date of bird</th>
       <th>Gender</th>
+      <th>Packages-Sessions</th>
       <th colspan="3" class="text-center">Actions</th>
     </tr>
   </thead>
@@ -18,7 +20,8 @@
         <td><%= patient.first_name %></td>
         <td><%= patient.last_name %></td>
         <td><%= patient.date_of_bird %></td>
-        <td><%= patient.gender_id %></td>
+        <td><%= patient.gender.name %></td>
+        <td><%= patient.sessions.count %></td>
         <td><%= link_to t('patients.show'), patient %></td>
         <td><%= link_to t('patients.edit'), edit_patient_path(patient) %></td>
         <td ><%= link_to t('patients.delete'), patient, method: :delete, data: { confirm: t('patients.are_you_sure') } %></td>
@@ -27,4 +30,3 @@
   </tbody>
 </table>
 <br>
-<%= link_to t('patients.new_patient'), new_patient_path , class: "btn btn-primary" %>

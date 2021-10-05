@@ -1,0 +1,27 @@
+<h1>Activity Factors</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('genders.new_gender'), new_gender_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @activity_factors.each do |activity_factor| %>
+      <tr>
+        <td><%= activity_factor.name %></td>
+        <td><%= activity_factor.description %></td>
+        <td><%= activity_factor.value %></td>
+        <td><%= link_to 'Show', activity_factor %></td>
+        <td><%= link_to 'Edit', edit_activity_factor_path(activity_factor) %></td>
+        <td><%= link_to 'Destroy', activity_factor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

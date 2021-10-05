@@ -34,6 +34,7 @@ gem 'bootstrap', '~> 4.0'
 gem 'jquery-rails', '~> 4.4'
 gem 'cancancan', '~> 3.2', '>= 3.2.1'
 gem 'simple_form', '~> 5.1'
+gem 'actiontext', '~> 6.1', '>= 6.1.3.2'
 
 group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'

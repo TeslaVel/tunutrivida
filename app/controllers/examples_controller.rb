@@ -1,5 +1,7 @@
 class ExamplesController < ApplicationController
   before_action :set_variables
+  before_action :authenticate_user!
+  
   layout 'auth', only: %i[login register forgot_password]
 
   private

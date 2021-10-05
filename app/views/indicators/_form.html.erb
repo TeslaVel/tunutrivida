@@ -1,0 +1,37 @@
+<div class="row w-40 m-auto">
+  <%= simple_form_for(@indicator) do |f| %>
+    <h1><%= t(title) %></h1>
+
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <%= f.input :value_min, label: t('.value_min'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :value_max, label: t('.value_max'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :position, label: t('.position'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :description, label: t('.description'), input_html: { class: "form-control" }  %>
+    </div>
+     
+    <div class="form-group">
+      <%= f.input :gender_id, collection: @genders, label_method: :name, value_method: :id,name: "Gender", include_blank: false, selected: @indicator&.gender&.id, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :indicator_type_id, collection: @indicator_types, label_method: :name, value_method: :id,name: "Indicator Type", include_blank: false, selected: @indicator&.indicator_type&.id, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.button :submit , class: "btn btn-primary" %>
+       <%= link_to t('indicators.back'), indicators_path %>
+    </div>
+  <% end %>
+</div>

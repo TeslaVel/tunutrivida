@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value min:</strong>
+  <%= @indicator.value_min %>
+</p>
+
+<p>
+  <strong>Value max:</strong>
+  <%= @indicator.value_max %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @indicator.description %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @indicator.gender_id %>
+</p>
+
+<%= link_to 'Edit', edit_indicator_path(@indicator) %> |
+<%= link_to 'Back', indicators_path %>

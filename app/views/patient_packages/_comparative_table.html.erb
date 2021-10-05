@@ -1,0 +1,61 @@
+<div class="card shadow mb-4">
+  <a href="#collapseCardExample_<%= key %>" class="d-block card-header py-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>">
+    <h6 class="m-0 font-weight-bold text-primary"><%= title %></h6>
+  </a>
+  <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
+	  <div class="card-body p-0">
+	  	<div class="table-responsive">
+				<table class="table table-bordered" width="100%">
+					<thead>
+						<tr>
+							<th width="">Concept</th>
+							<th width="">First session</th>
+							<th width="">Last session</th>
+							<th class="text-center" width="">Total tost</th>
+						</tr>
+					</thead>
+				  <tbody>
+						<% if sessions.count > 0 %>
+						  <tr class="">
+						    <td >Date</td>
+						    <td ><%= sessions.first.date %></td>
+						    <td ><%= sessions.last.date %> </td>
+						    <td class="text-center" >- </td>
+						  </tr>
+						  <tr class="">
+						    <td >Weight</td>
+						    <td ><%= sessions.first.weight %></td>
+						    <td ><%= sessions.last.weight %> </td>
+						    <td class="text-center" ><%= (sessions.first.weight - sessions.last.weight).round(2) %></td>
+						  </tr>
+						  <tr class="">
+						    <td >Waist</td>
+						    <td ><%= sessions.first.waist %></td>
+						    <td ><%= sessions.last.waist %> </td>
+						    <td class="text-center" ><%= (sessions.first.waist - sessions.last.waist).round(2) %></td>
+						  </tr>
+						   <tr class="">
+						    <td >Hip</td>
+						    <td ><%= sessions.first.hip %></td>
+						    <td ><%= sessions.last.hip %> </td>
+						    <td class="text-center" ><%= (sessions.first.hip - sessions.last.hip).round(2) %></td>
+						  </tr>
+						  <tr class="">
+						    <td >High abdomen</td>
+						    <td ><%= sessions.first.high_abdomen %></td>
+						    <td ><%= sessions.last.high_abdomen %> </td>
+						    <td class="text-center" ><%= (sessions.first.high_abdomen - sessions.last.high_abdomen).round(2) %></td>
+						  </tr>
+						   <tr class="">
+						    <td >IMC</td>
+						    <td ><%= sessions.first.imc %></td>
+						    <td ><%= sessions.last.imc %> </td>
+						    <td class="text-center" ><%= (sessions.first.imc - sessions.last.imc).round(2) %></td>
+						  </tr>
+	  				<% end %>
+				  </tbody>
+				</table>
+	  	</div>
+	  </div>
+  </div>
+</div>

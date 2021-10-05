@@ -1,0 +1,56 @@
+<div class="card shadow mb-4">
+  <a href="#collapseCardExample_<%= key %>" class="d-block card-header py-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>">
+    <h6 class="m-0 font-weight-bold text-primary"><%= title %></h6>
+  </a>
+  <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
+    <% if patient_package.sessions.count < patient_package.package.weeks %> 
+      <div class="py-2 px-4 d-flex justify-content-end">
+        <%= link_to t('sessions.new_session'), patient_patient_package_new_session_path(patient,patient_package), class: "btn btn-primary" %>
+      </div>
+    <% end %>
+    <div class="card-body">
+      <div class="table-responsive">
+        <!-- id="dataTable" -->
+        <table class="table table-bordered"  width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Height</th>
+              <th>Weight</th>
+              <th>Waist</th>
+              <th>Hip</th>
+              <th>High abdomen</th>
+              <th>Imc</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Date</th>
+              <th>Height</th>
+              <th>Weight</th>
+              <th>Waist</th>
+              <th>Hip</th>
+              <th>High abdomen</th>
+              <th>Imc</th>
+            </tr>
+          </tfoot>
+          <tbody>
+           	<% patient_package.sessions.id_desc.each do |session| %>
+            <tr>
+            	<td>
+            		<%= link_to session.date.strftime("%d-%m-%Y"), patient_patient_package_session_show_path(patient,patient_package,session) %>
+            	</td>
+              <td><%= session.height %></td>
+              <td><%= session.weight %></td>
+              <td><%= session.waist %></td>
+              <td><%= session.hip %></td>
+              <td><%= session.high_abdomen %></td>
+              <td><%= session.imc %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

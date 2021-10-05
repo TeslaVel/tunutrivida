@@ -1,0 +1,2 @@
+class ActivityFactor < ApplicationRecord
+end

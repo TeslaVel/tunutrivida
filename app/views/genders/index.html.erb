@@ -1,5 +1,7 @@
 <h1>Genders</h1>
-
+<div class="w-100 text-right mb-4">
+  <%= link_to t('genders.new_gender'), new_gender_path , class: "btn btn-primary" %>
+</div>
 <table class="table">
   <thead>
     <tr>
@@ -21,7 +23,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to t('genders.new_gender'), new_gender_path , class: "btn btn-primary" %>

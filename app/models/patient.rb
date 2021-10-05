@@ -1,11 +1,15 @@
 class Patient < ApplicationRecord
 
 	after_validation :set_slug, only: [:create, :update]
+	after_create :ctate_user_for_patient
 
-	has_one :role
 	belongs_to :dietitian, :class_name => "User", :foreign_key => "dietitian_id"
+	has_one :user
+	has_one :role
 	belongs_to :gender
-	has_many :sessions
+	has_many :patient_packages
+  has_many :sessions, through: :patient_packages
+  has_many :packages, through: :patient_packages
 
 
 	def set_slug
@@ -14,5 +18,17 @@ class Patient < ApplicationRecord
 
 	def to_param
 		"#{slug}"
+	end
+
+	def active_package
+  	self.patient_packages.find_by_status(true) || false
+  end
+
+	def ctate_user_for_patient
+		username = "#{self.first_name.parameterize}@#{self.slug}"
+		
+		user = User.new(email: username, password: 'tunutrilau', password_confirmation: 'tunutrilau', first_name: self.first_name, last_name: self.last_name )
+		user.save!
+		user.add_role :patient
 	end
 end

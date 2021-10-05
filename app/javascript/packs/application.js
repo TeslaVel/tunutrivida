@@ -27,16 +27,27 @@ Chartkick.use(Chart)
 datatable(window, $)
 datatableBS4(window, $)
 
-// Examples
+
+import "./shared/charts";
+import "./calcimc";
+// document.addEventListener('turbolinks:load', () => {
+// 	window.addEventListener('.patient-view', (event) => {
+// 	});
+// })
+
 import './shared/demo/datatables-demo'
 import './shared/demo/chart-area-demo'
 import './shared/demo/chart-bar-demo'
 import './shared/demo/chart-pie-demo'
 
+let found_class_date = $('#patient-session-date').val();
+if (found_class_date) 
+{
+	$('#patient-session-date').datepicker({
+	    uiLibrary: 'bootstrap4'
+	});
+	
+}
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+
+

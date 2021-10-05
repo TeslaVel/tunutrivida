@@ -1,0 +1,94 @@
+<h1><%= t("sessions.new_session") %></h1>
+<div class="">
+  <%= simple_form_for(@session, url: patient_patient_package_create_session_path(@patient,@patient_package)) do |f| %>
+
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="row justify-content-center">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <%= f.input :date, as: :date, html5: true, input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :weight, label: t('.weight'), input_html: { class: "form-control" } %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.input :height, label: t('.height'), input_html: { class: "form-control" } %>
+        </div>
+       
+        <div class="form-group">
+          <%= f.input :imc, label: t('.imc'), input_html: { class: "form-control" } %>
+        </div>
+
+        <% if @session == @patient.sessions.first %>
+          <div class="form-group">
+            <%= f.input :ideal_weight, label: t('.ideal_weight'), input_html: { class: "form-control" } %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <%= f.input :high_abdomen, label: t('.high_abdomen'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :waist, label: t('.waist'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :hip, label: t('.hip'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :body_grease, label: t('.body_grease'), input_html: { class: "form-control" } %>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <%= f.input :visceral_grease, label: t('.visceral_grease'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :muscle_mass, label: t('.muscle_mass'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :bone_mass, label: t('.bone_mass'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :bmr, label: t('.bmr'), input_html: { class: "form-control" } %>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <%= f.input :metabolic_age, label: t('.metabolic_age'), input_html: { class: "form-control" } %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.input :water_percentage, label: t('.water_percentage'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :physical_complexion, label: t('.physical_complexion'), input_html: { class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.input :activity_factor_id, collection: @activity_factors, label_method: :name, value_method: :id,name: "Activity Factor", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-center align-items-center form-group">
+      <%= f.button :submit, t(".create_session"), class: "btn btn-primary" %>
+      <%= link_to t('sessions.back'), patient_package_show_path(@patient,@patient_package) %>
+    </div>
+
+  <% end %>
+</div>

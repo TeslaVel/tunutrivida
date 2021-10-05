@@ -15,7 +15,7 @@
   <body id="page-top">
 
     <div id="wrapper">
-      <%= render  "layouts/shared/sidebar" %>
+      <%= render "layouts/shared/sidebar" %>
 
       <div id="content-wrapper" class="d-flex flex-column">
 
@@ -23,6 +23,8 @@
           <%= render "layouts/shared/topbar" %>
 
           <div class="container-fluid">
+            <p class="notice d-none"><%= notice %></p>
+            <p class="alert d-none"><%= alert %></p>
             <%= yield %>
           </div>
         </div>

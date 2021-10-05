@@ -1,4 +1,5 @@
 class GendersController < ApplicationController
+  ## load cancan abilities
   load_and_authorize_resource
   before_action :set_gender, only: %i[ show edit update destroy ]
 

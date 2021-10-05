@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_055332) do
+ActiveRecord::Schema.define(version: 2021_05_23_031431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activity_factors", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "value", precision: 8, scale: 3
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "genders", force: :cascade do |t|
     t.string "name"
@@ -22,13 +30,55 @@ ActiveRecord::Schema.define(version: 2021_05_13_055332) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "indicator_types", force: :cascade do |t|
+    t.text "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "indicators", force: :cascade do |t|
+    t.decimal "value_min", precision: 8, scale: 2
+    t.decimal "value_max", precision: 8, scale: 2
+    t.string "description"
+    t.integer "position"
+    t.bigint "gender_id", null: false
+    t.bigint "indicator_type_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["gender_id"], name: "index_indicators_on_gender_id"
+    t.index ["indicator_type_id"], name: "index_indicators_on_indicator_type_id"
+  end
+
+  create_table "packages", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "weeks"
+    t.decimal "price", precision: 8, scale: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "patient_packages", force: :cascade do |t|
+    t.bigint "package_id", null: false
+    t.bigint "patient_id", null: false
+    t.date "date"
+    t.boolean "status", default: false
+    t.integer "dietitian_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["package_id"], name: "index_patient_packages_on_package_id"
+    t.index ["patient_id"], name: "index_patient_packages_on_patient_id"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "slug"
+    t.integer "age"
     t.date "date_of_bird"
-    t.integer "dietitian_id", null: false
     t.integer "gender_id", null: false
+    t.integer "dietitian_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -45,14 +95,26 @@ ActiveRecord::Schema.define(version: 2021_05_13_055332) do
     t.decimal "height", precision: 8, scale: 2
     t.decimal "waist", precision: 8, scale: 2
     t.decimal "hip", precision: 8, scale: 2
+    t.decimal "high_abdomen", precision: 8, scale: 2
     t.decimal "imc", precision: 8, scale: 2
-    t.decimal "desired_imc", precision: 8, scale: 2
+    t.decimal "ideal_weight", precision: 8, scale: 2
+    t.decimal "body_grease", precision: 8, scale: 2
+    t.decimal "visceral_grease", precision: 8, scale: 2
+    t.decimal "muscle_mass", precision: 8, scale: 2
+    t.decimal "bone_mass", precision: 8, scale: 2
+    t.integer "water_percentage"
+    t.integer "bmr"
+    t.integer "metabolic_age"
+    t.integer "physical_complexion"
     t.date "date"
-    t.integer "dietitian_id"
     t.bigint "patient_id", null: false
+    t.bigint "patient_package_id", null: false
+    t.integer "dietitian_id"
+    t.integer "activity_factor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["patient_id"], name: "index_sessions_on_patient_id"
+    t.index ["patient_package_id"], name: "index_sessions_on_patient_package_id"
   end
 
   create_table "user_roles", force: :cascade do |t|
@@ -65,20 +127,28 @@ ActiveRecord::Schema.define(version: 2021_05_13_055332) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.string "email", default: "", null: false
-    t.string "first_name"
-    t.string "last_name"
     t.string "encrypted_password", default: "", null: false
+    t.bigint "patient_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["patient_id"], name: "index_users_on_patient_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "indicators", "genders"
+  add_foreign_key "indicators", "indicator_types"
+  add_foreign_key "patient_packages", "packages"
+  add_foreign_key "patient_packages", "patients"
+  add_foreign_key "sessions", "patient_packages"
   add_foreign_key "sessions", "patients"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
+  add_foreign_key "users", "patients"
 end

@@ -1,0 +1,29 @@
+<h1>Indicator Types</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('indicator_types.new_indicator_type'), new_indicator_type_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @indicator_types.each do |indicator_type| %>
+      <tr>
+        <td><%= indicator_type.name %></td>
+        <td><%= indicator_type.description %></td>
+        <td><%= link_to 'Show', indicator_type %></td>
+        <td><%= link_to 'Edit', edit_indicator_type_path(indicator_type) %></td>
+        <td><%= link_to 'Destroy', indicator_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

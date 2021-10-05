@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @activity_factor.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @activity_factor.description %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @activity_factor.value %>
+</p>
+
+<%= link_to 'Edit', edit_activity_factor_path(@activity_factor) %> |
+<%= link_to 'Back', activity_factors_path %>

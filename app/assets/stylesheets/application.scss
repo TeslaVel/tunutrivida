@@ -26,6 +26,46 @@ select.select-date {
   }
 }
 
-#new_patient {
+
+
+/*CUSTOM CSS*/
+#new_patient, .simple_form {
   width: 100%;
+}
+
+#route_table tbody.exact_matches, #route_table tbody.fuzzy_matches {
+    color: #1aeaaf;
+}
+
+.w-20   { width: 20%; }
+.w-20i  { width: 20% !important;}
+//w-25 actual exist in boostrap
+.w-30   { width: 30%; }
+.w-30i  { width: 30% !important;}
+.w-40   { width: 40%; }
+//w-50 actual exist in boostrap
+.w-40i  { width: 40% !important;}
+.w-60   { width: 60%; }
+.w-60i  { width: 60% !important;}
+.w-70   { width: 70%; }
+.w-70i  { width: 70% !important;}
+//w-75 actual exist in boostrap
+.w-80   { width: 80%; }
+.w-80i  { width: 80% !important;}
+.w-90   { width: 90%; }
+.w-90i  { width: 90% !important;}
+//w-100 actual exist in boostrap
+//w-auto actual exist in boostrap
+
+.diagonis_imc {
+  background: #f9d1a7b5;
+  color: black;
+}
+.diagonis_pdc {
+  background: #d1eac6b5;
+  color: black;
+}
+.diagonis_icc{
+  background: #bee8f4b5;
+  color: black;
 }

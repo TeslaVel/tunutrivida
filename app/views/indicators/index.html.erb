@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Indicators</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('indicators.new_indicator'), new_indicator_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Value min</th>
+      <th>Value max</th>
+      <th>Description</th>
+      <th>Position</th>
+      <th>Type</th>
+      <th>Gender</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @indicators.each do |indicator| %>
+      <tr>
+        <td><%= indicator.value_min %></td>
+        <td><%= indicator.value_max %></td>
+        <td><%= indicator.description %></td>
+        <td><%= indicator.position %></td>
+        <td><%= indicator.indicator_type.name %></td>
+        <td><%= indicator.gender.name %></td>
+        <td><%= link_to 'Show', indicator %></td>
+        <td><%= link_to 'Edit', edit_indicator_path(indicator) %></td>
+        <td><%= link_to 'Destroy', indicator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+

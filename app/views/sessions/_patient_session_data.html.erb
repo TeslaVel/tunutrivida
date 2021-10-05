@@ -1,0 +1,74 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary text-center">Session</h6>
+  </div>
+  <div class="card-body p-0">
+    	<table class="table table-borderless mb-0">
+			  <tbody>
+			    <tr>
+			      <th scope="col" width="">Age</th>
+			      <td scope="row" width=""><%= session.patient.age %></td>
+			     	<th scope="col">Body grease</th>
+			      <td scope="row"><strong>%</strong> <%= session.body_grease %></td>
+			    
+			    </tr>
+
+			    <tr>
+			    	<th scope="col">height</th>
+			      <td scope="row"><%= session.height %> <strong>Kg</strong></td>
+			     	<th scope="col">Visceral grease</th>
+			      <td scope="row"><strong>%</strong> <%= session.visceral_grease %></td>
+			    </tr>
+			    
+			    <tr>
+			     	<th scope="col">Weight</th>
+			      <td scope="row"><%= session.weight %> <strong>Kg</strong></td>
+			     	<th scope="col">Muscle mass</th>
+			      <td scope="row"><%= session.muscle_mass %> <strong>Kg</strong></td>
+			    </tr>
+			    <tr>
+			     	<th scope="col">IMC</th>
+			      <td scope="row"><%= session.imc %></td>
+			      <th scope="col">Bone mass</th>
+			      <td scope="row"><%= session.bone_mass %> <strong>Kg</strong></td>
+			    </tr>
+
+			     <tr>
+			     	<th scope="col">Waist</th>
+			      <td scope="row"><%= session.waist %> <strong>cm</strong></td>		
+			      <th scope="col">Bmr</th>
+			      <td scope="row"><%= session.bmr * session.activity_factor.value %> <strong>Kca</strong></td>
+			    </tr>
+
+			    <tr>
+			     	<th scope="col">Hip</th>
+			      <td scope="row"><%= session.hip %> <strong>cm</strong></td>
+			      <th scope="col">Metabolic Age</th>
+			      <td scope="row"><%= session.metabolic_age %></td>
+			    </tr>
+
+			    <tr>
+			    	<th scope="col">ICC</th>
+			      <td scope="row"><%= (session.waist / session.hip).round(2) %></td>
+			      <th scope="col">Water</th>
+			      <td scope="row"><strong>%</strong> <%= session.water_percentage %></td>
+			    </tr>
+
+			    <tr>
+			    	<th scope="col">High Abdomen</th>
+			      <td scope="row"><%= session.high_abdomen %> <strong>cm</strong></td>
+			      <th scope="col">Physical complexion</th>
+			      <td scope="row"><%= session.physical_complexion %></td>
+			    </tr>
+
+			  
+			    <tr scope="col">
+						<td scope="row" colspan="4">
+							<%= link_to t('session.edit'), patient_patient_package_edit_session_path(patient,session.patient_package,session), class: "btn btn-success btn-block" %>
+						</td>
+			    </tr>
+
+			  </tbody>
+			</table>
+  </div>
+</div>

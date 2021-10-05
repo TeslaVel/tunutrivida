@@ -1,23 +1,44 @@
-<p>
-  <strong>First name:</strong>
-  <%= @patient.first_name %>
-</p>
+<div class="patient-view">
 
-<p>
-  <strong>Last name:</strong>
-  <%= @patient.last_name %>
-</p>
+  <div class="col-sm-12 col-md-12">
+    
+    <div class="card shadow mb-4">
+      <div class="card-body p-0">
+        	<table class="table table-borderless mb-0">
+					  <tbody>
+					    <tr>
+					      <th class="pr-0" width="120px">First Name</th>
+					      <td class="pr-0" width="120px"><%= @patient.first_name %></td>
+                <th class="pr-0" width="120px">Ideal Weight</th>
+                <td class="pr-0" width="120px"><%= @patient.sessions.count > 0 ? @patient.sessions.first.ideal_weight : '' %></td>
+					    </tr>
+              <% if @patient.sessions.first %>
+                <tr>
+                  <th class="pr-0" width="120px">Last Name</th>
+                  <td class="pr-0" width="120px"><%= @patient.last_name %></td>
+                </tr>
+              <% end %>
+					     <tr>
+					     	<th>Date of birth</th>
+					      <td scope="row"><%= @patient.date_of_bird %></td>
+					    </tr>
+					    <tr>
+					     	<th>Gender</th>
+					      <td scope="row"><%= @patient.gender.name %></td>
+					    </tr>
+					  </tbody>
+					</table>
+      </div>
+      <div class="actions px-3 py-2 d-flex justify-content-center">
+  			<%= link_to 'Edit', edit_patient_path(@patient), class: 'btn btn-success mx-1' %>
+  			<%= link_to 'Back', patients_path, class: 'btn btn-danger mx-1' %>
+      </div>
+    </div>
+  </div>
 
-<p>
-  <strong>Date of bird:</strong>
-  <%= @patient.date_of_bird %>
-</p>
+  <div class="col-sm-12 col-md-12">
+    <%= render 'patient_packages',key: 2, expanded: true, patient: @patient, patient_packages: @patient.patient_packages, title: "Packages" %>
+  </div>
+  <
+</div>
 
-
-<p>
-  <strong>Gender:</strong>
-  <%= @patient.gender_id %>
-</p>
-
-<%= link_to 'Edit', edit_patient_path(@patient) %> |
-<%= link_to 'Back', patients_path %>

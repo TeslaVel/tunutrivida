@@ -3,36 +3,36 @@ class PatientsController < ApplicationController
 
   # GET /patients or /patients.json
   def index
-    @patients = Patient.all
+    @patients = current_user.patients
   end
 
   # GET /patients/1 or /patients/1.json
   def show
+    # @sessions = @patient.sessions.id_desc
   end
 
   # GET /patients/new
   def new
-    @patient = Patient.new
+    @patient = current_user.patients.build
     @genders = Gender.all
   end
 
   # GET /patients/1/edit
   def edit
+    @genders = Gender.all
   end
 
   # POST /patients or /patients.json
   def create
-    @patient = Patient.new(patient_params)
-    @patient.dietitian = current_user
-    respond_to do |format|
-      if @patient.save
-        format.html { redirect_to @patient, notice: "Patient was successfully created." }
-        format.json { render :show, status: :created, location: @patient }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @patient.errors, status: :unprocessable_entity }
-      end
+    @patient = current_user.patients.build(patient_params)
+    
+    if @patient.save
+      redirect_to @patient, notice: "Patient was successfully created." 
+    else
+
+      redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
     end
+    
   end
 
   # PATCH/PUT /patients/1 or /patients/1.json
