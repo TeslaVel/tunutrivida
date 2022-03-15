@@ -6,12 +6,14 @@ Rails.application.routes.draw do
   resources :indicator_types
   resources :indicators
   resources :packages
+  resources :billings
 
 
   resources :patients do
 
     # get '/sessions/sessionsjson', to: 'sessions#sessionsjson'
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
+    get '/packagesjson', to: 'patient_packages#packagesjson'
     #PACKAGES
     get '/patient_packages/new', to: 'patient_packages#new', as: :package_new
     get '/patient_packages/:id', to: 'patient_packages#show', as: :package_show

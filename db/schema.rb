@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_23_031431) do
+ActiveRecord::Schema.define(version: 2021_11_13_234206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 2021_05_23_031431) do
     t.decimal "value", precision: 8, scale: 3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "billings", force: :cascade do |t|
+    t.decimal "sub_total", precision: 8, scale: 2
+    t.decimal "total", precision: 8, scale: 2
+    t.string "code"
+    t.integer "billing_type", default: 0
+    t.bigint "patient_package_id", null: false
+    t.integer "dietitian_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_package_id"], name: "index_billings_on_patient_package_id"
   end
 
   create_table "genders", force: :cascade do |t|
@@ -83,6 +95,15 @@ ActiveRecord::Schema.define(version: 2021_05_23_031431) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer "status"
+    t.bigint "billing_id", null: false
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["billing_id"], name: "index_payments_on_billing_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -142,10 +163,12 @@ ActiveRecord::Schema.define(version: 2021_05_23_031431) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "billings", "patient_packages"
   add_foreign_key "indicators", "genders"
   add_foreign_key "indicators", "indicator_types"
   add_foreign_key "patient_packages", "packages"
   add_foreign_key "patient_packages", "patients"
+  add_foreign_key "payments", "billings"
   add_foreign_key "sessions", "patient_packages"
   add_foreign_key "sessions", "patients"
   add_foreign_key "user_roles", "roles"

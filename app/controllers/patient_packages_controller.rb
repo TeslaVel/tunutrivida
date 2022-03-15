@@ -1,7 +1,7 @@
 class PatientPackagesController < ApplicationController
- before_action :get_patient_json, only: [:sessionsjson]
+ before_action :get_patient_json, only: [:sessionsjson, :packagesjson]
  before_action :get_patient_packages_json, only: [:sessionsjson]
- before_action :set_patient, except: [:sessionsjson]
+ before_action :set_patient, except: [:sessionsjson, :packagesjson]
  before_action :set_patient_package, only: [:show]
 
   # GET /patients/:slug/packages/:id
@@ -11,7 +11,7 @@ class PatientPackagesController < ApplicationController
   # GET /patients/:slug/packages/new
   def new
     active = @patient.active_package
-    
+
     if active && active.sessions.count < active.package.weeks
       redirect_to @patient, notice: 'Current Patient package is not completed.'
     end
@@ -28,7 +28,7 @@ class PatientPackagesController < ApplicationController
     if active && active.sessions.count < active.package.weeks
       redirect_to @patient, notice: 'Current Patient package is not completed.'
     end
-    
+
     patient_package_params[:date] = patient_package_params[:date].to_date
     @patien_package = @patient.patient_packages.build(patient_package_params)
     @patien_package.dietitian = current_user
@@ -51,6 +51,11 @@ class PatientPackagesController < ApplicationController
     render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
   end
 
+  def packagesjson
+    render :json => {patient: @patient}
+    # render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
+  end
+
   private
 		# Use callbacks to share common setup or constraints between actions.
 		def set_patient
@@ -62,7 +67,7 @@ class PatientPackagesController < ApplicationController
     end
 
     def get_patient_json
-      @patient = Patient.find(params[:patient_id])
+      @patient = Patient.find_by_id(params[:patient_id])
     end
 
     def get_patient_packages_json

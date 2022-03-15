@@ -37,6 +37,7 @@
   <% active_modules = active_link?(includes: ['packages','indicators', 'genders','activity_factors','indicator_types']) %>
   <%= nav_context :modules, 'Modules', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
+    <%= active_link_to 'Billing', billings_path, class: 'collapse-item' %>
     <%= active_link_to 'Package', packages_path, class: 'collapse-item' %>
     <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
     <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>

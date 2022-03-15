@@ -30,6 +30,7 @@ datatableBS4(window, $)
 
 import "./shared/charts";
 import "./calcimc";
+import "./client_packages";
 // document.addEventListener('turbolinks:load', () => {
 // 	window.addEventListener('.patient-view', (event) => {
 // 	});

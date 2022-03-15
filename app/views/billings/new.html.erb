@@ -1,0 +1,28 @@
+<h1><%= t("billings.new_billing") %></h1>
+<div class="row w-40 m-auto">
+
+  <%= simple_form_for(@billing, url: billings_path(@billing)) do |f| %>
+
+    <%= notice %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <%= f.input :patient_id, collection: @patients, label_method: :full_name, value_method: :id, name: "Patient", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :package_id, collection: @packages, label_method: :name, value_method: :id,name: "Package", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :billing_type, collection: @billing_types, label_method: :values, value_method: :values, name: "Billing Type", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center form-group">
+      <%= f.button :submit, t(".create_billing"), class: "btn btn-primary" %>
+      <%= link_to t('billings.back'), billings_path %>
+    </div>
+
+  <% end %>
+</div>

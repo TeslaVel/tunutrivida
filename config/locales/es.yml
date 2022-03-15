@@ -119,4 +119,13 @@ es:
     new:
       create_indicator_type: 'Crear indicador'
 
+  billings:
+    new_billing: 'Nueva Factura/Boleta'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    new:
+      create_billing: 'Crear Boleta/Factura'
+
 

@@ -10,10 +10,15 @@ class Patient < ApplicationRecord
 	has_many :patient_packages
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages
+	has_many :billing, through: :patient_packages
 
 
 	def set_slug
 		self.slug = "#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
+	end
+
+	def full_name
+		"#{first_name} #{last_name}"
 	end
 
 	def to_param
@@ -24,9 +29,10 @@ class Patient < ApplicationRecord
   	self.patient_packages.find_by_status(true) || false
   end
 
+
 	def ctate_user_for_patient
 		username = "#{self.first_name.parameterize}@#{self.slug}"
-		
+
 		user = User.new(email: username, password: 'tunutrilau', password_confirmation: 'tunutrilau', first_name: self.first_name, last_name: self.last_name )
 		user.save!
 		user.add_role :patient
