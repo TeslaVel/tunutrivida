@@ -1,42 +1,48 @@
 class BillingsController < ApplicationController
-  before_action :set_billing, only: %i[ show edit update destroy ]
+  before_action :set_billing, only: %i[ show edit items update destroy]
+  # before_action :set_billing_for_item, only: %i[ create_billing_items create_paid_items]
 
-  # GET /patients or /patients.json
+  # GET /billings or /billings.json
   def index
-    @billings = Billing.all
+    @billings = Billing.includes(:patient)
   end
 
-  # GET /patients/1 or /patients/1.json
+  # GET /billings/1 or /billings/1.json
   def show
     # @sessions = @patient.sessions.id_desc
+    @patient = @billing.patient
+
+    used_package_ids = @billing.billing_items.where(itemable_type: 'Package').pluck(:itemable_id)
+    used_product_ids = @billing.billing_items.where(itemable_type: 'Product').pluck(:itemable_id)
+    used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').pluck(:itemable_id)
+
+    @patient_packages = @patient.packages.where.not(id: used_package_ids) # .active
+    @products = Product.where.not(id: used_product_ids) # .active
+    @discounts = Discount.where.not(id: used_discount_ids ) # .active
+
+    # raise @patient.firs.to_yaml
   end
 
-  # GET /patients/new
+  # GET /billings/new
   def new
     @billing = Billing.new
-    @packages = Package.all
+    # @packages = Package.all
     @patients = Patient.all
-    @billing_types = Billing::BillingTypes
   end
 
-  # GET /patients/1/edit
-  def edit
-  end
-
-  # POST /patients or /patients.json
+  # POST /billings or /billings.json
   def create
-    @billing = Billing.new(billing_params.merge(dietitian_id: current_user.id))
+    @billing = Billing.new(billing_params.merge(dietitian_id: current_user.id, created_by_id: current_user.id))
 
     if @billing.save
-      redirect_to @billing, notice: "Billing was successfully created."
+      redirect_to billing_path(@billing), notice: "Billing was successfully created."
     else
-
       redirect_to new_billing_path(@billing), notice: @billing.errors.full_messages.join(". ") << "."
     end
 
   end
 
-  # PATCH/PUT /patients/1 or /patients/1.json
+  # PATCH/PUT /billings/1 or /billings/1.json
   def update
     respond_to do |format|
       if @billing.update(billing_params)
@@ -49,7 +55,7 @@ class BillingsController < ApplicationController
     end
   end
 
-  # DELETE /patients/1 or /patients/1.json
+  # DELETE /billings/1 or /billings/1.json
   def destroy
     @billing.destroy
     respond_to do |format|
@@ -66,6 +72,6 @@ class BillingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def billing_params
-     params.require(:billing).permit(:total, :sub_total, :patient_package_id)
+     params.require(:billing).permit(:patient_id, :description, :patient_package_id)
     end
 end

@@ -10,7 +10,7 @@ class Patient < ApplicationRecord
 	has_many :patient_packages
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages
-	has_many :billing, through: :patient_packages
+	has_many :billings
 
 
 	def set_slug
@@ -25,16 +25,23 @@ class Patient < ApplicationRecord
 		"#{slug}"
 	end
 
-	def active_package
-  	self.patient_packages.find_by_status(true) || false
-  end
+	# def active_package
+ #  	self.patient_packages.find_by_status(:active)
+ #  end
 
 
 	def ctate_user_for_patient
 		username = "#{self.first_name.parameterize}@#{self.slug}"
 
-		user = User.new(email: username, password: 'tunutrilau', password_confirmation: 'tunutrilau', first_name: self.first_name, last_name: self.last_name )
-		user.save!
-		user.add_role :patient
+		user = User.create(
+			email: username,
+			password: 'tunutrilau',
+			password_confirmation: 'tunutrilau',
+			first_name: self.first_name,
+			last_name: self.last_name,
+			patient_id: self.id
+		)
+		# user.save!
+		user.add_role(:patient, self.dietitian)
 	end
 end

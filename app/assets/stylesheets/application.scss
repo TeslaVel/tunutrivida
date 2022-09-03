@@ -9,6 +9,8 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 @import "./shared/sb-admin-2";
 
 
+@import "toastr/toastr";
+
 select.select-date {
   width: 30%;
   margin-right: 10px;
@@ -68,4 +70,9 @@ select.select-date {
 .diagonis_icc{
   background: #bee8f4b5;
   color: black;
+}
+
+
+.hidden {
+  display: none;
 }

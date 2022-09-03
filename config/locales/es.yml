@@ -43,6 +43,32 @@ es:
       description: 'Descricion'
       create_gender: 'Crear Genero'
       update_gender: 'Actualizar genero'
+
+  discounts:
+    new_discount: 'Nuevo Descuento'
+    edit_discount: 'Editar Descuento'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    form:
+      name: 'Nombre'
+      description: 'Descricion'
+      create_discount: 'Crear Descuento'
+      update_discount: 'Actualizar Descuento'
+
+  products:
+    new_product: 'Nuevo Producto'
+    edit_product: 'Editar Producto'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    form:
+      name: 'Nombre'
+      description: 'Descricion'
+      create_product: 'Crear Producto'
+      update_product: 'Actualizar Producto'
   
   patients:
     new_patient: 'Nuevo Paciente'
@@ -121,11 +147,25 @@ es:
 
   billings:
     new_billing: 'Nueva Factura/Boleta'
+    new_item: 'Nuevo Item'
     show: 'Mostrar'
     back: 'Atras'
     delete: 'Eliminar'
     edit: 'Editar'
+    agregate_item: 'Agregar Item'
+    description: "Descripcion"
+    amount: "Monto"
+    quantity: "Cantidad"
     new:
       create_billing: 'Crear Boleta/Factura'
 
+  billing_items:
+    delete: 'Eliminar'
+   
+  payments:
+    create: 'Crear pago'
+    delete: 'Eliminar'
+    description: "Descripcion"
+    amount: "Monto"
+    quantity: "Cantidad"
 

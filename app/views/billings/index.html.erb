@@ -5,20 +5,24 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Total</th>
-      <th>Sub Total</th>
-      <th colspan="3" class="text-center">Actions</th>
+      <th>Code</th>
+      <th>Description</th>
+      <th>Patient</th>
+      <th>Pending</th>
+      <th>Paid</th>
+      <th class="text-center">Actions</th>
     </tr>
   </thead>
 
   <tbody>
     <% @billings.each do |billing| %>
       <tr>
-        <td><%= billing.total %></td>
-        <td><%= billing.sub_total %></td>
-        <td><%= link_to t('billings.show'), billing %></td>
-        <td><%= link_to t('billings.edit'), edit_billing_path(billing) %></td>
-        <td><%= link_to t('billings.delete'), billing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to billing.code, billing %></td>
+        <td><%= billing.description %></td>
+        <td><%= billing.patient.first_name %></td>
+        <td><%= billing&.billing_items.inprocess.sum(:total).to_f || 0 %></td>
+        <td><%= billing&.billing_items.processed.sum(:total).to_f || 0 %></td>
+        <td class="text-center"><%= link_to t('billings.delete'), billing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

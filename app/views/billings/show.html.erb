@@ -1,12 +1,180 @@
-<p>
-  <strong>Total:</strong>
-  <%= @billing.total %>
-</p>
-<p>
-  <strong>Sub total:</strong>
-  <%= @billing.sub_total %>
-</p>
+<div class="billing-view">
+  <div class="d-sm-flex   col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0 text-darsk">Billing code: <%= @billing.code %> / <%= @patient.first_name %></span>
+     <%= link_to t('billings.back'), billings_path(@billing) %>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <div class="card shadow mb-4">
+      <div class="card-body p-0">
+          <table class="table table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="pr-0" width="120px">Description</th>
+                <td class="pr-0" width="120px"><%= @billing.description %></td>
+              </tr>
+
+              <tr>
+                <th>Pending Total</th>
+                <td scope="row" id='billing_pending_total_display'><%= @billing.billing_items.inprocess.sum(:total).to_f %></td>
+              </tr>
 
 
-<%= link_to 'Edit', edit_billing_path(@billing) %> |
-<%= link_to 'Back', billings_path %>
+              <tr>
+                <th>Processed Total</th>
+                <td scope="row" id='billing_total_display'><%= @billing.billing_items.processed.sum(:total).to_f %></td>
+              </tr>
+              
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+
+  <%= hidden_field_tag(:billing_id, @billing.id) %>
+  <%= hidden_field_tag(:current_user_id, current_user.id) %>
+  <div class="col-sm-12 col-md-12" id="billing_items_partial">
+    <%= render 'billing_items',
+         key: 2,
+         expanded: true,
+         billing: @billing,
+         patient_packages: @patient_packages,
+         billing_items: @billing.billing_items.inprocess,
+         products: @products,
+         discounts: @discounts,
+         title: "Pending to pay" %>
+  </div>
+
+  <div class="col-sm-12 col-md-12" id="paid_items_partial">
+    <%= render 'paid_items',
+         key: 3,
+         expanded: false,
+         payments: @billing.payments,
+         title: "Paid Items" %>
+  </div>
+</div>
+
+<script>
+
+
+  //******************
+  //* Hide field on event change
+  //*
+  function hide_all_inputs() {
+    const elements = $('#billing_item_form_id .to-hide').toArray();
+    elements.map(e => {
+      $(e).css("display", "none");
+    })
+  }
+
+  //******************
+  //* Event Onchange item type
+  //*
+  $(document).on('change','#billing_item_item_type',function(e){
+    const type = e.target.value
+    hide_all_inputs();
+
+    if (type)
+    {
+      const act = $(`#billing_item_form_id .${type}`)[0].parentNode
+      const desc = $(`#billing_item_description`)[0].parentNode
+      $(act).css("display", "unset");
+      $(desc).css("display", "unset");
+
+      const qty = $('#billing_item_quantity');
+      if (type == 'product') {
+        $(qty[0].parentNode).css("display", "unset");
+      } else {
+        $(qty[0].parentNode).css("display", "none");
+      }
+    }
+  });
+  
+  //******************
+  //* Create billing item
+  //*
+  function add_billing_item() {
+      var dataToSubmit = $("#billing_item_form_id").serialize();
+      // console.log('dataToSubmit', dataToSubmit);
+      // document.getElementById('billing_item_form_id').submit();
+      $.ajax({
+        url: $("#billing_item_form_id").attr('action'),
+        type: "POST",
+        data: dataToSubmit,
+        // contentType: "application/json; charset=utf-8",
+        dataType: "script",
+        success: function(data) {
+          
+        },
+        error: function(err) {
+          console.log('err', err);
+        }
+      })
+  }
+
+  //******************
+  //* Create payment
+  //*
+  function add_paid_item() {
+    const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+    const item_ids = []
+    const billing_id = $("#billing_id")[0].value;
+    const current_user_id = $("#current_user_id")[0].value;
+    checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+
+    if (item_ids.length < 1) {
+       toastr.error('Must select a leats one item');
+       return;
+    }
+    const billing_data = {
+      payment: {
+        billing_id,
+        item_ids,
+        current_user_id
+      }
+    };
+    const url = `/billings/${billing_id}/paid_items/create`
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: JSON.stringify(billing_data),
+      contentType: "application/json;",
+      dataType: "script",
+      success: function(data) {
+      },
+      error: function(err) {
+        console.log('err', err);
+      }
+    })
+  };
+
+  //******************
+  //* Destroy payment item
+  //*
+  function destroy_paid_item(el, id) {
+    const billing_id = $("#billing_id")[0].value;
+    if (billing_id && id) {
+      const url = `/billings/${billing_id}/payments/payment_items/${id}`
+      const resp = window.confirm('Are you sure?');
+
+      if (!resp) return;
+
+      $.ajax({
+        url: url,
+        type: "DELETE",
+        // contentType: "application/json; charset=utf-8",
+        dataType: "script",
+        success: function(data) {
+          // $(el).closest('tr').remove();
+        },
+        error: function(err) {
+          console.log('err', err);
+        }
+      })
+    }
+  }
+
+  function add_tr_to_billing_list () {
+    // billing_items_table_body
+  }
+</script>
+

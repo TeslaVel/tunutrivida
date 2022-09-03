@@ -1,0 +1,20 @@
+<% if @campaign.new_record? %>
+  <%= f.select(:age, options_for_select(Age.pluck(:age, :id), :selected => Age.pluck(:id) ), {}, {:multiple => true,:required => true ,:class => 'form-control'}) %>
+<% else %>    
+  <%= f.select(:age, options_for_select(Age.pluck(:age, :id), :selected => @campaign.ages.pluck(:id) ), {}, {:multiple => true,:required => true ,:class => 'form-control'}) %>
+<% end %>
+
+
+
+<%= f.input :billing_type, collection: @billing_types, label_method: :values, value_method: :values, name: "Billing Type", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+<%= f.input :billing_type, collection: @BillingItem::ItemTypes.each_with_index {|k| [k.name, k]}, label_method: :values, value_method: :values, name: "Billing Type", include_blank: false, selected: {}, input_html: { class: "form-control"} %>
+
+
+
+
+
+
+
+funcionan
+ <%= f.select :package, patient_packages.map {|k| [k.name.to_s.humanize, k.id]}, {}, {:required => true ,:class => 'form-control'}%>
+ <%= f.select(:type, options_for_select(BillingItem::ItemTypes.each_with_index {|k| [k.name, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>

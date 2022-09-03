@@ -6,6 +6,7 @@ class CreateSessions < ActiveRecord::Migration[6.1]
       t.decimal :waist, precision: 8, scale: 2
       t.decimal :hip, precision: 8, scale: 2
       t.decimal :high_abdomen, precision: 8, scale: 2
+      t.decimal :low_abdomen, precision: 8, scale: 2
       t.decimal :imc, precision: 8, scale: 2
       t.decimal :ideal_weight, precision: 8, scale: 2
       t.decimal :body_grease, precision: 8, scale: 2
@@ -18,10 +19,11 @@ class CreateSessions < ActiveRecord::Migration[6.1]
       t.integer :physical_complexion
 
       t.date :date
-      t.references :patient, null: false, foreign_key: true
-      t.references :patient_package, null: false, foreign_key: true
-      t.integer :dietitian_id
+      t.references :patient, null: false, foreign_key: true, index: true
+      t.references :patient_package, null: false, foreign_key: true, index: true
+      t.integer :dietitian_id, index: true
       t.integer :activity_factor_id
+      t.references :created_by, null: false, foreign_key: { to_table: 'users' }, index: true
       # t.references :dietitian, null: false, foreign_key: true
 
       t.timestamps

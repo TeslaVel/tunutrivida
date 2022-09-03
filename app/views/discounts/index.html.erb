@@ -1,0 +1,27 @@
+<h1>Discounts</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('discounts.new_discount'), new_discount_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @discounts.each do |discount| %>
+      <tr>
+        <td><%= discount.name %></td>
+        <td><%= discount.description %></td>
+        <td><%= discount.discount_type %></td>
+        <td><%= link_to t('discounts.show'), discount %></td>
+        <td><%= link_to t('discounts.edit'), edit_discount_path(discount) %></td>
+        <td><%= link_to t('discounts.delete'), discount, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

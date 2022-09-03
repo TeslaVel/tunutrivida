@@ -90,3 +90,65 @@
 
   <% end %>
 </div>
+
+<script>
+  let imc = 0;
+  let h2 = 0;
+  let weight = 0;
+  let height = 0;
+  let ideal_weight = 0;
+
+  function recalcular_imc() {
+    weight = 0;
+    height = 0;
+    ideal_weight = 0;
+    imc = 0;
+    h2 = 0;
+
+    height = $("#session_height").val().trim();
+    weight = $("#session_weight").val().trim();
+    if (weight != '' && height != '')
+    {
+      h2 = (height*height).toFixed(2);
+      imc = (weight / h2 ).toFixed(2);
+      ideal_weight = (imc * h2 ).toFixed(2);
+      console.log("weight",weight);
+      console.log("height",height);
+      console.log("imc",imc);
+      console.log("h2",h2);
+      $("#session_imc").val(imc);
+      $("#session_ideal_weight").val(ideal_weight);
+
+    } else {$("#session_imc").val('')}
+  }
+
+  $(document).on('keyup','#session_height',function(e){
+    e.preventDefault();
+    recalcular_imc();
+  })
+
+  $(document).on('keyup','#session_weight',function(e){
+    e.preventDefault();
+    recalcular_imc();
+  })
+
+  $(document).on('keyup','#session_imc',function(e){
+    e.preventDefault();
+    
+    weight = 0;
+    height = 0;
+    ideal_weight = 0;
+    imc = 0;
+    h2 = 0;
+
+    imc = $("#session_imc").val().trim();
+    height = $("#session_height").val().trim();
+    weight = $("#session_weight").val().trim();
+    if (weight != '' && height != '')
+    {
+      h2 = (height*height).toFixed(2);
+      ideal_weight = (imc * h2 ).toFixed(2);
+      $("#session_ideal_weight").val(ideal_weight);
+    } else {$("#session_ideal_weight").val('')}
+  })
+</script>

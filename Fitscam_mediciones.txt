@@ -39,3 +39,29 @@ basal_metabolic_rate
 
 1 sendentario  x1
 
+
+
+laura 29-08-2022
+
+
+altura 1.582
+abdomen alto: 89
+cintura: 95.5
+cadera: 116
+adbdomen bajo 109.5
+
+
+1 79.3Kg   == peso
+2- 31    ===MASA CORPO
+3  40.3  GRASA CORPORAL
+4  44.6 == %AGUA
+5  45 kg == MASA MUSCULAR
+6 3     == COMPLEXION
+7 2.4kg == KG MASA OSEA
+8 1475   === BMR tasa metabolica basal
+9 62   == edad metabolica
+10- 7   % grasa visceral
+
+
+
+

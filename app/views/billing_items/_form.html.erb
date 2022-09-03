@@ -1,0 +1,21 @@
+<!-- <h1><%= t(title) %></h1>
+<div class="row w-40 m-auto">
+
+  <%= simple_form_for(@billing_item, url: billing_items_create_path(@billing)) do |f| %>
+
+    <%= notice %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <label for="billing_tye">Type</label>
+      <%= f.select(:type, options_for_select(BillingItem::ItemTypes.map {|k, v| [k.to_s.humanize.capitalize, v]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+    </div>
+     
+    <div class="d-flex justify-content-center align-items-center form-group">
+      <%= f.button :submit, t(".agregate_item"), class: "btn btn-primary" %>
+      <%= link_to t('billing_items.back'), @billing_item %>
+    </div>
+
+  <% end %>
+</div> -->

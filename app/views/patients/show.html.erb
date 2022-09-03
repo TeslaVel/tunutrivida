@@ -1,7 +1,11 @@
 <div class="patient-view">
 
+  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0 text-darsk"><%= @patient.first_name %> <%= @patient.last_name %> > </span>
+     <%= link_to t('patient.back'), patients_path %>
+  </div>
+  
   <div class="col-sm-12 col-md-12">
-    
     <div class="card shadow mb-4">
       <div class="card-body p-0">
         	<table class="table table-borderless mb-0">
@@ -29,9 +33,8 @@
 					  </tbody>
 					</table>
       </div>
-      <div class="actions px-3 py-2 d-flex justify-content-center">
-  			<%= link_to 'Edit', edit_patient_path(@patient), class: 'btn btn-success mx-1' %>
-  			<%= link_to 'Back', patients_path, class: 'btn btn-danger mx-1' %>
+      <div class="actions px-2 py-2 d-flex justify-content-end">
+  			<%= link_to 'Edit', edit_patient_path(@patient), class: 'btn btn-success mx-0' %>
       </div>
     </div>
   </div>
@@ -39,6 +42,5 @@
   <div class="col-sm-12 col-md-12">
     <%= render 'patient_packages',key: 2, expanded: true, patient: @patient, patient_packages: @patient.patient_packages, title: "Packages" %>
   </div>
-  <
 </div>
 

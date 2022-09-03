@@ -19,6 +19,9 @@ import datatable from 'imports-loader?define=>false!datatables.net'
 import datatableBS4 from 'imports-loader?define=>false!datatables.net-bs4'
 import './shared/sb-admin-2'
 
+global.toastr = require("toastr")
+global.$ = jQuery;
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -27,22 +30,15 @@ Chartkick.use(Chart)
 datatable(window, $)
 datatableBS4(window, $)
 
+import './shared/charts'
 
-import "./shared/charts";
-import "./calcimc";
-import "./client_packages";
-// document.addEventListener('turbolinks:load', () => {
-// 	window.addEventListener('.patient-view', (event) => {
-// 	});
-// })
-
-import './shared/demo/datatables-demo'
-import './shared/demo/chart-area-demo'
-import './shared/demo/chart-bar-demo'
-import './shared/demo/chart-pie-demo'
+// import './shared/demo/datatables-demo'
+// import './shared/demo/chart-area-demo'
+// import './shared/demo/chart-bar-demo'
+// import './shared/demo/chart-pie-demo'
 
 let found_class_date = $('#patient-session-date').val();
-if (found_class_date) 
+if (found_class_date)
 {
 	$('#patient-session-date').datepicker({
 	    uiLibrary: 'bootstrap4'

@@ -28,17 +28,19 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <% active_patient_modules = active_link?(includes: ['patients']) %>
+  <% active_patient_modules = active_link?(includes: ['patients', 'billings']) %>
   <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
     <h6 class="collapse-header">Patient modules:</h6>
     <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
+    <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
   <% end %>
 
-  <% active_modules = active_link?(includes: ['packages','indicators', 'genders','activity_factors','indicator_types']) %>
+  <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>
   <%= nav_context :modules, 'Modules', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
-    <%= active_link_to 'Billing', billings_path, class: 'collapse-item' %>
-    <%= active_link_to 'Package', packages_path, class: 'collapse-item' %>
+    <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
+    <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
+    <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
     <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
     <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
     <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>

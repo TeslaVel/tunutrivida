@@ -3,48 +3,52 @@
     <h6 class="m-0 font-weight-bold text-primary"><%= title %></h6>
   </a>
   <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
-    <div class="py-2 px-4 d-flex justify-content-end">
-      <%= link_to t('patients.new_package'), patient_package_new_path(patient), class: "btn btn-primary" %>
+    <div class="py-2 px-2 d-flex justify-content-end">
+     <%= link_to t('patients.new_package'), patient_package_new_path(patient), class: "btn btn-primary" %>
     </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <!-- id="dataTable" -->
-        <table class="table table-bordered" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Price</th>
-              <th>Weeks</th>
-              <th>Session</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <!-- <tfoot>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Description</th>
-            </tr>
-          </tfoot> -->
-          <tbody>
-           	<% patient_packages.date_desc.each do |patient_package| %>
-            <tr>
-              <td><%= patient_package.id %></td>
-              <td>
-                <%= link_to patient_package.package.name, patient_package_show_path(patient, patient_package) %>
-              </td>
-              <td><%= patient_package.date %></td>
-              <td><%= patient_package.package.price %></td>
-              <td><%= patient_package.package.weeks %></td>
-              <td><%= patient_package.sessions.count %></td>
-              <td><%= patient_package.package.description %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+
+    <% if patient_packages.present? %>
+      <div class="card-body">
+        <div class="table-responsive">
+          <!-- id="dataTable" -->
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Weeks</th>
+                <th>Session</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <!-- <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+              </tr>
+            </tfoot> -->
+            <tbody>
+             	<% patient_packages.date_desc.each do |patient_package| %>
+              <tr>
+                <td>
+                  <%= link_to patient_package.package.name, patient_package_show_path(patient, patient_package) %>
+                </td>
+                <td><%= patient_package.status %></td>
+                <td><%= patient_package.date %></td>
+                <td><%= patient_package.package.price %></td>
+                <td><%= patient_package.package.weeks %></td>
+                <td><%= patient_package.sessions.count %></td>
+                <td><%= patient_package.package.description %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    <% end %>
+
   </div>
 </div>

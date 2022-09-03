@@ -3,14 +3,23 @@ Rails.application.routes.draw do
   resources :activity_factors
   resources :roles
   resources :genders
+  resources :discounts
+  resources :products
   resources :indicator_types
   resources :indicators
   resources :packages
-  resources :billings
+
+  resources :billings do
+    post '/billing_items/create', to: 'billing_items#create', as: :items_create
+    post '/paid_items/create', to: 'payments#create', as: :paid_items_create
+    get '/billing_items/new', to: 'billing_items#new', as: :items
+    delete '/billing_items/:id', to: 'billing_items#destroy', as: :items_destroy
+    post '/payments/create', to: 'payments#create', as: :payments_create
+    delete '/payments/payment_items/:id', to: 'payment_billing_items#destroy', as: :payment_items_destroy
+  end
 
 
   resources :patients do
-
     # get '/sessions/sessionsjson', to: 'sessions#sessionsjson'
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
     get '/packagesjson', to: 'patient_packages#packagesjson'

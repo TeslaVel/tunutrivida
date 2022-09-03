@@ -1,8 +1,8 @@
 <div class="patient-package-view" id="patient-package-view">
   <input type="hidden" id="package_patient_view_patient_id" value="<%= @patient.id %>">
   <input type="hidden" id="package_patient_view_package_id" value="<%= @patient_package.id %>">
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <span class="h3 mb-0 text-darsk">Package:<%= @patient_package.patient.first_name %> <%= @patient_package.patient.last_name %> / <%= @patient_package.package.name %></span>
+  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0 text-darsk"><%= @patient_package.patient.first_name %> <%= @patient_package.patient.last_name %> > <%= @patient_package.package.name %></span>
   	<%= link_to t('sessions.back'), patient_path(@patient) %>
   </div>
   
@@ -18,6 +18,31 @@
   <div class="col-sm-12 col-md-12">
     <%= render 'comparative_table',key: 3, expanded: false, sessions: @patient_package.sessions, title: "Comparative table" %>
   </div>
-  
-
 </div>
+
+<script type="text/javascript">
+  function load_imc_chart_bar() {
+    console.log('load_imc_chart_bar');
+    let patient_id = $("#package_patient_view_patient_id").val();
+    let patient_package_id = $("#package_patient_view_package_id").val();
+
+    if (patient_id && patient_id != '' && patient_package_id && patient_package_id != '' ) {
+      let url = `/patients/${patient_id}/packages/${patient_package_id}/sessions/sessionsjson`;
+      $("#patient_graph_bar").removeClass('d-none');
+      $.ajax({
+        url: url,
+        tyle : 'get',
+        dataType : 'json',
+        success: function(data) {
+          setAreaChart(data.days,data.imc_values,'patientImcBar',data.max_imc_value,'Imc');
+        },
+        error: function(e) {
+            console.log('failure');
+            console.log(e);
+        }
+      });
+    }
+  }
+  
+  load_imc_chart_bar();
+</script>

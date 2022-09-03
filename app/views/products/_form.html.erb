@@ -1,0 +1,32 @@
+<div class="row w-40 m-auto">
+  <%= simple_form_for(@product) do |f| %>
+    <h1><%= t(title) %></h1>
+
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <%= f.input :name, label: t('.name'), input_html: { class: "form-control" } %>
+    </div>
+    <div class="form-group">
+      <%= f.input :description, label: t('.description'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :price, label: t('.price'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :new_price, label: t('.new_price'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :code, label: t('.code'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, t(action_button), class: "btn btn-primary" %>
+      <%= link_to t('products.back'), products_path %>
+    </div>
+  <% end %>
+</div>

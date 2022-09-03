@@ -4,43 +4,44 @@ class PatientPackagesController < ApplicationController
  before_action :set_patient, except: [:sessionsjson, :packagesjson]
  before_action :set_patient_package, only: [:show]
 
-  # GET /patients/:slug/packages/:id
+  # GET /patients/:patient_id/patient_packages/:id
   def show
   end
 
-  # GET /patients/:slug/packages/new
+  # GET /patients/:patient_id/patient_packages/new
   def new
-    active = @patient.active_package
+    active = @patient.patient_packages.active.first
 
     if active && active.sessions.count < active.package.weeks
-      redirect_to @patient, notice: 'Current Patient package is not completed.'
+      redirect_to @patient, alert: 'Current Patient package is not completed.'
     end
 
     @patien_package = @patient.patient_packages.build
     @packages = Package.all
   end
 
-  # # POST /sessions
+  # POST /patients/:patient_id/patient_packages/create
   def create
 
     active = @patient.active_package
 
     if active && active.sessions.count < active.package.weeks
-      redirect_to @patient, notice: 'Current Patient package is not completed.'
+      redirect_to @patient, alert: 'Current Patient package is not completed.'
     end
 
     patient_package_params[:date] = patient_package_params[:date].to_date
     @patien_package = @patient.patient_packages.build(patient_package_params)
     @patien_package.dietitian = current_user
-    @patien_package.status = true
+    @patien_package.status = :active
 
     if @patien_package.save
-      redirect_to patient_package_show_path(@patient,@patien_package), notice: 'Package was successfully created.'
+      redirect_to patient_package_show_path(@patient,@patien_package), success: 'Package was successfully created.'
     else
-      render :new, notice: @patien_package.errors.full_messages.join(". ") << "."
+      render :new, error: @patien_package.errors.full_messages.join(". ") << "."
     end
   end
 
+  # GET /patients/:patient_id/packages/:id/sessions/sessionsjson
   def sessionsjson
     sessions = @patient_packages.sessions.id_asc
     max_imc_value = sessions.maximum(:imc)
@@ -51,6 +52,7 @@ class PatientPackagesController < ApplicationController
     render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
   end
 
+  # GET /patients/:patient_id/packagesjson
   def packagesjson
     render :json => {patient: @patient}
     # render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }

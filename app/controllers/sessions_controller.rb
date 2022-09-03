@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   before_action :set_patient
   before_action :set_package
   before_action :set_session, except: [:new, :create]
-
+  # include JavascriptInclusion
 
   # # GET /sessions/new
   def new
@@ -89,7 +89,6 @@ class SessionsController < ApplicationController
 
   #   render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
   # end
-  
 
 
   private
