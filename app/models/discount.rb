@@ -16,5 +16,7 @@ class Discount < ApplicationRecord
   enum status: DiscountStatus
 
 
-   alias_attribute :price, :amount
+  alias_attribute :price, :amount
+
+  paginates_per 10
 end

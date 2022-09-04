@@ -32,10 +32,10 @@ datatableBS4(window, $)
 
 import './shared/charts'
 
-// import './shared/demo/datatables-demo'
-// import './shared/demo/chart-area-demo'
-// import './shared/demo/chart-bar-demo'
-// import './shared/demo/chart-pie-demo'
+import './shared/demo/datatables-demo'
+import './shared/demo/chart-area-demo'
+import './shared/demo/chart-bar-demo'
+import './shared/demo/chart-pie-demo'
 
 let found_class_date = $('#patient-session-date').val();
 if (found_class_date)

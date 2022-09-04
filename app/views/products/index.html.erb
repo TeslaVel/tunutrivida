@@ -2,6 +2,10 @@
 <div class="w-100 text-right mb-4">
   <%= link_to t('products.new_product'), new_product_path , class: "btn btn-primary" %>
 </div>
+
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @products %>
+</div>
 <table class="table">
   <thead>
     <tr>
@@ -29,3 +33,6 @@
     <% end %>
   </tbody>
 </table>
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @products %>
+</div>

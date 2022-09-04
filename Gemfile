@@ -7,6 +7,7 @@ ruby '2.7.2'
 gem 'rails', '~> 6.1.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'pg_search', '~> 2.3', '>= 2.3.6'
 # Use Puma as the app server
 gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
@@ -35,6 +36,7 @@ gem 'jquery-rails', '~> 4.4'
 gem 'cancancan', '~> 3.2', '>= 3.2.1'
 gem 'simple_form', '~> 5.1'
 gem 'actiontext', '~> 6.1', '>= 6.1.3.2'
+gem 'kaminari', '~> 1.2', '>= 1.2.2'
 
 group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'

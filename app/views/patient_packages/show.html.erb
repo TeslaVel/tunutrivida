@@ -8,15 +8,26 @@
   
 	
   <div class="col-sm-12 col-md-12">
-    <%= render 'patient_sessions_chart', key:1, expanded: @patient_package.sessions.count > 0 ? true : false, title: "Patient charting" %>
+    <%= render 'patient_sessions_chart',
+         key:1,
+         expanded: @patient_package.sessions.count > 0 ? true : false,
+         title: "patient_packages.patient_charting" %>
   </div>
 
   <div class="col-sm-12 col-md-12">
-    <%= render 'patient_sessions', key: 2, expanded: @patient_package.sessions.count > 0 ? false : true, patient: @patient, patient_package: @patient_package, title: "Patient sessions" %>
+    <%= render 'patient_sessions',
+         key: 2,
+         expanded: @patient_package.sessions.count > 0 ? false : true,
+         patient: @patient, patient_package: @patient_package,
+         title: "patient_packages.patient_sessions" %>
   </div>
   
   <div class="col-sm-12 col-md-12">
-    <%= render 'comparative_table',key: 3, expanded: false, sessions: @patient_package.sessions, title: "Comparative table" %>
+    <%= render 'comparative_table',
+         key: 3,
+         expanded: false,
+         sessions: @patient_package.sessions,
+         title: "patient_packages.comparative_table" %>
   </div>
 </div>
 

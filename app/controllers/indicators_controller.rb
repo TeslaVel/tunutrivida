@@ -3,7 +3,7 @@ class IndicatorsController < ApplicationController
 
   # GET /indicators or /indicators.json
   def index
-    @indicators = Indicator.all.order_by_id
+    @indicators = Indicator.all.order_by_id.page(params[:page] || 1)
   end
 
   # GET /indicators/1 or /indicators/1.json

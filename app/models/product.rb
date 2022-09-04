@@ -5,4 +5,6 @@ class Product < ApplicationRecord
   ].freeze
 
   enum status: ProductStatus
+
+  paginates_per 10
 end

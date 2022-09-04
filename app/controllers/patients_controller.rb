@@ -3,7 +3,7 @@ class PatientsController < ApplicationController
 
   # GET /patients or /patients.json
   def index
-    @patients = current_user.patients
+    @patients = current_user.patients.page(params[:page] || 1)
   end
 
   # GET /patients/1 or /patients/1.json

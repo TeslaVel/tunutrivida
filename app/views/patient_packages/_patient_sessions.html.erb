@@ -1,6 +1,6 @@
 <div class="card shadow mb-4">
   <a href="#collapseCardExample_<%= key %>" class="d-block card-header py-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>">
-    <h6 class="m-0 font-weight-bold text-primary"><%= title %></h6>
+    <h6 class="m-0 font-weight-bold text-primary"><%= t(title) %></h6>
   </a>
   <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
     <% if patient_package.sessions.count < patient_package.package.weeks %> 
@@ -14,24 +14,26 @@
         <table class="table table-bordered"  width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Height</th>
-              <th>Weight</th>
-              <th>Waist</th>
-              <th>Hip</th>
-              <th>High abdomen</th>
-              <th>Imc</th>
+              <th width="10%"><%= t('patient_packages.date') %></th>
+              <th width="8%"><%= t('patient_packages.height') %></th>
+              <th width="8%"><%= t('patient_packages.weight') %></th>
+              <th width="10%"><%= t('patient_packages.waist') %></th>
+              <th width="10%"><%= t('patient_packages.hip') %></th>
+              <th><%= t('patient_packages.high_abdomen')%></th>
+              <th><%= t('patient_packages.low_abdomen')%></th>
+              <th><%= t('patient_packages.imc') %></th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>Date</th>
-              <th>Height</th>
-              <th>Weight</th>
-              <th>Waist</th>
-              <th>Hip</th>
-              <th>High abdomen</th>
-              <th>Imc</th>
+              <th width="10%"><%= t('patient_packages.date') %></th>
+              <th><%= t('patient_packages.height') %></th>
+              <th><%= t('patient_packages.weight') %></th>
+              <th><%= t('patient_packages.waist') %></th>
+              <th><%= t('patient_packages.hip') %></th>
+              <th><%= t('patient_packages.high_abdomen')%></th>
+              <th><%= t('patient_packages.low_abdomen')%></th>
+              <th><%= t('patient_packages.imc') %></th>
             </tr>
           </tfoot>
           <tbody>
@@ -45,6 +47,7 @@
               <td><%= session.waist %></td>
               <td><%= session.hip %></td>
               <td><%= session.high_abdomen %></td>
+              <td><%= session.low_abdomen %></td>
               <td><%= session.imc %></td>
             </tr>
             <% end %>

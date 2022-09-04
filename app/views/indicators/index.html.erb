@@ -4,6 +4,10 @@
 <div class="w-100 text-right mb-4">
   <%= link_to t('indicators.new_indicator'), new_indicator_path , class: "btn btn-primary" %>
 </div>
+
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @indicators %>
+</div>
 <table class="table">
   <thead>
     <tr>
@@ -33,8 +37,8 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @indicators %>
+</div>
 
 

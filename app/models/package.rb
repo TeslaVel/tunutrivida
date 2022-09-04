@@ -10,4 +10,6 @@ class Package < ApplicationRecord
   enum status: PackageStatus
 
 	scope :active, ->{ where("patient_packages.status = ?", true) }
+
+	paginates_per 4
 end

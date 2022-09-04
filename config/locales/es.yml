@@ -31,6 +31,10 @@
 
 es:
   hello: "Hello world"
+  views:
+    pagination:
+      previous: '<'
+      next: '>'
   genders:
     new_gender: 'Nuevo Genero'
     edit_gender: 'Editar Genero'
@@ -95,6 +99,16 @@ es:
   patient_packages:
     new_package: 'Nuevo Paquete'
     back: 'Atras'
+    date: 'Fecha'
+    weight: 'Peso'
+    waist: 'Cintura'
+    hip: 'Cadera'
+    high_abdomen: 'Abdomen Alto'
+    low_abdomen: 'Abdomen Bajo'
+    imc: 'IMC'
+    comparative_table: 'Tabla Comparativa'
+    patient_charting: 'Graficos del paciente'
+    patient_sessions: 'Sesiones del paciente'
     new:
       agregate_package: 'Agregar paquete'
 

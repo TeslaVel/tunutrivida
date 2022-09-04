@@ -1,5 +1,6 @@
 class Patient < ApplicationRecord
-
+	include PgSearch::Model
+  
 	after_validation :set_slug, only: [:create, :update]
 	after_create :ctate_user_for_patient
 
@@ -12,6 +13,16 @@ class Patient < ApplicationRecord
   has_many :packages, through: :patient_packages
 	has_many :billings
 
+	paginates_per 5
+
+	pg_search_scope :search_patients,
+                  against: { first_name: 'A', last_name: 'B' },
+                  using: {
+                    tsearch: {
+                      dictionary: 'english', tsvector_column: 'searchable'
+                    }
+                  }
+                  # using: { tsearch: { dictionary: 'english' } }
 
 	def set_slug
 		self.slug = "#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
@@ -44,4 +55,13 @@ class Patient < ApplicationRecord
 		# user.save!
 		user.add_role(:patient, self.dietitian)
 	end
+
+
+	# def self.search(search)
+	# 	if search
+	# 	    where("concat(first_name,' ',last_name) ILIKE ?", "%#{search}%")
+	# 	else
+	# 	    all
+	# 	end
+	# end 
 end

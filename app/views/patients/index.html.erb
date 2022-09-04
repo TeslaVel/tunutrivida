@@ -1,6 +1,18 @@
-<h1>Patients</h1>
-<div class="w-100 text-right mb-4">
+<div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+  <h1>Patients</h1>
   <%= link_to t('patients.new_patient'), new_patient_path , class: "btn btn-primary" %>
+</div>
+
+<div class="d-sm-flex justify-content-between">
+  <div style="flex-grow: 1;">
+    <input type="text" placeholder="Search patient">
+  </div>
+  <div style="flex-grow: 1;">
+    <%= render 'paginations/pagination', objectData: @patients %>
+  </div>
+  <div style="flex-grow: 1;">
+    
+  </div>
 </div>
 <table class="table">
   <thead>
@@ -22,11 +34,24 @@
         <td><%= patient.date_of_bird %></td>
         <td><%= patient.gender.name %></td>
         <td><%= patient.sessions.count %></td>
-        <td><%= link_to t('patients.show'), patient %></td>
-        <td><%= link_to t('patients.edit'), edit_patient_path(patient) %></td>
-        <td ><%= link_to t('patients.delete'), patient, method: :delete, data: { confirm: t('patients.are_you_sure') } %></td>
+        <td>
+          <%= link_to patient do %>
+            <i class="fa fa-eye c-blue"></i>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to edit_patient_path(patient) do %>
+            <i class="fa fa-pen c-green"></i>
+          <% end %>
+        </td>
+        <td >
+          <%= link_to patient, method: :delete, data: { confirm: t('patients.are_you_sure') } do %>
+            <i class="fa fa-trash c-red"></i>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= render 'paginations/pagination', objectData: @patients %>
 <br>

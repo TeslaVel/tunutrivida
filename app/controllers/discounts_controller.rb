@@ -5,7 +5,7 @@ class DiscountsController < ApplicationController
 
   # GET /discounts or /discounts.json
   def index
-    @discounts = Discount.all
+    @discounts = Discount.all.page(params[:page] || 1)
   end
 
   # GET /discounts/1 or /discounts/1.json
