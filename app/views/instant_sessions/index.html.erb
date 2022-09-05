@@ -15,7 +15,7 @@
     <% @instant_sessions.each do |instant_session| %>
       <tr>
         <td><%= instant_session.id %></td>
-        <td><%= instant_session.date %></td>
+        <td><%= instant_session.created_at %></td>
         <td class="text-center"><%= link_to t('instant_sessions.show'), instant_session_path(instant_session) %></td>
         <td class="text-center"><%= link_to t('instant_sessions.edit'), edit_instant_session_path(instant_session) %></td>
         <td class="text-center"><%= link_to t('instant_sessions.delete'), instant_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>

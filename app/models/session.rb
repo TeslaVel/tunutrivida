@@ -6,7 +6,7 @@ class Session < ApplicationRecord
   belongs_to :activity_factor
 
   before_create :check_and_set_initial
-  before_save :set_imc
+  before_save :set_imc, if: -> {height_changed? || weight_changed?}
 
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }

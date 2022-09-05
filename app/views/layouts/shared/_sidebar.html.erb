@@ -42,17 +42,21 @@
     <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
     <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
     <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
-    <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
-    <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
-    <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>
-    <%= active_link_to 'Indicator Types', indicator_types_path, class: 'collapse-item' %>
+    <% if current_user.has_role?(:dietitian) %>
+      <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
+      <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
+      <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>
+      <%= active_link_to 'Indicator Types', indicator_types_path, class: 'collapse-item' %>
+    <% end %>
   <% end %>
 
-  <% active_context = active_link?(includes: ['buttons', 'cards']) %>
-  <%= nav_context :components, 'Components', icon: 'cog', active_link: active_context do %>
-    <h6 class="collapse-header">Custom Components:</h6>
-    <%= active_link_to 'Buttons', buttons_examples_path, class: 'collapse-item' %>
-    <%= active_link_to 'Cards', cards_examples_path, class: 'collapse-item' %>
+  <% if current_user.has_role?(:dietitian) %>
+    <% active_context = active_link?(includes: ['buttons', 'cards']) %>
+    <%= nav_context :components, 'Components', icon: 'cog', active_link: active_context do %>
+      <h6 class="collapse-header">Custom Components:</h6>
+      <%= active_link_to 'Buttons', buttons_examples_path, class: 'collapse-item' %>
+      <%= active_link_to 'Cards', cards_examples_path, class: 'collapse-item' %>
+    <% end %>
   <% end %>
 
   <!-- Nav Item - Utilities Collapse Menu -->
