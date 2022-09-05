@@ -13,6 +13,7 @@ class PatientPackage < ApplicationRecord
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }
   scope :id_desc, -> { order(id: :desc) }
+  scope :order_status, -> { order(status: :asc) }
   scope :active, -> { where(status: :active) }
 
 

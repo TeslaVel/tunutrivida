@@ -4,22 +4,16 @@
     <span class="h3 mb-0 text-darsk"><%= @patient.first_name %> <%= @patient.last_name %> > </span>
      <%= link_to t('patient.back'), patients_path %>
   </div>
-  
+
   <div class="col-sm-12 col-md-12">
     <div class="card shadow mb-4">
       <div class="card-body p-0">
         	<table class="table table-borderless mb-0">
 					  <tbody>
-					    <tr>
-					      <th class="pr-0" width="120px">First Name</th>
-					      <td class="pr-0" width="120px"><%= @patient.first_name %></td>
-                <th class="pr-0" width="120px">Ideal Weight</th>
-                <td class="pr-0" width="120px"><%= @patient.sessions.count > 0 ? @patient.sessions.first.ideal_weight : '' %></td>
-					    </tr>
               <% if @patient.sessions.first %>
                 <tr>
-                  <th class="pr-0" width="120px">Last Name</th>
-                  <td class="pr-0" width="120px"><%= @patient.last_name %></td>
+                  <th class="pr-0" width="120px">Ideal Weight</th>
+                  <td class="pr-0" width="120px"><%= @patient.sessions.count > 0 ? @patient.sessions.first.ideal_weight : '' %></td>
                 </tr>
               <% end %>
 					     <tr>
@@ -40,7 +34,12 @@
   </div>
 
   <div class="col-sm-12 col-md-12">
-    <%= render 'patient_packages',key: 2, expanded: true, patient: @patient, patient_packages: @patient.patient_packages, title: "Packages" %>
+    <%= render 'patient_packages',
+                key: 2,
+                expanded: true,
+                patient: @patient,
+                patient_packages: @patient.patient_packages.order_status,
+                title: "Packages" %>
   </div>
 </div>
 
