@@ -80,3 +80,17 @@ select.select-date {
 .c-red { color: #be1700; }
 .c-blue { color: #36a1fc; }
 .c-green { color: #03abb0; }
+
+
+.error_notification { color: red;   }
+
+.field_with_errors {
+  .error {
+    font-size: 13px;
+    color: red;
+  }
+}
+
+.form-group {
+  margin-bottom: 6px;
+}

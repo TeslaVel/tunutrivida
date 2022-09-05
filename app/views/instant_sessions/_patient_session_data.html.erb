@@ -34,7 +34,7 @@
 			     	<th scope="col">Waist</th>
 			      <td scope="row"><%= instant_session.waist %> <strong>cm</strong></td>		
 			      <th scope="col">Bmr</th>
-			      <td scope="row"><%= (instant_session&.bmr || 0  ) * instant_session.activity_factor.value %> <strong>Kca</strong></td>
+			      <td scope="row"><%= (instant_session&.bmr || 0 ) * instant_session.activity_factor.value %> <strong>Kca</strong></td>
 			    </tr>
 
 			    <tr>
@@ -46,7 +46,7 @@
 
 			    <tr>
 			    	<th scope="col">ICC</th>
-			      <td scope="row"><%= (instant_session.waist / instant_session.hip).round(2) %></td>
+			      <td scope="row"><%= ((instant_session&.waist || 0) / (instant_session&.hip || 1)).round(2) %></td>
 			      <th scope="col">Water</th>
 			      <td scope="row"><strong>%</strong> <%= instant_session.water_percentage %></td>
 			    </tr>
@@ -60,7 +60,7 @@
 			  
 			    <tr scope="col">
 						<td scope="row" colspan="4">
-							<%= link_to t('instant_sessions.edit'), instant_sessions_path, class: "btn btn-success btn-block" %>
+							<%= link_to t('instant_sessions.edit'), edit_instant_session_path, class: "btn btn-success btn-block" %>
 						</td>
 			    </tr>
 

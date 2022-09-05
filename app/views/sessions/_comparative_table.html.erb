@@ -30,25 +30,25 @@
 				    <td >Waist</td>
 				    <td ><%= patient.sessions.first.waist %></td>
 				    <td ><%= session.waist %> </td>
-				    <td class="text-center" ><%= (patient.sessions.first.waist - session.waist).round(2) %></td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.waist || 0) - (session&.waist || 0)).round(2) %></td>
 				  </tr>
 				   <tr class="">
 				    <td >Hip</td>
 				    <td ><%= patient.sessions.first.hip %></td>
 				    <td ><%= session.hip %> </td>
-				    <td class="text-center" ><%= (patient.sessions.first.hip - session.hip).round(2) %></td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.hip || 0) - (session&.hip || 0)).round(2) %></td>
 				  </tr>
 				  <tr class="">
 				    <td >High abdomen</td>
 				    <td ><%= patient.sessions.first.high_abdomen %></td>
 				    <td ><%= session.high_abdomen %> </td>
-				    <td class="text-center" ><%= (patient.sessions.first.high_abdomen - session.high_abdomen).round(2) %></td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.high_abdomen || 0) - (session&.high_abdomen || 0)).round(2) %></td>
 				  </tr>
 				   <tr class="">
 				    <td >IMC</td>
 				    <td ><%= patient.sessions.first.imc %></td>
 				    <td ><%= session.imc %> </td>
-				    <td class="text-center" ><%= (patient.sessions.first.imc - session.imc).round(2) %></td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.imc || 0) - (session&.imc || 0)).round(2) %></td>
 				  </tr>
 			  </tbody>
 			</table>

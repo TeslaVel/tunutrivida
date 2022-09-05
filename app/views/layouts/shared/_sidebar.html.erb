@@ -28,10 +28,11 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <% active_patient_modules = active_link?(includes: ['patients', 'billings']) %>
+  <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
   <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
     <h6 class="collapse-header">Patient modules:</h6>
     <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
+    <%= active_link_to 'Instant Session', instant_sessions_path, class: 'collapse-item' %>
     <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
   <% end %>
 

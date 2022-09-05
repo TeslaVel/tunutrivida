@@ -6,6 +6,7 @@ class Session < ApplicationRecord
   belongs_to :activity_factor
 
   before_create :check_and_set_initial
+  before_save :set_imc
 
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }
@@ -13,11 +14,22 @@ class Session < ApplicationRecord
   scope :id_asc, -> { order(id: :asc) }
   scope :not_initials, -> { where(initial: :false) }
 
+
+  validates :date, presence: true
+
   private
 
   def check_and_set_initial
     unless patient.sessions.present?
       self.initial = true
     end
+  end
+
+   def set_imc
+
+    return unless height.present? && weight.present?
+
+    h2 = (height*height).round(2)
+    self.imc = (weight / h2 ).round(2)
   end
 end

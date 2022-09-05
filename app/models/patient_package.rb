@@ -16,6 +16,7 @@ class PatientPackage < ApplicationRecord
   scope :order_status, -> { order(status: :asc) }
   scope :active, -> { where(status: :active) }
 
+  validates :date, presence: true
 
   PackageStatus = %i[
     active

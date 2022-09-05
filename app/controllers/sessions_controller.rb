@@ -18,12 +18,20 @@ class SessionsController < ApplicationController
   
   def show
     @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
-    
-    @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
-    @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
+    # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
+    @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
 
-    icc = (@session.waist / @session.hip).round(2)
+
+    @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
+    # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
+    @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
+
+
+    icc = if @session.waist.blank? || @session.hip.blank?
+             0
+          else
+            (@session.waist / @session.hip).round(2)
+          end
     @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @patient.gender_id)
     @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
     
@@ -55,13 +63,13 @@ class SessionsController < ApplicationController
     end
 
     @session = @patient_package.sessions.build(session_params.merge(created_by_id: current_user.id))
-    @session.imc = (@session.weight / (@session.height * @session.height)).round(2)
+    # @session.imc = (@session.weight / (@session.height * @session.height)).round(2)
     @session.dietitian = current_user
     @session.patient = @patient
     @session.date = Time.now
 
 
-    respond_to do |format|
+    return respond_to do |format|
       if @session.save
         format.html { redirect_to patient_patient_package_session_show_path(@patient,@session.patient_package,@session), notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @gender }
@@ -83,6 +91,7 @@ class SessionsController < ApplicationController
     end
 
     redirect_to patient_patient_package_session_show_path(@patient,@session.patient_package,@session), notice: notice
+    return
   end
 
   

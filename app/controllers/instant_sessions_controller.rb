@@ -10,23 +10,32 @@ class InstantSessionsController < ApplicationController
   # GET /instant_sessions/1 or /instant_sessions/1.json
   def show
     @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    @diagnosisImc = @indicatorsImc.find {|ind| @instant_session.imc >= ind.value_min && @instant_session.imc <= ind.value_max}
+    # @diagnosisImc = @indicatorsImc.find {|ind| @instant_session.imc >= ind.value_min && @instant_session.imc <= ind.value_max}
+    @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @instant_session.imc, @instant_session.imc).first
 
     @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @instant_session.gender_id)
-    @diagnosisDpc = @indicatorsDpc.find {|ind| @instant_session.waist >= ind.value_min && @instant_session.waist < ind.value_max}
+    # @diagnosisDpc = @indicatorsDpc.find {|ind| @instant_session.waist >= ind.value_min && @instant_session.waist < ind.value_max}
+    @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @instant_session.waist, @instant_session.waist).first
 
-    icc = (@instant_session.waist / @instant_session.hip).round(2)
+    icc = if @instant_session.waist.nil? || @instant_session.hip.nil?
+             0
+          else
+            (@instant_session.waist / @instant_session.hip).round(2).round(2)
+          end
     @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @instant_session.gender_id)
-    @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
+    # @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
+    @diagnosisIcc = @indicatorsIcc.where("value_min < ? AND value_max >= ?", icc, icc).first
   end
 
   # GET /instant_sessions/new
   def new
+    @prevent_caching = true
     @instant_session = InstantSession.new
   end
 
   # GET /instant_sessions/1/edit
   def edit
+    @prevent_caching = true
   end
 
   # POST /instant_sessions or /instant_sessions.json
@@ -38,8 +47,8 @@ class InstantSessionsController < ApplicationController
         format.html { redirect_to @instant_session, notice: "instant_session was successfully created." }
         format.json { render :show, status: :created, location: @instant_session }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @instant_session.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity, notice: @instant_session.errors.full_messages.join(". ") << "."  }
+        format.json { render json: @instant_session.errors.full_messages.join(". ") << ".", status: :unprocessable_entity }
       end
     end
   end
@@ -49,10 +58,10 @@ class InstantSessionsController < ApplicationController
     respond_to do |format|
       if @instant_session.update(instant_session_params)
         format.html { redirect_to @instant_session, notice: "Discount was successfully updated." }
-        format.json { render :show, status: :ok, location: @instant_session }
+        format.json { render :show, status: :ok, location: @instant_session}
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @instant_session.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :ok, notice: @instant_session.errors.full_messages.join(". ") << "." }
+        format.json { render json: @instant_session.errors.full_messages.join(". ") << ".", status: :unprocessable_entity }
       end
     end
   end

@@ -13,6 +13,10 @@ class Patient < ApplicationRecord
   has_many :packages, through: :patient_packages
 	has_many :billings
 
+
+	validates :first_name, presence: true
+	validates :last_name, presence: true
+
 	PatientStatus = %i[
     active
     inactive

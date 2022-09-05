@@ -33,21 +33,21 @@
 						    <td ><%= t('patient_packages.waist')%></td>
 						    <td ><%= sessions.first.waist %></td>
 						    <td ><%= sessions.last.waist %> </td>
-						    <% restWaist = (sessions.first.waist - sessions.last.waist).round(2) %>
+						    <% restWaist = ((sessions&.first.waist || 0) - (sessions&.last.waist || 0)).round(2) %>
 						    <td class="text-center <%= restWaist > 0 ? '' : 'c-red' %>"><%= restWaist %></td>
 						  </tr>
 						   <tr class="">
 						    <td ><%= t('patient_packages.hip')%></td>
 						    <td ><%= sessions.first.hip %></td>
 						    <td ><%= sessions.last.hip %> </td>
-						    <% restHip = (sessions.first.hip - sessions.last.hip).round(2) %>
+						    <% restHip = ((sessions&.first.hip || 0) - (sessions&.last.hip || 0)).round(2) %>
 						    <td class="text-center <%= restHip > 0 ? '' : 'c-red' %>"><%= restHip %></td>
 						  </tr>
 						  <tr class="">
 						    <td ><%= t('patient_packages.high_abdomen')%></td>
 						    <td ><%= sessions.first.high_abdomen %></td>
 						    <td ><%= sessions.last.high_abdomen %> </td>
-						    <% restHighAbdomen = (sessions.first.high_abdomen - sessions.last.high_abdomen).round(2) %>
+						    <% restHighAbdomen = ((sessions&.first.high_abdomen || 0) - (sessions&.last.high_abdomen || 0 )).round(2) %>
 						    <td class="text-center <%= restHighAbdomen > 0 ? '' : 'c-red' %>"><%= restHighAbdomen %></td>
 						  </tr>
 						  <tr class="">
