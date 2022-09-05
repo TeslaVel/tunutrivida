@@ -4,7 +4,7 @@ public
 		h2 = (height*height).round(2)
 
 		patient_package =PatientPackage.create(package: package, patient: patient, dietitian_id: dietitian.id, date: date_base)
-		
+
 		limite = package.weeks
 		iterador = 0
 		while iterador < limite
@@ -322,6 +322,49 @@ private
 	bmr = 1475
 	metabolic_age = 62
 	physical_complexion = 3
+	ideal_weight = (imc * h2 )
+
+
+	Session.create!(
+		weight: weight,height: height,
+		waist: waist,hip: hip,
+		imc: imc,
+		high_abdomen: high_abdomen,
+		low_abdomen: low_abdomen,
+		date: created,
+		dietitian_id: dietitian.id,
+		patient_id: patientL.id,
+		ideal_weight: ideal_weight,
+		body_grease: body_grease,
+		visceral_grease: visceral_grease,
+		muscle_mass: muscle_mass,
+		bone_mass: bone_mass,
+		bmr: bmr,
+		metabolic_age: metabolic_age,
+		water_percentage: water_percentage,
+		physical_complexion: physical_complexion,
+		activity_factor_id: activity_factor1.id,
+		patient_package: patient_package,
+		created_by_id: dietitian.id
+	)
+
+	created = "2022-09-04".to_date
+	height = 1.582
+	h2 = (height*height).round(2)
+	weight = 79.2
+	high_abdomen = 87
+	low_abdomen = 110
+	waist = 92
+	hip = 117
+	imc = (weight / h2 ).round(2)
+	body_grease = 42.6
+	visceral_grease = 7.5
+	muscle_mass = 43.2
+	water_percentage = 42.8
+	bone_mass = 2.3
+	bmr = 1433
+	metabolic_age = 69
+	physical_complexion = 2
 	ideal_weight = (imc * h2 )
 
 

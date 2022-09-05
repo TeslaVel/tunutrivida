@@ -26,7 +26,7 @@ basal_metabolic_rate
 
 
 1 peso corporal
-2 bmi indice masa corpola
+2  indice masa corpola
 3 % grasa corporal
 4 % agua total cuerpo
 5 kg masa muscular
@@ -43,7 +43,6 @@ basal_metabolic_rate
 
 laura 29-08-2022
 
-
 altura 1.582
 abdomen alto: 89
 cintura: 95.5
@@ -52,7 +51,7 @@ adbdomen bajo 109.5
 
 
 1 79.3Kg   == peso
-2- 31    ===MASA CORPO
+2- 31    ===I MASA CORPO
 3  40.3  GRASA CORPORAL
 4  44.6 == %AGUA
 5  45 kg == MASA MUSCULAR
@@ -65,3 +64,21 @@ adbdomen bajo 109.5
 
 
 
+04/09/2022
+
+altura 1.582
+abdomen alto: 87
+cintura: 92
+cadera: 117
+adbdomen bajo 110
+
+1 79.2  KG
+2 31  IMC
+3 42.6 grasa GRASA CORPO
+4 42.8 %AGUA
+5 43.2  MASA MUSCULAR
+6 2  COMPLEXION
+7 2.3 KG MASA OSEA
+8 1433 BMR tasa metabolica basal
+9 69 edad metabolica
+10 7.5  grasa visceral

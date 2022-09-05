@@ -1,0 +1,23 @@
+<h1>Instant Sessions</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to t('instant_sessions.new_session'), new_instant_session_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @instant_sessions.each do |instant_session| %>
+      <tr>
+        <td><%= instant_session.id %></td>
+        <td><%= link_to t('instant_sessions.show'), instant_session_path(instant_session) %></td>
+        <td><%= link_to t('instant_sessions.edit'), edit_instant_session_path(instant_session) %></td>
+        <td><%= link_to t('instant_sessions.delete'), instant_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

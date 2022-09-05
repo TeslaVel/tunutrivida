@@ -276,6 +276,56 @@ ALTER SEQUENCE public.indicators_id_seq OWNED BY public.indicators.id;
 
 
 --
+-- Name: instant_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.instant_sessions (
+    id bigint NOT NULL,
+    weight numeric(8,2),
+    height numeric(8,2),
+    waist numeric(8,2),
+    hip numeric(8,2),
+    high_abdomen numeric(8,2),
+    low_abdomen numeric(8,2),
+    imc numeric(8,2),
+    ideal_weight numeric(8,2),
+    body_grease numeric(8,2),
+    visceral_grease numeric(8,2),
+    muscle_mass numeric(8,2),
+    bone_mass numeric(8,2),
+    water_percentage integer,
+    bmr integer,
+    metabolic_age integer,
+    physical_complexion integer,
+    gender_id integer NOT NULL,
+    date date,
+    activity_factor_id integer,
+    created_by_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: instant_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.instant_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: instant_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.instant_sessions_id_seq OWNED BY public.instant_sessions.id;
+
+
+--
 -- Name: packages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -707,6 +757,13 @@ ALTER TABLE ONLY public.indicators ALTER COLUMN id SET DEFAULT nextval('public.i
 
 
 --
+-- Name: instant_sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.instant_sessions ALTER COLUMN id SET DEFAULT nextval('public.instant_sessions_id_seq'::regclass);
+
+
+--
 -- Name: packages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -838,6 +895,14 @@ ALTER TABLE ONLY public.indicator_types
 
 ALTER TABLE ONLY public.indicators
     ADD CONSTRAINT indicators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instant_sessions instant_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.instant_sessions
+    ADD CONSTRAINT instant_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1010,6 +1075,13 @@ CREATE INDEX index_indicators_on_gender_id ON public.indicators USING btree (gen
 --
 
 CREATE INDEX index_indicators_on_indicator_type_id ON public.indicators USING btree (indicator_type_id);
+
+
+--
+-- Name: index_instant_sessions_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_instant_sessions_on_created_by_id ON public.instant_sessions USING btree (created_by_id);
 
 
 --
@@ -1398,6 +1470,14 @@ ALTER TABLE ONLY public.indicators
 
 
 --
+-- Name: instant_sessions fk_rails_fbe8f523e0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.instant_sessions
+    ADD CONSTRAINT fk_rails_fbe8f523e0 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1422,6 +1502,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220828213040'),
 ('20220828213041'),
 ('20220904011508'),
-('20220904013013');
+('20220904013013'),
+('20220905011432');
 
 

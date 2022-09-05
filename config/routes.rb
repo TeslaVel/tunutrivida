@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :indicator_types
   resources :indicators
   resources :packages
+  resources :instant_sessions
 
   resources :billings do
     post '/billing_items/create', to: 'billing_items#create', as: :items_create

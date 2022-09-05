@@ -199,3 +199,26 @@ es:
     amount: "Monto"
     quantity: "Cantidad"
 
+  instant_sessions:
+    form:
+      new_session: 'Nueva Session'
+      create_instant_session: 'Crear Session Instantanea'
+      update_instant_session: 'Actualizar sesion'
+      date: 'Fecha'
+      weight: 'Peso'
+      height: 'Altura'
+      waist: 'Cintura'
+      hip: 'Cadera'
+      high_abdomen: 'Abdomen Alto'
+      low_abdomen: 'Abdomen Bajo'
+      imc: 'IMC'
+      ideal_weight: 'Peso Ideal'
+      body_grease: 'Grasa Corporal'
+      visceral_grease: 'Grasa Visceral'
+      muscle_mass: 'Masa Muscular'
+      bone_mass: 'Masa Osea'
+      bmr: 'BMR'
+      metabolic_age: 'Edad Metabolica'
+      water_percentage: 'Porcetaje de Agua'
+      physical_complexion: 'Comlexion Fisica'
+      activity_factor: 'Factor Actividad'

@@ -1,0 +1,25 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Patient: Instant</h1>
+  <%= link_to t('sessions.back'), instant_sessions_path %>
+</div>
+
+<div class="row justify-content-between">
+  <div class="col-sm-12 col-md-12 col-lg-12col- pr-2 pl-2">
+    <%= render 'patient_session_data', instant_session: @instant_session, title: "Instant Session" %>
+  </div>
+
+	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
+		<%= render 'diagnoses_partial', indicators: @indicatorsImc, diagnosis: @diagnosisImc, title: "IMC" %>
+	</div>
+
+	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
+		<%= render 'diagnoses_partial', indicators: @indicatorsDpc, diagnosis: @diagnosisDpc, title: "PDC" %>
+	</div>
+
+	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
+		<%= render 'diagnoses_partial', indicators: @indicatorsIcc, diagnosis: @diagnosisIcc, title: "ICC" %>
+	</div>
+
+</div>
+
+
