@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
   # # GET /sessions/new
   def new
-    if @patient_package.sessions.count == @patient_package.package.weeks
+    if @patient_package.sessions.count == @patient_package.package.weeks && @patient_package.package.weeks > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
     end
     @session = @patient_package.sessions.build
@@ -54,17 +54,23 @@ class SessionsController < ApplicationController
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
     end
 
-    @session = @patient_package.sessions.build(session_params)
+    @session = @patient_package.sessions.build(session_params.merge(created_by_id: current_user.id))
     @session.imc = (@session.weight / (@session.height * @session.height)).round(2)
     @session.dietitian = current_user
     @session.patient = @patient
     @session.date = Time.now
 
-    if @session.save
-      redirect_to patient_patient_package_session_show_path(@patient,@session.patient_package,@session), notice: 'Post was successfully created.'
-    else
-      render :new, notice: @session.errors.full_messages.join(". ") << "."
+
+    respond_to do |format|
+      if @session.save
+        format.html { redirect_to patient_patient_package_session_show_path(@patient,@session.patient_package,@session), notice: 'Post was successfully created.' }
+        format.json { render :show, status: :created, location: @gender }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @session.errors.full_messages.join(". ") << "." }
+      end
     end
+
   end
 
   # # PATCH/PUT /posts/1

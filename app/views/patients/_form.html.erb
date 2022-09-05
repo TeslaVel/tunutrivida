@@ -1,35 +1,69 @@
-<div class="row w-40 m-auto">
+<div class="row col-md-12">
   <%= simple_form_for(@patient) do |f| %>
-    <h1><%= t(title) %></h1>
-
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-    <div class="form-group">
-      <%= f.input :first_name, label: t('.first_name'), input_html: { class: "form-control" } %>
-      <%= f.input :last_name, label: t('.last_name'), input_html: { class: "form-control" } %>
-    </div>
-    <div class="form-group">
-      <div class="">
-          <%= f.label t('.date_of_bird') %>
-        <div class="select-date-wrapper">
-          <%= f.date_select(:date_of_bird,
-                options = { start_year: DateTime.now.year - 18, end_year: DateTime.now.year - 75, order: [:month, :day, :year], include_blank: true},
-                html_options = { class: 'select-date'})%>
-        </div>
+   <div class="card ">
+      <div class="card-header ">
+         <h4 class="card-title"><%= t(title) %></h4>
       </div>
-    </div>
-    <div class="form-group">
-      <%= f.input :gender_id, collection: @genders, label_method: :name, value_method: :id, name: "Gender", include_blank: false, selected: @patient&.gender&.id, input_html: { class: "form-control"} %>
-    </div>
+      <div class="card-body ">
+         <div class="row">
+            <label class="col-sm-2 col-form-label"><%= t('.first_name')%></label>
+            <div class="col-sm-7">
+               <div class="form-group">
+                <%= f.input :first_name, label: false, input_html: { class: "form-control" } %>
+               </div>
+            </div>
+            <label class="col-sm-3 label-on-right">
+            <code>required</code>
+            </label>
+         </div>
+         <div class="row">
+            <label class="col-sm-2 col-form-label"><%= t('.last_name') %></label>
+            <div class="col-sm-7">
+               <div class="form-group">
+                  <%= f.input :last_name, label: false, input_html: { class: "form-control" } %>
+               </div>
+            </div>
+            <label class="col-sm-3 label-on-right">
+            <code>required</code>
+            </label>
+         </div>
+          <div class="row">
+             <div class="col-sm-12 form-group">
+                <div class="">
+                    <%= f.label t('.date_of_bird') %>
+                  <div class="select-date-wrapper">
+                    <%= f.date_select(:date_of_bird,
+                          options = { start_year: DateTime.now.year - 18, end_year: DateTime.now.year - 75, order: [:month, :day, :year], include_blank: true},
+                          html_options = { class: 'select-date'})%>
+                  </div>
+                </div>
+              </div>
+          </div>
 
-    <div class="form-group">
-      <%= f.button :submit , class: "btn btn-primary" %>
-      <% if editing %>
-        <%= link_to t('patients.back'), @patient%>
-      <% else %>
-        <%= link_to t('patients.back'), patients_path %>
-      <% end %>
-    </div>
+         <div class="row">
+            <label class="col-sm-2 col-form-label">Gender</label>
+            <div class="col-sm-7">
+               <%= f.input :gender_id, collection: @genders, label: false, value_method: :id, name: "Gender", include_blank: false, selected: @patient&.gender&.id, input_html: { class: "form-control"} %>
+            </div>
+            <label class="col-sm-3 label-on-right">
+            <code>required</code>
+            </label>
+         </div>
+      </div>
+      <div class="card-footer text-center">
+          <%= f.button :submit , class: "btn btn-primary" %>
+          <% if editing %>
+            <%= link_to t('patients.back'), @patient%>
+          <% else %>
+            <%= link_to t('patients.back'), patients_path %>
+          <% end %>
+      </div>
+   </div>
   <% end %>
 </div>
+
+
+

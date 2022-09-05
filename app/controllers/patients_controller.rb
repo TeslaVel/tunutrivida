@@ -6,6 +6,22 @@ class PatientsController < ApplicationController
     @patients = current_user.patients.page(params[:page] || 1)
   end
 
+  def search
+    srch = search_params[:search].downcase
+
+    plist = current_user.patients
+    @patients = (if srch.present?
+                  plist.search_patients(srch)
+                else
+                  plist
+                end).page(params[:page] || 1)
+
+    respond_to do |format|
+      format.html { redirect_to patients_url }
+      format.js { render :index, :layout => false }
+    end
+  end
+
   # GET /patients/1 or /patients/1.json
   def show
     # @sessions = @patient.sessions.id_desc
@@ -66,5 +82,9 @@ class PatientsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def patient_params
       params.require(:patient).permit(:first_name, :last_name, :date_of_bird, :dietitian_id, :gender_id)
+    end
+
+    def search_params
+      params.permit(:search, :page)
     end
 end

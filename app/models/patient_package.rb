@@ -8,8 +8,7 @@ class PatientPackage < ApplicationRecord
   has_many :billing_items, as: :itemable # relacion polimorfica
 
   before_create :finished_all_package
-  # after_create :create_billing_for_patient_package
-
+  after_create :check_and_set_status
 
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }
@@ -27,12 +26,12 @@ class PatientPackage < ApplicationRecord
 
   private
   	def finished_all_package
-  		self.patient.patient_packages.update_all(status: :active)
+  		self.patient.patient_packages.update_all(status: :finished)
   	end
 
-    # def create_billing_for_patient_package
-    #   sub_total = package.price
-    #   total = sub_total
-    #   self.create_billing!(total: total, sub_total: sub_total, dietitian: patient.dietitian)
-    # end
+    def check_and_set_status
+    if package.weeks <= 0
+      self.status = :finished
+    end
+  end
 end

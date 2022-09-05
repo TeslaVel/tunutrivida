@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   end
 
 
+  get 'patients/search', to: 'patients#search', as: :patients_search
   resources :patients do
-    # get '/sessions/sessionsjson', to: 'sessions#sessionsjson'
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
     get '/packagesjson', to: 'patient_packages#packagesjson'
     #PACKAGES

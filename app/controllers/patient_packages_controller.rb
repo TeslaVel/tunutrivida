@@ -1,6 +1,4 @@
 class PatientPackagesController < ApplicationController
- before_action :get_patient_json, only: [:sessionsjson, :packagesjson]
- before_action :get_patient_packages_json, only: [:sessionsjson]
  before_action :set_patient, except: [:sessionsjson, :packagesjson]
  before_action :set_patient_package, only: [:show]
 
@@ -10,10 +8,22 @@ class PatientPackagesController < ApplicationController
 
   # GET /patients/:patient_id/patient_packages/new
   def new
+      # this commented code is for allow manual pacakge a session of empty package
+    # active = @patient.patient_packages.active.nozeros.first
+    # if active && active.sessions.not_initials.count < active.package.weeks
+    #   redirect_to @patient, alert: 'Current Patient package is not completed.'
+    # end
     active = @patient.patient_packages.active.first
 
-    if active && active.sessions.count < active.package.weeks
+
+    if active &&    active.package.weeks == 0
+      redirect_to @patient, alert: 'current package is not editable.'
+      return
+    end
+
+    if (active && active.sessions.count < active.package.weeks)
       redirect_to @patient, alert: 'Current Patient package is not completed.'
+      return
     end
 
     @patien_package = @patient.patient_packages.build
@@ -23,9 +33,9 @@ class PatientPackagesController < ApplicationController
   # POST /patients/:patient_id/patient_packages/create
   def create
 
-    active = @patient.active_package
+    active_packages = @patient.patient_packages.active.first
 
-    if active && active.sessions.count < active.package.weeks
+    if active_packages && active_packages.sessions.not_initials.count < active_packages.package.weeks
       redirect_to @patient, alert: 'Current Patient package is not completed.'
     end
 
@@ -34,29 +44,35 @@ class PatientPackagesController < ApplicationController
     @patien_package.dietitian = current_user
     @patien_package.status = :active
 
-    if @patien_package.save
-      redirect_to patient_package_show_path(@patient,@patien_package), success: 'Package was successfully created.'
-    else
-      render :new, error: @patien_package.errors.full_messages.join(". ") << "."
+    respond_to do |format|
+      if @patien_package.save
+        format.html { redirect_to patient_package_show_path(@patient,@patien_package), success: 'Package was successfully created.' }
+        format.json { render :new, status: :created, location: @package }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @patien_package.errors.full_messages.join(". ") << "." }
+      end
     end
   end
 
   # GET /patients/:patient_id/packages/:id/sessions/sessionsjson
   def sessionsjson
-    sessions = @patient_packages.sessions.id_asc
+    patient = get_patient_json
+    patien_package = get_patient_packages_json(patient)
+    sessions = patien_package.sessions.id_asc
     max_imc_value = sessions.maximum(:imc)
     sessions = sessions.last(10)
     imc_values = sessions.map(&:imc)
     days = sessions.map {|sess| sess.date.to_date.strftime('%d-%m-%Y') }
 
-    render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
+    render :json => {patient: patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
   end
 
-  # GET /patients/:patient_id/packagesjson
-  def packagesjson
-    render :json => {patient: @patient}
-    # render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
-  end
+  # # GET /patients/:patient_id/packagesjson
+  # def packagesjson
+  #   render :json => {patient: @patient}
+  #   # render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
+  # end
 
   private
 		# Use callbacks to share common setup or constraints between actions.
@@ -69,11 +85,11 @@ class PatientPackagesController < ApplicationController
     end
 
     def get_patient_json
-      @patient = Patient.find_by_id(params[:patient_id])
+      Patient.find_by_id(params[:patient_id])
     end
 
-    def get_patient_packages_json
-      @patient_packages = @patient.patient_packages.find(params[:id])
+    def get_patient_packages_json(patient)
+      patient.patient_packages.find(params[:id])
     end
 
     def patient_package_params

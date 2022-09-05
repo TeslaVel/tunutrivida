@@ -13,6 +13,13 @@ class Patient < ApplicationRecord
   has_many :packages, through: :patient_packages
 	has_many :billings
 
+	PatientStatus = %i[
+    active
+    inactive
+  ].freeze
+
+  enum status: PatientStatus
+
 	paginates_per 5
 
 	pg_search_scope :search_patients,
@@ -23,6 +30,9 @@ class Patient < ApplicationRecord
                     }
                   }
                   # using: { tsearch: { dictionary: 'english' } }
+  # este scope no funcina
+  # scope :active_packages, ->{ patient_packages.where(status: :active).first }
+  scope :active, ->{ where(status: :active) }
 
 	def set_slug
 		self.slug = "#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
@@ -45,7 +55,8 @@ class Patient < ApplicationRecord
 		username = "#{self.first_name.parameterize}@#{self.slug}"
 
 		user = User.create(
-			email: username,
+			username: username,
+			email: "#{username}@example.com",
 			password: 'tunutrilau',
 			password_confirmation: 'tunutrilau',
 			first_name: self.first_name,

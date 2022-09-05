@@ -56,6 +56,7 @@ private
 
 	user = User.create!(
 		email: 'm3taljose@gmail.com',
+		username: 'm3taljose',
 		first_name: 'Admin 1',
 		last_name: 'Admin 1',
 		password: '2351310',
@@ -65,6 +66,7 @@ private
 
 	dietitian = User.create!(
 		email: 'tunutrividalb@gmail.com',
+		username: 'tunutrividalb',
 		first_name: "Laura",
 		last_name: "Berrios",
 		password: '2351310',
@@ -118,6 +120,7 @@ private
 	Indicator.create(value_min: 0.9, value_max: 999 , description: 'Con Riesgo', gender: male, position: 2, indicator_type: typeIcc, created_by_id: user.id)
 
 	puts "Creating Packages"
+	package0 = Package.create!(name: "Empty Package", description: "Paquete Vacio", price: 0, weeks: 0, created_by_id: user.id)
 	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 80.00, weeks: 1, created_by_id: user.id)
 	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 140, weeks: 2, created_by_id: user.id)
 	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 224, weeks: 3, created_by_id: user.id)

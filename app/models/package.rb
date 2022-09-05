@@ -9,7 +9,7 @@ class Package < ApplicationRecord
 
   enum status: PackageStatus
 
-	scope :active, ->{ where("patient_packages.status = ?", true) }
+	scope :active, ->{ where(status: :enable) }
 
 	paginates_per 4
 end

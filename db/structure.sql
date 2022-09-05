@@ -286,6 +286,7 @@ CREATE TABLE public.packages (
     weeks integer,
     price numeric(8,2),
     status integer DEFAULT 0,
+    "position" integer DEFAULT 0,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -362,7 +363,7 @@ CREATE TABLE public.patients (
     status integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, (COALESCE(first_name, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('english'::regconfig, (COALESCE(last_name, ''::character varying))::text), 'B'::"char"))) STORED
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, COALESCE(lower((first_name)::text), ''::text)), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(lower((last_name)::text), ''::text)), 'A'::"char"))) STORED
 );
 
 
@@ -553,6 +554,7 @@ CREATE TABLE public.sessions (
     bmr integer,
     metabolic_age integer,
     physical_complexion integer,
+    initial boolean,
     date date,
     patient_id bigint NOT NULL,
     patient_package_id bigint NOT NULL,
@@ -625,6 +627,7 @@ CREATE TABLE public.users (
     first_name character varying NOT NULL,
     last_name character varying NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
+    username character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,

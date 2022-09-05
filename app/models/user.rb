@@ -2,13 +2,24 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :authentication_keys => [:username]
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
+  end
+
+  validates :email, uniqueness: true
+  validates :username, uniqueness: true
 
   has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
   has_many :patients, :foreign_key => "dietitian_id"
   has_many :user_roles
   has_many :roles, through: :user_roles
-
 
   include RolesConcern
   

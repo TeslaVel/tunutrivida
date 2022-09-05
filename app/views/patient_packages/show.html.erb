@@ -18,7 +18,9 @@
     <%= render 'patient_sessions',
          key: 2,
          expanded: @patient_package.sessions.count > 0 ? false : true,
-         patient: @patient, patient_package: @patient_package,
+         patient: @patient,
+         patient_package: @patient_package,
+         sessions: @patient_package.sessions.id_desc,
          title: "patient_packages.patient_sessions" %>
   </div>
   

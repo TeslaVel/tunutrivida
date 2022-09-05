@@ -3,57 +3,57 @@
     <h6 class="m-0 font-weight-bold text-primary"><%= t(title) %></h6>
   </a>
   <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
-    <% if patient_package.sessions.count < patient_package.package.weeks %> 
+    <% if patient_package.active? && (patient_package.package.weeks <= 0 || patient_package.sessions.count < patient_package.package.weeks) %>
       <div class="py-2 px-4 d-flex justify-content-end">
         <%= link_to t('sessions.new_session'), patient_patient_package_new_session_path(patient,patient_package), class: "btn btn-primary" %>
       </div>
     <% end %>
-    <div class="card-body">
-      <div class="table-responsive">
-        <!-- id="dataTable" -->
-        <table class="table table-bordered"  width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th width="10%"><%= t('patient_packages.date') %></th>
-              <th width="8%"><%= t('patient_packages.height') %></th>
-              <th width="8%"><%= t('patient_packages.weight') %></th>
-              <th width="10%"><%= t('patient_packages.waist') %></th>
-              <th width="10%"><%= t('patient_packages.hip') %></th>
-              <th><%= t('patient_packages.high_abdomen')%></th>
-              <th><%= t('patient_packages.low_abdomen')%></th>
-              <th><%= t('patient_packages.imc') %></th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th width="10%"><%= t('patient_packages.date') %></th>
-              <th><%= t('patient_packages.height') %></th>
-              <th><%= t('patient_packages.weight') %></th>
-              <th><%= t('patient_packages.waist') %></th>
-              <th><%= t('patient_packages.hip') %></th>
-              <th><%= t('patient_packages.high_abdomen')%></th>
-              <th><%= t('patient_packages.low_abdomen')%></th>
-              <th><%= t('patient_packages.imc') %></th>
-            </tr>
-          </tfoot>
-          <tbody>
-           	<% patient_package.sessions.id_desc.each do |session| %>
-            <tr>
-            	<td>
-            		<%= link_to session.date.strftime("%d-%m-%Y"), patient_patient_package_session_show_path(patient,patient_package,session) %>
-            	</td>
-              <td><%= session.height %></td>
-              <td><%= session.weight %></td>
-              <td><%= session.waist %></td>
-              <td><%= session.hip %></td>
-              <td><%= session.high_abdomen %></td>
-              <td><%= session.low_abdomen %></td>
-              <td><%= session.imc %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+
+    <% if sessions.present? %>
+      <div class="card-body">
+        <div class="table-responsive">
+          <!-- id="dataTable" -->
+          <table class="table table-bordered"  width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th width="10%"><%= t('patient_packages.date') %></th>
+                <th width="8%"><%= t('patient_packages.weight') %></th>
+                <th width="10%"><%= t('patient_packages.waist') %></th>
+                <th width="10%"><%= t('patient_packages.hip') %></th>
+                <th><%= t('patient_packages.high_abdomen')%></th>
+                <th><%= t('patient_packages.low_abdomen')%></th>
+                <th><%= t('patient_packages.imc') %></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th width="10%"><%= t('patient_packages.date') %></th>
+                <th><%= t('patient_packages.weight') %></th>
+                <th><%= t('patient_packages.waist') %></th>
+                <th><%= t('patient_packages.hip') %></th>
+                <th><%= t('patient_packages.high_abdomen')%></th>
+                <th><%= t('patient_packages.low_abdomen')%></th>
+                <th><%= t('patient_packages.imc') %></th>
+              </tr>
+            </tfoot>
+            <tbody>
+             	<% sessions.each do |session| %>
+              <tr>
+              	<td>
+              		<%= link_to session.date.strftime("%d-%m-%Y"), patient_patient_package_session_show_path(patient,patient_package,session) %>
+              	</td>
+                <td><%= session.weight %></td>
+                <td><%= session.waist %></td>
+                <td><%= session.hip %></td>
+                <td><%= session.high_abdomen %></td>
+                <td><%= session.low_abdomen %></td>
+                <td><%= session.imc %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>

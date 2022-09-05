@@ -17,6 +17,7 @@ class CreateSessions < ActiveRecord::Migration[6.1]
       t.integer :bmr
       t.integer :metabolic_age
       t.integer :physical_complexion
+      t.boolean :initial, deafult: false
 
       t.date :date
       t.references :patient, null: false, foreign_key: true, index: true
