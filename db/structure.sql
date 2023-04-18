@@ -70,6 +70,10 @@ CREATE TABLE public.billing_items (
     quantity integer DEFAULT 1,
     amount numeric(8,2) DEFAULT 0.0,
     total numeric(8,2) DEFAULT 0.0,
+    total_conversion numeric(8,2) DEFAULT 0.0 NOT NULL,
+    target_conversion numeric(8,2) DEFAULT 0.0 NOT NULL,
+    target_currency character varying DEFAULT 'VES'::character varying NOT NULL,
+    target_currency_code character varying DEFAULT 'Bs'::character varying NOT NULL,
     billing_id bigint NOT NULL,
     itemable_type character varying,
     itemable_id bigint,
@@ -104,8 +108,13 @@ ALTER SEQUENCE public.billing_items_id_seq OWNED BY public.billing_items.id;
 
 CREATE TABLE public.billings (
     id bigint NOT NULL,
-    sub_total numeric(8,2) DEFAULT 0.0,
     total numeric(8,2) DEFAULT 0.0,
+    sub_total numeric(8,2) DEFAULT 0.0,
+    total_conversion numeric(8,2) DEFAULT 0.0 NOT NULL,
+    sub_total_conversion numeric(8,2) DEFAULT 0.0 NOT NULL,
+    target_conversion numeric(8,2) DEFAULT 0.0 NOT NULL,
+    target_currency character varying DEFAULT 'VES'::character varying NOT NULL,
+    target_currency_code character varying DEFAULT 'Bs'::character varying NOT NULL,
     description character varying,
     code character varying,
     billing_type integer DEFAULT 0,
@@ -203,6 +212,42 @@ CREATE SEQUENCE public.genders_id_seq
 --
 
 ALTER SEQUENCE public.genders_id_seq OWNED BY public.genders.id;
+
+
+--
+-- Name: global_configurations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.global_configurations (
+    id bigint NOT NULL,
+    currency character varying DEFAULT '0'::character varying NOT NULL,
+    currency_code character varying DEFAULT '0'::character varying NOT NULL,
+    target_currency character varying DEFAULT '1'::character varying NOT NULL,
+    target_currency_code character varying DEFAULT '0'::character varying NOT NULL,
+    target_conversion numeric(8,2) DEFAULT 1.0,
+    created_by_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: global_configurations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.global_configurations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: global_configurations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.global_configurations_id_seq OWNED BY public.global_configurations.id;
 
 
 --
@@ -743,6 +788,13 @@ ALTER TABLE ONLY public.genders ALTER COLUMN id SET DEFAULT nextval('public.gend
 
 
 --
+-- Name: global_configurations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.global_configurations ALTER COLUMN id SET DEFAULT nextval('public.global_configurations_id_seq'::regclass);
+
+
+--
 -- Name: indicator_types id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -879,6 +931,14 @@ ALTER TABLE ONLY public.discounts
 
 ALTER TABLE ONLY public.genders
     ADD CONSTRAINT genders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: global_configurations global_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.global_configurations
+    ADD CONSTRAINT global_configurations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1047,6 +1107,13 @@ CREATE INDEX index_discounts_on_created_by_id ON public.discounts USING btree (c
 --
 
 CREATE INDEX index_genders_on_created_by_id ON public.genders USING btree (created_by_id);
+
+
+--
+-- Name: index_global_configurations_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_global_configurations_on_created_by_id ON public.global_configurations USING btree (created_by_id);
 
 
 --
@@ -1462,6 +1529,14 @@ ALTER TABLE ONLY public.indicator_types
 
 
 --
+-- Name: global_configurations fk_rails_f8cfbd3f2a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.global_configurations
+    ADD CONSTRAINT fk_rails_f8cfbd3f2a FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: indicators fk_rails_fb5b988de2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1503,6 +1578,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220828213041'),
 ('20220904011508'),
 ('20220904013013'),
-('20220905011432');
+('20220905011432'),
+('20230418173331');
 
 

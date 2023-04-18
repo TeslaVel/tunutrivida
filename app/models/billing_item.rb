@@ -44,13 +44,24 @@ class BillingItem < ApplicationRecord
                   self.quantity * itemable.price.to_f
                  end
 
+    self.total_conversion = self.total * self.billing.target_conversion
+    self.target_conversion = self.billing.target_conversion
+    self.target_currency = self.billing.target_currency
+    self.target_currency_code = self.billing.target_currency_code
+
     self.save
 
     recalculate_parent
   end
 
   def recalculate_parent
-    billing_total = subtotal = self.billing.billing_items.sum(:total)
-    self.billing.update(total: billing_total, sub_total: subtotal)
+    total = self.billing.billing_items.sum(:total)
+    total_conversion = sub_total_conversion = total * self.billing.target_conversion
+    self.billing.update(
+      total: total,
+      sub_total: total,
+      total_conversion: total_conversion,
+      sub_total_conversion: sub_total_conversion
+    )
   end
 end

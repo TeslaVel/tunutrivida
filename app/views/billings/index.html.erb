@@ -20,8 +20,14 @@
         <td><%= link_to billing.code, billing %></td>
         <td><%= billing.description %></td>
         <td><%= billing.patient.first_name %></td>
-        <td><%= billing&.billing_items.inprocess.sum(:total).to_f || 0 %></td>
-        <td><%= billing&.billing_items.processed.sum(:total).to_f || 0 %></td>
+        <td>
+            <%= "#{@gbl_configuration.currency_code} #{billing&.billing_items.inprocess.sum(:total).to_f}" || 0 %> |
+            <%= "#{billing.target_currency_code} #{billing&.billing_items.inprocess.sum(:total_conversion).to_f}" || 0 %>
+        </td>
+        <td>
+            <%= "#{@gbl_configuration.currency_code} #{billing&.billing_items.processed.sum(:total).to_f}" || 0 %> |
+            <%= "#{billing.target_currency_code} #{billing&.billing_items.processed.sum(:total_conversion).to_f}" || 0 %>
+        </td>
         <td class="text-center"><%= link_to t('billings.delete'), billing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

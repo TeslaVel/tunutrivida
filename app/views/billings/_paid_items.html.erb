@@ -27,9 +27,15 @@
                 <tr>
                   <td><%= payment_item.billing_item.item_type %></td>
                   <td><%= payment_item.billing_item.description %></td>
-                  <td class="text-center"><%= payment_item.billing_item.itemable.price %></td>
+                  <td class="text-center">
+                    <%= "#{@gbl_configuration.currency_code} #{payment_item.billing_item.itemable.price}" %> |
+                    <%= "#{payment_item.billing_item.target_currency_code} #{(payment_item.billing_item.itemable.price * payment_item.billing_item.target_conversion).round(2) }" %>
+                  </td>
                   <td class="text-center"><%= payment_item.billing_item.quantity %></td>
-                  <td class="text-center"><%= payment_item.billing_item.total %></td>
+                  <td class="text-center">
+                    <%= "#{@gbl_configuration.currency_code} #{payment_item.billing_item.total}" %> |
+                    <%= "#{payment_item.billing_item.target_currency_code} #{payment_item.billing_item.total_conversion}" %>
+                  </td>
                   <td class="text-center">
                     <%= link_to t('payments.delete'), "javascript:void(0)", id: 'destroy_paid_item', onclick: "destroy_paid_item(this, #{payment_item.id})" %>
                   </td>

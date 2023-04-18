@@ -4,9 +4,15 @@
     <i class="fa fa-bars"></i>
   </button>
 
-  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-    <%= render "layouts/shared/search_field" %>    
-  </form>
+<!--   <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <%= render "layouts/shared/search_field" %>
+  </form> -->
+
+  <div>
+    <strong>Currency - <%= @gbl_configuration.currency %></strong>
+    <strong class="ml-3">Target Currency - <%= @gbl_configuration.target_currency %></strong>
+    <strong class="ml-3">Target Conversion - <%= @gbl_configuration.target_conversion %></strong>
+  </div>
 
   <ul class="navbar-nav ml-auto">
     <%= render "layouts/shared/search_dropdown" %>

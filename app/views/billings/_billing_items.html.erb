@@ -38,9 +38,15 @@
                 <th class="text-center"><%= check_box_tag(:item_ids, item.id, false, class: 'checkbox_item_ids') %></th>
                 <td><%= item.item_type %></td>
                 <td><%= item.description %></td>
-                <td class="text-center"><%= item.amount %></td>
+                <td class="text-center">
+                  <%= "#{@gbl_configuration.currency_code} #{item.amount}" %> |
+                  <%= "#{item.target_currency_code} #{(item.amount * item.target_conversion).round(2) }" %>
+                </td>
                 <td class="text-center"><%= item.quantity %></td>
-                <td class="text-center"><%= item.total %></td>
+                <td class="text-center">
+                  <%= "#{@gbl_configuration.currency_code} #{item.total}" %> |
+                  <%= "#{item.target_currency_code} #{(item.total * item.target_conversion).round(2) }" %>
+                </td>
                 <td class="text-center">
                   <%= link_to t('billing_items.delete'), billing_items_destroy_path(billing, item), method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy_item", :remote => true %>
                 </td>

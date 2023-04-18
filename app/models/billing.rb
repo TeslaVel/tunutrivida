@@ -14,13 +14,21 @@ class Billing < ApplicationRecord
 
   enum billing_type: BillingTypes
 
-  before_create :set_code
+  before_create :set_code_and_currency
   before_save :check_and_set_description
 
   private
 
 
-  def set_code
+  def set_code_and_currency
+    gbl_config = GlobalConfiguration.first
+
+    if gbl_config
+      self.target_currency = gbl_config.target_currency
+      self.target_conversion = gbl_config.target_conversion
+      self.target_currency_code = gbl_config.target_currency_code
+    end
+
     self.code = "B-#{"10000000".to_i + (Billing.maximum(:id)&.next || 1)}"
   end
 

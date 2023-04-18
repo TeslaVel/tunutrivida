@@ -84,6 +84,17 @@ private
 	UserRole.create(user: dietitian ,role: role_dietitian, created_by_id: user.id)
 	puts "Asigned Roles"
 
+
+	puts "Creating GlobalConfiguration"
+	glb = GlobalConfiguration.create(
+		currency: 'USD',
+		currency_code: "$",
+		target_currency: 'VES',
+		target_currency_code: 'Bs',
+		target_conversion: '24.45',
+		created_by_id: 1
+	)
+
 	puts "Creating Genders"
 	male = Gender.create(name: "Male", description: "Male", created_by_id: user.id)
 	female = Gender.create(name: "Female", description: "Female", created_by_id: user.id)
@@ -121,11 +132,11 @@ private
 
 	puts "Creating Packages"
 	package0 = Package.create!(name: "Empty Package", description: "Paquete Vacio", price: 0, weeks: 0, created_by_id: user.id)
-	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 80.00, weeks: 1, created_by_id: user.id)
-	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 140, weeks: 2, created_by_id: user.id)
-	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 224, weeks: 3, created_by_id: user.id)
-	package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 310.00, weeks: 4, created_by_id: user.id)
-	package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 480.00, weeks: 5, created_by_id: user.id)
+	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 21.00, weeks: 1, created_by_id: user.id)
+	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 36.80, weeks: 2, created_by_id: user.id)
+	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 60, weeks: 3, created_by_id: user.id)
+	package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 81.50, weeks: 4, created_by_id: user.id)
+	package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 126.00, weeks: 5, created_by_id: user.id)
 
 	puts "Creating ActivityFactor"
 	activity_factor1 = ActivityFactor.create!(name: "Sedentario", description: "(poco o ningun ejercicio)", value: 1.2, created_by_id: user.id)
@@ -139,7 +150,7 @@ private
 	Product.create(
 	 name: "Balines x4",
 	 description: 'Balines Magneticos',
-	 price: '50',
+	 price: '12.5',
 	 status: 1,
 	 created_by_id: dietitian.id
 	)
@@ -147,16 +158,16 @@ private
 	Product.create(
 	 name: "Pastilla Nutt",
 	 description: 'Pastillas supresora de alimento',
-	 price: '20',
+	 price: '5.2',
 	 status: 1,
 	 created_by_id: dietitian.id
 	)
 
 	puts "Creating Discounts"
 	Discount.create(
-	 name: "10 | Bienvenida",
-	 description: '-10 soles de descuento',
-	 amount: '10',
+	 name: "2.5 | Bienvenida",
+	 description: '-2.5 de descuento',
+	 amount: '2.5',
 	 status: 1,
 	 created_by_id: dietitian.id
 	)
