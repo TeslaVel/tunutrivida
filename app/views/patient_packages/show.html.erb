@@ -2,7 +2,7 @@
   <input type="hidden" id="package_patient_view_patient_id" value="<%= @patient.id %>">
   <input type="hidden" id="package_patient_view_package_id" value="<%= @patient_package.id %>">
   <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
-    <span class="h3 mb-0 text-darsk"><%= @patient_package.patient.first_name %> <%= @patient_package.patient.last_name %> > <%= @patient_package.package.name %></span>
+    <span class="h3 mb-0 text-darsk">[Packages] <%= @patient_package.patient.first_name %> <%= @patient_package.patient.last_name %> > <%= @patient_package.package.name %></span>
   	<%= link_to t('sessions.back'), patient_path(@patient) %>
   </div>
   

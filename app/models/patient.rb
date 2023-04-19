@@ -24,7 +24,7 @@ class Patient < ApplicationRecord
 
   enum status: PatientStatus
 
-	paginates_per 5
+	paginates_per 6
 
 	pg_search_scope :search_patients,
                   against: { first_name: 'A', last_name: 'B' },
