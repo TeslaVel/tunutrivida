@@ -1,5 +1,5 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">[Sessions] <%= @patient.first_name %> <%= @patient.last_name %></h1>
+  <h1 class="h3 mb-0 text-gray-800">[Session] <%= @session&.date %> </h1>
   <%= link_to t('sessions.back'), patient_package_show_path(@patient,@session.patient_package) %>
 </div>
 

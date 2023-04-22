@@ -19,7 +19,7 @@
           <div class="row">
             <div class="col-md-5 p-0">
               <div class="list-unstyled">
-                <% if @patient.sessions.first %>
+                <% if @patient.sessions.first.present? %>
                   <p class="mb-2 text-left">Ideal Weight:</p>
                 <% end %>
                 <p class="mb-2 text-left">Nombre:</p>
@@ -34,8 +34,8 @@
             </div>
             <div class="col-md-7 p-0">
               <div class="list-unstyled">
-                <% if @patient.sessions.first %>
-                  <p class="mb-2 "><%= @patient.sessions.count > 0 ? @patient.sessions.first.ideal_weight : '' %></p>
+                <% if @patient.sessions.first.present? %>
+                  <p class="mb-2 "><%= @patient.sessions.count > 0 ? @patient.sessions.first&.ideal_weight || '-' : '-' %></p>
                 <% end %>
                 <p class="mb-2 "><%= @patient.first_name %></p>
                 <p class="mb-2 "><%= @patient.last_name %></p>
@@ -98,7 +98,7 @@
         </div>
         
       </div>
-   </div>
+    </div>
   </div>
 
 

@@ -129,6 +129,7 @@ class SessionsController < ApplicationController
         :waist,
         :hip,
         :high_abdomen,
+        :low_abdomen,
         :ideal_weight,
         :body_grease,
         :visceral_grease,

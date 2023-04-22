@@ -82,3 +82,54 @@ adbdomen bajo 110
 8 1433 BMR tasa metabolica basal
 9 69 edad metabolica
 10 7.5  grasa visceral
+
+1 peso corporal
+2 indice masa corpola
+3 % grasa corporal
+4 % agua total cuerpo
+5 kg masa muscular
+6 complexion fisica
+7 kg masa osea
+8 BMR Tasa metabólica basal cantidad de kg a comer
+9 edad metabolica
+10 % grasa visceral
+
+
+1 sendentario  x1
+
+22/04/2022
+
+
+1 71.4 kg
+2 27.9 imc
+3 34 %
+4 49 %
+5 44.7
+6 2 
+7 2.4 kg
+8 1436 ka
+9 44
+10 5
+
+
+  created = "2023-04-22".to_date
+  height = 1.582
+  h2 = (height*height).round(2)
+  weight = 71.4
+  high_abdomen = 82
+  low_abdomen = 96
+  waist = 83.2
+  hip = 94.2
+  imc = (weight / h2 ).round(2)
+  body_grease = 34.0
+  visceral_grease = 5
+  muscle_mass = 44.7
+  water_percentage = 49
+  bone_mass = 2.4
+  bmr = 1436
+  metabolic_age = 44
+  physical_complexion = 2
+  ideal_weight = (imc * h2 )
+
+
+

@@ -108,6 +108,6 @@ class PatientsController < ApplicationController
     end
 
     def set_session
-      @session = @patient.sessions.last
+      @session = @patient.sessions.date_asc.last
     end
 end

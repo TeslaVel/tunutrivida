@@ -1,6 +1,6 @@
 public
 	def create_patient_packages_and_sessions(patient,package,dietitian,height,days_week,date_base)
-
+		puts "CREANDO PACIENTE PACKAGE FECHA:#{date_base}"
 		h2 = (height*height).round(2)
 
 		patient_package =PatientPackage.create(package: package, patient: patient, dietitian_id: dietitian.id, date: date_base)
@@ -10,6 +10,7 @@ public
 		while iterador < limite
 		  puts "creating session #{( limite * days_week ) - (days_week * iterador)} days ago"
 			created = date_base + (days_week * iterador).days
+			puts "CREANDO SESSION FECHA:#{created}"
 			weight = rand(50.20...60).round(2)
 			high_abdomen = rand(60.3...65).round(2)
 			waist = rand(60.3...67.2).round(2)
@@ -31,7 +32,8 @@ public
 				weight: weight,height: height,
 				waist: waist,hip: hip,
 				imc: imc,
-				high_abdomen: high_abdomen, date: created,
+				high_abdomen: high_abdomen,
+				date: created,
 				dietitian_id: dietitian.id,
 				patient_id: patient.id,
 				ideal_weight: ideal_weight,
@@ -202,7 +204,7 @@ private
 
 	height = rand(1.50...1.90).round(2)
 	date_base = Time.now - (days_week * package1.weeks ).days
-	puts "Creating Patieng Package 1."
+	puts "Creating Patieng Package 1. "
 	create_patient_packages_and_sessions(patient1,package1,dietitian,height,days_week,date_base)
 
 	puts "Creating Patients 2"
@@ -254,7 +256,7 @@ private
 	create_patient_packages_and_sessions(patient5,package3,dietitian,height,days_week,date_base)
 
 	# segundo paquete
-	date_base = date_base - (days_week * package5.weeks ).days
+	date_base = patient5.sessions.first.date - (days_week * package5.weeks ).days
 	create_patient_packages_and_sessions(patient5,package5,dietitian,height,days_week,date_base)
 
 	puts "Creating Patients 6"
@@ -380,6 +382,49 @@ private
 
 
 	Session.create!(
+		weight: weight,height: height,
+		waist: waist,hip: hip,
+		imc: imc,
+		high_abdomen: high_abdomen,
+		low_abdomen: low_abdomen,
+		date: created,
+		dietitian_id: dietitian.id,
+		patient_id: patientL.id,
+		ideal_weight: ideal_weight,
+		body_grease: body_grease,
+		visceral_grease: visceral_grease,
+		muscle_mass: muscle_mass,
+		bone_mass: bone_mass,
+		bmr: bmr,
+		metabolic_age: metabolic_age,
+		water_percentage: water_percentage,
+		physical_complexion: physical_complexion,
+		activity_factor_id: activity_factor1.id,
+		patient_package: patient_package,
+		created_by_id: dietitian.id
+	)
+
+
+	  created = "2023-04-22".to_date
+  height = 1.582
+  h2 = (height*height).round(2)
+  weight = 71.4
+  high_abdomen = 82
+  low_abdomen = 96
+  waist = 83.2
+  hip = 94.2
+  imc = (weight / h2 ).round(2)
+  body_grease = 34.0
+  visceral_grease = 5
+  muscle_mass = 44.7
+  water_percentage = 49
+  bone_mass = 2.4
+  bmr = 1436
+  metabolic_age = 44
+  physical_complexion = 2
+  ideal_weight = (imc * h2 )
+
+ Session.create!(
 		weight: weight,height: height,
 		waist: waist,hip: hip,
 		imc: imc,
