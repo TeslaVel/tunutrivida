@@ -1,16 +1,16 @@
 development:
   adapter: postgresql
   database: tunutrivida_development
-  username: user_seven
-  password: 7777777
+  username: postgres
+  password: password
   host: localhost
   port: 5432
 
 test:
   adapter: postgresql
   database: tunutrivida_test
-  username: user_seven
-  password: 7777777
+  username: postgres
+  password: password
   host: localhost
   port: 5432
 
@@ -18,7 +18,7 @@ test:
 production:
   adapter: postgresql
   database: tunutrivida_production
-  username: user_seven
-  password: 7777777
+  username: postgres
+  password: password
   host: localhost
   port: 5432

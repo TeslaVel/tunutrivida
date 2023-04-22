@@ -37,6 +37,10 @@ gem 'cancancan', '~> 3.2', '>= 3.2.1'
 gem 'simple_form', '~> 5.1'
 gem 'actiontext', '~> 6.1', '>= 6.1.3.2'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
+gem 'graphql', '~> 2.0', '>= 2.0.21'
+gem 'graphql-ruby', '~> 9001.0'
+gem 'jwt', '~> 2.7'
+gem 'rack-cors', '~> 2.0', '>= 2.0.1'
 
 group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
@@ -66,3 +70,4 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'graphiql-rails', group: :development

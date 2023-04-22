@@ -54,6 +54,10 @@ class Patient < ApplicationRecord
  #  	self.patient_packages.find_by_status(:active)
  #  end
 
+	def sex
+		gender&.name
+	end
+
 
 	def ctate_user_for_patient
 		username = "#{self.first_name.parameterize}@#{self.slug}"

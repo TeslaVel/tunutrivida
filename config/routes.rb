@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
-    
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+  post "/graphql", to: "graphql#execute"
+
+  devise_for :users
+
+  namespace :api do
+    post 'login', to: 'session#create'
+    get 'patients', to: 'patients#index'
+    get 'patients/search', to: 'patients#search'
+    post 'patients', to: 'patients#new'
+  end
+
   resources :activity_factors
   resources :roles
   resources :genders
@@ -40,7 +53,7 @@ Rails.application.routes.draw do
   end
 
  
-  devise_for :users
+  
 
   # scope module: 'web' do
       # post 'launcher/launch', action: 'launch', controller: 'launcher'

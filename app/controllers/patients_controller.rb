@@ -26,20 +26,23 @@ class PatientsController < ApplicationController
   # GET /patients/1 or /patients/1.json
   def show
     @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
-    @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
-
     @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
-    # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
-    @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
-
-    icc = if @session.waist.blank? || @session.hip.blank?
-             0
-          else
-            (@session.waist / @session.hip).round(2)
-          end
     @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @patient.gender_id)
-    @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
+
+    if @session.present?
+      # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
+      @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
+
+      # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
+      @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
+
+      @icc = if @session.waist.blank? || @session.hip.blank?
+               0
+            else
+              (@session.waist / @session.hip).round(2)
+            end
+      @diagnosisIcc = @indicatorsIcc.find { |ind| @icc > ind.value_min && @icc <= ind.value_max }
+    end
     # @sessions = @patient.sessions.id_desc
   end
 

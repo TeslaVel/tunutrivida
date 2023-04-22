@@ -1,47 +1,58 @@
 <div class="billing-view">
   <div class="d-sm-flex   col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
-    <span class="h3 mb-0 text-darsk">Billing code: <%= @billing.code %> / <%= @patient.first_name %></span>
+    <span class="h3 mb-0 text-darsk">[Billing info]</span>
      <%= link_to t('billings.back'), billings_path(@billing) %>
   </div>
-  <div class="col-sm-12 col-md-12">
-    <div class="card shadow mb-4">
-      <div class="card-body p-0">
-          <table class="table table-borderless mb-0">
-            <tbody>
-              <tr>
-                <th>Billing Conversion</th>
-                <td scope="row" id=''><%= @billing.target_conversion.to_f %></td>
-              </tr>
 
-              <tr>
-                <th class="pr-0" width="120px">Description</th>
-                <td class="pr-0" width="120px"><%= @billing.description %></td>
-              </tr>
+  <div class="col-sm-12 col-md-12 mb-4">
+    <div class="card col-sm-12">
+      <div class="card-header bg-transparent">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body tab-content">
+        <div class="tab-pane active" id="about">
+          <div class="row">
+            <div class="col-md-2 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Code:</p>
+                <p class="mb-2 text-left">Patient:</p>
+                <p class="mb-2 text-left">Description:</p>
+                <p class="mb-2 text-left">Pending Total:</p>
+                <p class="mb-2 text-left">Processed Total:</p>
+              </div>
+            </div>
+            <div class="col-md-10 p-0">
+              <div class="list-unstyled">
+               
+                <p class="mb-2 "><%= @billing.code %></p>
+                <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
+                <p class="mb-2 "><%= @billing.description %></p>
 
-              <tr>
-                <th>Pending Total</th>
-                <td scope="row" id='billing_pending_total_display'>
+                <p class="mb-2 ">
+                  <span id='billing_pending_total_display'>
                   <%= "#{@gbl_configuration.currency_code} #{@billing&.billing_items.inprocess.sum(:total).to_f}" || 0 %> |
                   <%= "#{@billing.target_currency_code} #{@billing&.billing_items.inprocess.sum(:total_conversion).to_f}" || 0 %>
-                </td>
-              </tr>
-
-
-              <tr>
-                <th>Processed Total</th>
-                <td scope="row" id='billing_total_display'>
-                  <%= "#{@gbl_configuration.currency_code} #{@billing&.billing_items.processed.sum(:total).to_f}" || 0 %> |
-                  <%= "#{@billing.target_currency_code} #{@billing&.billing_items.processed.sum(:total_conversion).to_f}" || 0 %>
-                </td>
-              </tr>
-
-              
-            
-            </tbody>
-          </table>
+                </span>
+                </p>
+                <p class="mb-2 ">
+                  <span id='billing_total_display'>
+                    <%= "#{@gbl_configuration.currency_code} #{@billing&.billing_items.processed.sum(:total).to_f}" || 0 %> |
+                    <%= "#{@billing.target_currency_code} #{@billing&.billing_items.processed.sum(:total_conversion).to_f}" || 0 %>
+                  </span>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 
   <%= hidden_field_tag(:billing_id, @billing.id) %>
   <%= hidden_field_tag(:current_user_id, current_user.id) %>
