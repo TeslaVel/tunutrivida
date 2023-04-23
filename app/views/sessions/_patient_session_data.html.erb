@@ -61,7 +61,7 @@
       </ul>
     </div>
     <div class="card-body tab-content">
-      <!-- IMC -->
+      <!-- advanced -->
       <div id="advanced" class="tab-pane active" role="tabpanel">
         <div class="row">
           <div class="col-md-6 p-0">
@@ -84,7 +84,7 @@
               <p class="mb-2 "><%= session.bone_mass %> <strong>Kg</strong></p>
               <p class="mb-2 "><%= (session&.bmr || 0) * (session&.activity_factor.value || 0) %> <strong>Kca</strong></td></p>
               <p class="mb-2 "><%= session.metabolic_age %></p>
-              <p class="mb-2 "><strong>%</strong> <%= session.water_percentage %></p>
+              <p class="mb-2 "><%= session.water_percentage %> <strong>%</strong></p>
               <p class="mb-2 "><%= session.physical_complexion %></p>
             </div>
           </div>

@@ -39,13 +39,11 @@
                 <td><%= item.item_type %></td>
                 <td><%= item.description %></td>
                 <td class="text-center">
-                  <%= "#{@gbl_configuration.currency_code} #{item.amount}" %> |
-                  <%= "#{item.target_currency_code} #{(item.amount * item.target_conversion).round(2) }" %>
+                  <%= item.show_correct_mount_text %>
                 </td>
                 <td class="text-center"><%= item.quantity %></td>
                 <td class="text-center">
-                  <%= "#{@gbl_configuration.currency_code} #{item.total}" %> |
-                  <%= "#{item.target_currency_code} #{(item.total * item.target_conversion).round(2) }" %>
+                  <%= item.show_correct_total_text %>
                 </td>
                 <td class="text-center">
                   <%= link_to t('billing_items.delete'), billing_items_destroy_path(billing, item), method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy_item", :remote => true %>

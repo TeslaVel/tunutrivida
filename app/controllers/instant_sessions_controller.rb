@@ -17,14 +17,14 @@ class InstantSessionsController < ApplicationController
     # @diagnosisDpc = @indicatorsDpc.find {|ind| @instant_session.waist >= ind.value_min && @instant_session.waist < ind.value_max}
     @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @instant_session.waist, @instant_session.waist).first
 
-    icc = if @instant_session.waist.nil? || @instant_session.hip.nil?
+    @icc = if @instant_session.waist.nil? || @instant_session.hip.nil?
              0
           else
             (@instant_session.waist / @instant_session.hip).round(2).round(2)
           end
     @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @instant_session.gender_id)
     # @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
-    @diagnosisIcc = @indicatorsIcc.where("value_min < ? AND value_max >= ?", icc, icc).first
+    @diagnosisIcc = @indicatorsIcc.where("value_min < ? AND value_max >= ?", @icc, @icc).first
   end
 
   # GET /instant_sessions/new
@@ -89,6 +89,7 @@ class InstantSessionsController < ApplicationController
         :waist,
         :hip,
         :high_abdomen,
+        :low_abdomen,
         :ideal_weight,
         :body_grease,
         :visceral_grease,

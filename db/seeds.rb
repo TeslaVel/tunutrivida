@@ -56,13 +56,21 @@ public
 
 private
 
+	org = Organization.create(
+		name: 'Tunutrivida',
+		description: 'Dieititan and patients web'
+	)
+
+	puts "Created Organization: #{org.name}"
+
 	user = User.create!(
 		email: 'm3taljose@gmail.com',
 		username: 'm3taljose',
 		first_name: 'Admin 1',
 		last_name: 'Admin 1',
 		password: '2351310',
-		password_confirmation: '2351310'
+		password_confirmation: '2351310',
+		organization_id: org.id
 	)
 	puts "Created admin: #{user.email}"
 
@@ -72,7 +80,8 @@ private
 		first_name: "Laura",
 		last_name: "Berrios",
 		password: '2351310',
-		password_confirmation: '2351310'
+		password_confirmation: '2351310',
+		organization_id: org.id
 	)
 	puts "Created dietitian: #{dietitian.email}"
 

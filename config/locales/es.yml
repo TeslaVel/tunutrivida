@@ -108,6 +108,7 @@ es:
     imc: 'IMC'
     comparative_table: 'Tabla Comparativa'
     patient_charting: 'Graficos del paciente'
+    imc_charting: 'Graficos de IMC'
     patient_sessions: 'Sesiones del paciente'
     new:
       agregate_package: 'Agregar paquete'

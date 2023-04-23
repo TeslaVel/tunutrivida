@@ -3,23 +3,135 @@
   <%= link_to t('sessions.back'), instant_sessions_path %>
 </div>
 
-<div class="row justify-content-between">
-  <div class="col-sm-12 col-md-12 col-lg-12col- pr-2 pl-2">
-    <%= render 'patient_session_data', instant_session: @instant_session, title: "Instant Session" %>
+  <div class="col-sm-12 d-flex mb-4">
+    <div class="card col-sm-4" id="left-card">
+      <div class="card-header bg-transparent">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#advanced" data-toggle="tab">Advanced</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body tab-content">
+      	 <!-- about -->
+        <div class="tab-pane active" id="about">
+          <div class="row">
+            <div class="col-md-5 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Fecha:</p>
+                <p class="mb-2 text-left">Weight:</p>
+                <p class="mb-2 text-left">Height:</p>
+                <p class="mb-2 text-left">Abdomen Bajo:</p>
+                <p class="mb-2 text-left">Abdomen Alto:</p>
+                <p class="mb-2 text-left "> Cadera </p>
+                <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
+                <p class="mb-2 text-left diagonis_imc"> IMC </p>
+                <p class="mb-2 text-left diagonis_icc"> ICC </p>	
+              </div>
+            </div>
+            <div class="col-md-7 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= @instant_session&.date || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.weight || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.height || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.low_abdomen || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.high_abdomen || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.hip || '-' %></p>
+                <p class="mb-2 diagonis_pdc"><%= @instant_session&.waist || '-' %> </p>
+                <p class="mb-2 diagonis_imc"><%= @instant_session&.imc || '-' %></p>
+                <p class="mb-2 diagonis_icc"><%= @icc || '-' %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- advanced -->
+	      <div id="advanced" class="tab-pane" role="tabpanel">
+	        <div class="row">
+	          <div class="col-md-6 p-0">
+	            <div class="list-unstyled">
+	              <p class="mb-2 text-left">Grasa Corporal:</p>
+	              <p class="mb-2 text-left">Grasa Visceral:</p>
+	              <p class="mb-2 text-left "> Masa Muscular </p>
+	              <p class="mb-2 text-left "> Masa Osea </p>
+	              <p class="mb-2 text-left "> BMR </p>
+	              <p class="mb-2 text-left "> Edad Metabolica </p>
+	              <p class="mb-2 text-left "> Porcetaje de Agua </p>
+	              <p class="mb-2 text-left "> Comlexion Fisica </p>
+	            </div>
+	          </div>
+	          <div class="col-md-6 p-0">
+	            <div class="list-unstyled">
+	              <p class="mb-2 "><%= @instant_session.body_grease %> <strong>%</strong></p>
+	              <p class="mb-2 "><%= @instant_session.visceral_grease %> <strong>%</strong></p>
+	              <p class="mb-2 "><%= @instant_session.muscle_mass %> <strong>Kg</strong></p>
+	              <p class="mb-2 "><%= @instant_session.bone_mass %> <strong>Kg</strong></p>
+	              <p class="mb-2 "><%= (@instant_session&.bmr || 0) * (@instant_session&.activity_factor.value || 0) %> <strong>Kca</strong></td></p>
+	              <p class="mb-2 "><%= @instant_session.metabolic_age %></p>
+	              <p class="mb-2 "><%= @instant_session.water_percentage %> <strong>%</strong></p>
+	              <p class="mb-2 "><%= @instant_session.physical_complexion %></p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+      </div>
+
+      <div class="card-footer bg-transparent p-2">
+      	<div scope="row" colspan="4">
+					<%= link_to t('instant_sessions.edit'), edit_instant_session_path, class: "btn btn-success btn-block" %>
+				</div>
+      </div>
+    </div>
+
+    <div class="card col-sm-8" id="right-card">
+      <div class="card-header bg-transparent">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#imc" role="tab" aria-controls="imc" aria-selected="true" data-toggle="tab">IMC</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pdc" role="tab" aria-controls="pdc" data-toggle="tab">PDC</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#icc" role="tab" aria-controls="icc" data-toggle="tab">ICC</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body tab-content">
+        <!-- IMC -->
+        <div id="imc" class="tab-pane active" role="tabpanel">
+          <div class="col-sm-12">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsImc,
+              diagnosis: @diagnosisImc,
+              title: "IMC" %>
+          </div>
+        </div>
+        
+        <!-- ICC -->
+        <div id="icc" class="tab-pane" role="tabpanel">
+          <div class="col-sm-12">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsIcc,
+              diagnosis: @diagnosisIcc,
+              title: "ICC" %>
+          </div>
+        </div>
+        
+        <!-- PDC -->
+        <div id="pdc" class="tab-pane" role="tabpanel">
+          <div class="col-sm-12">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsDpc,
+              diagnosis: @diagnosisDpc,
+              title: "PDC" %>
+          </div>
+        </div>
+        
+      </div>
+    </div>
   </div>
-
-	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
-		<%= render 'diagnoses_partial', indicators: @indicatorsImc, diagnosis: @diagnosisImc, title: "IMC" %>
-	</div>
-
-	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
-		<%= render 'diagnoses_partial', indicators: @indicatorsDpc, diagnosis: @diagnosisDpc, title: "PDC" %>
-	</div>
-
-	<div class="col-sm-12 col-md-6 col-lg-4 col- pr-2 pl-2">
-		<%= render 'diagnoses_partial', indicators: @indicatorsIcc, diagnosis: @diagnosisIcc, title: "ICC" %>
-	</div>
-
-</div>
-
-

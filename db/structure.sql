@@ -371,6 +371,38 @@ ALTER SEQUENCE public.instant_sessions_id_seq OWNED BY public.instant_sessions.i
 
 
 --
+-- Name: organizations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.organizations (
+    id bigint NOT NULL,
+    name character varying,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.organizations_id_seq OWNED BY public.organizations.id;
+
+
+--
 -- Name: packages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -727,6 +759,7 @@ CREATE TABLE public.users (
     reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
+    organization_id bigint,
     patient_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -813,6 +846,13 @@ ALTER TABLE ONLY public.indicators ALTER COLUMN id SET DEFAULT nextval('public.i
 --
 
 ALTER TABLE ONLY public.instant_sessions ALTER COLUMN id SET DEFAULT nextval('public.instant_sessions_id_seq'::regclass);
+
+
+--
+-- Name: organizations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.organizations ALTER COLUMN id SET DEFAULT nextval('public.organizations_id_seq'::regclass);
 
 
 --
@@ -963,6 +1003,14 @@ ALTER TABLE ONLY public.indicators
 
 ALTER TABLE ONLY public.instant_sessions
     ADD CONSTRAINT instant_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1299,6 +1347,13 @@ CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
+-- Name: index_users_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_organization_id ON public.users USING btree (organization_id);
+
+
+--
 -- Name: index_users_on_patient_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1559,6 +1614,7 @@ ALTER TABLE ONLY public.instant_sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20210509221318'),
 ('20210509221320'),
 ('20210509221321'),
 ('20210509221513'),

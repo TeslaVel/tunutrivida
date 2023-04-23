@@ -7,7 +7,6 @@ class Discount < ApplicationRecord
 
   enum discount_type: DiscountTypes
 
-
   DiscountStatus = %i[
     enable
     disabled

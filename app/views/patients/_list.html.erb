@@ -29,7 +29,9 @@
   <tbody>
     <% patients.each do |patient| %>
       <tr>
-        <td><%= patient.first_name %></td>
+        <td><%= link_to patient do %>
+            <%= patient.first_name %>
+          <% end %></td>
         <td><%= patient.last_name %></td>
         <td><%= patient.date_of_bird %></td>
         <td><%= patient.gender.name %></td>

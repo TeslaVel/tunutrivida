@@ -6,9 +6,16 @@ class BillingItem < ApplicationRecord
 
   after_create :set_after_values
   after_destroy :recalculate_parent
+  after_save :recalculate_parent
 
   scope :inprocess, -> { where(status: :inprocess) }
   scope :processed, -> { where(status: :processed) }
+  scope :discount_percentage_items, -> {
+    joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type = 1")
+  }
+  # scope :not_discount_percentage_items, -> {
+  #   joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type != 1")
+  # }
 
   ItemTypes = %i[
     package
@@ -25,12 +32,33 @@ class BillingItem < ApplicationRecord
 
   enum status: StatusTypes
 
+  def show_correct_mount_text
+    simbol = '$' # @gbl_configuration.currency_code
+    converted = (self.amount * self.target_conversion).round(2)
+    result = "#{simbol} #{amount} | #{converted}"
 
+    if self.item_type == 'discount' && self.itemable.discount_type == 'percentage'
+      simbol = '%'
+      result = "#{simbol} #{amount}"
+    end
+    
+    result
+  end
 
+  def show_correct_total_text
+    simbol = '$' # @gbl_configuration.currency_code
+    converted = (self.total * self.target_conversion).round(2)
+    result = "#{simbol} #{self.total} | #{converted}"
+
+    if self.item_type == 'discount' && self.itemable.discount_type == 'percentage'
+      result = 0
+    end
+    
+    result
+  end
   private
 
   def set_after_values
-
     unless description.present?
       self.description = "Item #{itemable.name.humanize}".parameterize
     end
@@ -39,7 +67,11 @@ class BillingItem < ApplicationRecord
 
     self.total = case item_type.to_sym
                  when :discount
-                  -itemable.price.to_f
+                  if self.itemable.discount_type == 'value'
+                    -itemable.price.to_f
+                  else
+                    0
+                  end
                  else
                   self.quantity * itemable.price.to_f
                  end
@@ -55,8 +87,10 @@ class BillingItem < ApplicationRecord
   end
 
   def recalculate_parent
-    total = self.billing.billing_items.sum(:total)
-    total_conversion = sub_total_conversion = total * self.billing.target_conversion
+    total = self.billing.billing_items.processed.sum(:total).to_f || 0
+    discount_percentage = self.billing.billing_items.processed&.discount_percentage_items&.first&.amount.to_f || 0
+    total = (total - (total * (discount_percentage / 100))).round(2) || 0
+    total_conversion = sub_total_conversion = (total * self.billing.target_conversion.to_f).round(2)
     self.billing.update(
       total: total,
       sub_total: total,

@@ -17,6 +17,24 @@ class Billing < ApplicationRecord
   before_create :set_code_and_currency
   before_save :check_and_set_description
 
+  def obtain_pending_total_value
+    total = billing_items.inprocess.sum(:total).to_f
+    discount_percentage = billing_items.inprocess&.discount_percentage_items&.first&.amount.to_f || 0
+    total = (total - (total * (discount_percentage / 100))).round(2)
+    total_conversion = sub_total_conversion = (total * target_conversion.to_f).round(2)
+
+    {total: total, total_conversion: total_conversion}
+  end
+
+  def obtain_total_value
+    total = billing_items.processed.sum(:total).to_f
+    discount_percentage = billing_items.processed&.discount_percentage_items&.first&.amount.to_f || 0
+    total = (total - (total * (discount_percentage / 100))).round(2)
+    total_conversion = sub_total_conversion = (total * target_conversion.to_f).round(2)
+
+    {total: total, total_conversion: total_conversion}
+  end
+
   private
 
 

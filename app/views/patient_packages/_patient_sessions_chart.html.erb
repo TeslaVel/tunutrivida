@@ -1,13 +1,13 @@
 <div class="card shadow mb-4" id="patient_graph_bar" onload="()">
-  <a href="#collapseCardExample_<%= key %>" class="d-block card-header py-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>">
-    <h6 class="m-0 font-weight-bold text-primary"><%= t(title) %></h6>
-  </a>
-  <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
+    <% unless hide_header %>
+      <div class="card-header">
+        <%= t(title) %>
+      </div>
+    <% end %>
     <div class="card-body">
       <div class="chart-bar">
-        <canvas id="patientImcBar"></canvas>
+        <canvas id="<%= id %>"></canvas>
       </div>
       <hr>
     </div>
-  </div>
 </div>

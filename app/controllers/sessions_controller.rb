@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  # before_action :get_patient_json, only: [:sessionsjson]
-  # before_action :set_patient, except: [:sessionsjson]
   before_action :set_patient
   before_action :set_package
   before_action :set_session, except: [:new, :create]
@@ -93,18 +91,6 @@ class SessionsController < ApplicationController
     redirect_to patient_patient_package_session_show_path(@patient,@session.patient_package,@session), notice: notice
     return
   end
-
-  
-  # def sessionsjson
-  #   sessions = @patient.sessions.id_asc
-  #   max_imc_value = sessions.maximum(:imc)
-  #   sessions = sessions.last(10)
-  #   imc_values = sessions.map(&:imc)
-  #   days = sessions.map {|sess| sess.date.to_date.strftime('%d-%m-%Y') }
-
-  #   render :json => {patient: @patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
-  # end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.

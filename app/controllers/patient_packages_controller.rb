@@ -60,12 +60,29 @@ class PatientPackagesController < ApplicationController
     patient = get_patient_json
     patien_package = get_patient_packages_json(patient)
     sessions = patien_package.sessions.id_asc
-    max_imc_value = sessions.maximum(:imc)
     sessions = sessions.last(10)
-    imc_values = sessions.map(&:imc)
     days = sessions.map {|sess| sess.date.to_date.strftime('%d-%m-%Y') }
-
-    render :json => {patient: patient, imc_values: imc_values, days: days, max_imc_value: max_imc_value }
+    
+    render :json => {
+      patient: patient,
+      days: days,
+      imc: {
+        values: sessions.map(&:imc),
+        max_value: sessions.map(&:imc).max + 5
+      },
+      weight: {
+        values: sessions.map(&:weight),
+         max_value: sessions.map(&:weight).max + 5
+      },
+      body_grease: {
+        values: sessions.map(&:body_grease),
+        max_value: sessions.map(&:body_grease).max + 5
+      },
+      muscle_mass: {
+        values: sessions.map(&:muscle_mass),
+        max_value: sessions.map(&:muscle_mass).max + 5
+      }
+    }
   end
 
   # # GET /patients/:patient_id/packagesjson

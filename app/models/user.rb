@@ -16,6 +16,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :username, uniqueness: true
 
+  belongs_to :organization
   has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
   has_many :patients, :foreign_key => "dietitian_id"
   has_many :user_roles
