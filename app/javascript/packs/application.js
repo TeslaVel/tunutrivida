@@ -43,7 +43,6 @@ if (found_class_date)
 	$('#patient-session-date').datepicker({
 	    uiLibrary: 'bootstrap4'
 	});
-	
 }
 
 

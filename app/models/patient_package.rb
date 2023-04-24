@@ -13,7 +13,7 @@ class PatientPackage < ApplicationRecord
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }
   scope :id_desc, -> { order(id: :desc) }
-  scope :order_status, -> { order(status: :asc) }
+  scope :order_status, -> { order(created_at: :desc, status: :asc) }
   scope :active, -> { where(status: :active) }
 
   validates :date, presence: true
@@ -27,6 +27,7 @@ class PatientPackage < ApplicationRecord
   enum status: PackageStatus
 
   private
+
   	def finished_all_package
   		self.patient.patient_packages.update_all(status: :finished)
   	end

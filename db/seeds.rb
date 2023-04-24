@@ -96,6 +96,19 @@ private
 	puts "Asigned Roles"
 
 
+	OrganizationMemberships.create(
+		is_admin: 1,
+		organization_id: org.id,
+		user_id: user.id
+	)
+
+	OrganizationMemberships.create(
+		is_admin: 0,
+		organization_id: org.id,
+		user_id: dietitian.id
+	)
+
+
 	puts "Creating GlobalConfiguration"
 	glb = GlobalConfiguration.create(
 		currency: 'USD',
@@ -207,7 +220,7 @@ private
 														last_name: "Mora",
 														dietitian_id: dietitian.id,
 														gender: female ,
-														date_of_bird: dob ,
+														date_of_birth: dob ,
 														age: age)
 	puts "Patient #{patient1.first_name} Created."
 
@@ -221,7 +234,7 @@ private
 	dob =Time.now - rand(y1...y2).years
 	created = Time.now - 14.days
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patient2 = Patient.create(first_name: "Marina", last_name: "Perdomo", dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patient2 = Patient.create(first_name: "Marina", last_name: "Perdomo", dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patient2.first_name} Created."
 
 
@@ -233,7 +246,7 @@ private
 	# Pactient 3
 	dob =Time.now - rand(y1...y2).years
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patient3 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patient3 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patient3.first_name} Created."
 
 	height = rand(1.50...1.90).round(2)
@@ -245,7 +258,7 @@ private
 	dob =Time.now - rand(y1...y2).years
 	created = Time.now - 14.days
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patient4 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patient4 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patient4.first_name} Created."
 
 	height = rand(1.50...1.90).round(2)
@@ -256,11 +269,11 @@ private
 	# Pactient 5 with two packages
 	dob =Time.now - rand(y1...y2).years
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patient5 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patient5 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patient5.first_name} Created."
 
 	height = rand(1.50...1.90).round(2)
-	# primer paquete 
+	# primer paquete
 	date_base = Time.now - (days_week * package3.weeks ).days
 	create_patient_packages_and_sessions(patient5,package3,dietitian,height,days_week,date_base)
 
@@ -273,7 +286,7 @@ private
 	dob =Time.now - rand(y1...y2).years
 	created = Time.now - 14.days
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patient6 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patient6 = Patient.create(first_name: Faker::Name.name, last_name: Faker::Name.last_name, dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patient6.first_name} Created."
 
 	puts "Creating Patients Laura"
@@ -281,7 +294,7 @@ private
 	dob = "1990-02-20".to_date
 	date_base = "2021-05-22".to_date
 	age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-	patientL = Patient.create(first_name: "Laura", last_name: "Berrios", dietitian_id: dietitian.id, gender: female , date_of_bird: dob, age: age)
+	patientL = Patient.create(first_name: "Laura", last_name: "Berrios", dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
 	puts "Patient #{patientL.first_name} Created."
 
 	patient_package =PatientPackage.create(package: package5, patient: patientL, dietitian_id: dietitian.id, date: date_base)
@@ -414,7 +427,7 @@ private
 	)
 
 
-	  created = "2023-04-22".to_date
+	created = "2023-04-22".to_date
   height = 1.582
   h2 = (height*height).round(2)
   weight = 71.4
@@ -434,6 +447,63 @@ private
   ideal_weight = (imc * h2 )
 
  Session.create!(
+	weight: weight,height: height,
+	waist: waist,hip: hip,
+	imc: imc,
+	high_abdomen: high_abdomen,
+	low_abdomen: low_abdomen,
+	date: created,
+	dietitian_id: dietitian.id,
+	patient_id: patientL.id,
+	ideal_weight: ideal_weight,
+	body_grease: body_grease,
+	visceral_grease: visceral_grease,
+	muscle_mass: muscle_mass,
+	bone_mass: bone_mass,
+	bmr: bmr,
+	metabolic_age: metabolic_age,
+	water_percentage: water_percentage,
+	physical_complexion: physical_complexion,
+	activity_factor_id: activity_factor1.id,
+	patient_package: patient_package,
+	created_by_id: dietitian.id
+)
+
+	puts "Creating Patients Francis"
+	# Pactient Francis
+	dob = "1988-03-03".to_date
+	date_base = "2023-03-23".to_date
+	now = Time.now.utc.to_date
+	age = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+	patientFran = Patient.create(first_name: "Francis", last_name: "Berrios", dietitian_id: dietitian.id, gender: female , date_of_birth: dob, age: age)
+	puts "Patient #{patientFran.first_name} Created."
+
+	# paquete uno francis
+	patient_package = PatientPackage.create(package: package4, patient: patientFran, dietitian_id: dietitian.id, date: date_base)
+
+	puts "Creating Session 1 of Francis"
+	# session 1
+	created = "2023-03-23 ".to_date
+  height = 1.58
+  h2 = (height * height).round(2)
+  weight = 78.0
+  high_abdomen = 86.0
+  low_abdomen = 89.0
+  waist = 111.0
+  hip = 118.0
+  imc = (weight / h2 ).round(2)
+  body_grease = 42.7
+  visceral_grease = 8.0
+  muscle_mass = 25.7
+  water_percentage = nil
+  bone_mass = nil
+  bmr = nil
+  metabolic_age = 55
+  physical_complexion = nil
+  ideal_weight = (imc * h2 )
+
+
+	Session.create!(
 		weight: weight,height: height,
 		waist: waist,hip: hip,
 		imc: imc,
@@ -441,7 +511,52 @@ private
 		low_abdomen: low_abdomen,
 		date: created,
 		dietitian_id: dietitian.id,
-		patient_id: patientL.id,
+		patient_id: patientFran.id,
+		ideal_weight: ideal_weight,
+		body_grease: body_grease,
+		visceral_grease: visceral_grease,
+		muscle_mass: muscle_mass,
+		bone_mass: bone_mass,
+		bmr: bmr,
+		metabolic_age: metabolic_age,
+		water_percentage: water_percentage,
+		physical_complexion: physical_complexion,
+		activity_factor_id: activity_factor1.id,
+		patient_package: patient_package,
+		created_by_id: dietitian.id
+	)
+
+	puts "Creating Session 2 of Francis"
+	# session 2
+	created = "2023-04-23 ".to_date
+  height = 1.58
+  h2 = (height*height).round(2)
+  weight = 77.3
+  high_abdomen = nil
+  low_abdomen = nil
+  waist = nil
+  hip = nil
+  imc = (weight / h2 ).round(2)
+  body_grease = nil
+  visceral_grease = nil
+  muscle_mass = nil
+  water_percentage = nil
+  bone_mass = nil
+  bmr = nil
+  metabolic_age = nil
+  physical_complexion = nil
+  ideal_weight = (imc * h2 )
+
+
+	Session.create!(
+		weight: weight,height: height,
+		waist: waist,hip: hip,
+		imc: imc,
+		high_abdomen: high_abdomen,
+		low_abdomen: low_abdomen,
+		date: created,
+		dietitian_id: dietitian.id,
+		patient_id: patientFran.id,
 		ideal_weight: ideal_weight,
 		body_grease: body_grease,
 		visceral_grease: visceral_grease,

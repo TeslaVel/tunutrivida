@@ -4,7 +4,7 @@ class PatientsController < ApplicationController
 
   # GET /patients or /patients.json
   def index
-    @patients = current_user.patients.page(params[:page] || 1)
+    @patients = current_user.patients.order(created_at: :desc).page(params[:page] || 1)
   end
 
   def search
@@ -60,21 +60,21 @@ class PatientsController < ApplicationController
   # POST /patients or /patients.json
   def create
     @patient = current_user.patients.build(patient_params)
-    
+
     if @patient.save
-      redirect_to @patient, notice: "Patient was successfully created." 
+      redirect_to @patient, notice: 'Patient was successfully created.' 
     else
 
       redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
     end
-    
+
   end
 
   # PATCH/PUT /patients/1 or /patients/1.json
   def update
     respond_to do |format|
       if @patient.update(patient_params)
-        format.html { redirect_to @patient, notice: "Patient was successfully updated." }
+        format.html { redirect_to @patient, notice: 'Patient was successfully updated.' }
         format.json { render :show, status: :ok, location: @patient }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -87,7 +87,7 @@ class PatientsController < ApplicationController
   def destroy
     @patient.destroy
     respond_to do |format|
-      format.html { redirect_to patients_url, notice: "Patient was successfully destroyed." }
+      format.html { redirect_to patients_url, notice: 'Patient was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -100,7 +100,7 @@ class PatientsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def patient_params
-      params.require(:patient).permit(:first_name, :last_name, :date_of_bird, :dietitian_id, :gender_id)
+      params.require(:patient).permit(:first_name, :last_name, :date_of_birth, :dietitian_id, :gender_id)
     end
 
     def search_params

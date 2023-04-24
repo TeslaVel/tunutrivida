@@ -5,15 +5,13 @@ class Discount < ApplicationRecord
     percentage
   ].freeze
 
-  enum discount_type: DiscountTypes
-
   DiscountStatus = %i[
     enable
     disabled
   ].freeze
 
+  enum discount_type: DiscountTypes
   enum status: DiscountStatus
-
 
   alias_attribute :price, :amount
 

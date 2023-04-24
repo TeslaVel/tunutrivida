@@ -61,26 +61,26 @@ class PatientPackagesController < ApplicationController
     patien_package = get_patient_packages_json(patient)
     sessions = patien_package.sessions.id_asc
     sessions = sessions.last(10)
-    days = sessions.map {|sess| sess.date.to_date.strftime('%d-%m-%Y') }
-    
+    days = sessions.map { |sess| sess.date.to_date.strftime('%d-%m-%Y') }
+
     render :json => {
       patient: patient,
       days: days,
       imc: {
-        values: sessions.map(&:imc),
-        max_value: sessions.map(&:imc).max + 5
+        values: sessions.map(&:imc).compact,
+        max_value: sessions.map(&:imc).compact.max + 5
       },
       weight: {
-        values: sessions.map(&:weight),
+        values: sessions.map(&:weight).compact,
          max_value: sessions.map(&:weight).max + 5
       },
       body_grease: {
-        values: sessions.map(&:body_grease),
-        max_value: sessions.map(&:body_grease).max + 5
+        values: sessions.map(&:body_grease).compact,
+        max_value: sessions.map(&:body_grease).compact.max + 5
       },
       muscle_mass: {
-        values: sessions.map(&:muscle_mass),
-        max_value: sessions.map(&:muscle_mass).max + 5
+        values: sessions.map(&:muscle_mass).compact,
+        max_value: sessions.map(&:muscle_mass).compact.max + 5
       }
     }
   end

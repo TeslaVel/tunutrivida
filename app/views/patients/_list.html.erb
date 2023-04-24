@@ -11,7 +11,6 @@
     <%= render 'paginations/pagination', objectData: patients %>
   </div>
   <div style="flex-grow: 1;">
-    
   </div>
 </div>
 <table class="table">
@@ -33,7 +32,7 @@
             <%= patient.first_name %>
           <% end %></td>
         <td><%= patient.last_name %></td>
-        <td><%= patient.date_of_bird %></td>
+        <td><%= patient.date_of_birth %></td>
         <td><%= patient.gender.name %></td>
         <td><%= patient.sessions.count %></td>
         <td>

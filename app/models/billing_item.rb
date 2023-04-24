@@ -1,8 +1,17 @@
 class BillingItem < ApplicationRecord
-  belongs_to :billing
-  # belongs_to :patient_packages
-  belongs_to :itemable, polymorphic: true
+  ItemTypes = %i[
+    package
+    product
+    discount
+  ].freeze
 
+  StatusTypes = %i[
+    inprocess
+    processed
+  ].freeze
+
+  belongs_to :billing
+  belongs_to :itemable, polymorphic: true
 
   after_create :set_after_values
   after_destroy :recalculate_parent
@@ -11,37 +20,26 @@ class BillingItem < ApplicationRecord
   scope :inprocess, -> { where(status: :inprocess) }
   scope :processed, -> { where(status: :processed) }
   scope :discount_percentage_items, -> {
-    joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type = 1")
+    joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where('discounts.discount_type = 1')
   }
+
   # scope :not_discount_percentage_items, -> {
   #   joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type != 1")
   # }
 
-  ItemTypes = %i[
-    package
-    product
-    discount
-  ].freeze
-
   enum item_type: ItemTypes
-
-  StatusTypes = %i[
-    inprocess
-    processed
-  ].freeze
-
   enum status: StatusTypes
 
   def show_correct_mount_text
     simbol = '$' # @gbl_configuration.currency_code
-    converted = (self.amount * self.target_conversion).round(2)
+    converted = (amount * target_conversion).round(2)
     result = "#{simbol} #{amount} | #{converted}"
 
-    if self.item_type == 'discount' && self.itemable.discount_type == 'percentage'
+    if item_type == 'discount' && itemable.discount_type == 'percentage'
       simbol = '%'
       result = "#{simbol} #{amount}"
     end
-    
+
     result
   end
 
@@ -53,7 +51,7 @@ class BillingItem < ApplicationRecord
     if self.item_type == 'discount' && self.itemable.discount_type == 'percentage'
       result = 0
     end
-    
+
     result
   end
   private

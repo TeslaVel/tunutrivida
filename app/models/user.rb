@@ -23,7 +23,7 @@ class User < ApplicationRecord
   has_many :roles, through: :user_roles
 
   include RolesConcern
-  
+
   def add_role(role, created_by = nil)
   	# permited = Role::ROLES_TYPES.include?(role)
   	# return false unless permited
@@ -31,7 +31,7 @@ class User < ApplicationRecord
   	return false unless !self.has_role? role
   	exists_role = Role.find_by_name(role.to_s) || false
   	return false unless exists_role
-    
+
     if created_by
   	 UserRole.create(user: self ,role: exists_role, created_by_id: created_by.id)
     else

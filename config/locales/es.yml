@@ -85,7 +85,7 @@ es:
     form:
       first_name: 'Nombres'
       last_name: 'Apellidos'
-      date_of_bird: 'Fecha de nacimiento'
+      date_of_birth: 'Fecha de nacimiento'
       gender: 'Genero'
 
   packages:

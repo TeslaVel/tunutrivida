@@ -371,6 +371,40 @@ ALTER SEQUENCE public.instant_sessions_id_seq OWNED BY public.instant_sessions.i
 
 
 --
+-- Name: organization_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.organization_memberships (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    organization_id bigint NOT NULL,
+    is_admin integer DEFAULT 0,
+    org_role character varying DEFAULT 'Standard'::character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: organization_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.organization_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: organization_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.organization_memberships_id_seq OWNED BY public.organization_memberships.id;
+
+
+--
 -- Name: organizations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -484,7 +518,7 @@ CREATE TABLE public.patients (
     last_name character varying,
     slug character varying,
     age integer,
-    date_of_bird date,
+    date_of_birth date,
     gender_id integer NOT NULL,
     dietitian_id bigint NOT NULL,
     status integer,
@@ -849,6 +883,13 @@ ALTER TABLE ONLY public.instant_sessions ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: organization_memberships id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.organization_memberships ALTER COLUMN id SET DEFAULT nextval('public.organization_memberships_id_seq'::regclass);
+
+
+--
 -- Name: organizations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1003,6 +1044,14 @@ ALTER TABLE ONLY public.indicators
 
 ALTER TABLE ONLY public.instant_sessions
     ADD CONSTRAINT instant_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: organization_memberships organization_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.organization_memberships
+    ADD CONSTRAINT organization_memberships_pkey PRIMARY KEY (id);
 
 
 --
@@ -1197,6 +1246,20 @@ CREATE INDEX index_indicators_on_indicator_type_id ON public.indicators USING bt
 --
 
 CREATE INDEX index_instant_sessions_on_created_by_id ON public.instant_sessions USING btree (created_by_id);
+
+
+--
+-- Name: index_organization_memberships_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_organization_memberships_on_organization_id ON public.organization_memberships USING btree (organization_id);
+
+
+--
+-- Name: index_organization_memberships_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_organization_memberships_on_user_id ON public.organization_memberships USING btree (user_id);
 
 
 --
@@ -1615,6 +1678,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20210509221318'),
+('20210509221319'),
 ('20210509221320'),
 ('20210509221321'),
 ('20210509221513'),

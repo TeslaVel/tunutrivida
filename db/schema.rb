@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2022_08_28_213041) do
     t.string "last_name"
     t.string "slug"
     t.integer "age"
-    t.date "date_of_bird"
+    t.date "date_of_birth"
     t.integer "gender_id", null: false
     t.bigint "dietitian_id", null: false
     t.integer "status"
