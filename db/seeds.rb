@@ -13,6 +13,7 @@ public
 			puts "CREANDO SESSION FECHA:#{created}"
 			weight = rand(50.20...60).round(2)
 			high_abdomen = rand(60.3...65).round(2)
+			low_abdomen = rand(50.3...61).round(2)
 			waist = rand(60.3...67.2).round(2)
 			hip = rand(50.3...57.5).round(2)
 			imc = (weight / h2 ).round(2)
@@ -33,6 +34,7 @@ public
 				waist: waist,hip: hip,
 				imc: imc,
 				high_abdomen: high_abdomen,
+				low_abdomen: low_abdomen,
 				date: created,
 				dietitian_id: dietitian.id,
 				patient_id: patient.id,

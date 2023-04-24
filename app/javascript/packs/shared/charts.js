@@ -115,7 +115,14 @@ document.addEventListener('turbolinks:load', () => {
 	  });
 	}
 
-	setAreaChart = function(xValues,yValues,elementDiv,maxYAxesValues = '10',simbol = '$ ')  {
+	setAreaChart = function(
+		xValues,
+		yValues,
+		elementDiv,
+		minYvalue = 5,
+		maxYValue = 10,
+		maxXTicks = 6,
+		simbol = '$ ') {
 			let ctx = document.getElementById(elementDiv);
 
 		  if (!ctx) return;
@@ -129,7 +136,7 @@ document.addEventListener('turbolinks:load', () => {
 		        lineTension: 0.3,
 		        backgroundColor: "rgba(78, 115, 223, 0.05)",
 		        borderColor: "rgba(78, 115, 223, 1)",
-		        pointRadius: 3,
+		        pointRadius: 5,
 		        pointBackgroundColor: "rgba(78, 115, 223, 1)",
 		        pointBorderColor: "rgba(78, 115, 223, 1)",
 		        pointHoverRadius: 3,
@@ -144,9 +151,9 @@ document.addEventListener('turbolinks:load', () => {
 		      maintainAspectRatio: false,
 		      layout: {
 		        padding: {
-		          left: 10,
-		          right: 25,
-		          top: 25,
+		          left: 2,
+		          right: 2,
+		          top: 2,
 		          bottom: 0
 		        }
 		      },
@@ -160,15 +167,15 @@ document.addEventListener('turbolinks:load', () => {
 		            drawBorder: false
 		          },
 		          ticks: {
-		            maxTicksLimit: 7
+		            maxTicksLimit: maxXTicks
 		          }
 		        }],
 		        yAxes: [{
 		          ticks: {
-		          	min:1,
-		          	max: maxYAxesValues,
-		            maxTicksLimit: 15,
-		            padding: 10,
+		          	min: minYvalue,
+		          	max: maxYValue + 5,
+		            maxTicksLimit: 6,
+		            padding: 5,
 		            // Include a dollar sign in the ticks
 		            callback: function(value, index, values) {
 		              return `${simbol} ${value}`;

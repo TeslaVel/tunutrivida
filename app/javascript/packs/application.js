@@ -10,6 +10,7 @@ import "channels"
 import Chartkick from "chartkick"
 import Chart from "chart.js"
 
+
 import "jquery"
 import 'popper.js'
 import "bootstrap/dist/js/bootstrap.bundle"

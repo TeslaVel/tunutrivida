@@ -90,24 +90,47 @@
     if (patient_id && patient_id != '' && patient_package_id && patient_package_id != '' ) {
       let url = `/patients/${patient_id}/packages/${patient_package_id}/sessions/sessionsjson`;
       $("#patient_graph_bar").removeClass('d-none');
+
+      // Call function chart,
+        // xValues,
+        // yValues,
+        // elementDiv,
+        // minYvalue = 5,
+        // maxYValue = 10,
+        // maxXTicks = 6,
+        // simbol = '$ '
       $.ajax({
         url: url,
         tyle : 'get',
         dataType : 'json',
         success: function(data) {
+          imc_values = data.imc.values.map(e => parseFloat(e))
+          min_i = Math.min(...imc_values)
+          min_imc = parseInt(min_i > 14 ? 10 : min_i)
+          max_imc = Math.max(...imc_values)
           setAreaChart(
             data.days,
-            data.imc.values,
+            imc_values,
             'imcChart',
-            data.imc.max_value,
+            min_imc,
+            max_imc,
+            6,
             'Imc'
           );
 
+          weight_values = data.weight.values.map(e => parseFloat(e))
+          min_w = Math.min(...weight_values)
+          min_weight = parseInt(min_w > 25 ? 25 : min_w)
+          max_weight =  Math.max(...weight_values)
+          console.log('weight_values', weight_values)
+          console.log('min_weight', min_weight)
           setAreaChart(
             data.days,
-            data.weight.values,
+            weight_values,
             'weightChart',
-            data.weight.max_value,
+            min_weight,
+            max_weight,
+            6,
             'Weight'
           );
 
@@ -115,7 +138,9 @@
             data.days,
             data.body_grease.values,
             'bodyGreaseChart',
-            data.body_grease.max_value,
+            5,
+            Math.max(...data.body_grease.values.map(e => parseFloat(e))),
+            6,
             'Body Grease'
           );
 
@@ -123,7 +148,9 @@
             data.days,
             data.muscle_mass.values,
             'muscleMassChart',
-            data.muscle_mass.max_value,
+            5,
+            Math.max(...data.muscle_mass.values.map(e => parseFloat(e))),
+            6,
             'Muscle Mass'
           );
         },
@@ -134,6 +161,6 @@
       });
     }
   }
-  
+
   load_imc_chart_bar();
 </script>

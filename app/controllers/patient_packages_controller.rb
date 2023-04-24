@@ -68,19 +68,18 @@ class PatientPackagesController < ApplicationController
       days: days,
       imc: {
         values: sessions.map(&:imc).compact,
-        max_value: sessions.map(&:imc).compact.max + 5
       },
       weight: {
         values: sessions.map(&:weight).compact,
-         max_value: sessions.map(&:weight).max + 5
+        # max_value: sessions.map(&:weight).max
       },
       body_grease: {
         values: sessions.map(&:body_grease).compact,
-        max_value: sessions.map(&:body_grease).compact.max + 5
+        # max_value: sessions.map(&:body_grease).compact.max
       },
       muscle_mass: {
-        values: sessions.map(&:muscle_mass).compact,
-        max_value: sessions.map(&:muscle_mass).compact.max + 5
+        values: sessions.map(&:muscle_mass).compact
+        # max_value: sessions.map(&:muscle_mass).compact.max
       }
     }
   end
