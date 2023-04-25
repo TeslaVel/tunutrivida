@@ -47,7 +47,8 @@
                 <label class="col-sm-3 col-form-label"><%= t('.height') %></label>
                 <div class="col-sm-7">
                    <div class="form-group">
-                    <%= f.input :height, label: false, input_html: { class: "form-control" } %>
+                    <% pheight = @patient&.sessions&.first&.height || '' %>
+                    <%= f.input :height, label: false, input_html: { class: "form-control", value: pheight} %>
                    </div>
                 </div>
               </div>

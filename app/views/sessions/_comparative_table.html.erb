@@ -24,7 +24,7 @@
 				    <td >Weight</td>
 				    <td ><%= patient.sessions.first.weight %></td>
 				    <td ><%= session.weight %> </td>
-				    <td class="text-center" ><%= (patient.sessions.first.weight - session.weight).round(2) %></td>
+				    <td class="text-center" ><%= ((patient&.sessions&.first&.weight || 0) - (session&.weight || 0)).round(2) %></td>
 				  </tr>
 				  <tr class="">
 				    <td >Waist</td>

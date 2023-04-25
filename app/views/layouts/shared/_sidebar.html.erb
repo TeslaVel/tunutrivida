@@ -31,9 +31,11 @@
   <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
   <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
     <h6 class="collapse-header">Patient modules:</h6>
+    <%= active_link_to 'Temporal Session', instant_sessions_path, class: 'collapse-item' %>
     <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
-    <%= active_link_to 'Instant Session', instant_sessions_path, class: 'collapse-item' %>
     <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
+    <%= active_link_to 'Tasks', '', class: 'collapse-item' %>
+    <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
   <% end %>
 
   <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>

@@ -1,0 +1,5 @@
+<h1>New Appointment</h1>
+<%= link_to 'Back', appointments_path(starts_at: @appointment.starts_at.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
+<%= render 'form', appointment: @appointment %>
+
+

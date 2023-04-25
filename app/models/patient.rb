@@ -9,11 +9,11 @@ class Patient < ApplicationRecord
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages
 	has_many :billings
+	has_many :appointments
 
 	before_create :set_date_of_birth
 	after_validation :set_slug, only: [:create, :update]
 	after_create :ctate_user_for_patient
-
 
 	scope :last_sessions, -> { self.sessions.order(date: :asc) }
 	scope :active_patients, ->{ where(status: :active) }

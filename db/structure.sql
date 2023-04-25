@@ -48,6 +48,42 @@ ALTER SEQUENCE public.activity_factors_id_seq OWNED BY public.activity_factors.i
 
 
 --
+-- Name: appointments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.appointments (
+    id bigint NOT NULL,
+    starts_at timestamp without time zone,
+    ends_at timestamp without time zone,
+    dietitian_id bigint NOT NULL,
+    patient_id bigint NOT NULL,
+    appointment_type integer DEFAULT 0 NOT NULL,
+    title character varying DEFAULT ''::character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: appointments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.appointments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: appointments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.appointments_id_seq OWNED BY public.appointments.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -827,6 +863,13 @@ ALTER TABLE ONLY public.activity_factors ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: appointments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments ALTER COLUMN id SET DEFAULT nextval('public.appointments_id_seq'::regclass);
+
+
+--
 -- Name: billing_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -972,6 +1015,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.activity_factors
     ADD CONSTRAINT activity_factors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointments appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1155,6 +1206,20 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX index_activity_factors_on_created_by_id ON public.activity_factors USING btree (created_by_id);
+
+
+--
+-- Name: index_appointments_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_appointments_on_dietitian_id ON public.appointments USING btree (dietitian_id);
+
+
+--
+-- Name: index_appointments_on_patient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_appointments_on_patient_id ON public.appointments USING btree (patient_id);
 
 
 --
@@ -1599,11 +1664,27 @@ ALTER TABLE ONLY public.roles
 
 
 --
+-- Name: appointments fk_rails_c63da04ab4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT fk_rails_c63da04ab4 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+
+
+--
 -- Name: billings fk_rails_cf7922da93; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.billings
     ADD CONSTRAINT fk_rails_cf7922da93 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
+-- Name: appointments fk_rails_deeb08c2c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT fk_rails_deeb08c2c3 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
 
 
 --
@@ -1699,6 +1780,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220904011508'),
 ('20220904013013'),
 ('20220905011432'),
-('20230418173331');
+('20230418173331'),
+('20230424202529');
 
 

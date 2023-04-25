@@ -26,7 +26,7 @@
 						    <td ><%= t('patient_packages.weight')%> </td>
 						    <td ><%= sessions.first.weight %></td>
 						    <td ><%= sessions.last.weight %> </td>
-						    <% restWeight = (sessions.first.weight - sessions.last.weight).round(2) %>
+						    <% restWeight = ((sessions&.first&.weight || 0) - (sessions&.last&.weight || 0)).round(2) %>
 						    <td class="text-center <%= restWeight > 0 ? '' : 'c-red' %>"><%= restWeight %></td>
 						  </tr>
 						  <tr class="">
@@ -61,7 +61,7 @@
 						    <td ><%= t('patient_packages.imc')%></td>
 						    <td ><%= sessions.first.imc %></td>
 						    <td ><%= sessions.last.imc %> </td>
-						    <% restImc = (sessions.first.imc - sessions.last.imc).round(2) %>
+						    <% restImc = ((sessions&.first&.imc || 0) - (sessions&.last&.imc || 0)).round(2) %>
 						    <td class="text-center <%= restImc > 0 ? '' : 'c-red' %>"><%= restImc %></td>
 						  </tr>
 	  				<% end %>

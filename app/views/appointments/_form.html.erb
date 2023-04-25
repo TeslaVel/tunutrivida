@@ -1,0 +1,46 @@
+<%= simple_form_for @appointment , html: {class: "form"} do |f| %>
+<div class="card ">
+  <div class="card-header" style="background: transparent;">
+      <h4 class="card-title">New appointment</h4>
+  </div>
+  <div class="card-body ">
+    <div class='row'>
+     <label class="col-sm-2 col-form-label">Titulo</label>
+      <div class="col-sm-9">
+          <div class="form-group">
+          <%= f.input :title, label: false, input_html: { class: "form-control" } %>
+          </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Start ats</label>
+      <div class="col-sm-7">
+        <div class="select-date-wrapper">
+          <%= f.date_select(:starts_at,
+                    options = { order: [:day, :month, :year], include_blank: true},
+                    html_options = { class: 'select-date form-control'})%>
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+     <label class="col-sm-2 col-form-label">Dietitian</label>
+      <div class="col-sm-9">
+          <div class="form-group">
+            <%= f.input :dietitian_id, label: false, collection: User.only_dieitians.all, label_method: :first_name, label_html: { class: "form-label" }, input_html: { class: "form-control" }, prompt: "Select a dietitian", selected: @appointment&.dietitian %>
+          </div>
+      </div>
+    </div>
+    <div class='row'>
+     <label class="col-sm-2 col-form-label">Patient</label>
+      <div class="col-sm-9">
+          <div class="form-group">
+            <%= f.input :patient_id, label: false, collection:Patient.all, label_method: :first_name, label_html: { class: "form-label" }, input_html: { class: "form-control" }, prompt: "Select a patient", selected: @appointment&.patient_id %>
+          </div>
+      </div>
+    </div>
+    <div class="row d-flex w-100">
+      <%= f.button :submit , class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+<% end %>

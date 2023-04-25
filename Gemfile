@@ -41,6 +41,7 @@ gem 'graphql', '~> 2.0', '>= 2.0.21'
 gem 'graphql-ruby', '~> 9001.0'
 gem 'jwt', '~> 2.7'
 gem 'rack-cors', '~> 2.0', '>= 2.0.1'
+gem "simple_calendar", "~> 2.4"
 
 group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'

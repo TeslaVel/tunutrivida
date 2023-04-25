@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Calendario de citas</h1>
+    </div>
+  </div>
+  <div class="row">
+  </div>
+    <div class="col-md-12">
+      <%= render partial: 'calendar', locals: { appointments: @appointments } %>
+      <%= link_to "New Appointment", new_appointment_path %>
+    </div>
+</div>

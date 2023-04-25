@@ -1,0 +1,8 @@
+<%= month_calendar(events: appointments, attribute: :starts_at, end_attribute: :ends_at) do |date, appointments| %>
+  <%= link_to date.day, new_appointment_path(date: date) %>
+  <% appointments.each do |appointment| %>
+    <div>
+      <%= appointment.title %>
+    </div>
+  <% end %>
+<% end %>

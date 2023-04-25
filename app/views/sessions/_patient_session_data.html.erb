@@ -35,7 +35,7 @@
             <p class="mb-2 "><%= patient.age %></p>
             <p class="mb-2 "><%= session.weight %> <strong>Kg</strong></p>
             <p class="mb-2 "><%= patient.gender.name %></p>
-            <p class="mb-2 "><%= session.height %> <strong>Mts</strong></p>
+            <p class="mb-2 "><%= patient&.sessions&.first.height || '-' %> <strong>Mts</strong></p>
             <p class="mb-2 "><%= session.high_abdomen %> <strong>cm</strong></p>
             <p class="mb-2 "><%= session.low_abdomen %> <strong>cm</strong></p>
             <p class="mb-2 "><%= session&.hip	 || '-' %> <strong>cm</strong></p>
@@ -44,7 +44,7 @@
             <p class="mb-2 diagonis_icc"><%= ((session&.waist || 0) / (session&.hip || 1)).round(2) %></p>
           </div>
         </div>
-       
+
       </div>
     </div>
     <div class="card-footer bg-transparent">

@@ -429,6 +429,48 @@ private
 	)
 
 
+	created = "2023-03-28".to_date
+  height = 1.582
+  h2 = (height*height).round(2)
+  weight = 72.7
+  high_abdomen = 86.5
+  low_abdomen = 100.5
+  waist = 85
+  hip = 113.0
+  imc = (weight / h2 ).round(2)
+  body_grease = 39.3
+  visceral_grease = 7
+  muscle_mass = 27.2
+  water_percentage = nil
+  bone_mass = nil
+  bmr = nil
+  metabolic_age = 50
+  physical_complexion = nil
+  ideal_weight = (imc * h2 )
+
+ Session.create!(
+	weight: weight,height: height,
+	waist: waist,hip: hip,
+	imc: imc,
+	high_abdomen: high_abdomen,
+	low_abdomen: low_abdomen,
+	date: created,
+	dietitian_id: dietitian.id,
+	patient_id: patientL.id,
+	ideal_weight: ideal_weight,
+	body_grease: body_grease,
+	visceral_grease: visceral_grease,
+	muscle_mass: muscle_mass,
+	bone_mass: bone_mass,
+	bmr: bmr,
+	metabolic_age: metabolic_age,
+	water_percentage: water_percentage,
+	physical_complexion: physical_complexion,
+	activity_factor_id: activity_factor1.id,
+	patient_package: patient_package,
+	created_by_id: dietitian.id
+)
+
 	created = "2023-04-22".to_date
   height = 1.582
   h2 = (height*height).round(2)
@@ -471,6 +513,9 @@ private
 	created_by_id: dietitian.id
 )
 
+
+
+	## COMIENZO FRANCIS
 	puts "Creating Patients Francis"
 	# Pactient Francis
 	dob = "1988-03-03".to_date

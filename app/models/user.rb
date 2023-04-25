@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :user_roles
   has_many :roles, through: :user_roles
 
+  scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
+
   include RolesConcern
 
   def add_role(role, created_by = nil)

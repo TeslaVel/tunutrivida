@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require 'simple_calendar'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -17,6 +18,8 @@ module SbAdmin
         resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
     end
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.time_zone = 'Caracas'
 
     # Configuration for the application, engines, and railties goes here.
     #

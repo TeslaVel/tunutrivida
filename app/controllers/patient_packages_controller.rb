@@ -59,7 +59,7 @@ class PatientPackagesController < ApplicationController
   def sessionsjson
     patient = get_patient_json
     patien_package = get_patient_packages_json(patient)
-    sessions = patien_package.sessions.id_asc
+    sessions = patien_package.sessions.date_asc
     sessions = sessions.last(10)
     days = sessions.map { |sess| sess.date.to_date.strftime('%d-%m-%Y') }
 
