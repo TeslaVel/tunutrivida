@@ -1,2 +1,33 @@
-<h1>Appointments#show</h1>
-<p>Find me in app/views/appointments/show.html.erb</p>
+<div class="row d-flex justify-content-center">
+  <div class="card col-sm-5">
+    <div class="card-header  bg-transparent">
+      <h5><%= @appointment.title %></h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <p>Date: <%= @appointment.start_date %></p>
+      </div>
+      <div class="row">
+        <p>Duration: <%= "#{@appointment.time_start.strftime("%H:%M %p")} - #{@appointment.time_end.strftime("%H:%M %p")}" %></p>
+      </div>
+      <div class="row">
+        <p>Status: <%= @appointment.status %></p>
+      </div>
+      <div class="row">
+        <p>Dietitian: <%= @appointment.dietitian.email %></p>
+      </div>
+      <div class="row">
+        <p>Patient: <%= @appointment.patient.first_name %></p>
+      </div>
+    </div>
+    <div class="card-footer bg-transparent d-flex justify-content-center align-items-center">
+      <span class="mr-2">
+        <%= link_to 'Edit', edit_appointment_path(@appointment), class: "btn btn-success w-150px" %>
+      </span>
+        |
+      <span class="ml-2">
+        <%= link_to 'Back', appointments_path, class: "btn btn-danger" %>
+      </span>
+    </div>
+  </div>
+</div>

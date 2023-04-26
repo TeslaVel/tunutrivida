@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :packages
   resources :instant_sessions
   resources :appointments
+  resources :availabilities
 
   resources :billings do
     post '/billing_items/create', to: 'billing_items#create', as: :items_create
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
     get '/patient_packages/new', to: 'patient_packages#new', as: :package_new
     get '/patient_packages/:id', to: 'patient_packages#show', as: :package_show
     post '/patient_packages/create', to: 'patient_packages#create', as: :package_create
-    
+
     resources :patient_packages do
       get '/sessions/new', to: 'sessions#new', as: :new_session
       get '/sessions/:id', to: 'sessions#show', as: :session_show
@@ -51,11 +52,8 @@ Rails.application.routes.draw do
       patch '/session/:id/update', to: 'sessions#update', as: :update_session
       post '/sessions/create', to: 'sessions#create', as: :create_session
     end
-    
-  end
 
- 
-  
+  end
 
   # scope module: 'web' do
       # post 'launcher/launch', action: 'launch', controller: 'launcher'

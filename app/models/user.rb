@@ -20,9 +20,15 @@ class User < ApplicationRecord
   has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
   has_many :patients, :foreign_key => "dietitian_id"
   has_many :user_roles
+  has_one :availability, foreign_key: "dietitian_id"
+  has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
 
   scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
+
+  def full_name
+		"#{first_name} #{last_name}"
+	end
 
   include RolesConcern
 

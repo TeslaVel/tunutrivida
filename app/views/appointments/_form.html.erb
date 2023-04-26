@@ -1,46 +1,89 @@
-<%= simple_form_for @appointment , html: {class: "form"} do |f| %>
-<div class="card ">
-  <div class="card-header" style="background: transparent;">
-      <h4 class="card-title">New appointment</h4>
-  </div>
-  <div class="card-body ">
-    <div class='row'>
-     <label class="col-sm-2 col-form-label">Titulo</label>
-      <div class="col-sm-9">
-          <div class="form-group">
-          <%= f.input :title, label: false, input_html: { class: "form-control" } %>
-          </div>
+<div class="d-flex justify-content-center">
+  <div class="row col-md-7">
+    <%= simple_form_for @appointment , html: {class: "form"} do |f| %>
+    <div class="card ">
+      <div class="card-header" style="background: transparent;">
+          <h4 class="card-title"><%= title %></h4>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Start ats</label>
-      <div class="col-sm-7">
-        <div class="select-date-wrapper">
-          <%= f.date_select(:starts_at,
-                    options = { order: [:day, :month, :year], include_blank: true},
-                    html_options = { class: 'select-date form-control'})%>
+      <div class="card-body ">
+        <div class="row">
+          <label class="col-sm-2 col-form-label">Date start</label>
+          <div class="col-sm-9">
+            <div class="form-group">
+              <%= f.input :start_date, label: false, html5: true, input_html: { class: "form-control", format: 'dd/mm/yy' } %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label">Time start</label>
+          <div class="col-sm-9">
+            <div class="form-group">
+             <%= f.select :time_start, select_dietitian_availability(appointment.time_start), {}, { class: 'form-control' } %>
+            </div>
+          </div>
+			  </div>
+
+        <div class="row">
+          <label class="col-sm-2 col-form-label">Time end</label>
+          <div class="col-sm-9">
+            <div class="form-group">
+              <%= f.select :time_end, select_dietitian_availability(appointment.time_end), {}, { class: 'form-control' } %>
+            </div>
+          </div>
+			  </div>
+
+        <div class='row'>
+        <label class="col-sm-2 col-form-label">Dietitian</label>
+          <div class="col-sm-9">
+              <div class="form-group">
+                <%= f.input :dietitian_id,
+                  label: false,
+                  collection: (User.only_dieitians.all.order(:id, current_user.id)),
+                  label_method: :first_name,
+                  label_html: {
+                    class: "form-label"
+                  },
+                  input_html: {
+                    class: "form-control"
+                  },
+                  prompt: "Select a dietitian",
+                  include_blank: true,
+                  selected: current_user.id
+                %>
+              </div>
+          </div>
+        </div>
+        <div class='row'>
+        <label class="col-sm-2 col-form-label">Patient</label>
+          <div class="col-sm-9">
+              <div class="form-group">
+                      <%= f.input :patient_id,
+                        label: false,
+                        collection: Patient.all,
+                        label_method: :first_name,
+                        value_method: :id,
+                        include_blank: true,
+                        input_html: {
+                          class: "form-control"
+                        },
+                        prompt: "Select a patient",
+                        selected: (@appointment&.patient&.id || nil)%>
+              </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class='row'>
-     <label class="col-sm-2 col-form-label">Dietitian</label>
-      <div class="col-sm-9">
-          <div class="form-group">
-            <%= f.input :dietitian_id, label: false, collection: User.only_dieitians.all, label_method: :first_name, label_html: { class: "form-label" }, input_html: { class: "form-control" }, prompt: "Select a dietitian", selected: @appointment&.dietitian %>
+
+      <div class="card-footer bg-transparent d-flex justify-content-center align-items-center">
+          <div class="mr-2">
+            <%= f.button :submit , class: "btn btn-primary" %>
           </div>
-      </div>
+          <% if editing %>
+            <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
+          <% else %>
+            <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
+          <% end %>
+        </div>
     </div>
-    <div class='row'>
-     <label class="col-sm-2 col-form-label">Patient</label>
-      <div class="col-sm-9">
-          <div class="form-group">
-            <%= f.input :patient_id, label: false, collection:Patient.all, label_method: :first_name, label_html: { class: "form-label" }, input_html: { class: "form-control" }, prompt: "Select a patient", selected: @appointment&.patient_id %>
-          </div>
-      </div>
-    </div>
-    <div class="row d-flex w-100">
-      <%= f.button :submit , class: "btn btn-primary" %>
-    </div>
+    <% end %>
   </div>
 </div>
-<% end %>

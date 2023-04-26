@@ -111,6 +111,19 @@ private
 	)
 
 
+	puts "Creating Availability for #{dietitian.first_name}"
+	available1 = Availability.create(
+		time_start: '09:30'.to_time,
+		time_end: '10:00'.to_time,
+		dietitian_id: dietitian.id
+	)
+
+	puts "Creating AppointmentSetting for #{dietitian.first_name}"
+	AppointmentSetting.create(
+		time_step: 5,
+		dietitian_id: dietitian.id
+	)
+
 	puts "Creating GlobalConfiguration"
 	glb = GlobalConfiguration.create(
 		currency: 'USD',

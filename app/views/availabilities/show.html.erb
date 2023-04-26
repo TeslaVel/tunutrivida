@@ -1,0 +1,12 @@
+<p>
+  <strong>Time Start:</strong>
+  <%= @availability.time_start.strftime("%I:%M %p") %>
+</p>
+
+<p>
+  <strong>Time End:</strong>
+  <%= @availability.time_end.strftime("%I:%M %p") %>
+</p>
+
+<%= link_to 'Edit', edit_availability_path(@availability) %> |
+<%= link_to 'Back', availabilities_path %>

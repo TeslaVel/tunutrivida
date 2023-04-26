@@ -38,10 +38,10 @@ import './shared/demo/chart-area-demo'
 import './shared/demo/chart-bar-demo'
 import './shared/demo/chart-pie-demo'
 
-let found_class_date = $('#patient-session-date').val();
+let found_class_date = $('.datetime').val();
 if (found_class_date)
 {
-	$('#patient-session-date').datepicker({
+	$('.datetime').datepicker({
 	    uiLibrary: 'bootstrap4'
 	});
 }

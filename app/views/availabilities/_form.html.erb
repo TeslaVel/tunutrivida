@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-center">
+  <div class="row col-md-5">
+    <%= simple_form_for availability , html: {class: "form"} do |f| %>
+      <% if availability.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(availability.errors.count, "error") %> prohibited this availability from being saved:</h2>
+          <ul>
+          <% availability.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <label class="col-sm-2 col-form-label">Time Start</label>
+          <div class="col-sm-7">
+            <%= f.select :time_start, hours_and_minutes(5, availability.time_start), {}, { class: 'form-control' } %>
+          </div>
+			  </div>
+
+        <div class="row">
+          <label class="col-sm-2 col-form-label">Time end</label>
+          <div class="col-sm-7">
+            <%= f.select :time_end, hours_and_minutes(5, availability.time_end), {}, { class: 'form-control' } %>
+          </div>
+			  </div>
+      </div>
+
+      <div class="card-footer text-center" style="background: transparent;">
+        <%= f.submit class: 'btn btn-primary' %>
+        <%= link_to 'Back', availabilities_path %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+

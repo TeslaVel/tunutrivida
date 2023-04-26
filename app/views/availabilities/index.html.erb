@@ -1,0 +1,33 @@
+<h1>Availability</h1>
+
+<div class="w-100 text-right mb-4">
+  <%= link_to 'New Availability', new_availability_path , class: "btn btn-primary" %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Dietitian</th>
+      <th>Time Start</th>
+      <th>Time End</th>
+      <th class="text-center">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @availabilities.each do |availability| %>
+      <tr>
+        <td><%= availability.dietitian.full_name %></td>
+        <td><%= availability.time_start.strftime("%I:%M %p") %></td>
+        <td><%= availability.time_end.strftime("%I:%M %p") %></td>
+        <td class="text-center">
+          <%= link_to edit_availability_path(availability) do %>
+            <i class="fa fa-pen c-green mr-3"></i>
+          <% end %>
+          <%= link_to availability, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class="fa fa-trash c-red"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

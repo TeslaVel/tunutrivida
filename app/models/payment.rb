@@ -8,10 +8,9 @@ class Payment < ApplicationRecord
     paid
     unpaid
   ].freeze
-  
 
   enum status: PaymentStatus
-  
+
   accepts_nested_attributes_for :payment_billing_items
 
   def set_code

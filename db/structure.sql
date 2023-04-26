@@ -48,13 +48,47 @@ ALTER SEQUENCE public.activity_factors_id_seq OWNED BY public.activity_factors.i
 
 
 --
+-- Name: appointment_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.appointment_settings (
+    id bigint NOT NULL,
+    dietitian_id bigint NOT NULL,
+    time_step integer DEFAULT 5 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: appointment_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.appointment_settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: appointment_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.appointment_settings_id_seq OWNED BY public.appointment_settings.id;
+
+
+--
 -- Name: appointments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.appointments (
     id bigint NOT NULL,
-    starts_at timestamp without time zone,
-    ends_at timestamp without time zone,
+    start_date date,
+    time_start time without time zone,
+    time_end time without time zone,
+    status integer,
     dietitian_id bigint NOT NULL,
     patient_id bigint NOT NULL,
     appointment_type integer DEFAULT 0 NOT NULL,
@@ -93,6 +127,39 @@ CREATE TABLE public.ar_internal_metadata (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: availabilities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.availabilities (
+    id bigint NOT NULL,
+    time_start time without time zone,
+    time_end time without time zone,
+    dietitian_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: availabilities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.availabilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: availabilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.availabilities_id_seq OWNED BY public.availabilities.id;
 
 
 --
@@ -863,10 +930,24 @@ ALTER TABLE ONLY public.activity_factors ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: appointment_settings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_settings ALTER COLUMN id SET DEFAULT nextval('public.appointment_settings_id_seq'::regclass);
+
+
+--
 -- Name: appointments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.appointments ALTER COLUMN id SET DEFAULT nextval('public.appointments_id_seq'::regclass);
+
+
+--
+-- Name: availabilities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.availabilities ALTER COLUMN id SET DEFAULT nextval('public.availabilities_id_seq'::regclass);
 
 
 --
@@ -1018,6 +1099,14 @@ ALTER TABLE ONLY public.activity_factors
 
 
 --
+-- Name: appointment_settings appointment_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_settings
+    ADD CONSTRAINT appointment_settings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: appointments appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1031,6 +1120,14 @@ ALTER TABLE ONLY public.appointments
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: availabilities availabilities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.availabilities
+    ADD CONSTRAINT availabilities_pkey PRIMARY KEY (id);
 
 
 --
@@ -1209,6 +1306,13 @@ CREATE INDEX index_activity_factors_on_created_by_id ON public.activity_factors 
 
 
 --
+-- Name: index_appointment_settings_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_appointment_settings_on_dietitian_id ON public.appointment_settings USING btree (dietitian_id);
+
+
+--
 -- Name: index_appointments_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1220,6 +1324,13 @@ CREATE INDEX index_appointments_on_dietitian_id ON public.appointments USING btr
 --
 
 CREATE INDEX index_appointments_on_patient_id ON public.appointments USING btree (patient_id);
+
+
+--
+-- Name: index_availabilities_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_availabilities_on_dietitian_id ON public.availabilities USING btree (dietitian_id);
 
 
 --
@@ -1544,6 +1655,14 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
+-- Name: availabilities fk_rails_3c3dad846f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.availabilities
+    ADD CONSTRAINT fk_rails_3c3dad846f FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
 -- Name: packages fk_rails_438d68f470; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1605,6 +1724,14 @@ ALTER TABLE ONLY public.indicators
 
 ALTER TABLE ONLY public.payments
     ADD CONSTRAINT fk_rails_837047548b FOREIGN KEY (billing_id) REFERENCES public.billings(id);
+
+
+--
+-- Name: appointment_settings fk_rails_8582e4a496; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_settings
+    ADD CONSTRAINT fk_rails_8582e4a496 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
 
 
 --
@@ -1781,6 +1908,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220904013013'),
 ('20220905011432'),
 ('20230418173331'),
-('20230424202529');
+('20230424202528'),
+('20230424202529'),
+('20230425202941');
 
 

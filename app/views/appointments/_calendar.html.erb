@@ -1,8 +1,14 @@
-<%= month_calendar(events: appointments, attribute: :starts_at, end_attribute: :ends_at) do |date, appointments| %>
+<%= month_calendar(events: appointments, attribute: :start_date) do |date, appointments| %>
   <%= link_to date.day, new_appointment_path(date: date) %>
   <% appointments.each do |appointment| %>
-    <div>
-      <%= appointment.title %>
+    <div class='appointment-title'>
+      <%= link_to "#{appointment.time_start.strftime("%H:%M %p")} - #{appointment.time_end.strftime("%H:%M %p")} #{appointment.title.truncate(30, omission: "...")}",
+            appointment_path(appointment),
+            data: {
+              toggle: "tooltip",
+              placement: "top"
+            },
+            title: appointment.patient.full_name %>
     </div>
   <% end %>
 <% end %>

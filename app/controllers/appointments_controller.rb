@@ -1,32 +1,66 @@
 class AppointmentsController < ApplicationController
+  before_action :set_appointment, only: %i[ show edit update destroy]
+
   def index
     # @date = params[:date] ? Date.parse(params[:date]) : Date.today
     # @appointments = Appointment.where(date: @date.beginning_of_month..@date.end_of_month)
     # start_date = params.fetch(:start_date, Date.today).to_date
 
     start_date = params.fetch(:start_date, Date.today).to_date
-    @appointments = Appointment.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
-    # @appointments = Appointment.where(starts_at: @date.beginning_of_month.beginning_of_week..@date.end_of_month.end_of_week)
+    @appointments = Appointment.where(start_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+  end
+
+  def show
+    @event = OpenStruct.new(start_time: @appointment.start_date, title: @appointment.title)
+    @calendar_options = {
+      default_date: @appointment.start_date.to_date,
+      events: [@event],
+      time_range: @appointment.start_date,
+      url_method: :appointment_path,
+      title: @appointment.title
+    }
   end
 
   def new
     start_date = params.fetch(:start_date, Date.today).to_date
-    @appointment = Appointment.new(starts_at: start_date, dietitian_id: current_user.id)
+    @appointment = Appointment.new(start_date: start_date)
+  end
+
+  def edit
   end
 
   def create
     @appointment = Appointment.new(appointment_params)
 
     if @appointment.save
-      redirect_to appointments_path(start_date: @appointment.starts_at), notice: 'Appointment was successfully created.'
+      redirect_to appointments_path(start_date: @appointment.start_date), notice: 'Appointment was successfully created.'
     else
       redirect_to new_appointment_path(@appointment), notice: @appointment.errors.full_messages.join(". ") << "."
     end
   end
 
+  def update
+    if @appointment.update(appointment_params)
+      redirect_to appointments_path(start_date: @appointment.start_date), notice: 'Appointment was successfully updated.'
+    else
+      render :edit, notice: @appointment.errors.full_messages.join(". ") << "."
+    end
+  end
+
   private
 
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
+  end
+
   def appointment_params
-    params.require(:appointment).permit(:title, :starts_at, :ends_at, :dietitian_id, :patient_id)
+    params
+      .require(:appointment)
+      .permit(
+        :start_date,
+        :dietitian_id,
+        :time_start,
+        :time_end,
+        :patient_id)
   end
 end
