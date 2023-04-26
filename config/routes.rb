@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :instant_sessions
   resources :appointments
   resources :availabilities
+  resources :tasks
 
   resources :billings do
     post '/billing_items/create', to: 'billing_items#create', as: :items_create

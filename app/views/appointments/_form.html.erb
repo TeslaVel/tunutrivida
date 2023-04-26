@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class='row'>
-        <label class="col-sm-2 col-form-label">Patient</label>
+          <label class="col-sm-2 col-form-label">Patient</label>
           <div class="col-sm-9">
               <div class="form-group">
                       <%= f.input :patient_id,
@@ -74,15 +74,15 @@
       </div>
 
       <div class="card-footer bg-transparent d-flex justify-content-center align-items-center">
-          <div class="mr-2">
-            <%= f.button :submit , class: "btn btn-primary" %>
-          </div>
-          <% if editing %>
-            <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
-          <% else %>
-            <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
-          <% end %>
+        <div class="mr-2">
+          <%= f.button :submit , class: "btn btn-primary" %>
         </div>
+        <% if editing %>
+          <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
+        <% else %>
+          <%= link_to 'Back', appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d")), class: 'btn btn-secondary' %>
+        <% end %>
+      </div>
     </div>
     <% end %>
   </div>

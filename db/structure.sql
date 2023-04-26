@@ -850,6 +850,41 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: tasks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tasks (
+    id bigint NOT NULL,
+    title character varying,
+    description text,
+    status integer DEFAULT 0 NOT NULL,
+    dietitian_id bigint NOT NULL,
+    patient_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
+
+
+--
 -- Name: user_roles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1077,6 +1112,13 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: tasks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_id_seq'::regclass);
+
+
+--
 -- Name: user_roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1280,6 +1322,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
 
 
 --
@@ -1558,6 +1608,20 @@ CREATE INDEX index_sessions_on_patient_package_id ON public.sessions USING btree
 
 
 --
+-- Name: index_tasks_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tasks_on_dietitian_id ON public.tasks USING btree (dietitian_id);
+
+
+--
+-- Name: index_tasks_on_patient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tasks_on_patient_id ON public.tasks USING btree (patient_id);
+
+
+--
 -- Name: index_user_roles_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1639,6 +1703,14 @@ ALTER TABLE ONLY public.payments
 
 
 --
+-- Name: tasks fk_rails_2157c8f834; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_2157c8f834 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
 -- Name: user_roles fk_rails_318345354e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1684,6 +1756,14 @@ ALTER TABLE ONLY public.payment_billing_items
 
 ALTER TABLE ONLY public.patients
     ADD CONSTRAINT fk_rails_57d37f5f60 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
+-- Name: tasks fk_rails_58d62f3802; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_58d62f3802 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
 
 
 --
@@ -1910,6 +1990,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230418173331'),
 ('20230424202528'),
 ('20230424202529'),
-('20230425202941');
+('20230425202941'),
+('20230426032019');
 
 

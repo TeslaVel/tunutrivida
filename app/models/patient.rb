@@ -10,6 +10,7 @@ class Patient < ApplicationRecord
   has_many :packages, through: :patient_packages
 	has_many :billings
 	has_many :appointments
+	has_many :tasks
 
 	before_create :set_date_of_birth
 	after_validation :set_slug, only: [:create, :update]
