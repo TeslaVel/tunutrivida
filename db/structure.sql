@@ -88,7 +88,7 @@ CREATE TABLE public.appointments (
     start_date date,
     time_start time without time zone,
     time_end time without time zone,
-    status integer,
+    status integer DEFAULT 0 NOT NULL,
     dietitian_id bigint NOT NULL,
     patient_id bigint NOT NULL,
     appointment_type integer DEFAULT 0 NOT NULL,

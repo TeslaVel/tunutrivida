@@ -4,11 +4,12 @@ module AppointmentsHelper
     h_start = current_user&.availability&.time_start || '06:00'
     h_end = current_user&.availability&.time_end || '23:59'
 
-    selection = if selected
-                  selected&.strftime("%H:%M")
+    selection = if selected.present?
+                  [selected.strftime("%I:%M %p"), selected.strftime("%H:%M")]
                 else
-                  nil
+                  [Time.zone.now.strftime("%I:%M %p"), Time.zone.now.strftime("%H:%M")]
                 end
+
     start_time = Time.parse("2000-01-01 #{h_start}:00")
     end_time = Time.parse("2000-01-01 #{h_end}:00")
     time_array = []

@@ -23,6 +23,6 @@ class Appointment < ApplicationRecord
   private
 
   def set_title
-    self.title = "#{appointment_type} (#{patient.first_name} #{patient.last_name[0]})"
+    self.title = "(#{patient.first_name} #{patient.last_name[0]})"
   end
 end

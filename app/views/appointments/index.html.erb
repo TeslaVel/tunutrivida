@@ -2,6 +2,28 @@
   <h1>Calendario de citas</h1>
 </div>
 <div class="col-md-12">
-  <%= render partial: 'calendar', locals: { appointments: @appointments } %>
-  <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary" %>
+  <div class='d-flex justify-content-between mb-4'>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination mb-0">
+        <li class="page-item">
+          <%= link_to 'Week', appointments_path(
+              start_date: Time.zone.now.strftime("%Y-%m-%d"),
+              calendar_type: :week,
+            ),
+            class: "page-link"
+          %>
+        </li>
+        <li class="page-item">
+          <%= link_to 'Month', appointments_path(
+              start_date: Time.zone.now.strftime("%Y-%m-%d"),
+              calendar_type: :month,
+            ),
+            class: "page-link"
+          %>
+        </li>
+      </ul>
+    </nav>
+    <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary" %>
+  </div>
+  <%= render partial: 'calendar', locals: { calendar_options: @calendar_options} %>
 </div>

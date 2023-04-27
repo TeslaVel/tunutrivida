@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
   has_many :patients, :foreign_key => "dietitian_id"
   has_many :user_roles
+  has_many :appointments, foreign_key: "dietitian_id"
   has_one :availability, foreign_key: "dietitian_id"
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles

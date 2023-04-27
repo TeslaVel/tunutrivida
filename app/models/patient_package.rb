@@ -8,6 +8,7 @@ class PatientPackage < ApplicationRecord
   has_many :billing_items, as: :itemable # relacion polimorfica
 
   before_create :finished_all_package
+  after_create :create_appointments_for_packages
   after_create :check_and_set_status
 
   scope :date_desc, -> { order(date: :desc) }
@@ -33,8 +34,36 @@ class PatientPackage < ApplicationRecord
   	end
 
     def check_and_set_status
-    if package.weeks <= 0
-      self.status = :finished
+      if package.weeks <= 0
+        self.status = :finished
+      end
     end
-  end
+
+    def create_appointments_for_packages
+      weeks = package.weeks
+      return unless weeks > 1
+
+      availability = dietitian.availability
+      date_now = Time.zone.now
+
+      begin
+        weeks.times do
+          if [0, 6].include?(date_now.strftime('%w').to_i)
+            date_now = date_now + 1.day
+          else
+            Appointment.create(
+              start_date: date_now,
+              time_start: availability.time_start.strftime('%H:%M %p'),
+              time_end: (availability.time_end + 15.minutes).strftime('%H:%M %p'),
+              dietitian_id: dietitian.id,
+              patient_id: patient.id
+            )
+
+            date_now = date_now + 7.day
+          end
+        end
+      rescue => e
+        puts "Se encontro un error en automated appointments. #{e.message}"
+      end
+    end
 end

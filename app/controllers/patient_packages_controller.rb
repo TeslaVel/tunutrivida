@@ -32,7 +32,6 @@ class PatientPackagesController < ApplicationController
 
   # POST /patients/:patient_id/patient_packages/create
   def create
-
     active_packages = @patient.patient_packages.active.first
 
     if active_packages && active_packages.sessions.not_initials.count < active_packages.package.weeks

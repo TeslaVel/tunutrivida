@@ -2,31 +2,32 @@ class AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[ show edit update destroy]
 
   def index
-    # @date = params[:date] ? Date.parse(params[:date]) : Date.today
     # @appointments = Appointment.where(date: @date.beginning_of_month..@date.end_of_month)
     # start_date = params.fetch(:start_date, Date.today).to_date
 
     start_date = params.fetch(:start_date, Date.today).to_date
-    @appointments = Appointment.where(start_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+
+    @appointments = Appointment.where(start_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week).order(time_start: :asc)
+                               
+    @calendar_options = {
+      calendar_type: params.fetch(:calendar_type, :week).to_sym,
+      events: @appointments
+    }
   end
 
   def show
     @event = OpenStruct.new(start_time: @appointment.start_date, title: @appointment.title)
-    @calendar_options = {
-      default_date: @appointment.start_date.to_date,
-      events: [@event],
-      time_range: @appointment.start_date,
-      url_method: :appointment_path,
-      title: @appointment.title
-    }
   end
 
   def new
+    @prevent_caching = true
     start_date = params.fetch(:start_date, Date.today).to_date
     @appointment = Appointment.new(start_date: start_date)
   end
 
   def edit
+    @prevent_caching = true
+    @appointment.persisted? || @appointment = Appointment.new
   end
 
   def create

@@ -1,6 +1,10 @@
 <div class="d-flex justify-content-center">
   <div class="row col-md-7">
-    <%= simple_form_for @appointment , html: {class: "form"} do |f| %>
+    <%= simple_form_for appointment , html: {class: "form"} do |f| %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <% if editing %>
+        <%= hidden_field_tag :_method, :patch %>
+      <% end%>
     <div class="card ">
       <div class="card-header" style="background: transparent;">
           <h4 class="card-title"><%= title %></h4>
@@ -18,7 +22,7 @@
           <label class="col-sm-2 col-form-label">Time start</label>
           <div class="col-sm-9">
             <div class="form-group">
-             <%= f.select :time_start, select_dietitian_availability(appointment.time_start), {}, { class: 'form-control' } %>
+             <%= f.select :time_start, select_dietitian_availability(appointment&.time_start&.presence), {default: appointment&.time_start}, { class: 'form-control' } %>
             </div>
           </div>
 			  </div>
@@ -27,7 +31,7 @@
           <label class="col-sm-2 col-form-label">Time end</label>
           <div class="col-sm-9">
             <div class="form-group">
-              <%= f.select :time_end, select_dietitian_availability(appointment.time_end), {}, { class: 'form-control' } %>
+              <%= f.select :time_end, select_dietitian_availability(appointment&.time_end&.presence), {}, { class: 'form-control' } %>
             </div>
           </div>
 			  </div>
@@ -62,7 +66,6 @@
                         collection: Patient.all,
                         label_method: :first_name,
                         value_method: :id,
-                        include_blank: true,
                         input_html: {
                           class: "form-control"
                         },

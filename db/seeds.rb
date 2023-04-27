@@ -114,7 +114,7 @@ private
 	puts "Creating Availability for #{dietitian.first_name}"
 	available1 = Availability.create(
 		time_start: '09:30'.to_time,
-		time_end: '10:00'.to_time,
+		time_end: '23:00'.to_time,
 		dietitian_id: dietitian.id
 	)
 
@@ -241,8 +241,16 @@ private
 
 	height = rand(1.50...1.90).round(2)
 	date_base = Time.now - (days_week * package1.weeks ).days
-	puts "Creating Patieng Package 1. "
+	puts "Creating Patient Package 1. "
 	create_patient_packages_and_sessions(patient1,package1,dietitian,height,days_week,date_base)
+
+	puts "Creating Task Patient 1."
+	Task.create(
+		title: "Lograr %10 ",
+		description: "Rebajar el %10 de su peso acutal #{patient1&.sessions&.first&.weight}",
+		dietitian_id: dietitian.id,
+		patient_id: patient1.id
+	)
 
 	puts "Creating Patients 2"
 	# Pactient 2

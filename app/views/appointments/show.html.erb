@@ -5,10 +5,10 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <p>Date: <%= @appointment.start_date %></p>
+        <p>Type: <%= @appointment.appointment_type %></p>
       </div>
       <div class="row">
-        <p>Duration: <%= "#{@appointment.time_start.strftime("%H:%M %p")} - #{@appointment.time_end.strftime("%H:%M %p")}" %></p>
+        <p>Date: <%= @appointment.start_date %>  <%= "#{@appointment.time_start.strftime("%H:%M %p")} - #{@appointment.time_end.strftime("%H:%M %p")}" %></p>
       </div>
       <div class="row">
         <p>Status: <%= @appointment.status %></p>

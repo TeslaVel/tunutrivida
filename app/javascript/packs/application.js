@@ -14,7 +14,7 @@ import Chart from "chart.js"
 import "jquery"
 import 'popper.js'
 import "bootstrap/dist/js/bootstrap.bundle"
-import "jquery.easing/jquery.easing"
+// import "jquery.easing/jquery.easing"
 import '@fortawesome/fontawesome-free/js/all'
 import datatable from 'imports-loader?define=>false!datatables.net'
 import datatableBS4 from 'imports-loader?define=>false!datatables.net-bs4'

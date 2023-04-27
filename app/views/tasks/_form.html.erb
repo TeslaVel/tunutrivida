@@ -1,70 +1,75 @@
+<div class="d-flex justify-content-center">
+  <div class="row col-md-6">
+    <%= simple_form_for(@task) do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <div class="card">
+        <div class="card-header bg-transparent text-center">
+          <%= title %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <label class="col-sm-2 col-form-label">Titulo</label>
+            <div class="col-sm-9 form-group">
+              <%= f.input :title, label: false, html5: true, input_html: { class: "form-control" } %>
+            </div>
+          </div>
 
-<%= simple_form_for(@task) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+          <div class="row">
+            <label class="col-sm-2 col-form-label">Descripcion</label>
+            <div class="col-sm-9 form-group">
+              <%= f.input :description, label: false, html5: true, input_html: { class: "form-control" } %>
+            </div>
+          </div>
 
-  <div class="form-inputs">
-    <div class="row">
-      <label class="col-sm-2 col-form-label">Title</label>
-      <div class="col-sm-9">
-        <div class="form-group">
-          <%= f.input :title, label: false, html5: true, input_html: { class: "form-control" } %>
+          <div class='row'>
+            <label class="col-sm-2 col-form-label">Dietitian</label>
+            <div class="col-sm-9">
+              <div class="form-group">
+                <%= f.input :dietitian_id,
+                  label: false,
+                  collection: (User.only_dieitians.all.order(:id, current_user.id)),
+                  label_method: :first_name,
+                  label_html: {
+                    class: "form-label"
+                  },
+                  input_html: {
+                    class: "form-control"
+                  },
+                  prompt: "Select a dietitian",
+                  include_blank: true,
+                  selected: current_user.id
+                %>
+              </div>
+            </div>
+          </div>
+
+          <div class='row'>
+            <label class="col-sm-2 col-form-label">Patient</label>
+            <div class="col-sm-9">
+              <div class="form-group">
+                <%= f.input :patient_id,
+                  label: false,
+                  collection: Patient.all,
+                  label_method: :first_name,
+                  value_method: :id,
+                  include_blank: true,
+                  input_html: {
+                    class: "form-control"
+                  },
+                  prompt: "Select a patient",
+                  selected: (@task&.patient&.id || nil)%>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-center" style="background: transparent;">
+          <%= f.button :submit, action_button , class: "btn btn-primary" %>
+          <%= link_to 'Back', tasks_path %>
         </div>
       </div>
-    </div>
-
-     <div class="row">
-      <label class="col-sm-2 col-form-label">Descripcion</label>
-      <div class="col-sm-9">
-        <div class="form-group">
-          <%= f.input :description, label: false, html5: true, input_html: { class: "form-control" } %>
-        </div>
-      </div>
-    </div>
-
-    <div class='row'>
-      <label class="col-sm-2 col-form-label">Dietitian</label>
-      <div class="col-sm-9">
-        <div class="form-group">
-          <%= f.input :dietitian_id,
-            label: false,
-            collection: (User.only_dieitians.all.order(:id, current_user.id)),
-            label_method: :first_name,
-            label_html: {
-              class: "form-label"
-            },
-            input_html: {
-              class: "form-control"
-            },
-            prompt: "Select a dietitian",
-            include_blank: true,
-            selected: current_user.id
-          %>
-        </div>
-      </div>
-    </div>
-
-    <div class='row'>
-      <label class="col-sm-2 col-form-label">Patient</label>
-      <div class="col-sm-9">
-        <div class="form-group">
-          <%= f.input :patient_id,
-            label: false,
-            collection: Patient.all,
-            label_method: :first_name,
-            value_method: :id,
-            include_blank: true,
-            input_html: {
-              class: "form-control"
-            },
-            prompt: "Select a patient",
-            selected: (@task&.patient&.id || nil)%>
-        </div>
-      </div>
-    </div>
+    <% end %>
   </div>
+</div>
 
-  <div class="form-actions">
-    <%= f.button :submit , class: "btn btn-primary" %>
-  </div>
-<% end %>

@@ -5,14 +5,20 @@ $(document).on('turbolinks:load', function() {
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
     if ($(".sidebar").hasClass("toggled")) {
-      $('.sidebar .collapse').collapse('hide');
+      $('.sidebar .collapse').removeClass('show');
+    }
+    else {
+      $('.sidebar .collapse').removeClass('show');
     };
   });
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
     if ($(window).width() < 768) {
-      $('.sidebar .collapse').collapse('hide');
+      // $('.sidebar .collapse').collapse('hide');
+      $('.sidebar .collapse').removeClass('show');
+    } else {
+      $('.sidebar .collapse').removeClass('show');
     };
   });
 
