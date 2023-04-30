@@ -249,6 +249,41 @@ ALTER SEQUENCE public.billings_id_seq OWNED BY public.billings.id;
 
 
 --
+-- Name: contact_us; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.contact_us (
+    id bigint NOT NULL,
+    email character varying,
+    first_name character varying,
+    last_name character varying,
+    string character varying,
+    message text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: contact_us_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.contact_us_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: contact_us_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.contact_us_id_seq OWNED BY public.contact_us.id;
+
+
+--
 -- Name: discounts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1000,6 +1035,13 @@ ALTER TABLE ONLY public.billings ALTER COLUMN id SET DEFAULT nextval('public.bil
 
 
 --
+-- Name: contact_us id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contact_us ALTER COLUMN id SET DEFAULT nextval('public.contact_us_id_seq'::regclass);
+
+
+--
 -- Name: discounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1186,6 +1228,14 @@ ALTER TABLE ONLY public.billing_items
 
 ALTER TABLE ONLY public.billings
     ADD CONSTRAINT billings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_us contact_us_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contact_us
+    ADD CONSTRAINT contact_us_pkey PRIMARY KEY (id);
 
 
 --
@@ -1991,6 +2041,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230424202528'),
 ('20230424202529'),
 ('20230425202941'),
-('20230426032019');
+('20230426032019'),
+('20230428123646');
 
 

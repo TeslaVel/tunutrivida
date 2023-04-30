@@ -40,11 +40,15 @@
   <% end %>
 
   <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>
-  <%= nav_context :modules, 'Modules', icon: 'cog' , active_link: active_modules do %>
+  <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
-    <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
-    <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
-    <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
+    <% if current_user.has_role?(:dietitian) %>
+      <%= active_link_to 'Brand', '', class: 'collapse-item' %>
+      <%= active_link_to 'Colors', '', class: 'collapse-item' %>
+      <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
+      <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
+      <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
+    <% end %>
     <% if current_user.has_role?(:dietitian) %>
       <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
       <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
@@ -54,6 +58,14 @@
   <% end %>
 
   <% if current_user.has_role?(:dietitian) %>
+    <% active_emails_module = active_link?(includes: ['email']) %>
+    <%= nav_context :email_modules, 'Emails', icon: 'cog' , active_link: active_emails_module do %>
+       <h6 class="collapse-header">Emails:</h6>
+      <%= active_link_to 'Emails', contact_us_path, class: 'collapse-item' %>
+    <% end %>
+  <% end %>
+
+  <% if current_user.has_role?(:super_admin) %>
     <% active_context = active_link?(includes: ['buttons', 'cards']) %>
     <%= nav_context :components, 'Components', icon: 'cog', active_link: active_context do %>
       <h6 class="collapse-header">Custom Components:</h6>
@@ -62,52 +74,55 @@
     <% end %>
   <% end %>
 
-  <!-- Nav Item - Utilities Collapse Menu -->
-  <%= nav_context :utilities, 'Utilities', icon: 'wrench' do %>
-    <h6 class="collapse-header">Custom Utilities:</h6>
-    <%= active_link_to 'Colors', utilities_color_examples_path, class: 'collapse-item' %>
-    <%= active_link_to 'Borders', utilities_border_examples_path, class: 'collapse-item' %>
-    <%= active_link_to 'Animations', utilities_animation_examples_path, class: 'collapse-item' %>
-    <%= active_link_to 'Other', utilities_other_examples_path, class: 'collapse-item' %>
+  <% if current_user.has_role?(:super_admin) %>
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <%= nav_context :utilities, 'Utilities', icon: 'wrench' do %>
+      <h6 class="collapse-header">Custom Utilities:</h6>
+      <%= active_link_to 'Colors', utilities_color_examples_path, class: 'collapse-item' %>
+      <%= active_link_to 'Borders', utilities_border_examples_path, class: 'collapse-item' %>
+      <%= active_link_to 'Animations', utilities_animation_examples_path, class: 'collapse-item' %>
+      <%= active_link_to 'Other', utilities_other_examples_path, class: 'collapse-item' %>
+    <% end %>
   <% end %>
 
   <!-- Divider -->
   <hr class="sidebar-divider">
 
-  <!-- Heading -->
-  <div class="sidebar-heading">
-    Addons
-  </div>
+  <% if current_user.has_role?(:super_admin) %>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Addons
+    </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
-  <%= nav_context :pages, 'Pages', icon: 'folder' do %>
-    <h6 class="collapse-header">Login Screens:</h6>
-    <%= active_link_to "Login", login_examples_path, class: 'collapse-item' %>
-    <%= active_link_to "Register", register_examples_path, class: 'collapse-item' %>
-    <%= active_link_to "Forgot Password", forgot_password_examples_path, class: 'collapse-item' %>
-    <div class="collapse-divider"></div>
-    <h6 class="collapse-header">Other Pages:</h6>
-    <%= active_link_to "404 Page", page_404_examples_path, class: 'collapse-item' %>
-    <%= active_link_to "Blank Page", blank_examples_path, class: 'collapse-item' %>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <%= nav_context :pages, 'Pages', icon: 'folder' do %>
+      <h6 class="collapse-header">Login Screens:</h6>
+      <%= active_link_to "Login", login_examples_path, class: 'collapse-item' %>
+      <%= active_link_to "Register", register_examples_path, class: 'collapse-item' %>
+      <%= active_link_to "Forgot Password", forgot_password_examples_path, class: 'collapse-item' %>
+      <div class="collapse-divider"></div>
+      <h6 class="collapse-header">Other Pages:</h6>
+      <%= active_link_to "404 Page", page_404_examples_path, class: 'collapse-item' %>
+      <%= active_link_to "Blank Page", blank_examples_path, class: 'collapse-item' %>
+    <% end %>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item <%= add_active_class(charts_examples_path) %>">
+      <a class="nav-link" href="<%= charts_examples_path %>">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Charts</span>
+      </a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item <%= add_active_class(tables_examples_path) %>">
+      <a class="nav-link" href="<%= tables_examples_path %>">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Tables</span></a>
+    </li>
+    <hr class="sidebar-divider d-none d-md-block">
   <% end %>
-
-  <!-- Nav Item - Charts -->
-  <li class="nav-item <%= add_active_class(charts_examples_path) %>">
-    <a class="nav-link" href="<%= charts_examples_path %>">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span>
-    </a>
-  </li>
-
-  <!-- Nav Item - Tables -->
-  <li class="nav-item <%= add_active_class(tables_examples_path) %>">
-    <a class="nav-link" href="<%= tables_examples_path %>">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tables</span></a>
-  </li>
-
   <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
 
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">

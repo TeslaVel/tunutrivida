@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class QueryType < Types::BaseObject
     # Add `node(id: ID!) and `nodes(ids: [ID!]!)`
@@ -14,3 +16,18 @@ module Types
     end
   end
 end
+
+# frozen_string_literal: true
+
+# QueryType = GraphQL::ObjectType.define do
+#   name "Query"
+#   description "The query root of this schema. See available queries."
+
+#   field :users, types[UserType] do
+#     description 'Fetch an array of treatment plans and recommended products from Fullscript given a user id'
+#     resolve ->(object, args, ctx){
+#       return [] unless ctx[:current_user]
+#       User.all
+#     }
+#   end
+# end

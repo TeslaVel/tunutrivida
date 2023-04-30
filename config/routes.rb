@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -15,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :activity_factors
+  resources :contact_us
   resources :roles
   resources :genders
   resources :discounts
@@ -35,7 +35,6 @@ Rails.application.routes.draw do
     post '/payments/create', to: 'payments#create', as: :payments_create
     delete '/payments/payment_items/:id', to: 'payment_billing_items#destroy', as: :payment_items_destroy
   end
-
 
   get 'patients/search', to: 'patients#search', as: :patients_search
   resources :patients do
@@ -66,7 +65,8 @@ Rails.application.routes.draw do
   #   # delete 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
   # end
 
-  root 'examples#index'
+  root 'dashboard#index'
+  # root 'examples#index'
 
   resources :examples, only: :index do
     get :buttons, :cards, :utilities_color, :utilities_border,

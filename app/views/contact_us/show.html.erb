@@ -1,0 +1,17 @@
+<div class="d-flex justify-content-center">
+  <div class="col-sm-5">
+    <div class="card">
+      <div class="card-header">
+        <div><strong>From:</strong> <%= @contact_us.email %></div>
+        <div><strong>Name:</strong> <%= @contact_us.first_name %></div>
+      </div>
+      <div class="card-body">
+        <div>
+          <p>
+            <%= @contact_us.message %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

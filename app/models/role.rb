@@ -6,7 +6,7 @@ class Role < ApplicationRecord
     dietitian: 'dietitian',
     patient: 'patient',
   }
-  
+
 	belongs_to :resource,
              :polymorphic => true,
              :optional => true

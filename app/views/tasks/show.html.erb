@@ -1,29 +1,49 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @task.title %>
-</p>
+<div class="d-flex justify-content-center">
+  <div class="col-sm-12 col-md-6">
+    <div class="d-sm-flex col-sm-12 align-items-center justify-content-between mb-4">
+      <span class="h3 mb-0 text-darsk">[Task info]</span>
+       <%= link_to 'Back', tasks_path %>
+    </div>
 
-<p>
-  <strong>Descripcion:</strong>
-  <%= @task.description %>
-</p>
-
-<p>
-  <strong>Estado:</strong>
-  <%= @task.status %>
-</p>
-
-<p>
-  <strong>Dietitian:</strong>
-  <%= @task.dietitian.first_name %>
-</p>
-
-<p>
-  <strong>Patient:</strong>
-  <%= @task.patient.full_name %>
-</p>
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+    <div class="col-sm-12 col-md-12 mb-4">
+      <div class="card col-sm-12">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+            </li>
+          </ul>
+          <span class="">
+            <%= link_to 'Edit', edit_task_path(@task) %> 
+          </span>
+        </div>
+        <div class="card-body tab-content">
+          <div class="tab-pane active" id="about">
+            <div class="row">
+              <div class="col-md-2 p-0">
+                <div class="list-unstyled">
+                  <p class="mb-2 text-left">Title:</p>
+                  <p class="mb-2 text-left">Description:</p>
+                  <p class="mb-2 text-left">Patient:</p>
+                  <p class="mb-2 text-left">Dietitian:</p>
+                  <p class="mb-2 text-left">Status:</p>
+                </div>
+              </div>
+              <div class="col-md-10 p-0">
+                <div class="list-unstyled">
+                 
+                  <p class="mb-2 "><%= @task.title %></p>
+                  <p class="mb-2 "><%= @task.description %></p>
+                  <p class="mb-2 "><%= @task.patient.first_name %></p>
+                  <p class="mb-2 "><%= @task.dietitian.first_name %></p>
+                  <p class="mb-2 "><%= @task.status %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
