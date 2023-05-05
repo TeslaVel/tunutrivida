@@ -93,6 +93,8 @@ es:
     edit_package: 'Editar Paquete'
     back: 'Atras'
     form:
+      week: 'Semanas'
+      session_quantity: 'Cantidad de sessiones'
       create_package: 'Crear paquete'
       update_package: 'Actualizar paquete'
 

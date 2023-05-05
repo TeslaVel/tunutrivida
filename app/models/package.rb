@@ -11,5 +11,5 @@ class Package < ApplicationRecord
 
 	scope :active, ->{ where(status: :enable) }
 
-	paginates_per 4
+	paginates_per 10
 end

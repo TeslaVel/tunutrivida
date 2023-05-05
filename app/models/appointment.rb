@@ -5,6 +5,7 @@ class Appointment < ApplicationRecord
   Appointment_Types = %i[
     phone_call
     video_call
+    in_person
   ].freeze
 
   enum appointment_type: Appointment_Types

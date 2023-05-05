@@ -3,7 +3,8 @@ class CreatePackages < ActiveRecord::Migration[6.1]
     create_table :packages do |t|
       t.string :name
       t.string :description
-      t.integer :weeks
+      t.integer :weeks, default: 0
+      t.integer :session_quantity, default: 0
       t.decimal :price, precision: 8, scale: 2
       t.integer :status, default: 0
       t.integer :position, default: 0

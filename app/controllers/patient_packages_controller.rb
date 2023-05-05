@@ -4,6 +4,7 @@ class PatientPackagesController < ApplicationController
 
   # GET /patients/:patient_id/patient_packages/:id
   def show
+    @show_button_new = @patient_package.package.weeks <= 0 || @patient_package.sessions.count < (@patient_package.package.weeks * @patient_package.package.session_quantity ).to_i
   end
 
   # GET /patients/:patient_id/patient_packages/new
@@ -16,12 +17,12 @@ class PatientPackagesController < ApplicationController
     active = @patient.patient_packages.active.first
 
 
-    if active &&    active.package.weeks == 0
+    if active && active.package.weeks.zero?
       redirect_to @patient, alert: 'current package is not editable.'
       return
     end
 
-    if (active && active.sessions.count < active.package.weeks)
+    if active && active.sessions.count < (active.package.weeks * active.package.session_quantity.to_i)
       redirect_to @patient, alert: 'Current Patient package is not completed.'
       return
     end
@@ -34,7 +35,7 @@ class PatientPackagesController < ApplicationController
   def create
     active_packages = @patient.patient_packages.active.first
 
-    if active_packages && active_packages.sessions.not_initials.count < active_packages.package.weeks
+    if active_packages && active_packages.sessions.not_initials.count < ( active_packages.package.weeks * active_packages.package.session_quantity.to_i)
       redirect_to @patient, alert: 'Current Patient package is not completed.'
     end
 
@@ -90,12 +91,12 @@ class PatientPackagesController < ApplicationController
   # end
 
   private
-		# Use callbacks to share common setup or constraints between actions.
-		def set_patient
-		  @patient = Patient.find_by_slug(params[:patient_id])
-		end
+  # Use callbacks to share common setup or constraints between actions.
+    def set_patient
+      @patient = Patient.find_by_slug(params[:patient_id])
+    end
 
-		def set_patient_package
+    def set_patient_package
       @patient_package = @patient.patient_packages.find(params[:id])
     end
 

@@ -171,11 +171,11 @@ private
 
 	puts "Creating Packages"
 	package0 = Package.create!(name: "Empty Package", description: "Paquete Vacio", price: 0, weeks: 0, created_by_id: user.id)
-	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 21.00, weeks: 1, created_by_id: user.id)
-	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 36.80, weeks: 2, created_by_id: user.id)
-	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 60, weeks: 3, created_by_id: user.id)
-	package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 81.50, weeks: 4, created_by_id: user.id)
-	package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 126.00, weeks: 5, created_by_id: user.id)
+	package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 25.00, weeks: 1, session_quantity: 1, created_by_id: user.id)
+	package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 36.80, weeks: 2, session_quantity: 1,created_by_id: user.id)
+	package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 60, weeks: 3, session_quantity: 1, created_by_id: user.id)
+	package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 81.50, weeks: 4, session_quantity: 1, created_by_id: user.id)
+	package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 126.00, weeks: 5, session_quantity: 1, created_by_id: user.id)
 
 	puts "Creating ActivityFactor"
 	activity_factor1 = ActivityFactor.create!(name: "Sedentario", description: "(poco o ningun ejercicio)", value: 1.2, created_by_id: user.id)

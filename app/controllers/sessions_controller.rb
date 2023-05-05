@@ -6,14 +6,14 @@ class SessionsController < ApplicationController
 
   # # GET /sessions/new
   def new
-    if @patient_package.sessions.count == @patient_package.package.weeks && @patient_package.package.weeks > 0
+    if ( @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i ) && @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
     end
     @session = @patient_package.sessions.build
     @activity_factors = ActivityFactor.all
   end
 
-  
+
   def show
     @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
     # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
 
   # # POST /sessions
   def create
-    if @patient_package.sessions.count == @patient_package.package.weeks
+    if @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
     end
 

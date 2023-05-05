@@ -3,7 +3,7 @@
     <h6 class="m-0 font-weight-bold text-primary"><%= t(title) %></h6>
   </a>
   <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
-    <% if patient_package.active? && (patient_package.package.weeks <= 0 || patient_package.sessions.count < patient_package.package.weeks) %>
+    <% if patient_package.active? && show_button_new %>
       <div class="py-2 px-4 d-flex justify-content-end">
         <%= link_to t('sessions.new_session'), patient_patient_package_new_session_path(patient,patient_package), class: "btn btn-primary" %>
       </div>
