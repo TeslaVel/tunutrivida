@@ -14,7 +14,7 @@ class Patient < ApplicationRecord
 
 	before_create :set_date_of_birth
 	after_validation :set_slug, only: [:create, :update]
-	after_create :ctate_user_for_patient
+	after_create :create_user_for_patient
 
 	scope :last_sessions, -> { self.sessions.order(date: :asc) }
 	scope :active_patients, ->{ where(status: :active) }
@@ -58,18 +58,28 @@ class Patient < ApplicationRecord
 
 	private
 
-	def ctate_user_for_patient
-		username = "#{first_name.parameterize}@#{self.slug}"
+	def create_user_for_patient
+		username = nil
+		loop do
+			username = "#{first_name.parameterize}#{slug}"
+			break unless User.exists?(username: username)
+    end
 
-		user = User.create(
+		org = dietitian.organization
+
+		return unless org
+		return unless username.present?
+
+		user = User.new(
 			username: username,
 			email: "#{username}@example.com",
-			password: 'tunutrilau',
-			password_confirmation: 'tunutrilau',
+			password: 'tunutrivida',
+			password_confirmation: 'tunutrivida',
 			first_name: first_name,
 			last_name: last_name,
-			patient_id: id)
-
+			organization_id: org.id,
+			patient_id: id
+		)
 		user.add_role(:patient, dietitian)
 	end
 

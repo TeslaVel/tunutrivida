@@ -28,28 +28,28 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
-  <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
-    <h6 class="collapse-header">Patient modules:</h6>
-    <%= active_link_to 'Temporal Session', instant_sessions_path, class: 'collapse-item' %>
-    <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
-    <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
-    <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
-    <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
-    <%= active_link_to 'Availability', availabilities_path, class: 'collapse-item' %>
+  <% if current_user.has_role?(:dietitian) %>
+    <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
+    <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
+      <h6 class="collapse-header">Patient modules:</h6>
+      <%= active_link_to 'Temporal Session', instant_sessions_path, class: 'collapse-item' %>
+      <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
+      <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
+      <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
+      <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
+      <%= active_link_to 'Availability', availabilities_path, class: 'collapse-item' %>
+    <% end %>
   <% end %>
 
+  <% if current_user.has_role?(:dietitian) %>
   <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>
-  <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: active_modules do %>
+    <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
-    <% if current_user.has_role?(:dietitian) %>
       <%= active_link_to 'Brand', '', class: 'collapse-item' %>
       <%= active_link_to 'Colors', '', class: 'collapse-item' %>
       <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
       <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
       <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
-    <% end %>
-    <% if current_user.has_role?(:dietitian) %>
       <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
       <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
       <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>

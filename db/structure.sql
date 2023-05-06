@@ -249,6 +249,39 @@ ALTER SEQUENCE public.billings_id_seq OWNED BY public.billings.id;
 
 
 --
+-- Name: comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comments (
+    id bigint NOT NULL,
+    message text,
+    user_id bigint NOT NULL,
+    entry_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
 -- Name: contact_us; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -317,6 +350,39 @@ CREATE SEQUENCE public.discounts_id_seq
 --
 
 ALTER SEQUENCE public.discounts_id_seq OWNED BY public.discounts.id;
+
+
+--
+-- Name: entries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.entries (
+    id bigint NOT NULL,
+    description text,
+    entry_type integer DEFAULT 0,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.entries_id_seq OWNED BY public.entries.id;
 
 
 --
@@ -1036,6 +1102,13 @@ ALTER TABLE ONLY public.billings ALTER COLUMN id SET DEFAULT nextval('public.bil
 
 
 --
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
 -- Name: contact_us id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1047,6 +1120,13 @@ ALTER TABLE ONLY public.contact_us ALTER COLUMN id SET DEFAULT nextval('public.c
 --
 
 ALTER TABLE ONLY public.discounts ALTER COLUMN id SET DEFAULT nextval('public.discounts_id_seq'::regclass);
+
+
+--
+-- Name: entries id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entries ALTER COLUMN id SET DEFAULT nextval('public.entries_id_seq'::regclass);
 
 
 --
@@ -1232,6 +1312,14 @@ ALTER TABLE ONLY public.billings
 
 
 --
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: contact_us contact_us_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1245,6 +1333,14 @@ ALTER TABLE ONLY public.contact_us
 
 ALTER TABLE ONLY public.discounts
     ADD CONSTRAINT discounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: entries entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.entries
+    ADD CONSTRAINT entries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1470,10 +1566,31 @@ CREATE INDEX index_billings_on_patient_id ON public.billings USING btree (patien
 
 
 --
+-- Name: index_comments_on_entry_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_entry_id ON public.comments USING btree (entry_id);
+
+
+--
+-- Name: index_comments_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
+
+
+--
 -- Name: index_discounts_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_discounts_on_created_by_id ON public.discounts USING btree (created_by_id);
+
+
+--
+-- Name: index_entries_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_entries_on_user_id ON public.entries USING btree (user_id);
 
 
 --
@@ -2043,6 +2160,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230424202529'),
 ('20230425202941'),
 ('20230426032019'),
-('20230428123646');
+('20230428123646'),
+('20230506023259'),
+('20230506023959');
 
 

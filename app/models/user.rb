@@ -24,6 +24,7 @@ class User < ApplicationRecord
   has_one :availability, foreign_key: "dietitian_id"
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
+  has_many :entries
 
   scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
 
