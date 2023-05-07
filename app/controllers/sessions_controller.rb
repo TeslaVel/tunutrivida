@@ -95,9 +95,10 @@ class SessionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_patient
-      @patient = Patient.find_by_slug(params[:patient_id])
+      @patient = User.find_by_id(params[:patient_id])
+      # @patient = User.find_by_slug(params[:patient_id])
     end
-    
+
     def set_package
       @patient_package = @patient.patient_packages.find(params[:patient_package_id])
     end
@@ -105,7 +106,6 @@ class SessionsController < ApplicationController
     def set_session
       @session = @patient_package.sessions.find(params[:id])
     end
-    
 
     # Only allow a trusted parameter "white list" through.
     def session_params

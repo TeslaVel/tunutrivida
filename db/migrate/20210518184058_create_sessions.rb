@@ -20,12 +20,13 @@ class CreateSessions < ActiveRecord::Migration[6.1]
       t.boolean :initial, deafult: false
 
       t.date :date
-      t.references :patient, null: false, foreign_key: true, index: true
+      # t.references :patient, null: false, foreign_key: true, index: true
+      t.references :patient, null: false, foreign_key: { to_table: 'users' }, index: true
       t.references :patient_package, null: false, foreign_key: true, index: true
-      t.integer :dietitian_id, index: true
+      # t.integer :dietitian_id, index: true
+      t.references :dietitian, null: false, foreign_key: { to_table: 'users' }, index: true
       t.integer :activity_factor_id
       t.references :created_by, null: false, foreign_key: { to_table: 'users' }, index: true
-      # t.references :dietitian, null: false, foreign_key: true
 
       t.timestamps
     end

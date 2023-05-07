@@ -27,7 +27,8 @@ class BillingsController < ApplicationController
   def new
     @billing = Billing.new
     # @packages = Package.all
-    @patients = Patient.all
+    @patients = User.where.not(dietitian_id: nil)
+    # @patients = User.joins(:roles).where(roles: { name: 'patient' })
   end
 
   # POST /billings or /billings.json

@@ -50,7 +50,7 @@
               <div class="form-group">
                 <%= f.input :patient_id,
                   label: false,
-                  collection: Patient.all,
+                  collection: User.where.not(dietitian_id: nil),
                   label_method: :first_name,
                   value_method: :id,
                   include_blank: true,

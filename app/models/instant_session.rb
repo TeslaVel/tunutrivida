@@ -10,7 +10,7 @@ class InstantSession < ApplicationRecord
 
   def set_imc
     return unless height.present? && weight.present?
-    
+
     h2 = (height*height).round(2)
     self.imc = (weight / h2 ).round(2)
   end

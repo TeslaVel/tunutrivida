@@ -21,12 +21,12 @@ class Api::PatientsController < Api::ApiController
   end
 
   def index
-    patients = Patient.all
+    patients = User.joins(:roles).where(roles: { name: 'patient' })
     render json: patients
   end
 
   def new
-    patient = Patient.new
+    patient = User.new
   end
 
   private

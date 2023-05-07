@@ -221,7 +221,7 @@ CREATE TABLE public.billings (
     description character varying,
     code character varying,
     billing_type integer DEFAULT 0,
-    dietitian_id bigint,
+    dietitian_id bigint NOT NULL,
     patient_id bigint NOT NULL,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -393,7 +393,7 @@ CREATE TABLE public.genders (
     id bigint NOT NULL,
     name character varying,
     description text,
-    created_by_id bigint NOT NULL,
+    created_by_id integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -688,7 +688,7 @@ CREATE TABLE public.patient_packages (
     patient_id bigint NOT NULL,
     date date,
     status integer DEFAULT 0,
-    dietitian_id integer,
+    dietitian_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -711,45 +711,6 @@ CREATE SEQUENCE public.patient_packages_id_seq
 --
 
 ALTER SEQUENCE public.patient_packages_id_seq OWNED BY public.patient_packages.id;
-
-
---
--- Name: patients; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.patients (
-    id bigint NOT NULL,
-    first_name character varying,
-    last_name character varying,
-    slug character varying,
-    age integer,
-    date_of_birth date,
-    gender_id integer NOT NULL,
-    dietitian_id bigint NOT NULL,
-    status integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, COALESCE(lower((first_name)::text), ''::text)), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(lower((last_name)::text), ''::text)), 'A'::"char"))) STORED
-);
-
-
---
--- Name: patients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.patients_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: patients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.patients_id_seq OWNED BY public.patients.id;
 
 
 --
@@ -792,7 +753,7 @@ CREATE TABLE public.payments (
     id bigint NOT NULL,
     status integer,
     code character varying,
-    dietitian_id bigint,
+    dietitian_id bigint NOT NULL,
     billing_id bigint NOT NULL,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -924,7 +885,7 @@ CREATE TABLE public.sessions (
     date date,
     patient_id bigint NOT NULL,
     patient_package_id bigint NOT NULL,
-    dietitian_id integer,
+    dietitian_id bigint NOT NULL,
     activity_factor_id integer,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -994,7 +955,7 @@ CREATE TABLE public.user_roles (
     id bigint NOT NULL,
     user_id bigint,
     role_id bigint,
-    created_by_id bigint NOT NULL,
+    created_by_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -1025,18 +986,22 @@ ALTER SEQUENCE public.user_roles_id_seq OWNED BY public.user_roles.id;
 
 CREATE TABLE public.users (
     id bigint NOT NULL,
+    password_digest character varying,
     first_name character varying NOT NULL,
     last_name character varying NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    username character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
+    email character varying DEFAULT ''::character varying,
+    username character varying DEFAULT ''::character varying,
     organization_id bigint,
     patient_id bigint,
+    slug character varying,
+    age integer,
+    date_of_birth date,
+    gender_id integer,
+    status integer,
+    dietitian_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('english'::regconfig, COALESCE(lower((first_name)::text), ''::text)), 'A'::"char") || setweight(to_tsvector('english'::regconfig, COALESCE(lower((last_name)::text), ''::text)), 'A'::"char"))) STORED
 );
 
 
@@ -1190,13 +1155,6 @@ ALTER TABLE ONLY public.packages ALTER COLUMN id SET DEFAULT nextval('public.pac
 --
 
 ALTER TABLE ONLY public.patient_packages ALTER COLUMN id SET DEFAULT nextval('public.patient_packages_id_seq'::regclass);
-
-
---
--- Name: patients id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.patients ALTER COLUMN id SET DEFAULT nextval('public.patients_id_seq'::regclass);
 
 
 --
@@ -1413,14 +1371,6 @@ ALTER TABLE ONLY public.packages
 
 ALTER TABLE ONLY public.patient_packages
     ADD CONSTRAINT patient_packages_pkey PRIMARY KEY (id);
-
-
---
--- Name: patients patients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.patients
-    ADD CONSTRAINT patients_pkey PRIMARY KEY (id);
 
 
 --
@@ -1685,20 +1635,6 @@ CREATE INDEX index_patient_packages_on_patient_id ON public.patient_packages USI
 
 
 --
--- Name: index_patients_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_patients_on_dietitian_id ON public.patients USING btree (dietitian_id);
-
-
---
--- Name: index_patients_on_searchable; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_patients_on_searchable ON public.patients USING gin (searchable);
-
-
---
 -- Name: index_payment_billing_items_on_billing_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1811,10 +1747,10 @@ CREATE INDEX index_user_roles_on_user_id ON public.user_roles USING btree (user_
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+CREATE INDEX index_users_on_dietitian_id ON public.users USING btree (dietitian_id);
 
 
 --
@@ -1832,10 +1768,10 @@ CREATE INDEX index_users_on_patient_id ON public.users USING btree (patient_id);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_searchable; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+CREATE INDEX index_users_on_searchable ON public.users USING gin (searchable);
 
 
 --
@@ -1855,6 +1791,14 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: users fk_rails_0d8854de6b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_0d8854de6b FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
 -- Name: sessions fk_rails_1c002106d8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1868,6 +1812,14 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.payments
     ADD CONSTRAINT fk_rails_1fb182b99e FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: patient_packages fk_rails_20c4f97101; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_packages
+    ADD CONSTRAINT fk_rails_20c4f97101 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
 
 
 --
@@ -1919,19 +1871,11 @@ ALTER TABLE ONLY public.payment_billing_items
 
 
 --
--- Name: patients fk_rails_57d37f5f60; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.patients
-    ADD CONSTRAINT fk_rails_57d37f5f60 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
-
-
---
 -- Name: tasks fk_rails_58d62f3802; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tasks
-    ADD CONSTRAINT fk_rails_58d62f3802 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+    ADD CONSTRAINT fk_rails_58d62f3802 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -1939,7 +1883,7 @@ ALTER TABLE ONLY public.tasks
 --
 
 ALTER TABLE ONLY public.patient_packages
-    ADD CONSTRAINT fk_rails_607b3bce29 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+    ADD CONSTRAINT fk_rails_607b3bce29 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -1947,7 +1891,7 @@ ALTER TABLE ONLY public.patient_packages
 --
 
 ALTER TABLE ONLY public.billings
-    ADD CONSTRAINT fk_rails_68db0bce0b FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+    ADD CONSTRAINT fk_rails_68db0bce0b FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -1956,6 +1900,14 @@ ALTER TABLE ONLY public.billings
 
 ALTER TABLE ONLY public.payments
     ADD CONSTRAINT fk_rails_77edb17a11 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
+-- Name: sessions fk_rails_79ce2af0c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT fk_rails_79ce2af0c3 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
 
 
 --
@@ -2027,7 +1979,7 @@ ALTER TABLE ONLY public.products
 --
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT fk_rails_b1767efc49 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+    ADD CONSTRAINT fk_rails_b1767efc49 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -2043,7 +1995,7 @@ ALTER TABLE ONLY public.roles
 --
 
 ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT fk_rails_c63da04ab4 FOREIGN KEY (patient_id) REFERENCES public.patients(id);
+    ADD CONSTRAINT fk_rails_c63da04ab4 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -2076,14 +2028,6 @@ ALTER TABLE ONLY public.billing_items
 
 ALTER TABLE ONLY public.activity_factors
     ADD CONSTRAINT fk_rails_e577712133 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
-
-
---
--- Name: genders fk_rails_f673e6b598; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.genders
-    ADD CONSTRAINT fk_rails_f673e6b598 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
 
 
 --
@@ -2138,7 +2082,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210509221320'),
 ('20210509221321'),
 ('20210509221513'),
-('20210510172855'),
 ('20210510193801'),
 ('20210515174948'),
 ('20210515174951'),

@@ -93,7 +93,8 @@ class PatientPackagesController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
     def set_patient
-      @patient = Patient.find_by_slug(params[:patient_id])
+      @patient = User.find_by_id(params[:patient_id])
+      # @patient = User.find_by_slug(params[:patient_id])
     end
 
     def set_patient_package
@@ -101,7 +102,7 @@ class PatientPackagesController < ApplicationController
     end
 
     def get_patient_json
-      Patient.find_by_id(params[:patient_id])
+      User.find_by_id(params[:patient_id])
     end
 
     def get_patient_packages_json(patient)

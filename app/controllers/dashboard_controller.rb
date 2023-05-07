@@ -1,10 +1,11 @@
 class DashboardController < ApplicationController
+  before_action :authenticate
 
   def index
     current_time = Time.zone.now.strftime("%H:%M")
     start_date = Date.today
     end_date = start_date + 3.days
-    @appointments = current_user.appointments
+    @appointments = current_user.dietitian_appointments
                                 .where(start_date: start_date..end_date, status: %w[pending happening])
 
   end

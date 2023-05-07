@@ -1,7 +1,8 @@
 class PatientPackage < ApplicationRecord
   belongs_to :package
-  belongs_to :patient
-  belongs_to :dietitian, :class_name => "User", :foreign_key => "dietitian_id"
+  # belongs_to :patient
+  belongs_to :patient, class_name: 'User', foreign_key: 'patient_id'
+  belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
 
   has_many :sessions
   has_one :billing

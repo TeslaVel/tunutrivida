@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'rails-i18n'
-gem 'devise'
+gem 'bcrypt', '~> 3.1', '>= 3.1.18'
 gem 'bootstrap', '~> 4.0'
 gem 'jquery-rails', '~> 4.4'
 gem 'cancancan', '~> 3.2', '>= 3.2.1'
@@ -51,7 +51,8 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+  # gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+  gem 'faker', '~> 3.2'
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
 end

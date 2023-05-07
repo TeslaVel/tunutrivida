@@ -1,5 +1,11 @@
 <div class="row col-md-12">
-<%= simple_form_for(@patient) do |f| %>
+<% url = if editing
+            patch_patient_path(@patient)
+           else
+            post_patients_path
+           end
+  %>
+<%= simple_form_for(@patient, url: url) do |f| %>
 	<%= f.error_notification %>
 	<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -47,7 +53,7 @@
 		<div class="card-footer text-center" style="background: transparent;">
 				<%= f.button :submit , class: "btn btn-primary" %>
 				<% if editing %>
-					<%= link_to t('patients.back'), @patient%>
+					<%= link_to t('patients.back'), patient_path(@patient)%>
 				<% else %>
 					<%= link_to t('patients.back'), patients_path %>
 				<% end %>

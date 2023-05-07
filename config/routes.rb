@@ -4,8 +4,6 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
 
-  devise_for :users
-
   namespace :api do
     post 'login', to: 'session#create'
     get 'patients', to: 'patients#index'
@@ -38,8 +36,16 @@ Rails.application.routes.draw do
     delete '/payments/payment_items/:id', to: 'payment_billing_items#destroy', as: :payment_items_destroy
   end
 
-  get 'patients/search', to: 'patients#search', as: :patients_search
-  resources :patients do
+  # get 'signup', to: 'users#new'
+  # post 'signup', to: 'users#create'
+  get 'login', to: 'authentication#login', as: :login
+  post 'login', to: 'authentication#authenticate'
+  delete 'logout', to: 'authentication#logout', as: :destroy_user_session
+
+  get 'patients/search', to: 'users#search', as: :patients_search
+  patch 'patients/:id', to: 'users#update', as: :patch_patient
+  post 'patients', to: 'users#create', as: :post_patients
+  resources :patients, controller: 'users', type: 'User' do
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
     get '/packagesjson', to: 'patient_packages#packagesjson'
     #PACKAGES
@@ -67,12 +73,13 @@ Rails.application.routes.draw do
   #   # delete 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
   # end
 
+  get "dashboard", to: "dashboard#index"
   root 'dashboard#index'
   # root 'examples#index'
 
   resources :examples, only: :index do
     get :buttons, :cards, :utilities_color, :utilities_border,
-        :utilities_animation, :utilities_other, :login, :register,
+        :utilities_animation, :utilities_other,
         :forgot_password, :page_404, :blank, :charts, :tables,
         on: :collection
   end

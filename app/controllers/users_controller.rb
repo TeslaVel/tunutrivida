@@ -1,4 +1,4 @@
-class PatientsController < ApplicationController
+class UsersController < ApplicationController
   before_action :set_patient, only: %i[ show edit update destroy ]
   before_action :set_session, only: %i[show]
 
@@ -48,7 +48,7 @@ class PatientsController < ApplicationController
 
   # GET /patients/new
   def new
-    @patient = current_user.patients.build
+    @patient = User.new
     @genders = Gender.all
   end
 
@@ -59,22 +59,20 @@ class PatientsController < ApplicationController
 
   # POST /patients or /patients.json
   def create
-    @patient = current_user.patients.build(patient_params)
+    @patient = User.new(patient_params)
 
     if @patient.save
-      redirect_to @patient, notice: 'Patient was successfully created.' 
+      redirect_to patient_path(@patient), notice: 'Patient was successfully created.'
     else
-
       redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
     end
-
   end
 
   # PATCH/PUT /patients/1 or /patients/1.json
   def update
     respond_to do |format|
       if @patient.update(patient_params)
-        format.html { redirect_to @patient, notice: 'Patient was successfully updated.' }
+        format.html { redirect_to patient_path(@patient), notice: 'Patient was successfully updated.' }
         format.json { render :show, status: :ok, location: @patient }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -95,12 +93,24 @@ class PatientsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_patient
-      @patient = Patient.find_by_slug(params[:id])
+      @patient = User.find_by_id(params[:id])
+      # @patient = User.find_by_slug(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def patient_params
-      params.require(:patient).permit(:first_name, :last_name, :date_of_birth, :dietitian_id, :gender_id)
+      params.require(:user)
+            .permit(
+              :first_name,
+              :last_name,
+              :date_of_birth,
+              :gender_id)
+              .merge(
+                password: 'tunutrivida',
+                password_confirmation: 'tunutrivida',
+                dietitian_id: current_user.id,
+                organization_id: current_user.organization_id
+              )
     end
 
     def search_params

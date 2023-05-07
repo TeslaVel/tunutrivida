@@ -28,7 +28,7 @@
   <tbody>
     <% patients.each do |patient| %>
       <tr>
-        <td><%= link_to patient do %>
+        <td><%= link_to patient_path(patient.id) do %>
             <%= patient.first_name %>
           <% end %></td>
         <td><%= patient.last_name %></td>
@@ -36,7 +36,7 @@
         <td><%= patient.gender.name %></td>
         <td><%= patient.sessions.count %></td>
         <td>
-          <%= link_to patient do %>
+          <%= link_to patient_path(patient.id) do %>
             <i class="fa fa-eye c-blue"></i>
           <% end %>
         </td>
@@ -46,7 +46,7 @@
           <% end %>
         </td>
         <td >
-          <%= link_to patient, method: :delete, data: { confirm: t('patients.are_you_sure') } do %>
+          <%= link_to patient_path(patient.id), method: :delete, data: { confirm: t('patients.are_you_sure') } do %>
             <i class="fa fa-trash c-red"></i>
           <% end %>
         </td>

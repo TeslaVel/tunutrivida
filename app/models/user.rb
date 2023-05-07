@@ -1,32 +1,69 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :authentication_keys => [:username]
+  include PgSearch::Model
+  has_secure_password
 
-  def email_required?
-    false
-  end
-
-  def email_changed?
-    false
-  end
+  before_create :set_slug
+  before_create :set_date_of_birth
+  after_create :set_temporal_email_and_username
 
   validates :email, uniqueness: true
   validates :username, uniqueness: true
+  validates :first_name, presence: true
+	validates :last_name, presence: true
 
   belongs_to :organization
-  has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
-  has_many :patients, :foreign_key => "dietitian_id"
+  # has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
+  # has_many :patients, :foreign_key => "dietitian_id"
   has_many :user_roles
-  has_many :appointments, foreign_key: "dietitian_id"
+  # has_many :appointments, foreign_key: "dietitian_id"
   has_one :availability, foreign_key: "dietitian_id"
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
   has_many :entries
 
+  # nuew
+  belongs_to :dietitian, class_name: 'User', optional: true
+  belongs_to :gender
+  has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
+	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id'
+  has_many :sessions, through: :patient_packages
+  has_many :packages, through: :patient_packages
+	has_many :billings
+  has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
+  has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
+	has_many :tasks
+
   scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
+
+  # new
+  scope :last_sessions, -> { self.sessions.order(date: :asc) }
+	scope :active_patients, ->{ where(status: :active) }
+
+  # new
+  PatientStatus = %i[
+    active
+    inactive
+  ].freeze
+
+  enum status: PatientStatus
+
+  paginates_per 6
+
+	pg_search_scope :search_patients,
+                  against: { first_name: 'A', last_name: 'B' },
+                  using: {
+                    tsearch: {
+                      dictionary: 'english', tsvector_column: 'searchable'
+                    }
+                  }
+
+  def is_patient?
+    has_role? :patient
+  end
+
+  def is_dietitian?
+    has_role? :dietitian
+  end
 
   def full_name
 		"#{first_name} #{last_name}"
@@ -48,4 +85,40 @@ class User < ApplicationRecord
      UserRole.create(user: self ,role: exists_role)
     end
   end
+
+  private
+
+  def set_slug
+		self.slug = "#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
+	end
+
+  # def to_param
+	# 	"#{slug}"
+	# end
+
+  def sex
+		gender&.name
+	end
+
+  def set_temporal_email_and_username
+    uname = "#{first_name.parameterize}#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
+    mail = "#{uname}@example.com"
+
+    if email.present? && email == 'tunutrividalb@gmail.com'
+      uname = 'tunutrividalb'
+      mail = email
+    end
+
+    self.username = uname
+    self.email = mail
+    self.save!
+  end
+
+  def set_date_of_birth
+    return unless date_of_birth
+
+		now = Time.now.utc.to_date
+		dob = date_of_birth
+  	self.age = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+	end
 end

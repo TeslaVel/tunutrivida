@@ -1,7 +1,7 @@
 class AddSearchableColumnToPatient < ActiveRecord::Migration[6.1]
   def up
     execute <<-SQL
-      ALTER TABLE patients
+      ALTER TABLE users
       ADD COLUMN searchable tsvector GENERATED ALWAYS AS (
         setweight(to_tsvector('english', coalesce(lower(first_name), '')), 'A') ||
         setweight(to_tsvector('english', coalesce(lower(last_name),'')), 'A')
@@ -10,6 +10,6 @@ class AddSearchableColumnToPatient < ActiveRecord::Migration[6.1]
   end
 
   def down
-    remove_column :patients, :searchable
+    remove_column :users, :searchable
   end
 end
