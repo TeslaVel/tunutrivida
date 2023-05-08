@@ -10,9 +10,14 @@ module Types
     # They will be entry points for queries on your schema.
 
     field :users, [Types::UserType], null: false
+    field :entries, [Types::EntryType], null: false
 
     def users
       User.all
+    end
+
+    def entries
+      Entry.all
     end
   end
 end

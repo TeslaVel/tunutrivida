@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate_all
 
   def index
     current_time = Time.zone.now.strftime("%H:%M")

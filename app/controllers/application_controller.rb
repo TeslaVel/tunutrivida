@@ -17,11 +17,9 @@ class ApplicationController < ActionController::Base
   def current_user
 		@current_user ||=
 			if graphql_or_api_request?
-				auth_header = request.headers['Authorization']
-				token = auth_header.split(' ').last if auth_header.present?
+				token = request.headers['Authorization']&.split&.last
 				return nil unless token.present?
-				payload = JwtService.decode(token)
-				User.find_by(id: payload['user_id'])
+				JwtService.decode(token)
 			else
 				User.find_by(id: session[:user_id])
 			end
@@ -29,9 +27,11 @@ class ApplicationController < ActionController::Base
 
 	def authenticate_all
     unless current_user
-			if graphql_or_api_request?
+			if graphql_or_api_request? && !params[:query].match('AuthMutation')
 				raise GraphQL::ExecutionError.new("You need to authenticate to perform this action")
-			else
+			end
+
+			if !graphql_or_api_request?
 				flash[:error] = "You must be logged in to access this section"
 				redirect_to login_path
 			end

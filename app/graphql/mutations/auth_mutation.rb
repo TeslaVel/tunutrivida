@@ -1,5 +1,6 @@
 module Mutations
   class AuthMutation < BaseMutation
+    description 'AuthMutation'
     argument :email, String, required: true
     argument :password, String, required: true
 

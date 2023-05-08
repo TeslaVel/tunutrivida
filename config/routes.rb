@@ -24,8 +24,9 @@ Rails.application.routes.draw do
   resources :appointments
   resources :availabilities
   resources :tasks
-  resources :comments
-  resources :entries
+  resources :entries do
+    resources :comments
+  end
 
   resources :billings do
     post '/billing_items/create', to: 'billing_items#create', as: :items_create
