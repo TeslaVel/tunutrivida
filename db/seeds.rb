@@ -90,7 +90,7 @@ puts "Created admin: #{user.email}"
 dietitian = User.create!(
 	email: 'tunutrividalb@gmail.com',
 	username: 'tunutrividalb',
-	first_name: "Laura",
+	first_name: "Lic Laura",
 	last_name: "Berrios",
 	password: '2351310',
 	password_confirmation: '2351310',
@@ -635,7 +635,7 @@ Session.create!(
 )
 
 
-## COMIENZO FRANCIS
+################################################### COMIENZO FRANCIS
 puts "Creating Patients Francis"
 # Pactient Francis
 dob = "1988-03-03".to_date
@@ -750,4 +750,27 @@ Session.create!(
 	activity_factor_id: activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
+)
+
+
+#### Creating some entries and comments
+
+entry = Entry.create(
+	description: 'Comiendo sano ahora yay!',
+	user_id: patientFran.id,
+	created_at: Time.zone.now - 1.days
+)
+
+Entry.create(
+	description: 'Hoy de ejercicio!',
+	user_id: patientL.id,
+	entry_type: 2,
+	created_at: Time.zone.now - 2.days
+)
+
+Comment.create(
+	entry_id: entry.id,
+	user_id: dietitian.id,
+	comment_type: 1,
+	message: '🎉'
 )

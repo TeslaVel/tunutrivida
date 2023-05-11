@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# BillingItem
 class BillingItem < ApplicationRecord
   ItemTypes = %i[
     package

@@ -20,11 +20,11 @@ class User < ApplicationRecord
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
   has_many :entries
-
   # nuew
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
   has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
+
 	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id'
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages
@@ -49,13 +49,16 @@ class User < ApplicationRecord
 
   paginates_per 6
 
-	pg_search_scope :search_patients,
+  pg_search_scope :search_patients,
                   against: { first_name: 'A', last_name: 'B' },
                   using: {
                     tsearch: {
-                      dictionary: 'english', tsvector_column: 'searchable'
+                      prefix: true,
+                      dictionary: 'english',
+                      tsvector_column: 'searchable'
                     }
                   }
+
 
   def is_patient?
     has_role? :patient
@@ -68,6 +71,13 @@ class User < ApplicationRecord
   def full_name
 		"#{first_name} #{last_name}"
 	end
+
+  def get_initials
+    stripped_first_name = first_name.strip
+    stripped_last_name = last_name.strip
+
+    "#{stripped_first_name[0].capitalize}.#{stripped_last_name[0].capitalize}"
+  end
 
   include RolesConcern
 

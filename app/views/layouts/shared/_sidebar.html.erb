@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%= root_path %>">
@@ -38,6 +38,7 @@
       <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
       <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
       <%= active_link_to 'Availability', availabilities_path, class: 'collapse-item' %>
+      <%= active_link_to 'Entries', entries_path, class: 'collapse-item' %>
     <% end %>
   <% end %>
 
@@ -65,7 +66,7 @@
     <% end %>
   <% end %>
 
-  <% if current_user.has_role?(:super_admin) %>
+  <% if current_user.has_role?(:dietitian) %>
     <% active_context = active_link?(includes: ['buttons', 'cards']) %>
     <%= nav_context :components, 'Components', icon: 'cog', active_link: active_context do %>
       <h6 class="collapse-header">Custom Components:</h6>
@@ -74,7 +75,7 @@
     <% end %>
   <% end %>
 
-  <% if current_user.has_role?(:super_admin) %>
+  <% if current_user.has_role?(:dietitian) %>
     <!-- Nav Item - Utilities Collapse Menu -->
     <%= nav_context :utilities, 'Utilities', icon: 'wrench' do %>
       <h6 class="collapse-header">Custom Utilities:</h6>

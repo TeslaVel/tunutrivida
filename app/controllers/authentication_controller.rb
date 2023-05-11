@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
       redirect_to dashboard_path, notice: "Logged in successfully!"
     else
       flash.now[:alert] = "Email or password is invalid"
-      redirect_to :login_path, notice: "Logged in successfully!"
+      redirect_to login_path, alert: "Logged error"
     end
   end
 

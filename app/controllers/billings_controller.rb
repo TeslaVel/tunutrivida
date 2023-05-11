@@ -1,4 +1,5 @@
 class BillingsController < ApplicationController
+  before_action :authenticate_all
   before_action :set_billing, only: %i[ show edit items update destroy]
   # before_action :set_billing_for_item, only: %i[ create_billing_items create_paid_items]
 

@@ -45,6 +45,3 @@ if (found_class_date)
 	    uiLibrary: 'bootstrap4'
 	});
 }
-
-
-

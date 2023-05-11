@@ -1,5 +1,5 @@
 $("#patients_list_partial").html("\
-		<%= escape_javascript(render(:partial => 'patients/list', :locals => {\
+		<%= escape_javascript(render(:partial => 'users/list', :locals => {\
 															   :patients => @patients,\
 															   :title => 'patients.patients'} )) %>");
 $('#searcher').focus();

@@ -27,7 +27,6 @@
             </div>
             <div class="col-md-10 p-0">
               <div class="list-unstyled">
-               
                 <p class="mb-2 "><%= @billing.code %></p>
                 <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
                 <p class="mb-2 "><%= @billing.description %></p>
@@ -45,7 +44,6 @@
                     <%= "#{@billing.target_currency_code} #{@billing&.total_conversion.to_f}" || 0 %>
                   </span>
                 </p>
-                
               </div>
             </div>
           </div>
@@ -77,127 +75,127 @@
          title: "Paid Items" %>
   </div>
 </div>
-
-<script>
-  //******************
-  //* Hide field on event change
-  //*
-  function hide_all_inputs() {
-    const elements = $('#billing_item_form_id .to-hide').toArray();
-    elements.map(e => {
-      $(e).css("display", "none");
-    })
-  }
-
-  //******************
-  //* Event Onchange item type
-  //*
-  $(document).on('change','#billing_item_item_type',function(e){
-    const type = e.target.value
-    hide_all_inputs();
-
-    if (type)
-    {
-      const act = $(`#billing_item_form_id .${type}`)[0].parentNode
-      const desc = $(`#billing_item_description`)[0].parentNode
-      $(act).css("display", "unset");
-      $(desc).css("display", "unset");
-
-      const qty = $('#billing_item_quantity');
-      if (type == 'product') {
-        $(qty[0].parentNode).css("display", "unset");
-      } else {
-        $(qty[0].parentNode).css("display", "none");
-      }
-    }
-  });
-  
-  //******************
-  //* Create billing item
-  //*
-  function add_billing_item() {
-      var dataToSubmit = $("#billing_item_form_id").serialize();
-      // console.log('dataToSubmit', dataToSubmit);
-      // document.getElementById('billing_item_form_id').submit();
-      $.ajax({
-        url: $("#billing_item_form_id").attr('action'),
-        type: "POST",
-        data: dataToSubmit,
-        // contentType: "application/json; charset=utf-8",
-        dataType: "script",
-        success: function(data) {
-          
-        },
-        error: function(err) {
-          console.log('err', err);
-        }
+<% content_for :javascript do %>
+  <script>
+    //******************
+    //* Hide field on event change
+    //*
+    function hide_all_inputs() {
+      const elements = $('#billing_item_form_id .to-hide').toArray();
+      elements.map(e => {
+        $(e).css("display", "none");
       })
-  }
-
-  //******************
-  //* Create payment
-  //*
-  function add_paid_item() {
-    const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
-    const item_ids = []
-    const billing_id = $("#billing_id")[0].value;
-    const current_user_id = $("#current_user_id")[0].value;
-    checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
-
-    if (item_ids.length < 1) {
-       toastr.error('Must select a leats one item');
-       return;
     }
-    const billing_data = {
-      payment: {
-        billing_id,
-        item_ids,
-        current_user_id
+
+    //******************
+    //* Event Onchange item type
+    //*
+    $(document).on('change','#billing_item_item_type',function(e){
+      const type = e.target.value
+      hide_all_inputs();
+
+      if (type)
+      {
+        const act = $(`#billing_item_form_id .${type}`)[0].parentNode
+        const desc = $(`#billing_item_description`)[0].parentNode
+        $(act).css("display", "unset");
+        $(desc).css("display", "unset");
+
+        const qty = $('#billing_item_quantity');
+        if (type == 'product') {
+          $(qty[0].parentNode).css("display", "unset");
+        } else {
+          $(qty[0].parentNode).css("display", "none");
+        }
       }
-    };
-    const url = `/billings/${billing_id}/paid_items/create`
-    $.ajax({
-      url: url,
-      type: "POST",
-      data: JSON.stringify(billing_data),
-      contentType: "application/json;",
-      dataType: "script",
-      success: function(data) {
-      },
-      error: function(err) {
-        console.log('err', err);
+    });
+    
+    //******************
+    //* Create billing item
+    //*
+    function add_billing_item() {
+        var dataToSubmit = $("#billing_item_form_id").serialize();
+        // console.log('dataToSubmit', dataToSubmit);
+        // document.getElementById('billing_item_form_id').submit();
+        $.ajax({
+          url: $("#billing_item_form_id").attr('action'),
+          type: "POST",
+          data: dataToSubmit,
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    }
+
+    //******************
+    //* Create payment
+    //*
+    function add_paid_item() {
+      const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+      const item_ids = []
+      const billing_id = $("#billing_id")[0].value;
+      const current_user_id = $("#current_user_id")[0].value;
+      checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+
+      if (item_ids.length < 1) {
+         toastr.error('Must select a leats one item');
+         return;
       }
-    })
-  };
-
-  //******************
-  //* Destroy payment item
-  //*
-  function destroy_paid_item(el, id) {
-    const billing_id = $("#billing_id")[0].value;
-    if (billing_id && id) {
-      const url = `/billings/${billing_id}/payments/payment_items/${id}`
-      const resp = window.confirm('Are you sure?');
-
-      if (!resp) return;
-
+      const billing_data = {
+        payment: {
+          billing_id,
+          item_ids,
+          current_user_id
+        }
+      };
+      const url = `/billings/${billing_id}/paid_items/create`
       $.ajax({
         url: url,
-        type: "DELETE",
-        // contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify(billing_data),
+        contentType: "application/json;",
         dataType: "script",
         success: function(data) {
-          // $(el).closest('tr').remove();
         },
         error: function(err) {
           console.log('err', err);
         }
       })
+    };
+
+    //******************
+    //* Destroy payment item
+    //*
+    function destroy_paid_item(el, id) {
+      const billing_id = $("#billing_id")[0].value;
+      if (billing_id && id) {
+        const url = `/billings/${billing_id}/payments/payment_items/${id}`
+        const resp = window.confirm('Are you sure?');
+
+        if (!resp) return;
+
+        $.ajax({
+          url: url,
+          type: "DELETE",
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            // $(el).closest('tr').remove();
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
     }
-  }
 
-  function add_tr_to_billing_list () {
-    // billing_items_table_body
-  }
-</script>
-
+    function add_tr_to_billing_list () {
+      // billing_items_table_body
+    }
+  </script>
+<% end %>

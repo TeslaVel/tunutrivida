@@ -13,9 +13,9 @@ class UsersController < ApplicationController
     plist = current_user.patients
     @patients = (if srch.present?
                   plist.search_patients(srch)
-                else
-                  plist
-                end).page(params[:page] || 1)
+                  else
+                    plist
+                  end).page(params[:page] || 1)
 
     respond_to do |format|
       format.html { redirect_to patients_url }

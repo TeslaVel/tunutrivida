@@ -1,4 +1,4 @@
-class AddSearchableColumnToPatient < ActiveRecord::Migration[6.1]
+class AddSearchableColumnToUser < ActiveRecord::Migration[6.1]
   def up
     execute <<-SQL
       ALTER TABLE users

@@ -1,4 +1,5 @@
 class AvailabilitiesController < ApplicationController
+  before_action :authenticate_all
   before_action :set_availability, only: [:show, :edit, :update, :destroy]
 
   def index

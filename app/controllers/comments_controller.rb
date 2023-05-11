@@ -26,10 +26,10 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @entry, notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
+        @comments = @entry.comments.order(created_at: :desc)
+        format.html { redirect_to entry_path(@entry), notice: 'Comment was successfully created.' }
+        format.js { render 'entries/show', layout: false }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end

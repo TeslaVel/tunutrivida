@@ -1,0 +1,13 @@
+<% comments.map do |comment| %>
+  <div class="p-0 py-2 d-flex items-center">
+    <div>
+      <div class="border-radius-40 bg-pink-100 p-2">
+        <strong class=""><%= comment.poster.get_initials %></strong>
+      </div>
+    </div>
+    <div class="d-flex pl-2 flex-column">
+      <span class="d-flex"><strong><%= comment.poster.first_name %></strong><p class="m-0">&nbsp; - &nbsp;<%= comment.message %></p></span>
+      <span class="f-size-12"><%= comment.created_at.strftime('%b %-d at %I:%P') %></span>
+    </div>
+  </div>
+<% end %>

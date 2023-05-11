@@ -20,6 +20,12 @@ $(document).on('turbolinks:load', function() {
     } else {
       $('.sidebar .collapse').removeClass('show');
     };
+
+    if ($(window).width() < 576) {
+      $('#accordionSidebar').addClass('toggled');
+    } else {
+      $('#accordionSidebar').removeClass('toggled');
+    }
   });
 
   // Prevent the content wrapper from scrolling when the fixed side navigation hovered over

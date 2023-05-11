@@ -2,6 +2,7 @@
 
 # Entry model
 class Entry < ApplicationRecord
+
   ENTRY_TYPES = %i[
     FoodEntry
     MetricEntry
@@ -20,4 +21,5 @@ class Entry < ApplicationRecord
 
   belongs_to :poster, class_name: 'User', foreign_key: 'user_id'
   has_many :comments # , optional: true
+  # has_many :emoji_reactions, dependent: :destroy
 end

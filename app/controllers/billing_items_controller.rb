@@ -1,4 +1,5 @@
 class BillingItemsController < ApplicationController
+  before_action :authenticate_all
   before_action :set_billing, only: %i[ create destroy]
   before_action :set_billing_item, only: %i[destroy]
 
@@ -12,7 +13,7 @@ class BillingItemsController < ApplicationController
     respond_to do |format|
       if @billing_item.save
         format.html { redirect_to billing_path(@billing), notice: 'Billing was successfully created.' }
-        format.js { render 'billings/show', :layout => false }
+        format.js { render 'billings/show', layout: false }
       else
         format.html { redirect_to billing_path(@billing), notice: @billing_item.errors.full_messages.join(". ") << "."}
         format.json { render json: @billing_item.errors.full_messages.join(". ") << ".", status: :unprocessable_entity }

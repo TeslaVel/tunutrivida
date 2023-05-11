@@ -255,6 +255,8 @@ ALTER SEQUENCE public.billings_id_seq OWNED BY public.billings.id;
 CREATE TABLE public.comments (
     id bigint NOT NULL,
     message text,
+    seen boolean DEFAULT false,
+    comment_type integer DEFAULT 0,
     user_id bigint NOT NULL,
     entry_id integer,
     created_at timestamp(6) without time zone NOT NULL,
@@ -359,6 +361,7 @@ ALTER SEQUENCE public.discounts_id_seq OWNED BY public.discounts.id;
 CREATE TABLE public.entries (
     id bigint NOT NULL,
     description text,
+    seen boolean DEFAULT false,
     entry_type integer DEFAULT 0,
     user_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,

@@ -1,13 +1,15 @@
 class EntriesController < ApplicationController
+  before_action :authenticate_all
   before_action :set_entry, only: %i[ show edit update destroy ]
 
   # GET /entries or /entries.json
   def index
-    @entries = Entry.all
+    @entries = Entry.where(user_id:  current_user.patients.select(:id)).order(created_at: :desc)
   end
 
   # GET /entries/1 or /entries/1.json
   def show
+    @comments = @entry.comments.order(created_at: :desc)
   end
 
   # GET /entries/new

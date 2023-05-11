@@ -8,14 +8,11 @@
     <%= render "layouts/shared/search_field" %>
   </form> -->
 
-  <div>
-    <strong>Currency - <%= @gbl_configuration.currency %></strong>
-    <strong class="ml-3">Target Currency - <%= @gbl_configuration.target_currency %></strong>
-    <strong class="ml-3">Target Conversion - <%= @gbl_configuration.target_conversion %></strong>
+  <div class="">
+    <strong class="ml-3"> <%= @gbl_configuration.target_currency_code %>: <%= @gbl_configuration.target_conversion %></strong>
   </div>
 
   <ul class="navbar-nav ml-auto">
-    <%= render "layouts/shared/search_dropdown" %>
     <%= render "layouts/shared/notifications" %>
     <%= render "layouts/shared/messages" %>
 

@@ -25,7 +25,11 @@ Rails.application.routes.draw do
   resources :availabilities
   resources :tasks
   resources :entries do
-    resources :comments
+    resources :emoji_reactions, only: [:create]
+
+    resources :comments do
+      resources :emoji_reactions, only: [:create]
+    end
   end
 
   resources :billings do

@@ -5,15 +5,12 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 @import "https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i";
 
 @import "datatables.net-bs4/css/dataTables.bootstrap4.min";
-
 @import "./shared/sb-admin-2";
-
-
 @import "toastr/toastr";
-
 @import "simple_calendar";
 
 
+/* custom date field */
 .select-date-wrapper{
   select.select-date {
     width: 30%;
@@ -21,19 +18,20 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
     float: left;
   }
 
-  select:first-of-type{
+  select:first-of-type {
     width: 10%;
   }
-  select:nth-of-type(2){
+  select:nth-of-type(2) {
     width: 15%;
   }
-  select:last-of-type{
+  select:last-of-type {
     width: 10%;
     margin-right: 0;
   }
 }
+/* end custom date field */
 
-/* */
+/* Style for simple calendar */
 .simple-calendar {
   .day {
     width: 400px;
@@ -74,6 +72,14 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 }
 
 /*CUSTOM CSS*/
+// .text-decoration-none, .text-decoration-none:hover {
+//   text-decoration: none;
+// }
+
+.overflow-y-scroll { overflow-y: scroll;}
+.overflow-x-scroll { overflow-x: scroll;}
+.overflow-scroll { overflow: scroll;}
+
 #new_patient, .simple_form {
   width: 100%;
 }
@@ -82,12 +88,34 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
     color: #1aeaaf;
 }
 
-@for $i from 1 through 20 {
+
+/***** LOOPS para crear clases ***/
+/* define w-[10 to 400]px 10 in 10 */
+@for $i from 1 through 40 {
   .w-#{$i*10}px {
     width: 10px * $i;
   }
+
+  .h-#{$i*10}px  {
+    height: 10px * $i;
+  }
 }
 
+
+/* font-size-Xpx */
+@for $i from 8 through 25 {
+  .f-size-#{$i} {
+    font-size: 1px * $i;
+  }
+}
+
+@for $i from 1 through 50 {
+  .border-radius-#{$i} {
+    border-radius: 1px * $i;
+  }
+}
+
+/* Fin de los loops*/
 
 .w-20   { width: 20%; }
 .w-20i  { width: 20% !important;}
@@ -98,7 +126,6 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 .w-40   { width: 40%; }
 .w-40i  { width: 40% !important;}
 //w-50 actual exist in boostrap
-
 .w-60   { width: 60%; }
 .w-60i  { width: 60% !important;}
 
@@ -131,11 +158,188 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 
 
 .c-red { color: #be1700; }
-.c-blue { color: #36a1fc; }
+.c-blue { color: #5597ff; }
 .c-green { color: #03abb0; }
+.pointer {cursor: pointer;}
+
+/* Colors */
+$primary-50: #FFEEFE;
+$primary-100: #FFE1E0;
+$primary-300: #FFA6A3;
+$primary-500: #FF6B66;
 
 
-.error_notification { color: red;   }
+$third-50: #f9f6fd;
+$third-100:#e5daf8;
+
+
+$pink-50: #fdf5f9;
+$pink-100: #f8d9e7;
+$pink-200: #d3bef4;
+$pink-300: #eb8db8;
+$pink-400: #e56ba2;
+$pink-500: #dc3882;
+$pink-custom: #CE5DC7;
+
+$secondary-400: #FFCD5B;
+$secondary-500: #FFA6A3;
+$gray-20: #F8F4EB;
+$gray-50: #EFE6E6;
+$gray-100: #DFCCCC;
+$gray-500: #5E0000;
+
+.bg-pink-50 { background-color: $pink-50 }
+.bg-pink-100 { background-color: $pink-100 }
+.bg-pink-200 { background-color: $pink-200 }
+.bg-pink-300 { background-color: $pink-300 }
+.bg-pink-400 { background-color: $pink-400 }
+.bg-pink-500 { background-color: $pink-500 }
+.bg-pink-custom { background-color: $pink-custom }
+
+.bg-primary-100 { background-color: $primary-100 }
+.bg-primary-300 { background-color: $primary-300 }
+.bg-primary-500 { background-color: $primary-500 }
+.bg-secondary-400 { background-color: $secondary-400 }
+.bg-secondary-500 { background-color: $primary-300 }
+.bg-gray-20 { background-color: $gray-20 }
+.bg-gray-50 { background-color: $gray-50 }
+.bg-gray-100 { background-color: $gray-100 }
+.bg-gray-500 { background-color: $gray-500 }
+
+.color-primary-100 { color: $primary-100 }
+.color-primary-300 { color: $primary-300 }
+.color-primary-500 { color: $primary-500 }
+.color-secondary-400 { color: $secondary-400 }
+.color-secondary-500 { color: $primary-300 }
+.color-gray-20 { color: $gray-20 }
+.color-gray-50 { color: $gray-50 }
+.color-gray-100 { color: $gray-100 }
+.color-gray-500 { color: $gray-500 }
+
+.color-pink-50 { color: $pink-50 }
+.color-pink-100 { color: $pink-100 }
+.color-pink-200 { color: $pink-200 }
+.color-pink-300 { color: $pink-300 }
+.color-pink-400 { color: $pink-400 }
+.color-pink-500 { color: $pink-500 }
+.color-pink-custom { color: $pink-custom }
+
+
+.border-primary-50 { border: 0.1rem solid $primary-50  !important }
+.border-primary-100 { border: 0.1rem solid $primary-100  !important }
+
+.border-bottom-pink-50 { border-bottom: 0.25rem solid $pink-50  !important }
+.border-bottom-pink-100 { border-bottom: 0.25rem solid $pink-100  !important }
+.border-bottom-pink-200 { border-bottom: 0.25rem solid $pink-200  !important }
+.border-bottom-pink-300 { border-bottom: 0.25rem solid $pink-300  !important }
+.border-bottom-pink-400 { border-bottom: 0.25rem solid $pink-400  !important }
+.border-bottom-pink-500 { border-bottom: 0.25rem solid $pink-500  !important }
+.border-bottom-pink-custom { border-bottom: 0.25rem solid $pink-custom  !important }
+.border-bottom-primary-100 { border-bottom: 0.25rem solid $primary-100  !important }
+.border-bottom-primary-300 { border-bottom: 0.25rem solid $primary-300  !important }
+.border-bottom-primary-500 { border-bottom: 0.25rem solid $primary-500  !important }
+.border-bottom-secondary-400 { border-bottom: 0.25rem solid $secondary-400  !important }
+.border-bottom-secondary-500 { border-bottom: 0.25rem solid $secondary-500  !important }
+.border-bottom-gray-20 { border-bottom: 0.25rem solid $gray-20  !important }
+.border-bottom-gray-50 { border-bottom: 0.25rem solid $gray-50  !important }
+.border-bottom-gray-100 { border-bottom: 0.25rem solid $gray-100  !important }
+.border-bottom-gray-500 { border-bottom: 0.25rem solid $gray-500  !important }
+
+
+@mixin bg-primary-100 { background-color: $primary-100 }
+@mixin bg-primary-300 { background-color: $primary-300 }
+@mixin bg-primary-500 { background-color: $primary-500 }
+@mixin bg-secondary-400 { background-color: $secondary-400 }
+@mixin bg-secondary-500 { background-color: $secondary-500 }
+@mixin bg-gray-20 { background-color: $gray-20 }
+@mixin bg-gray-50 { background-color: $gray-50 }
+@mixin bg-gray-100 { background-color: $gray-100 }
+@mixin bg-gray-500 { background-color: $gray-500 }
+
+@mixin color-primary-100 { color: $primary-100 }
+@mixin color-primary-300 { color: $primary-300 }
+@mixin color-primary-500 { color: $primary-500 }
+@mixin color-secondary-400 { color: $secondary-400 }
+@mixin color-secondary-500 { color: $secondary-500 }
+@mixin color-gray-20 { color: $gray-20 }
+@mixin color-gray-50 { color: $gray-50 }
+@mixin color-gray-100 { color: $gray-100 }
+@mixin color-gray-500 { color: $gray-500 }
+
+@mixin color-pink-50 { color: $pink-50 }
+@mixin color-pink-100 { color: $pink-100 }
+@mixin color-pink-200 { color: $pink-200 }
+@mixin color-pink-300 { color: $pink-300 }
+@mixin color-pink-400 { color: $pink-400 }
+@mixin color-pink-500 { color: $pink-500 }
+@mixin color-pink-custom { color: $pink-custom }
+
+
+@mixin bg-pink-50 { background-color: $pink-50 }
+@mixin bg-pink-100 { background-color: $pink-100 }
+@mixin bg-pink-200 { background-color: $pink-200 }
+@mixin bg-pink-300 { background-color: $pink-300 }
+@mixin bg-pink-400 { background-color: $pink-400 }
+@mixin bg-pink-500 { background-color: $pink-500 }
+@mixin bg-pink-custom { background-color: $pink-custom }
+
+
+
+/* End Colors */
+
+
+
+/* Override sidebar */
+ .navbar-nav.sidebar {
+  @include bg-pink-custom;
+
+  & .sidebar-brand, & .nav-item .nav-link {
+    & span {
+      @include color-pink-100
+    }
+    & span:hover {
+      @include color-pink-200
+    }
+  }
+
+  & .nav-item .nav-link svg path {
+    fill: $pink-100
+  }
+
+  & .nav-item .collapse .bg-white,
+  & .nav-item .collapse .collapse-inner,
+  & .nav-item .collapsing .collapse-inner {
+    background-color: $pink-100;
+  }
+
+  & .nav-item .collapse.show .collapse-inner .collapse-item:hover {
+    background-color: $pink-100;
+    color: $pink-400;
+  }
+
+  & .nav-item .collapse.show .collapse-inner .collapse-item,
+  & .nav-item .collapse .collapse-inner .collapse-item,
+  & .nav-item .collapsing .collapse-inner .collapse-item {
+    @include color-pink-300
+  }
+
+  & .nav-item .collapse .collapse-inner .collapse-header,
+  & .nav-item .collapsing .collapse-inner .collapse-header {
+    @include color-gray-100
+  }
+ }
+
+/* end override sidebar */
+
+
+/*btn emoji */
+.button-emoji:hover {
+  background-color: $pink-300;
+  border-color: $pink-300;
+}
+
+/* some form customization */
+.error_notification { color: red; }
 
 .field_with_errors {
   .error {
