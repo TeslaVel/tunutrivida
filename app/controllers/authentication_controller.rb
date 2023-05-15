@@ -10,6 +10,9 @@ class AuthenticationController < ApplicationController
     if user && user.authenticate(auth_params[:password])
       session[:user_id] = user.id
       redirect_to dashboard_path, notice: "Logged in successfully!"
+
+      # ClientsChannel.broadcast_to('clients_channel', message: 'Hello, world!')
+      # ActionCable.server.broadcast("clients_channel", {user_id: user.id, message: 'Hello, world!'})
     else
       flash.now[:alert] = "Email or password is invalid"
       redirect_to login_path, alert: "Logged error"

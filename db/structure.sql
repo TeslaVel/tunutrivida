@@ -319,6 +319,39 @@ ALTER SEQUENCE public.contact_us_id_seq OWNED BY public.contact_us.id;
 
 
 --
+-- Name: conversations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.conversations (
+    id bigint NOT NULL,
+    dietitian_id bigint NOT NULL,
+    patient_id bigint NOT NULL,
+    title character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: conversations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.conversations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: conversations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.conversations_id_seq OWNED BY public.conversations.id;
+
+
+--
 -- Name: discounts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -575,6 +608,75 @@ CREATE SEQUENCE public.instant_sessions_id_seq
 --
 
 ALTER SEQUENCE public.instant_sessions_id_seq OWNED BY public.instant_sessions.id;
+
+
+--
+-- Name: notes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notes (
+    id bigint NOT NULL,
+    message text NOT NULL,
+    conversation_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
+
+
+--
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notifications (
+    id bigint NOT NULL,
+    notifcation_type integer DEFAULT 0,
+    seen boolean DEFAULT false,
+    content character varying NOT NULL,
+    associated_object integer NOT NULL,
+    sender_id bigint NOT NULL,
+    recipient_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
@@ -916,6 +1018,37 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: socket_clients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.socket_clients (
+    id bigint NOT NULL,
+    client_channel_id character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: socket_clients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.socket_clients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: socket_clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.socket_clients_id_seq OWNED BY public.socket_clients.id;
+
+
+--
 -- Name: tasks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1084,6 +1217,13 @@ ALTER TABLE ONLY public.contact_us ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
+-- Name: conversations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conversations ALTER COLUMN id SET DEFAULT nextval('public.conversations_id_seq'::regclass);
+
+
+--
 -- Name: discounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1130,6 +1270,20 @@ ALTER TABLE ONLY public.indicators ALTER COLUMN id SET DEFAULT nextval('public.i
 --
 
 ALTER TABLE ONLY public.instant_sessions ALTER COLUMN id SET DEFAULT nextval('public.instant_sessions_id_seq'::regclass);
+
+
+--
+-- Name: notes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_id_seq'::regclass);
+
+
+--
+-- Name: notifications id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
@@ -1193,6 +1347,13 @@ ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_
 --
 
 ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: socket_clients id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.socket_clients ALTER COLUMN id SET DEFAULT nextval('public.socket_clients_id_seq'::regclass);
 
 
 --
@@ -1289,6 +1450,14 @@ ALTER TABLE ONLY public.contact_us
 
 
 --
+-- Name: conversations conversations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conversations
+    ADD CONSTRAINT conversations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: discounts discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1342,6 +1511,22 @@ ALTER TABLE ONLY public.indicators
 
 ALTER TABLE ONLY public.instant_sessions
     ADD CONSTRAINT instant_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -1422,6 +1607,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: socket_clients socket_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.socket_clients
+    ADD CONSTRAINT socket_clients_pkey PRIMARY KEY (id);
 
 
 --
@@ -1533,6 +1726,20 @@ CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
 
 
 --
+-- Name: index_conversations_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_conversations_on_dietitian_id ON public.conversations USING btree (dietitian_id);
+
+
+--
+-- Name: index_conversations_on_patient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_conversations_on_patient_id ON public.conversations USING btree (patient_id);
+
+
+--
 -- Name: index_discounts_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1593,6 +1800,41 @@ CREATE INDEX index_indicators_on_indicator_type_id ON public.indicators USING bt
 --
 
 CREATE INDEX index_instant_sessions_on_created_by_id ON public.instant_sessions USING btree (created_by_id);
+
+
+--
+-- Name: index_notes_on_conversation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_conversation_id ON public.notes USING btree (conversation_id);
+
+
+--
+-- Name: index_notes_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_user_id ON public.notes USING btree (user_id);
+
+
+--
+-- Name: index_notifications_on_associated_object; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_on_associated_object ON public.notifications USING btree (associated_object);
+
+
+--
+-- Name: index_notifications_on_recipient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_on_recipient_id ON public.notifications USING btree (recipient_id);
+
+
+--
+-- Name: index_notifications_on_sender_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_on_sender_id ON public.notifications USING btree (sender_id);
 
 
 --
@@ -1802,6 +2044,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: conversations fk_rails_0d97bf7491; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conversations
+    ADD CONSTRAINT fk_rails_0d97bf7491 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
 -- Name: sessions fk_rails_1c002106d8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1834,6 +2084,14 @@ ALTER TABLE ONLY public.tasks
 
 
 --
+-- Name: conversations fk_rails_29baf71c50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conversations
+    ADD CONSTRAINT fk_rails_29baf71c50 FOREIGN KEY (patient_id) REFERENCES public.users(id);
+
+
+--
 -- Name: user_roles fk_rails_318345354e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1863,6 +2121,14 @@ ALTER TABLE ONLY public.availabilities
 
 ALTER TABLE ONLY public.packages
     ADD CONSTRAINT fk_rails_438d68f470 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: notifications fk_rails_4aea6afa11; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT fk_rails_4aea6afa11 FOREIGN KEY (recipient_id) REFERENCES public.users(id);
 
 
 --
@@ -1935,6 +2201,14 @@ ALTER TABLE ONLY public.payments
 
 ALTER TABLE ONLY public.appointment_settings
     ADD CONSTRAINT fk_rails_8582e4a496 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
+
+
+--
+-- Name: notifications fk_rails_8780923399; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT fk_rails_8780923399 FOREIGN KEY (sender_id) REFERENCES public.users(id);
 
 
 --
@@ -2108,6 +2382,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230426032019'),
 ('20230428123646'),
 ('20230506023259'),
-('20230506023959');
+('20230506023959'),
+('20230512111331'),
+('20230512113427'),
+('20230512114154'),
+('20230513012452');
 
 

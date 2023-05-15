@@ -5,11 +5,9 @@
     <i class="fas fa-envelope fa-fw"></i>
 
     <!-- Counter - Messages -->
-    <% if @messages.present? %>
-      <span class="badge badge-danger badge-counter">
-        <%= @messages.size %>
-      </span>
-    <% end %>
+    <span class="badge badge-danger badge-counter <%= 'd-none' if emails.blank? %>" id="notification-counter">
+      <%= emails&.size %>+
+    </span>
   </a>
 
   <!-- Dropdown - Messages -->
@@ -21,18 +19,22 @@
       Message Center
     </h6>
 
-    <% @messages&.each do |message| %>
-    <a class="dropdown-item d-flex align-items-center" href="#">
-      <div class="dropdown-list-image mr-3">
-        <img class="rounded-circle" src="<%= message.sender_avatar %>" alt="">
-        <div class="status-indicator bg-success"></div>
-      </div>
-      <div class="font-weight-bold">
-        <div class="text-truncate"><%= message.content %></div>
-        <div class="small text-gray-500"><%= message.sender %></div>
-      </div>
-    </a>
-    <% end %>
+  <div id="emails-container" class="h-300px overflow-hidden">
+     <div class="h-100 overflow-y-scroll">
+      <% emails&.each do | email| %>
+        <a class="dropdown-item d-flex align-items-center px-2" href="#">
+          <div class="dropdown-list-image ">
+            <img class="rounded-circle" src="" alt="<%= email.first_name %>">
+          </div>
+          <div class="font-weight-bo ml-3">
+            <div class="text-truncate"><%= email.message %></div>
+            <div class="small text-gray-600"><%= email.email %></div>
+            <div class="small text-gray-600"><%= email.created_at.strftime('%b %-d at %I:%H %P') %></div>
+          </div>
+        </a>
+      <% end %>
+     </div>
+  </div>
 
     <a class="dropdown-item text-center small text-gray-500" href="#">
       Read More Messages

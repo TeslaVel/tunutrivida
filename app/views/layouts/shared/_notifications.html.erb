@@ -5,11 +5,9 @@
     <i class="fas fa-bell fa-fw"></i>
 
     <!-- Counter - Alerts -->
-    <% if @notifications.present? %>
-      <span class="badge badge-danger badge-counter">
-        <%= @notifications.size %>+
+      <span class="badge badge-danger badge-counter <%= 'd-none' if notifications.blank? %>" id="notification-counter">
+        <%= notifications&.size %>+
       </span>
-    <% end %>
   </a>
 
   <!-- Dropdown - Alerts -->
@@ -21,23 +19,27 @@
       Alerts Center
     </h6>
 
-    <% @notifications&.each do |notification| %>
-    <a class="dropdown-item d-flex align-items-center" href="#">
-      <div class="mr-3">
-        <div class="icon-circle bg-<%= notification.kind %>">
-          <i class="fas fa-file-alt text-white"></i>
-        </div>
-      </div>
-      <div>
-        <div class="small text-gray-500"><%= notification.date %></div>
-        <% if notification.viewed %>
-          <%= notification.content %>
-        <% else %>
-          <span class="font-weight-bold"><%= notification.content %></span>
-        <% end %>
-      </div>
-    </a>
-    <% end %>
+    <div id="notifications-container" class="h-300px overflow-hidden">
+     <div class="h-100 overflow-y-scroll">
+      <% notifications&.each do |notification| %>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+          <div class="mr-3">
+            <div class="icon-circle bg-<%= notification.notification_type %>">
+              <i class="fas fa-file-alt text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500"><%= notification.created_at.strftime('%b %-d at %I:%H %P') %></div>
+            <% if notification.seen %>
+              <%= notification.content %>
+            <% else %>
+              <span class="font-weight-bold"><%= notification.content %></span>
+            <% end %>
+          </div>
+        </a>
+      <% end %>
+     </div>
+    </div>
 
     <a class="dropdown-item text-center small text-gray-500" href="#">
       Show All Alerts

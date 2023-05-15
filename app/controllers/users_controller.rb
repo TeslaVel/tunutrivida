@@ -4,6 +4,9 @@ class UsersController < ApplicationController
 
   # GET /patients or /patients.json
   def index
+    # GlobalEventsChannel.broadcast_to(nil, message: 'Hello, world111')
+    # ActionCable.server.broadcast "clients_channel", message: 'Hello, world2'
+    # ActionCable.server.broadcast("global_events", { user_id: current_user.id, message: 'Hello, world!'})
     @patients = current_user.patients.order(created_at: :desc).page(params[:page] || 1)
   end
 

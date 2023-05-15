@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
   has_many :entries
+  has_many :notifications, class_name: 'User', foreign_key: 'recipient'
   # nuew
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender

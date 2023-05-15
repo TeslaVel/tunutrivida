@@ -22,6 +22,10 @@ class Api::PatientsController < Api::ApiController
 
   def index
     patients = User.joins(:roles).where(roles: { name: 'patient' })
+    # ClientsChannel.broadcast_to(nil, message: 'Hello, world111')
+    ch_name = "dietitian_events_#{current_user.id}"
+    # DietitianEvents.broadcast_to(ch_name, message: 'Hello, world!')
+    ActionCable.server.broadcast(ch_name, {patients_count: patients.count, message: 'Hello, world!'})
     render json: patients
   end
 

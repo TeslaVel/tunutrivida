@@ -28,18 +28,18 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <% if current_user.has_role?(:dietitian) %>
     <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
     <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
       <h6 class="collapse-header">Patient modules:</h6>
+    <% if current_user.has_role?(:dietitian) %>
       <%= active_link_to 'Temporal Session', instant_sessions_path, class: 'collapse-item' %>
       <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
       <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
       <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
       <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
       <%= active_link_to 'Availability', availabilities_path, class: 'collapse-item' %>
-      <%= active_link_to 'Entries', entries_path, class: 'collapse-item' %>
     <% end %>
+      <%= active_link_to 'Entries', entries_path, class: 'collapse-item' %>
   <% end %>
 
   <% if current_user.has_role?(:dietitian) %>

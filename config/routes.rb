@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # mount ActionCable.server => '/cable'
+  mount ActionCable.server => '/cable', constraints: { protocol: 'ws' }
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -6,6 +9,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     post 'login', to: 'session#create'
+    post 'comments', to: 'comments#create'
     get 'patients', to: 'patients#index'
     get 'patients/search', to: 'patients#search'
     post 'patients', to: 'patients#new'

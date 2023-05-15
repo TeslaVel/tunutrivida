@@ -15,6 +15,7 @@ module Mutations
           email: email,
           first_name: user.first_name,
           last_name: user.last_name,
+          dietitian_id: user.dietitian_id
         }
       else
         {error: 'Invalid email or password'}

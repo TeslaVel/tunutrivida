@@ -11,3 +11,7 @@ environment.plugins.prepend('Provide',
     Popper: ['popper.js', 'default'],
   })
 )
+
+environment.loaders.get('sass').use.splice(-1, 0, {
+  loader: 'resolve-url-loader'
+});

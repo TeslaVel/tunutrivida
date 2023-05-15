@@ -4,7 +4,12 @@ class EntriesController < ApplicationController
 
   # GET /entries or /entries.json
   def index
-    @entries = Entry.where(user_id:  current_user.patients.select(:id)).order(created_at: :desc)
+    selectd_id = if current_user.is_dietitian?
+                    current_user.patients.select(:id)
+                  else
+                    [current_user.id]
+                  end
+    @entries = Entry.where(user_id: selectd_id).order(created_at: :desc)
   end
 
   # GET /entries/1 or /entries/1.json

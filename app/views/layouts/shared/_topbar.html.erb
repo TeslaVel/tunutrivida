@@ -13,8 +13,12 @@
   </div>
 
   <ul class="navbar-nav ml-auto">
-    <%= render "layouts/shared/notifications" %>
-    <%= render "layouts/shared/messages" %>
+    <div >
+      <%= render "layouts/shared/notifications", notifications: @notifications %>
+     </div>
+    <div >
+      <%= render "layouts/shared/messages", emails: @emails %>
+    </div>
 
     <div class="topbar-divider d-none d-sm-block"></div>
 
