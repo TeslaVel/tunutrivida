@@ -1,6 +1,7 @@
 class EntriesController < ApplicationController
   before_action :authenticate_all
-  before_action :set_entry, only: %i[ show edit update destroy ]
+  before_action :set_entry, only: %i[ show edit update destroy, mark_notification_seen]
+  after_action :mark_notification_seen, only: [:show]
 
   # GET /entries or /entries.json
   def index
@@ -71,6 +72,22 @@ class EntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def entry_params
-      params.require(:entry).permit(:description, :entry_type)
+      params.require(:entry).permit(:description, :entry_type, :image)
+    end
+
+    def mark_notification_seen
+      @entry.update(seen: true)
+      comment_ids = @entry.comments.select(:id)
+      
+      recipient_id = if @entry.user.is_dietitian?
+                        @entry.user.id
+                      else
+                        @entry.user.dietitian.id
+                      end
+      Notification.where(
+        recipient_id: recipient_id,
+        associated_object_id: comment_ids,
+        notification_type: :comment
+      ).update_all(seen: true)
     end
 end

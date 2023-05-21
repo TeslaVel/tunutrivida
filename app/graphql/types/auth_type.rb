@@ -1,5 +1,6 @@
 module Types
   class AuthType < BaseObject
+    field :id, String
     field :email, String
     field :token, String
     field :password, String

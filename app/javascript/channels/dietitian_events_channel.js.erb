@@ -1,0 +1,31 @@
+import consumer from "./consumer"
+
+$(document).on('turbolinks:load', function() {
+  //const element = $('#patient_page');
+
+  // if (element[0] != undefined) {
+    // get id from div element in patient index
+    // const channel_id = element[0].getAttribute('data-patient-id')
+  // }
+  consumer.subscriptions.create({channel: "DietitianEvents"}, {
+    connected() {
+      // Called when the subscription is ready for use on the server
+          console.log(`from bck js global DietitianEvents`)
+    },
+
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
+
+    received(data) {
+      console.log('recibimos en el js', data)
+      if(data.type == 'comment') {
+        $("#notification-counter").removeClass('d-none');
+        $("#notification-counter").text(`${data.notification_count} +`);
+      }
+      // let partialHTML = "<%= j render(partialn  : 'layout/shared/_noti
+      // Called when there's incoming data on the websocket for this channel
+    }
+  });
+
+});

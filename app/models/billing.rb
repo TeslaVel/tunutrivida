@@ -10,12 +10,12 @@ class Billing < ApplicationRecord
   has_many :payments
   has_many :payment_billing_items, through: :payments
 
-  Billing_Types = %i[
+  BILLING_ITEMS = %i[
     ballot
     invoice
   ].freeze
 
-  enum billing_type: Billing_Types
+  enum billing_type: BILLING_ITEMS
 
   before_create :set_code_and_currency
   before_save :check_and_set_description

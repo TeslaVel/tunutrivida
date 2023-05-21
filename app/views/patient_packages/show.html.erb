@@ -2,7 +2,7 @@
   <input type="hidden" id="package_patient_view_patient_id" value="<%= @patient.id %>">
   <input type="hidden" id="package_patient_view_package_id" value="<%= @patient_package.id %>">
   <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
-    <span class="h3 mb-0 text-darsk">[Packages] <%= @patient_package.patient.first_name %> <%= @patient_package.patient.last_name %> > <%= @patient_package.package.name %></span>
+    <span class="h3 mb-0 text-darsk">[Packages] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= @patient_package.package.name %></span>
   	<%= link_to t('sessions.back'), patient_path(@patient) %>
   </div>
 
@@ -119,7 +119,7 @@
           weight_values = data.weight.values.map(e => parseFloat(e))
           min_w = Math.min(...weight_values)
           min_weight = parseInt(min_w > 25 ? 25 : min_w)
-          max_weight =  Math.max(...weight_values)
+          max_weight = Math.max(...weight_values)
           console.log('weight_values', weight_values)
           console.log('min_weight', min_weight)
           setAreaChart(

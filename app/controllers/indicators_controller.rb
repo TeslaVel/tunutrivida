@@ -3,7 +3,7 @@ class IndicatorsController < ApplicationController
 
   # GET /indicators or /indicators.json
   def index
-    @indicators = Indicator.all.order_by_id.page(params[:page] || 1)
+    @indicators = Indicator.all.order_by_type.page(params[:page] || 1)
   end
 
   # GET /indicators/1 or /indicators/1.json
@@ -26,7 +26,7 @@ class IndicatorsController < ApplicationController
 
   # POST /indicators or /indicators.json
   def create
-    @indicator = Indicator.new(indicator_params)
+    @indicator = Indicator.new(indicator_params.merge(created_by_id: current_user.id))
 
     respond_to do |format|
       if @indicator.save

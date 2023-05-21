@@ -7,9 +7,9 @@ class Appointment < ApplicationRecord
   belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
 
   Appointment_Types = %i[
+    in_person
     phone_call
     video_call
-    in_person
   ].freeze
 
   enum appointment_type: Appointment_Types

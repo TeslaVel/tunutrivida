@@ -104,9 +104,9 @@ role_amin = Role.create(name: 'super_admin', description: "Super Admin", created
 role_patient = Role.create(name: 'patient', description: "Patient", created_by_id: user.id)
 puts "Created roles: #{role_dietitian.name}, #{role_amin.name}, #{role_patient.name}"
 
-UserRole.create(user:user ,role: role_dietitian, created_by_id: user.id)
-UserRole.create(user:user ,role: role_amin, created_by_id: user.id)
-UserRole.create(user: dietitian ,role: role_dietitian, created_by_id: user.id)
+UserRole.create(user:user,role: role_dietitian, created_by_id: user.id)
+UserRole.create(user:user,role: role_amin, created_by_id: user.id)
+UserRole.create(user: dietitian, role: role_dietitian, created_by_id: user.id)
 puts "Asigned Roles"
 
 
@@ -147,33 +147,85 @@ glb = GlobalConfiguration.create(
 )
 
 puts "Creating IndicatorTypes"
-typeImc = IndicatorType.create(name:"IMC", description: "IMC", created_by_id: user.id)
-typePdc = IndicatorType.create(name:"PDC", description: "Perimetro de cintura", created_by_id: user.id)
-typeIcc = IndicatorType.create(name:"ICC", description: "Indice cintura cadera ", created_by_id: user.id)
+type_imc = IndicatorType.create(name: "IMC", description: "IMC", created_by_id: user.id)
+type_pdc = IndicatorType.create(name: "PDC", description: "Perimetro de cintura", created_by_id: user.id)
+type_icc = IndicatorType.create(name: "ICC", description: "Indice cintura cadera ", created_by_id: user.id)
 
 puts "Creating Indicators"
-Indicator.create(value_min: 0.0, value_max: 18.4 , description: 'Bajo peso', gender: both, position: 1, indicator_type: typeImc, created_by_id: user.id)
-Indicator.create(value_min: 18.41, value_max: 24.9 , description: 'Normo peso', gender: both, position: 2, indicator_type: typeImc, created_by_id: user.id)
-Indicator.create(value_min: 25.0, value_max: 29.9 , description: 'Sobre Peso', gender: both, position: 3, indicator_type: typeImc, created_by_id: user.id)
-Indicator.create(value_min: 30.0, value_max: 34.9 , description: 'Obesidad I', gender: both, position: 4, indicator_type: typeImc, created_by_id: user.id)
-Indicator.create(value_min: 35.0, value_max: 39.9 , description: 'Obesidad II', gender: both, position: 5, indicator_type: typeImc, created_by_id: user.id)
-Indicator.create(value_min: 40, value_max: 999 , description: 'Obesidad morbida', gender: both, position: 6, indicator_type: typeImc, created_by_id: user.id)
+Indicator.create(value_min: 0.0, value_max: 18.4 , name: 'Bajo peso', gender: both, position: 1, indicator_type: type_imc, created_by_id: user.id)
+Indicator.create(value_min: 18.41, value_max: 24.9 , name: 'Normo peso', gender: both, position: 2, indicator_type: type_imc, created_by_id: user.id)
+Indicator.create(value_min: 25.0, value_max: 29.9 , name: 'Sobre Peso', gender: both, position: 3, indicator_type: type_imc, created_by_id: user.id)
+Indicator.create(value_min: 30.0, value_max: 34.9 , name: 'Obesidad I', gender: both, position: 4, indicator_type: type_imc, created_by_id: user.id)
+Indicator.create(value_min: 35.0, value_max: 39.9 , name: 'Obesidad II', gender: both, position: 5, indicator_type: type_imc, created_by_id: user.id)
+Indicator.create(value_min: 40, value_max: 999 , name: 'Obesidad morbida', gender: both, position: 6, indicator_type: type_imc, created_by_id: user.id)
 
-Indicator.create(value_min: 0.0, value_max: 80 , description: 'Bajo', gender: female, position: 1, indicator_type: typePdc, created_by_id: user.id)
-Indicator.create(value_min: 80, value_max: 88.1 , description: 'Aumentado', gender: female, position: 2, indicator_type: typePdc, created_by_id: user.id)
-Indicator.create(value_min: 88.0, value_max: 999 , description: 'Aumentado', gender: female, position: 2, indicator_type: typePdc, created_by_id: user.id)
+Indicator.create(value_min: 0.0, value_max: 80 , name: 'Bajo', gender: female, position: 1, indicator_type: type_pdc, created_by_id: user.id)
+Indicator.create(value_min: 80, value_max: 88.1 , name: 'Aumentado', gender: female, position: 2, indicator_type: type_pdc, created_by_id: user.id)
+Indicator.create(value_min: 88.0, value_max: 999 , name: 'Aumentado', gender: female, position: 2, indicator_type: type_pdc, created_by_id: user.id)
 
 #compara cintura
-Indicator.create(value_min: 0.0, value_max: 94 , description: 'Bajo', gender: male, position: 1, indicator_type: typePdc, created_by_id: user.id)
-Indicator.create(value_min: 94.0, value_max: 102.1 , description: 'Aumentado', gender: male, position: 2, indicator_type: typePdc, created_by_id: user.id)
-Indicator.create(value_min: 102.0, value_max: 999 , description: 'Aumentado', gender: male, position: 3, indicator_type: typePdc, created_by_id: user.id)
+Indicator.create(value_min: 0.0, value_max: 94 , name: 'Bajo', gender: male, position: 1, indicator_type: type_pdc, created_by_id: user.id)
+Indicator.create(value_min: 94.0, value_max: 102.1 , name: 'Aumentado', gender: male, position: 2, indicator_type: type_pdc, created_by_id: user.id)
+Indicator.create(value_min: 102.0, value_max: 999 , name: 'Aumentado', gender: male, position: 3, indicator_type: type_pdc, created_by_id: user.id)
 
 #icc cintura / cadera
-Indicator.create(value_min: 0.0, value_max: 0.80 , description: 'Sin riesgo', gender: female, position: 1, indicator_type: typeIcc, created_by_id: user.id)
-Indicator.create(value_min: 0.80, value_max: 999 , description: 'Con Riesgo', gender: female, position: 2, indicator_type: typeIcc, created_by_id: user.id)
+Indicator.create(value_min: 0.0, value_max: 0.80 , name: 'Sin riesgo', gender: female, position: 1, indicator_type: type_icc, created_by_id: user.id)
+Indicator.create(value_min: 0.80, value_max: 999 , name: 'Con Riesgo', gender: female, position: 2, indicator_type: type_icc, created_by_id: user.id)
 
-Indicator.create(value_min: 0.0, value_max: 0.9 , description: 'Sin riesgo', gender: male, position: 1, indicator_type: typeIcc, created_by_id: user.id)
-Indicator.create(value_min: 0.9, value_max: 999 , description: 'Con Riesgo', gender: male, position: 2, indicator_type: typeIcc, created_by_id: user.id)
+Indicator.create(value_min: 0.0, value_max: 0.9 , name: 'Sin riesgo', gender: male, position: 1, indicator_type: type_icc, created_by_id: user.id)
+Indicator.create(value_min: 0.9, value_max: 999 , name: 'Con Riesgo', gender: male, position: 2, indicator_type: type_icc, created_by_id: user.id)
+
+# CONST BMR
+puts "Creating BMR FACTORS"
+sleep(2)
+BmrFactor.create!(
+	base_value: 66.473,
+	base_weight: 13.751,
+	base_height: 5.0033,
+	base_age: 6.55,
+	position: 1,
+	gender: male,
+	created_by_id: user.id,
+	name: 'Benedict	',
+	source: 1
+)
+
+BmrFactor.create!(
+	base_value: 665.51,
+	base_weight: 9.463,
+	base_height: 1.8496,
+	base_age: 4.6756,
+	position: 1,
+	gender: female,
+	created_by_id: user.id,
+	name: 'Benedict',
+	source: 1
+)
+
+
+BmrFactor.create!(
+	base_value: 5,
+	base_weight: 10,
+	base_height: 6.25,
+	base_age: 5,
+	position: 1,
+	gender: male,
+	created_by_id: user.id,
+	name: 'Mifflin	',
+	source: 2
+)
+
+BmrFactor.create!(
+	base_value: 161,
+	base_weight: 10,
+	base_height: 6.25,
+	base_age: 5,
+	position: 1,
+	gender: female,
+	created_by_id: user.id,
+	name: 'Mifflin',
+	source: 2
+)
 
 puts "Creating Packages"
 package0 = Package.create!(name: "Empty Package", description: "Paquete Vacio", price: 0, weeks: 0, created_by_id: user.id)
@@ -388,8 +440,8 @@ patient6 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
-	gender: female ,
-	age: age,
+	gender: male ,
+	age: 33,
 	date_of_birth: dob,
 	organization_id: org.id,
 	password: gpassword,
@@ -642,12 +694,11 @@ dob = "1988-03-03".to_date
 date_base = "2023-03-23".to_date
 now = Time.now.utc.to_date
 age = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-username = get_username('Fran')
 patientFran = User.create(
 	first_name: 'Francis',
 	last_name: 'Berrios',
-	username: username,
-	email: "#{username}@example.com",
+	username: 'francisberrios',
+	email: "francisberrios@example.com",
 	dietitian_id: dietitian.id,
 	gender: female ,
 	age: age,

@@ -1,0 +1,45 @@
+<div class="row w-40 m-auto">
+  <%= simple_form_for(@bmr_factor) do |f| %>
+    <h1><%= t(title) %></h1>
+
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-group">
+      <%= f.input :base_value, label: t('.base_value'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :base_height, label: t('.base_height'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :base_weight, label: t('.base_weight'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :base_age, label: t('.base_age'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :name, label: t('.name'), input_html: { class: "form-control" }  %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :position, label: t('.position'), input_html: { class: "form-control" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :source, label: t('.source'), input_html: { class: "form-control" }  %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :gender_id, collection: @genders, label_method: :name, value_method: :id,name: "Gender", include_blank: false, selected: @bmr_factor&.gender&.id, input_html: { class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.button :submit , class: "btn btn-primary" %>
+       <%= link_to t('bmr_factors.back'), bmr_factors_path %>
+    </div>
+  <% end %>
+</div>

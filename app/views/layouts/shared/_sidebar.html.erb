@@ -53,8 +53,9 @@
       <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
       <%= active_link_to 'Genders', genders_path, class: 'collapse-item' %>
       <%= active_link_to 'Activity factors', activity_factors_path, class: 'collapse-item' %>
-      <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>
       <%= active_link_to 'Indicator Types', indicator_types_path, class: 'collapse-item' %>
+      <%= active_link_to 'Indicators', indicators_path, class: 'collapse-item' %>
+      <%= active_link_to 'Bmr', bmr_factors_path, class: 'collapse-item' %>
     <% end %>
   <% end %>
 
@@ -65,6 +66,16 @@
       <%= active_link_to 'Emails', contact_us_path, class: 'collapse-item' %>
     <% end %>
   <% end %>
+
+   <% if current_user.has_role?(:dietitian) %>
+   <li class="nav-item <%= add_active_class(conversations_path) %>">
+      <a class="nav-link" href="<%= conversations_path %>">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Chats</span>
+      </a>
+    </li>
+  <% end %>
+
 
   <% if current_user.has_role?(:dietitian) %>
     <% active_context = active_link?(includes: ['buttons', 'cards']) %>

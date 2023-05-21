@@ -7,13 +7,13 @@ class Session < ApplicationRecord
   belongs_to :activity_factor
 
   before_create :check_and_set_initial
-  before_save :set_imc, if: -> {height_changed? || weight_changed?}
+  before_save :set_imc, if: -> {weight_changed?}
 
   scope :date_desc, -> { order(date: :desc) }
   scope :date_asc, -> { order(date: :asc) }
   scope :id_desc, -> { order(id: :desc) }
   scope :id_asc, -> { order(id: :asc) }
-  scope :not_initials, -> { where(initial: :false) }
+  scope :not_initials, -> { where(initial: false) }
 
 
   validates :date, presence: true
@@ -27,10 +27,23 @@ class Session < ApplicationRecord
   end
 
    def set_imc
-
     return unless height.present? && weight.present?
 
-    h2 = (height*height).round(2)
-    self.imc = (weight / h2 ).round(2)
+    h2 = (height.to_f * height.to_f).round(2)
+    self.imc = (weight.to_f / h2).round(2)
+
+    bmr_factor = BmrFactor.where('gender_id = ? AND source = ?', patient.gender_id, 1).first
+
+    if bmr_factor
+      self.bmr = (bmr_factor.base_value.to_f +
+                    (bmr_factor.base_weight.to_f * weight) +
+                    (bmr_factor.base_height.to_f * height) -
+                    (bmr_factor.base_age.to_f * patient.age))
+    end
+
+    # Mifflin Para hombres:
+    # BMR = (10 × peso en kg) + (6.25 × altura en cm) - (5 × edad en años) + 5
+    # Mifflin Para mujeres:
+    # BMR = (10 × peso en kg) + (6.25 × altura en cm) - (5 × edad en años) - 161
   end
 end

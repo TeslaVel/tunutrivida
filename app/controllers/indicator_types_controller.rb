@@ -22,7 +22,7 @@ class IndicatorTypesController < ApplicationController
 
   # POST /indicator_types or /indicator_types.json
   def create
-    @indicator_type = IndicatorType.new(indicator_type_params)
+    @indicator_type = IndicatorType.new(indicator_type_params.merge(created_by_id: current_user.id))
 
     respond_to do |format|
       if @indicator_type.save

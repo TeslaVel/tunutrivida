@@ -1,22 +1,29 @@
 module Mutations
   class CreateContactUs < BaseMutation
+    description 'ContactUsMutation'
     argument :email, String, required: true
     argument :first_name, String, required: false
     argument :last_name, String, required: false
     argument :message, String, required: true
 
-    field :contact, Types::ContactUsType, null: true
+    # field :contact_us_type, Types::ContactUsType, null: true
 
     def resolve(email:, first_name:, last_name:, message:)
-      contact = ContactUs.create(
+      contact = ContactUs.new(
         first_name: first_name,
         last_name: last_name,
         email: email,
         message: message
       )
 
-      if contact.persisted?
-        { contact: contact }
+      if contact.save
+        {
+          id: contact.id,
+          message: contact.message,
+          first_name: contact.first_name,
+          last_name: contact.last_name,
+          email: contact.email
+        }
       else
         { errors: 'hubo error' }
       end

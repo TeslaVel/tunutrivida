@@ -14,7 +14,7 @@ class CreateSessions < ActiveRecord::Migration[6.1]
       t.decimal :muscle_mass, precision: 8, scale: 2
       t.decimal :bone_mass, precision: 8, scale: 2
       t.integer :water_percentage, precision: 8, scale: 2
-      t.integer :bmr
+      t.decimal :bmr, precision: 8, scale: 4
       t.integer :metabolic_age
       t.integer :physical_complexion
       t.boolean :initial, deafult: false

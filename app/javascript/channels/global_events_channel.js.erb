@@ -10,7 +10,7 @@ $(document).on('turbolinks:load', function() {
   consumer.subscriptions.create({channel: "GlobalEvents"}, {
     connected() {
       // Called when the subscription is ready for use on the server
-      console.log(`subscribing frontent global GlobalEvents`)
+      console.log(`from bck js global GlobalEvents`)
     },
 
     disconnected() {
@@ -19,11 +19,10 @@ $(document).on('turbolinks:load', function() {
 
     received(data) {
       console.log('recibimos en el js', data)
-      $("#notification-counter").removeClass('d-none');
-      $("#notification-counter").text(`${data.notification_count} +`);
-
-        // let partialHTML = "<%= j render(partialn  : 'layout/shared/_noti
-      // Called when there's incoming data on the websocket for this channel
+      if(data.type == 'contactus') {
+        $("#emails-counter").removeClass('d-none');
+        $("#emails-counter").text(`${data.emails_count} +`);
+      }
     }
   });
 

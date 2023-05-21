@@ -9,7 +9,7 @@
   %>
   <%= simple_form_for(@session, url: url) do |f| %>
 
-  <div class="col-sm-8 m-auto">
+  <div class="col-sm-11 col-md-8 m-auto">
     <div class="card">
      <div class="card-header" style="background: transparent;border: none;">
         <h3 class="card-title mb-1"><%= t("sessions.#{title}") %></h3>
@@ -207,6 +207,20 @@
   let weight = 0;
   let height = 0;
   let ideal_weight = 0;
+  let bmi = 0;
+
+  const gender = "<%= @patient.gender.name.capitalize%>";
+  const age = "<%= @patient.age.to_i %>";
+
+  const mbFemaleBase = parseFloat('665.51')
+  const mbFemaleBaseWeight = parseFloat('9.463')
+  const mbFemaleBaseHeight = parseFloat('1.8496')
+  const mbFemaleBaseAge = parseFloat('4.6756')
+
+  const mbMaleBase = parseFloat('66.473')
+  const mbMaleBaseWeight = parseFloat('13.751')
+  const mbMaleBaseHeight = parseFloat('5.0033 ')
+  const mbMaleBaseAge = parseFloat('6.55 ')
 
   function recalcular_imc() {
     weight = 0;
@@ -215,8 +229,9 @@
     imc = 0;
     h2 = 0;
 
-    height = $("#session_height").val().trim();
-    weight = $("#session_weight").val().trim();
+    height = parseFloat($("#session_height").val().trim());
+    weight = parseFloat($("#session_weight").val().trim());
+
     if (weight != '' && height != '')
     {
       h2 = (height*height).toFixed(2);
@@ -228,6 +243,15 @@
       console.log("h2",h2);
       $("#session_imc").val(imc);
       $("#session_ideal_weight").val(ideal_weight);
+
+
+      // if (gender == 'Male') {
+      //   bmi = (mbMaleBase + (weight * mbMaleBaseWeight) + (mbMaleBaseHeight * height) - (mbMaleBaseAge * age) )
+      // } else {
+      //   bmi = (mbFemaleBase + (weight * mbFemaleBaseWeight) + (mbFemaleBaseHeight * height) - (mbFemaleBaseAge * age) )
+      // }
+      // console.log('bmi', bmi);
+      // $('#session_bmr').val(bmi.toFixed(4))
 
     } else {$("#session_imc").val('')}
   }
@@ -256,7 +280,7 @@
     weight = $("#session_weight").val().trim();
     if (weight != '' && height != '')
     {
-      h2 = (height*height).toFixed(2);
+      h2 = (parseFloat(height) * parseFloat(height)).toFixed(2);
       ideal_weight = (imc * h2 ).toFixed(2);
       $("#session_ideal_weight").val(ideal_weight);
     } else {$("#session_ideal_weight").val('')}

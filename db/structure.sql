@@ -14,6 +14,105 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: active_storage_attachments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.active_storage_attachments (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    record_type character varying NOT NULL,
+    record_id bigint NOT NULL,
+    blob_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: active_storage_attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.active_storage_attachments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: active_storage_attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.active_storage_attachments_id_seq OWNED BY public.active_storage_attachments.id;
+
+
+--
+-- Name: active_storage_blobs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.active_storage_blobs (
+    id bigint NOT NULL,
+    key character varying NOT NULL,
+    filename character varying NOT NULL,
+    content_type character varying,
+    metadata text,
+    service_name character varying NOT NULL,
+    byte_size bigint NOT NULL,
+    checksum character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: active_storage_blobs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.active_storage_blobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: active_storage_blobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage_blobs.id;
+
+
+--
+-- Name: active_storage_variant_records; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.active_storage_variant_records (
+    id bigint NOT NULL,
+    blob_id bigint NOT NULL,
+    variation_digest character varying NOT NULL
+);
+
+
+--
+-- Name: active_storage_variant_records_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.active_storage_variant_records_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: active_storage_variant_records_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.active_storage_variant_records_id_seq OWNED BY public.active_storage_variant_records.id;
+
+
+--
 -- Name: activity_factors; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -249,6 +348,45 @@ ALTER SEQUENCE public.billings_id_seq OWNED BY public.billings.id;
 
 
 --
+-- Name: bmr_factors; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bmr_factors (
+    id bigint NOT NULL,
+    base_value numeric(8,4),
+    base_height numeric(8,4),
+    base_weight numeric(8,4),
+    base_age numeric(8,4),
+    name character varying,
+    "position" integer DEFAULT 0 NOT NULL,
+    source integer DEFAULT 1 NOT NULL,
+    gender_id bigint NOT NULL,
+    created_by_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: bmr_factors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.bmr_factors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bmr_factors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.bmr_factors_id_seq OWNED BY public.bmr_factors.id;
+
+
+--
 -- Name: comments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -290,6 +428,8 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 CREATE TABLE public.contact_us (
     id bigint NOT NULL,
     email character varying,
+    seen boolean DEFAULT false,
+    read_by_id bigint,
     first_name character varying,
     last_name character varying,
     string character varying,
@@ -465,6 +605,7 @@ CREATE TABLE public.global_configurations (
     target_currency character varying DEFAULT '1'::character varying NOT NULL,
     target_currency_code character varying DEFAULT '0'::character varying NOT NULL,
     target_conversion numeric(8,2) DEFAULT 1.0,
+    bmr_source integer DEFAULT 1 NOT NULL,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -496,8 +637,8 @@ ALTER SEQUENCE public.global_configurations_id_seq OWNED BY public.global_config
 
 CREATE TABLE public.indicator_types (
     id bigint NOT NULL,
-    name text,
-    description character varying,
+    name character varying,
+    description text,
     created_by_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -532,6 +673,7 @@ CREATE TABLE public.indicators (
     value_min numeric(8,2),
     value_max numeric(8,2),
     description character varying,
+    name character varying,
     "position" integer,
     gender_id bigint NOT NULL,
     indicator_type_id bigint NOT NULL,
@@ -649,12 +791,13 @@ ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
 
 CREATE TABLE public.notifications (
     id bigint NOT NULL,
-    notifcation_type integer DEFAULT 0,
+    notification_type integer DEFAULT 0,
     seen boolean DEFAULT false,
     content character varying NOT NULL,
-    associated_object integer NOT NULL,
-    sender_id bigint NOT NULL,
-    recipient_id bigint NOT NULL,
+    associated_object_type character varying,
+    associated_object_id bigint,
+    sender_id bigint,
+    recipient_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -983,7 +1126,7 @@ CREATE TABLE public.sessions (
     muscle_mass numeric(8,2),
     bone_mass numeric(8,2),
     water_percentage integer,
-    bmr integer,
+    bmr numeric(8,4),
     metabolic_age integer,
     physical_complexion integer,
     initial boolean,
@@ -1161,6 +1304,27 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: active_storage_attachments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_attachments ALTER COLUMN id SET DEFAULT nextval('public.active_storage_attachments_id_seq'::regclass);
+
+
+--
+-- Name: active_storage_blobs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval('public.active_storage_blobs_id_seq'::regclass);
+
+
+--
+-- Name: active_storage_variant_records id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records ALTER COLUMN id SET DEFAULT nextval('public.active_storage_variant_records_id_seq'::regclass);
+
+
+--
 -- Name: activity_factors id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1200,6 +1364,13 @@ ALTER TABLE ONLY public.billing_items ALTER COLUMN id SET DEFAULT nextval('publi
 --
 
 ALTER TABLE ONLY public.billings ALTER COLUMN id SET DEFAULT nextval('public.billings_id_seq'::regclass);
+
+
+--
+-- Name: bmr_factors id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bmr_factors ALTER COLUMN id SET DEFAULT nextval('public.bmr_factors_id_seq'::regclass);
 
 
 --
@@ -1378,6 +1549,30 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Name: active_storage_attachments active_storage_attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_attachments
+    ADD CONSTRAINT active_storage_attachments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: active_storage_blobs active_storage_blobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_blobs
+    ADD CONSTRAINT active_storage_blobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: active_storage_variant_records active_storage_variant_records_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records
+    ADD CONSTRAINT active_storage_variant_records_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: activity_factors activity_factors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1431,6 +1626,14 @@ ALTER TABLE ONLY public.billing_items
 
 ALTER TABLE ONLY public.billings
     ADD CONSTRAINT billings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bmr_factors bmr_factors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bmr_factors
+    ADD CONSTRAINT bmr_factors_pkey PRIMARY KEY (id);
 
 
 --
@@ -1642,6 +1845,34 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: index_active_storage_attachments_on_blob_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_active_storage_attachments_on_blob_id ON public.active_storage_attachments USING btree (blob_id);
+
+
+--
+-- Name: index_active_storage_attachments_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_active_storage_attachments_uniqueness ON public.active_storage_attachments USING btree (record_type, record_id, name, blob_id);
+
+
+--
+-- Name: index_active_storage_blobs_on_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_blobs USING btree (key);
+
+
+--
+-- Name: index_active_storage_variant_records_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.active_storage_variant_records USING btree (blob_id, variation_digest);
+
+
+--
 -- Name: index_activity_factors_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1712,6 +1943,20 @@ CREATE INDEX index_billings_on_patient_id ON public.billings USING btree (patien
 
 
 --
+-- Name: index_bmr_factors_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bmr_factors_on_created_by_id ON public.bmr_factors USING btree (created_by_id);
+
+
+--
+-- Name: index_bmr_factors_on_gender_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bmr_factors_on_gender_id ON public.bmr_factors USING btree (gender_id);
+
+
+--
 -- Name: index_comments_on_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1723,6 +1968,13 @@ CREATE INDEX index_comments_on_entry_id ON public.comments USING btree (entry_id
 --
 
 CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
+
+
+--
+-- Name: index_contact_us_on_read_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contact_us_on_read_by_id ON public.contact_us USING btree (read_by_id);
 
 
 --
@@ -1820,7 +2072,7 @@ CREATE INDEX index_notes_on_user_id ON public.notes USING btree (user_id);
 -- Name: index_notifications_on_associated_object; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_associated_object ON public.notifications USING btree (associated_object);
+CREATE INDEX index_notifications_on_associated_object ON public.notifications USING btree (associated_object_type, associated_object_id);
 
 
 --
@@ -2124,6 +2376,14 @@ ALTER TABLE ONLY public.packages
 
 
 --
+-- Name: contact_us fk_rails_48680d88f3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contact_us
+    ADD CONSTRAINT fk_rails_48680d88f3 FOREIGN KEY (read_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: notifications fk_rails_4aea6afa11; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2220,6 +2480,14 @@ ALTER TABLE ONLY public.indicators
 
 
 --
+-- Name: bmr_factors fk_rails_8f419dbf82; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bmr_factors
+    ADD CONSTRAINT fk_rails_8f419dbf82 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: payment_billing_items fk_rails_91651f5469; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2233,6 +2501,14 @@ ALTER TABLE ONLY public.payment_billing_items
 
 ALTER TABLE ONLY public.user_roles
     ADD CONSTRAINT fk_rails_983264fab9 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: active_storage_variant_records fk_rails_993965df05; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_variant_records
+    ADD CONSTRAINT fk_rails_993965df05 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
 
 
 --
@@ -2268,11 +2544,27 @@ ALTER TABLE ONLY public.roles
 
 
 --
+-- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.active_storage_attachments
+    ADD CONSTRAINT fk_rails_c3b3935057 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
 -- Name: appointments fk_rails_c63da04ab4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.appointments
     ADD CONSTRAINT fk_rails_c63da04ab4 FOREIGN KEY (patient_id) REFERENCES public.users(id);
+
+
+--
+-- Name: bmr_factors fk_rails_c8cc5f72da; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bmr_factors
+    ADD CONSTRAINT fk_rails_c8cc5f72da FOREIGN KEY (gender_id) REFERENCES public.genders(id);
 
 
 --
@@ -2386,6 +2678,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230512111331'),
 ('20230512113427'),
 ('20230512114154'),
-('20230513012452');
+('20230513012452'),
+('20230518222715'),
+('20230520144416');
 
 

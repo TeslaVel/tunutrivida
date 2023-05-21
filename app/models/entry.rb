@@ -19,7 +19,8 @@ class Entry < ApplicationRecord
   scope :note_entries, -> { where(type: 'NoteEntry') }
   scope :other_entries, -> { where(type: 'OtherEntry') }
 
-  belongs_to :poster, class_name: 'User', foreign_key: 'user_id'
-  has_many :comments # , optional: true
+  belongs_to :user
+  has_many :comments
+  has_one_attached :image
   # has_many :emoji_reactions, dependent: :destroy
 end

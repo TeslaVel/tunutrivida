@@ -17,7 +17,8 @@ module Types
     end
 
     def entries
-      Entry.all
+      #  Entry&.with_attached_image || []
+      context[:current_user]&.entries&.with_attached_image || []
     end
   end
 end

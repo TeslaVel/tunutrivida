@@ -56,8 +56,10 @@ class SessionsController < ApplicationController
 
   # # POST /sessions
   def create
-    if @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
+    if @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i &&
+      @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
+      return
     end
 
     @session = @patient_package.sessions.build(session_params.merge(created_by_id: current_user.id))
@@ -76,7 +78,6 @@ class SessionsController < ApplicationController
         format.json { render json: @session.errors.full_messages.join(". ") << "." }
       end
     end
-
   end
 
   # # PATCH/PUT /posts/1

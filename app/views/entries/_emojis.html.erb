@@ -1,7 +1,5 @@
-<% emojis = ['👍', '👏', '☺️', '🎉', '🤔', '👓']%>
-
-<% emojis.each do |emoji| %>
-  <button type="button" class="btn btn border-radius-30 p-1 my-1 button-emoji" onclick="addReaction(event)" value="<%= emoji %>">
+<% ApplicationController::GLOBAL_EMOJIS.each do |emoji| %>
+  <button type="button" class="border-radius-30 p-0 px-1 my-0 button-emoji btn-none" onclick="addReaction(event)" value="<%= emoji %>">
     <%= emoji %>
   </button>
 <% end %>

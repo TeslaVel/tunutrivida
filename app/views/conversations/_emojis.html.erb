@@ -1,0 +1,5 @@
+<% ApplicationController::GLOBAL_EMOJIS.each do |emoji| %>
+  <button type="button" class="border-radius-30 p-0 px-1 my-0 button-emoji btn-none" onclick="addEmoji(event)" value="<%= emoji %>">
+    <%= emoji %>
+  </button>
+<% end %>

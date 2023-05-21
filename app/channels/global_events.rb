@@ -1,22 +1,10 @@
 # app/channels/clients_channel.rb
 class GlobalEvents < ApplicationCable::Channel
   def subscribed
-    # if params[:channel_id].present?
-    #   c_name = "global_events_#{params[:channel_id]}"
-    #   stream_from c_name
-    #   puts "############ BKC CTRL Subscribed to #{c_name}"
-    # end
+    ch_name = "global_events_tunutrivida"
 
-    if params[:dietitian_id].present?
-      ch_name = "global_events_d_#{params[:dietitian_id]}"
-    elsif current_user.present?
-      ch_name = "global_events_d_#{current_user.id}"
-    end
-
-    if ch_name.present?
-      stream_from ch_name
-      puts "############ BCKEND Listenin #{ch_name} Params #{params}"
-    end
+    stream_from ch_name
+    puts "############ BCKEND Global Event Listenin #{ch_name} Params #{params}"
 
     # return unless params[:client_id].present?
     # client = SocketClient.find_by(clients_channel_id: params[:client_id])
@@ -33,7 +21,7 @@ class GlobalEvents < ApplicationCable::Channel
   end
 
   def receive(data)
-    puts "############ DATA RECIBIDA ## #{data}"
+    puts "############  BCKEND Global Event data RECIBIDA ## #{data}"
     # html = render_to_string(partial: 'messages/message', locals: { message: message })
     # ActionCable.server.broadcast 'chat_channel', message: html
   end

@@ -72,9 +72,7 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 }
 
 /*CUSTOM CSS*/
-// .text-decoration-none, .text-decoration-none:hover {
-//   text-decoration: none;
-// }
+
 
 .overflow-y-scroll { overflow-y: scroll;}
 .overflow-x-scroll { overflow-x: scroll;}
@@ -91,7 +89,7 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 
 /***** LOOPS para crear clases ***/
 /* define w-[10 to 400]px 10 in 10 */
-@for $i from 1 through 40 {
+@for $i from 1 through 50 {
   .w-#{$i*10}px {
     width: 10px * $i;
   }
@@ -163,6 +161,8 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 .pointer {cursor: pointer;}
 
 /* Colors */
+$purple: #6D2969;
+
 $primary-50: #FFEEFE;
 $primary-100: #FFE1E0;
 $primary-300: #FFA6A3;
@@ -332,10 +332,45 @@ $gray-500: #5E0000;
 /* end override sidebar */
 
 
-/*btn emoji */
+/*Colores para las categorias de enties*/
+
+.workout-entry {
+  background: #ebf1f1;
+  border-bottom-color: #a9d9e8 !important
+}
+
+.food-entry {
+  background: #ffeddf;
+  border-bottom-color: #f3bf97 !important;
+}
+
+/* css for entries and chat emoji */
 .button-emoji:hover {
   background-color: $pink-300;
   border-color: $pink-300;
+}
+
+.emoji-panel {
+/*  right: 6rem;
+  border-radius: 50px 50px 0 50px;
+  bottom: 2.5rem;*/
+  
+}
+
+.d-none { display: none !important;}
+.btn-none {
+  background: none;
+  border: none;
+}
+
+.emoji-panel::after {
+/*  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  border-width: 8px;
+  border-color: #e8abb5;
+  border-radius: 50px 9px 4px;*/
 }
 
 /* some form customization */

@@ -2,12 +2,14 @@
 
 # Note model
 class Notification < ApplicationRecord
-  belongs_to :sender, class_name: 'User', foreign_key: 'sender_id'
-  belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
+  belongs_to :sender, class_name: 'User', foreign_key: 'sender_id', optional: true
+  belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id', optional: true
+  belongs_to :associated_object, polymorphic: true
 
   NOTIFICATION_TYPES = %i[
-    CommentNotification
-    EntryNotiffication
+    comment
+    entry
+    contactus
   ].freeze
 
   enum notification_type: NOTIFICATION_TYPES

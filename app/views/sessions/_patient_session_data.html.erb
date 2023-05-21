@@ -70,6 +70,7 @@
               <p class="mb-2 text-left">Grasa Visceral:</p>
               <p class="mb-2 text-left "> Masa Muscular </p>
               <p class="mb-2 text-left "> Masa Osea </p>
+              <p class="mb-2 text-left "> Activiy Factor </p>
               <p class="mb-2 text-left "> BMR </p>
               <p class="mb-2 text-left "> Edad Metabolica </p>
               <p class="mb-2 text-left "> Porcetaje de Agua </p>
@@ -82,7 +83,8 @@
               <p class="mb-2 "><%= session.visceral_grease %> <strong>%</strong></p>
               <p class="mb-2 "><%= session.muscle_mass %> <strong>Kg</strong></p>
               <p class="mb-2 "><%= session.bone_mass %> <strong>Kg</strong></p>
-              <p class="mb-2 "><%= (session&.bmr || 0) * (session&.activity_factor.value || 0) %> <strong>Kca</strong></td></p>
+              <p class="mb-2 "><%= session.activity_factor.description %>
+              <p class="mb-2 "><%= session&.bmr %> => <%= ((session&.bmr || 0) * (session&.activity_factor.value || 0)).round(4) %> <strong>Kca</strong></td></p>
               <p class="mb-2 "><%= session.metabolic_age %></p>
               <p class="mb-2 "><%= session.water_percentage %> <strong>%</strong></p>
               <p class="mb-2 "><%= session.physical_complexion %></p>

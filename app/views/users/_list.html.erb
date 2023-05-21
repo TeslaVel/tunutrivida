@@ -40,11 +40,7 @@
             <i class="fa fa-eye c-blue"></i>
           <% end %>
         </td>
-        <td>
-          <%= link_to edit_patient_path(patient) do %>
-            <i class="fa fa-pen c-green"></i>
-          <% end %>
-        </td>
+     
         <td >
           <%= link_to patient_path(patient.id), method: :delete, data: { confirm: t('patients.are_you_sure') } do %>
             <i class="fa fa-trash c-red"></i>

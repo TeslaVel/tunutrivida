@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   before_create :set_slug
   before_create :set_date_of_birth
+  before_update :set_date_of_birth if [:date_of_birth]
   after_create :set_temporal_email_and_username
 
   validates :email, uniqueness: true
@@ -20,7 +21,10 @@ class User < ApplicationRecord
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
   has_many :entries
-  has_many :notifications, class_name: 'User', foreign_key: 'recipient'
+  has_many :notifications, class_name: 'Notification', foreign_key: 'recipient'
+  has_many :dietitian_conversations, class_name: 'Conversation', foreign_key: 'dietitian_id'
+  has_many :patient_conversations, class_name: 'Conversation', foreign_key: 'patient_id'
+
   # nuew
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
@@ -62,11 +66,15 @@ class User < ApplicationRecord
 
 
   def is_patient?
-    has_role? :patient
+    return true if has_role? :patient
+
+    false
   end
 
   def is_dietitian?
-    has_role? :dietitian
+    return true if has_role? :dietitian
+
+    false
   end
 
   def full_name
@@ -78,6 +86,13 @@ class User < ApplicationRecord
     stripped_last_name = last_name.strip
 
     "#{stripped_first_name[0].capitalize}.#{stripped_last_name[0].capitalize}"
+  end
+
+  def first_name_initial
+    stripped_first_name = first_name.strip
+    stripped_last_name = last_name.strip
+
+    "#{stripped_first_name[0].capitalize}. #{stripped_last_name}"
   end
 
   include RolesConcern
@@ -112,13 +127,16 @@ class User < ApplicationRecord
 	end
 
   def set_temporal_email_and_username
+    skiped = ['tunutrividalb@gmail.com', 'francisberrios@example.com']
+    return if skiped.include?(email)
+
     uname = "#{first_name.parameterize}#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
     mail = "#{uname}@example.com"
 
-    if email.present? && email == 'tunutrividalb@gmail.com'
-      uname = 'tunutrividalb'
-      mail = email
-    end
+    # if email.present? && 
+    #   uname = 'tunutrividalb'
+    #   mail = email
+    # end
 
     self.username = uname
     self.email = mail

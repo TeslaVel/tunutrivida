@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bmr Factors</h1>
+<div class="w-100 text-right mb-4">
+  <%= link_to 'New', new_bmr_factor_path , class: "btn btn-primary" %>
+</div>
+
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @bmr_factors %>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Base value</th>
+      <th>Base Height</th>
+      <th>Base Weight</th>
+      <th>Base Age</th>
+      <th>Position</th>
+      <th>Source</th>
+      <th>Gender</th>
+      <th>Created</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bmr_factors.each do |bmr_factor| %>
+      <tr>
+        <td><%= bmr_factor.name %></td>
+        <td><%= bmr_factor.base_value %></td>
+        <td><%= bmr_factor.base_height %></td>
+        <td><%= bmr_factor.base_weight %></td>
+        <td><%= bmr_factor.base_age %></td>
+        <td><%= bmr_factor.position %></td>
+        <td><%= bmr_factor.source %></td>
+        <td><%= bmr_factor.gender.name %></td>
+        <td><%= bmr_factor.created_by.full_name %></td>
+        <td><%= link_to 'Show', bmr_factor %></td>
+        <td><%= link_to 'Edit', edit_bmr_factor_path(bmr_factor) %></td>
+        <td><%= link_to 'Destroy', bmr_factor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="d-sm-flex justify-content-center">
+  <%= render 'paginations/pagination', objectData: @bmr_factors %>
+</div>
+

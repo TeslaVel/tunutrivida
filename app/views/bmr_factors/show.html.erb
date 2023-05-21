@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @bmr_factor.name %>
+</p>
+<p>
+
+  <strong>Base Value:</strong>
+  <%= @bmr_factor.base_value %>
+</p>
+
+<p>
+  <strong>Base Height:</strong>
+  <%= @bmr_factor.base_height %>
+</p>
+
+<p>
+  <strong>Base Weight:</strong>
+  <%= @bmr_factor.base_weight %>
+</p>
+
+<p>
+  <strong>Base Age:</strong>
+  <%= @bmr_factor.base_age %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @bmr_factor.gender.name %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @bmr_factor.position %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @bmr_factor.source %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @bmr_factor.created_by.full_name %>
+</p>
+
+<%= link_to 'Edit', edit_bmr_factor_path(@bmr_factor) %> |
+<%= link_to 'Back', bmr_factors_path %>

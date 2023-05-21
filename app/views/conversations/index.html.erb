@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-12 p-0 m-0">
+    <div class="d-flex flex-col flex-grow-1 px-2 " style="height: 576px;">
+      <div style="border: solid 1px gray;" class="p-3 border: solid 1px gray;min-width: 170px;width: 170px;font-size: 15px;">
+        <header class="p-0 pb-3">Conversations (<%= @conversations.count %>)</header>
+        <section class="">
+          <% @conversations.map do |conversation|%>
+            <div class="pt-1">
+              <%= link_to "/conversations?convo_id=#{conversation.id}", class: 'text-decoration-none' do %>
+                <%= conversation.patient.full_name %>
+              <% end %>
+            </div>
+          <% end %>
+        </section>
+      </div>
+      <div class="flex-grow-1">
+        <div class="d-flex justify-content-center">
+          <% if @conversation %>
+            <%= render 'chat', conversation: @conversation %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    $(document).on('turbolinks:load', function() {
+      const myDiv = document.getElementById('content-notes-scoll');
+      myDiv.scrollTop = myDiv.scrollHeight;
+      console.log('myDiv', myDiv)
+    });
+    
+
+    function sendComment() {
+      let dataToSubmit = $("#conversation_form").serialize();
+      console.log('dataToSubmit', dataToSubmit)
+      $.ajax({
+        url: $("#conversation_form").attr('action'),
+        type: "POST",
+        data: dataToSubmit,
+        dataType: "script",
+        success: function(data) {
+          $("#messageInput").val('');
+        },
+        error: function(err) {
+          console.log('err', err);
+        }
+      })
+    }
+
+    function addComment(event) {
+      event.preventDefault();
+      sendComment()
+    }
+
+    function addEmoji(event) {
+      const inputField = document.getElementById('messageInput');
+      const emoji = event.target.value
+
+      if (inputField === document.activeElement) {
+        // Obtiene la posición actual del cursor
+        var start = inputField.selectionStart;
+        var end = inputField.selectionEnd;
+
+        // Inserta el emoji en la posición actual del cursor
+        inputField.value = inputField.value.substring(0, start) + emoji + inputField.value.substring(end);
+
+        // Mueve el cursor después del emoji insertado
+        var newCursorPosition = start + emoji.length;
+        inputField.setSelectionRange(newCursorPosition, newCursorPosition);
+      } else {
+        inputField.value += emoji;
+      }
+    }
+  </script>
+<% end %>

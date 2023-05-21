@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   resources :appointments
   resources :availabilities
   resources :tasks
+  resources :bmr_factors
+  resources :conversations do
+    resources :notes
+  end
   resources :entries do
     resources :emoji_reactions, only: [:create]
 

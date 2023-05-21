@@ -12,12 +12,15 @@
           <li class="nav-item">
             <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
           </li>
+          <li class="nav-item">
+            <%= link_to 'Edit', edit_patient_path(@patient), class: "nav-link" %>
+          </li>
         </ul>
       </div>
       <div class="card-body tab-content">
         <div class="tab-pane active" id="about">
           <div class="row">
-            <div class="col-md-5 p-0">
+            <div class="col-md-6 p-0">
               <div class="list-unstyled">
                 <% if @patient.sessions.first.present? %>
                   <p class="mb-2 text-left">Ideal Weight:</p>
@@ -32,7 +35,7 @@
                 <p class="mb-2 text-left diagonis_icc"> ICC </p>
               </div>
             </div>
-            <div class="col-md-7 p-0">
+            <div class="col-md-6 p-0">
               <div class="list-unstyled">
                 <% if @patient.sessions.first.present? %>
                   <p class="mb-2 "><%= @patient.sessions.count > 0 ? @patient.sessions.first&.ideal_weight || '-' : '-' %></p>
@@ -41,7 +44,13 @@
                 <p class="mb-2 "><%= @patient.last_name %></p>
                 <p class="mb-2 "><%= @patient.age %></p>
                 <p class="mb-2 "><%= @patient.gender.name %></p>
-                <p class="mb-2 "><%= @session&.date || '-' %></p>
+                <p class="mb-2 ">
+                  <% if (@session) %>
+                    <%= link_to @session&.date, patient_patient_package_session_show_path(@patient, @session.patient_package, @session) %>
+                  <% else %>
+                    -
+                  <% end %>
+                </p>
                 <p class="mb-2 diagonis_imc"><%= @session&.imc || '-' %></p>
                 <p class="mb-2 diagonis_pdc"><%= @session&.waist || '-' %> </p>
                 <p class="mb-2 diagonis_icc"><%= @icc || '-' %></p>
