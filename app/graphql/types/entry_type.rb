@@ -16,9 +16,9 @@ module Types
 
     def created_at
       if object.is_a?(Hash)
-        object[:created_at]
+        object[:created_at].strftime('%d-%m-%Y %I:%H %P')
       else
-        object.created_at
+        object.created_at.strftime('%d-%m-%Y %I:%H %P')
       end
     end
 

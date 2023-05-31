@@ -13,35 +13,39 @@ class User < ApplicationRecord
 	validates :last_name, presence: true
 
   belongs_to :organization
-  # has_one :patient_account, :class_name => "Patient", :foreign_key => "patient_id"
-  # has_many :patients, :foreign_key => "dietitian_id"
+ 
+
+  # user onwer general
   has_many :user_roles
-  # has_many :appointments, foreign_key: "dietitian_id"
-  has_one :availability, foreign_key: "dietitian_id"
-  has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :roles, through: :user_roles
   has_many :entries
   has_many :notifications, class_name: 'Notification', foreign_key: 'recipient'
-  has_many :dietitian_conversations, class_name: 'Conversation', foreign_key: 'dietitian_id'
-  has_many :patient_conversations, class_name: 'Conversation', foreign_key: 'patient_id'
 
-  # nuew
+
+  # patient owner
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
-  has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
-
+  has_many :patient_conversations, class_name: 'Conversation', foreign_key: 'patient_id'
 	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id'
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages
 	has_many :billings
   has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
-  has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
 	has_many :tasks
 
-  scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
-
-  # new
   scope :last_sessions, -> { self.sessions.order(date: :asc) }
+
+
+  # dieitian owner
+  has_one :availability, foreign_key: "dietitian_id"
+  has_one :appointment_setting, foreign_key: "dietitian_id"
+  has_many :dietitian_conversations, class_name: 'Conversation', foreign_key: 'dietitian_id'
+  has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
+  has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
+
+
+  scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
+  
 	scope :active_patients, ->{ where(status: :active) }
 
   # new

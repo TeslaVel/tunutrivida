@@ -6,7 +6,7 @@ module Types
     field :user_id, String
     field :comment_type, Int
     field :created_at, String
-    field :user, UserType, null: true
+    field :user, UserType
 
     def user
       if object.is_a?(Hash)

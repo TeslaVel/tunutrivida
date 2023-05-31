@@ -29,13 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
 	def authenticate_all
-    unless current_user
-				# !params[:query].match('AuthMutation') &&
-			if graphql_request? &&
-				 params[:operationName] != 'AuthMutation' &&
-				!params[:query].match('AuthMutation') &&
-				!params[:query].match('CreateContactUs') &&
-				 params[:operationName] != 'CreateContactUs'
+		return if params[:operationName].in?(%w[AuthMutation CreateContactUs])
+		return if params[:query]&.match('AuthMutation') || params[:query]&.match('CreateContactUs')
+
+    unless current_user.present?
+			if graphql_request?
 				 return {
 				 	error: "You need to authenticate to perform this action",
 				 	status: :unauthorized

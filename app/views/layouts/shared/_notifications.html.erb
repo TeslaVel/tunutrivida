@@ -22,7 +22,11 @@
     <div id="notifications-container" class="h-300px overflow-hidden">
      <div class="h-100 overflow-y-scroll">
       <% notifications&.each do |notification| %>
-        <a class="dropdown-item d-flex align-items-center" href="<%= entry_path(notification.associated_object.entry) %>">
+        <% if notification&.associated_object&.entry.present? %>
+          <a class="dropdown-item d-flex align-items-center" href="<%= entry_path(notification.associated_object.entry) %>">
+        <% else %>
+          <a class="dropdown-item d-flex align-items-center" href="">
+        <% end %>
           <div class="mr-3">
             <div class="icon-circle bg-<%= notification.notification_type %>">
               <i class="fas fa-file-alt text-white"></i>

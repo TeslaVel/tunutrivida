@@ -6,8 +6,16 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
+
+    # if params[:operationName] == 'Logout'
+    #   result['data']['logout'] = true
+    #   context = {
+    #     current_user: nil,
+    #   }
+    # else
+    # end
     context = {
-      current_user: current_user,
+      current_user: current_user
     }
 
     puts "###EXPONIENDO CONTEXT #{context}"

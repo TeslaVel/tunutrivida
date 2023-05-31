@@ -6,24 +6,28 @@ class Appointment < ApplicationRecord
   belongs_to :patient, class_name: 'User', foreign_key: 'patient_id'
   belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
 
-  Appointment_Types = %i[
+  APPOINTMENT_TYPES = %i[
     in_person
     phone_call
     video_call
   ].freeze
 
-  enum appointment_type: Appointment_Types
+  enum appointment_type: APPOINTMENT_TYPES
 
-  Status_Types = %i[
+  STATUS_TYPES = %i[
     pending
     ocurred
     happening
-    cancelld
+    cancelled
   ].freeze
 
-  enum status: Status_Types
+  enum status: STATUS_TYPES
 
   before_save :set_title
+
+  scope :current_and_future, -> {
+    where(start_date: Time.zone.today..(Time.zone.today + 3.days), status: statuses.values_at(:pending, :happening))
+  }
 
   private
 

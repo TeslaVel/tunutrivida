@@ -1,0 +1,50 @@
+module Types
+  class SessionType < BaseObject
+    field :id, ID
+    field :initial, Boolean
+    field :date, String
+    field :dietitian, UserType
+    field :height, String
+    field :weight, String
+    field :waist, String
+    field :hip, String
+    field :high_abdomen, String
+    field :low_abdomen, String
+    field :imc, String
+    field :ideal_weight, String
+    field :body_grease, String
+    field :visceral_grease, String
+    field :muscle_mass, String
+    field :bone_mass, String
+    field :water_percentage, String
+    field :bmr, String
+    field :metabolic_age, String
+    field :physical_complexion, String
+    field :activity_factor, ActivityFactorType
+
+
+    def date
+      if object.is_a?(Hash)
+        object[:date].strftime('%b %-d at %I:%H %P')
+      else
+        object.date.strftime('%b %-d at %I:%H %P')
+      end
+    end
+
+    def dietitian
+      if object.is_a?(Hash)
+        object[:dietitian]
+      else
+        object.dietitian
+      end
+    end
+
+    def activity_factor
+      if object.is_a?(Hash)
+        object[:activity_factor]
+      else
+        object.activity_factor
+      end
+    end
+  end
+end

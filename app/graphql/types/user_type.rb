@@ -2,14 +2,14 @@
 
 module Types
   class UserType < Types::BaseObject
-    field :id, String, null: false
-    field :first_name, String, null: false
-    field :last_name, String, null: false
-    field :email, String, null: false
-    field :username, String, null: false
-    field :full_name, String, null: false
-    field :first_name_initial, String, null: false
-    field :initials, String, null: false
+    field :id, String
+    field :first_name, String
+    field :last_name, String
+    field :email, String
+    field :username, String
+    field :full_name, String
+    field :first_name_initial, String
+    field :initials, String
 
     def full_name
       object.full_name
@@ -19,7 +19,7 @@ module Types
       object.first_name_initial
     end
 
-     def initials
+    def initials
       object.get_initials
     end
   end
