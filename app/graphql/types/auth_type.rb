@@ -11,6 +11,7 @@ module Types
     field :weight, String
     field :imc, String
     field :age, String
+    field :gender, String
 
     # def height
     #   binding.pry

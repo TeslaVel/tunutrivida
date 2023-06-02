@@ -22,7 +22,8 @@ module Mutations
           height: user.sessions&.first&.height,
           weight: user.sessions&.first&.weight,
           imc: user.sessions&.first&.imc,
-          age: user.age
+          age: user.age,
+          gender: user&.gender.name.downcase
         }
       else
         { error: 'Invalid email or password' }

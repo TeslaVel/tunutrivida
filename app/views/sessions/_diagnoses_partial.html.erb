@@ -16,7 +16,7 @@
 			  <tr class=" <%= diagnosis&.id == indi.id ? "diagonis_#{title.downcase}" : '' %> ">
 			    <td class="text-center"><%= indi['value_min'] <= 0.0 ? '<' : indi['value_min'] %></td>
 			    <td class="text-center"><%= indi['value_max'] >= 999 ? '>' : indi['value_max'] %></td>
-			    <td ><%= indi['description'] %></td>
+			    <td ><%= indi['name'] %></td>
 			  </tr>
 			 	<% end %>
 		  </tbody>
