@@ -30,8 +30,11 @@ def create_patient_packages_and_sessions(patient,package,dietitian,height,days_w
 		end
 
 		Session.create!(
-			weight: weight,height: height,
-			waist: waist,hip: hip,
+			age: patient.age,
+			weight: weight,
+			height: height,
+			waist: waist,
+			hip: hip,
 			imc: imc,
 			high_abdomen: high_abdomen,
 			low_abdomen: low_abdomen,

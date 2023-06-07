@@ -7,7 +7,7 @@ class Api::ApiController < ActionController::API
   before_action :authenticate_request
 
   def current_user
-		@current_user 
+		@current_user
   end
 
   private

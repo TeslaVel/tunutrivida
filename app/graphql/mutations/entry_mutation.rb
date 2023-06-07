@@ -3,11 +3,12 @@ module Mutations
     description 'EntryMutation'
     argument :description, String, required: true
     argument :entry_type, String, required: false
+    argument :image, ApolloUploadServer::Upload, required: false
 
     field :entry, Types::EntryType, null: true
     field :errors, [String], null: false
 
-    def resolve(entry_type:, description:)
+    def resolve(entry_type:, description:, image:)
       current_user = context[:current_user]
 
       if current_user.present?
@@ -17,11 +18,15 @@ module Mutations
           entry_type: entry_type
         )
 
+        if image.present?
+          entry.image.attach(io: image, filename: image.original_filename) # Adjunta la imagen al modelo Entry
+        end
+
         if entry.save
           {
             id: entry.id,
             description: entry.description,
-            created_at: entry.created_at.strftime('%b %-d at %I:%H %P'),
+            created_at: entry.created_at,
             user: entry.user
           }
         else

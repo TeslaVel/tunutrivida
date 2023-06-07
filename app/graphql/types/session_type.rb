@@ -2,6 +2,7 @@ module Types
   class SessionType < BaseObject
     field :id, ID
     field :initial, Boolean
+    field :age, String
     field :date, String
     field :dietitian, UserType
     field :height, String
@@ -22,12 +23,15 @@ module Types
     field :physical_complexion, String
     field :activity_factor, ActivityFactorType
 
+    def age
+      object.patient.age
+    end
 
     def date
       if object.is_a?(Hash)
-        object[:date].strftime('%b %-d at %I:%H %P')
+        object[:date].strftime('%Y-%m-%d %I:%H %P')
       else
-        object.date.strftime('%b %-d at %I:%H %P')
+        object.date.strftime('%Y-%m-%d %I:%H %P')
       end
     end
 

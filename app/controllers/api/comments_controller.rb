@@ -1,12 +1,4 @@
 class Api::CommentsController < Api::ApiController
-
-  def create
-    patients = User.joins(:roles).where(roles: { name: 'patient' })
-    # ClientsChannel.broadcast_to(nil, message: 'Hello, world111')
-
-    render json: patients
-  end
-
   def create
     entry = Entry.find(comments_params[:entry_id])
     return unless entry

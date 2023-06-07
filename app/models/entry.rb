@@ -21,6 +21,9 @@ class Entry < ApplicationRecord
 
   belongs_to :user
   has_many :comments
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
+
+  validates :description, presence: true
+  validates :entry_type, presence: true
   # has_many :emoji_reactions, dependent: :destroy
 end

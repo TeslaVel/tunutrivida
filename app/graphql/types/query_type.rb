@@ -10,7 +10,9 @@ module Types
     # They will be entry points for queries on your schema.
 
     field :users, [Types::UserType], null: false
-    field :entries, [Types::EntryType], null: false
+    field :entries, [Types::EntryType], null: false do
+      argument :order, String, required: false
+    end
     field :current_appointments, [Types::AppointmentType], null: false
     field :appointments, [Types::AppointmentType], null: false do
       argument :filter, Types::FilterInput, required: false
@@ -21,8 +23,13 @@ module Types
       User.all
     end
 
-    def entries
-      context[:current_user]&.entries&.with_attached_image || []
+    def entries(order: String)
+      entries = context[:current_user]&.entries&.with_attached_image || []
+      if order.present?
+        entries = entries.order(created_at: :desc)
+      end
+      
+      entries
     end
 
     # def appointments(filter: {})
@@ -32,8 +39,8 @@ module Types
     def appointments(filter: {})
       appointments = context[:current_user]&.patient_appointments || []
 
-      if filter.present?
-        appointments = apply_filters(appointments, filter)
+      if filter[:status].present?
+        appointments = appointments.where(status: filter[:status].to_sym)
       end
 
       appointments
@@ -45,16 +52,6 @@ module Types
 
     def sessions
       context[:current_user]&.sessions.order(:date) || []
-    end
-
-    private
-
-    def apply_filters(appointments, filter)
-      if filter[:status].present?
-        appointments = appointments.where(status: filter[:status].to_sym)
-      end
-
-      appointments
     end
   end
 end

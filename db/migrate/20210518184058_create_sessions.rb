@@ -1,6 +1,7 @@
 class CreateSessions < ActiveRecord::Migration[6.1]
   def change
     create_table :sessions do |t|
+      t.integer :age, null: true
       t.decimal :weight, precision: 8, scale: 2
       t.decimal :height, precision: 8, scale: 2
       t.decimal :waist, precision: 8, scale: 2

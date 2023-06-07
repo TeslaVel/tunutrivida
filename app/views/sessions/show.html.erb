@@ -1,7 +1,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800"> [Session] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= @session&.date %> </h1>
+  <h1 class="h3 mb-0 text-gray-800"> [Session] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= link_to @session.patient_package.package.name, patient_package_show_path(@patient, @session.patient_package) %> > <%= @session&.date %> </h1>
 
-  <%= link_to t('sessions.back'), patient_package_show_path(@patient,@session.patient_package) %>
+  <%= link_to t('sessions.back'), patient_package_show_path(@patient, @session.patient_package) %>
 </div>
 
 <div class="row justify-content-between">

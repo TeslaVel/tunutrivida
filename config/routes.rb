@@ -10,9 +10,10 @@ Rails.application.routes.draw do
   namespace :api do
     post 'login', to: 'session#create'
     post 'comments', to: 'comments#create'
+    post 'entries', to: 'entries#create'
     get 'patients', to: 'patients#index'
     get 'patients/search', to: 'patients#search'
-    post 'patients', to: 'patients#new'
+    # post 'patients', to: 'patients#new'
   end
 
   resources :activity_factors
