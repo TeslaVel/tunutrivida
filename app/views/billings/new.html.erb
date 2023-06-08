@@ -17,7 +17,7 @@
 
     <div class="form-group">
       <label for="billing_tye">Billing Type</label>
-      <%= f.select(:billing_type, options_for_select(Billing::Billing_Types.map {|k, v| [k.to_s.humanize.capitalize, v]}, :selected => ['Type'] ), {}, {:required => true ,:class => 'form-control'}) %>
+      <%= f.select(:billing_type, options_for_select(Billing::BILLING_ITEMS.map {|k, v| [k.to_s.humanize.capitalize, v]}, :selected => ['Type'] ), {}, {:required => true ,:class => 'form-control'}) %>
     </div>
 
     <div class="d-flex justify-content-center align-items-center form-group">

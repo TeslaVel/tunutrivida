@@ -25,7 +25,7 @@ class User < ApplicationRecord
   # patient owner
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
-  has_many :patient_conversations, class_name: 'Conversation', foreign_key: 'patient_id'
+  has_one :patient_conversation, class_name: 'Conversation', foreign_key: 'patient_id'
 	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id'
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages

@@ -18,6 +18,7 @@ module Types
       argument :filter, Types::FilterInput, required: false
     end
     field :sessions, [Types::SessionType], null: false
+    field :conversation, Types::ConversationType, null: false
 
     def users
       User.all
@@ -52,6 +53,10 @@ module Types
 
     def sessions
       context[:current_user]&.sessions.order(:date) || []
+    end
+
+    def conversation
+      context[:current_user]&.patient_conversation
     end
   end
 end
