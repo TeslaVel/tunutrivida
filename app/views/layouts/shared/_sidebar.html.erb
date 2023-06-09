@@ -77,7 +77,7 @@
   <% end %>
 
 
-  <% if current_user.has_role?(:dietitian) %>
+  <% if current_user.has_role?(:super_admin) %>
     <% active_context = active_link?(includes: ['buttons', 'cards']) %>
     <%= nav_context :components, 'Components', icon: 'cog', active_link: active_context do %>
       <h6 class="collapse-header">Custom Components:</h6>
@@ -86,7 +86,7 @@
     <% end %>
   <% end %>
 
-  <% if current_user.has_role?(:dietitian) %>
+  <% if current_user.has_role?(:super_admin) %>
     <!-- Nav Item - Utilities Collapse Menu -->
     <%= nav_context :utilities, 'Utilities', icon: 'wrench' do %>
       <h6 class="collapse-header">Custom Utilities:</h6>

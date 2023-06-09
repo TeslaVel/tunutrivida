@@ -1,10 +1,10 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: %i[ show edit update destroy ]
+  before_action :set_conversations, only: %i[ index create ]
 
   # GET /conversations or /conversations.json
   def index
     @conversation ||= Conversation.find_by(id: params[:convo_id])
-    @conversations = current_user.dietitian_conversations
   end
 
   # GET /conversations/1 or /conversations/1.json
@@ -27,13 +27,14 @@ class ConversationsController < ApplicationController
     respond_to do |format|
       if @conversation.save
         format.html { redirect_to conversation_url(@conversation), notice: "Conversation was successfully created." }
-        format.json { render :show, status: :created, location: @conversation }
+        format.js { render 'conversations/index', layout: false }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
       end
     end
   end
+
 
   # PATCH/PUT /conversations/1 or /conversations/1.json
   def update
@@ -64,8 +65,13 @@ class ConversationsController < ApplicationController
       @conversation = Conversation.find(params[:id])
     end
 
+    def set_conversations
+      @conversations = current_user.dietitian_conversations
+    end
+
     # Only allow a list of trusted parameters through.
     def conversation_params
-      params.fetch(:conversation, {})
+      # params.fetch(:conversation, {})
+      params.require(:conversation).permit(:patient_id).merge(dietitian_id: current_user.id)
     end
 end

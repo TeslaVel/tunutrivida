@@ -18,18 +18,19 @@ module Types
       argument :filter, Types::FilterInput, required: false
     end
     field :sessions, [Types::SessionType], null: false
-    field :conversation, Types::ConversationType, null: false
+    field :conversation, Types::ConversationType, null: true
 
     def users
       User.all
     end
 
     def entries(order: String)
-      entries = context[:current_user]&.entries&.with_attached_image || []
       if order.present?
-        entries = entries.order(created_at: :desc)
+        entries = context[:current_user]&.entries&.with_attached_image.order(created_at: :desc)  || []
+      else
+        entries = context[:current_user]&.entries&.with_attached_image || []
       end
-      
+       
       entries
     end
 
@@ -38,10 +39,10 @@ module Types
     # end
 
     def appointments(filter: {})
-      appointments = context[:current_user]&.patient_appointments || []
-
       if filter[:status].present?
-        appointments = appointments.where(status: filter[:status].to_sym)
+        appointments = context[:current_user]&.patient_appointments.where(status: filter[:status].to_sym) || []
+      else
+        appointments = context[:current_user]&.patient_appointments || []
       end
 
       appointments

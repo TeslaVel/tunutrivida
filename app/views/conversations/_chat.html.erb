@@ -32,7 +32,7 @@
         </div>
 
         <!-- Renderizamos el formulario para comentar -->
-        <%= simple_form_for([@conversation, Note.new],
+        <%= simple_form_for([conversation, Note.new],
           data: { type: :json }, html: { class: 'd-flex justify-between items-center',
           id:"conversation_form", remote: true
         }) do |f| %>

@@ -86,6 +86,7 @@ user = User.create!(
 	password: '2351310',
 	password_confirmation: '2351310',
 	organization_id: org.id,
+	status: :active,
 	gender: male
 )
 puts "Created admin: #{user.email}"
@@ -98,6 +99,7 @@ dietitian = User.create!(
 	password: '2351310',
 	password_confirmation: '2351310',
 	organization_id: org.id,
+	status: :active,
 	gender: female
 )
 puts "Created dietitian: #{dietitian.email}"
@@ -299,6 +301,7 @@ patient1 = User.create(
 								dietitian_id: dietitian.id,
 								username: username,
 								email: "#{username}@example.com",
+								status: :active,
 								gender: female,
 								age: age,
 								date_of_birth: dob,
@@ -335,6 +338,7 @@ patient2 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
+	status: :active,
 	gender: female,
 	age: age,
 	date_of_birth: dob,
@@ -361,6 +365,7 @@ patient3 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
+	status: :active,
 	gender: female ,
 	age: age,
 	date_of_birth: dob,
@@ -387,7 +392,8 @@ patient4 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
-	gender: female ,
+	status: :active,
+	gender: female,
 	age: age,
 	date_of_birth: dob,
 	organization_id: org.id,
@@ -412,6 +418,7 @@ patient5 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
+	status: :active,
 	gender: female ,
 	age: age,
 	date_of_birth: dob,
@@ -443,6 +450,7 @@ patient6 = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
+	status: :active,
 	gender: male ,
 	age: 33,
 	date_of_birth: dob,
@@ -465,6 +473,7 @@ patientL = User.create(
 	username: username,
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
+	status: :active,
 	gender: female ,
 	age: age,
 	date_of_birth: dob,
@@ -703,7 +712,8 @@ patientFran = User.create(
 	username: 'francisberrios',
 	email: "francisberrios@example.com",
 	dietitian_id: dietitian.id,
-	gender: female ,
+	status: :active,
+	gender: female,
 	age: age,
 	date_of_birth: dob,
 	organization_id: org.id,

@@ -44,9 +44,9 @@ class User < ApplicationRecord
   has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
 
 
-  scope :only_dieitians, ->{ joins(user_roles: :role).where(role: {name: 'dietitian'}) }
-  
-	scope :active_patients, ->{ where(status: :active) }
+  scope :only_dieitians, ->(organization_id = 1) { joins(user_roles: :role).where(role: {name: 'dietitian'}, organization_id: organization_id) }
+  scope :active_patients, ->(organization_id = 1) { where(status: :active).joins(user_roles: :role).where(role: {name: 'patient'}, organization_id: organization_id) }
+
 
   # new
   PatientStatus = %i[

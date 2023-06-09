@@ -7,5 +7,7 @@ module Types
     field :create_comment, Types::CommentType, mutation: Mutations::CommentMutation
     field :create_entry, Types::EntryType, mutation: Mutations::EntryMutation
     field :logout, mutation: Mutations::LogoutMutation
+    field :create_note, Types::NoteType, mutation: Mutations::NoteMutation
+    field :createConversation, Types::ConversationType, mutation: Mutations::ConversationMutation
   end
 end
