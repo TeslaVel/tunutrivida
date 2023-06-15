@@ -11,6 +11,7 @@ class CreateBillings < ActiveRecord::Migration[6.1]
       t.string :description
       t.string :code
       t.integer :billing_type, default: 0
+      t.integer :status, default: 0
 
       # t.references :dietitian, foreign_key: { to_table: 'users' }, index: true
       # t.references :patient, null: false, foreign_key: true, index: true

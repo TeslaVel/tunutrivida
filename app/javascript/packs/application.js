@@ -17,10 +17,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 // import "bootstrap/dist/js/bootstrap.bundle"
 // import "jquery.easing/jquery.easing"
-import '@fortawesome/fontawesome-free/js/all'
-import datatable from 'imports-loader?define=>false!datatables.net'
-import datatableBS4 from 'imports-loader?define=>false!datatables.net-bs4'
-import './shared/sb-admin-2'
+
 
 global.toastr = require("toastr")
 global.$ = jQuery;
@@ -32,6 +29,13 @@ Chartkick.use(Chart)
 
 datatable(window, $)
 datatableBS4(window, $)
+
+import '@fortawesome/fontawesome-free/js/all'
+import datatable from 'imports-loader?define=>false!datatables.net'
+import datatableBS4 from 'imports-loader?define=>false!datatables.net-bs4'
+import './shared/sb-admin-2'
+import './shared/functions'
+
 
 import './shared/charts'
 

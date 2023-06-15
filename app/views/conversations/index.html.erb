@@ -2,7 +2,7 @@
   <div class="col-12 p-0 m-0">
     <div class="d-flex flex-col flex-grow-1 px-2 " style="height: 576px;">
       <div style="border: solid 1px gray;" class="p-3 border: solid 1px gray;min-width: 170px;width: 170px;font-size: 15px;">
-        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter">
+        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#newConversationModal">
           New Conversation
         </button>
         <header class="p-0 pb-3">Conversations (<%= @conversations.count %>)</header>
@@ -22,7 +22,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="newConversationModal" tabindex="-1" role="dialog" aria-labelledby="newConversationModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,7 +63,6 @@
       console.log('myDiv', myDiv)
     });
     
-
     function sendComment() {
       let dataToSubmit = $("#conversation_form").serialize();
       console.log('dataToSubmit', dataToSubmit)
@@ -120,7 +119,7 @@
            // contentType: "application/json; charset=utf-8",
            dataType: "script",
            success: function(data) {
-            
+            customCloseModal('newConversationModal');
            },
            error: function(err) {
              console.log('err', err);

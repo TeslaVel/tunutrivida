@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   post 'login', to: 'authentication#authenticate'
   delete 'logout', to: 'authentication#logout', as: :destroy_user_session
 
+  # global
+  patch 'update_dolar_price/:id', to: 'application#update_dolar_price', as: :patch_update_dolar_price
+
   get 'patients/search', to: 'users#search', as: :patients_search
   patch 'patients/:id', to: 'users#update', as: :patch_patient
   post 'patients', to: 'users#create', as: :post_patients
@@ -74,7 +77,6 @@ Rails.application.routes.draw do
       patch '/session/:id/update', to: 'sessions#update', as: :update_session
       post '/sessions/create', to: 'sessions#create', as: :create_session
     end
-
   end
 
   # scope module: 'web' do

@@ -59,6 +59,7 @@ class BillingItemsController < ApplicationController
 
     def corrected_billing_item_params
       new_params = {
+        target_conversion: @gbl_configuration.target_conversion,
         item_type: billing_items_params[:item_type].to_sym,
         description: billing_items_params[:description].strip,
         quantity: billing_items_params[:quantity].present? ? billing_items_params[:quantity] : 1,

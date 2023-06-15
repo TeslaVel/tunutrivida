@@ -19,6 +19,7 @@ module Types
     end
     field :sessions, [Types::SessionType], null: false
     field :conversation, Types::ConversationType, null: true
+    field :session_data_chart, Types::SessionDataChartType, null: true
 
     def users
       User.all
@@ -26,7 +27,7 @@ module Types
 
     def entries(order: String)
       if order.present?
-        entries = context[:current_user]&.entries&.with_attached_image.order(created_at: :desc)  || []
+        entries = context[:current_user]&.entries&.with_attached_image.order(created_at: :desc) || []
       else
         entries = context[:current_user]&.entries&.with_attached_image || []
       end
@@ -34,13 +35,17 @@ module Types
       entries
     end
 
-    # def appointments(filter: {})
-    #   context[:current_user]&.patient_appointments || []
-    # end
-
     def appointments(filter: {})
       if filter[:status].present?
-        appointments = context[:current_user]&.patient_appointments.where(status: filter[:status].to_sym) || []
+
+        if filter[:status] == 'pending'
+          appointments = context[:current_user]&.patient_appointments.current_and_future || []
+        else
+          appointments = context[:current_user]&.patient_appointments.where(status: filter[:status].to_sym) || []
+        end
+
+          
+        
       else
         appointments = context[:current_user]&.patient_appointments || []
       end
@@ -58,6 +63,23 @@ module Types
 
     def conversation
       context[:current_user]&.patient_conversation
+    end
+
+    def session_data_chart
+      return unless context[:current_user].present?
+
+      patient = context[:current_user]
+
+      sessions = [patient.sessions.first] | (patient&.sessions&.date_asc.last(9) || [])
+      days = sessions.map { |sess| sess.date.to_date.strftime('%d-%m-%Y') }
+
+      return {
+        days: days,
+        imc: sessions.map(&:imc).compact,
+        weight: sessions.map(&:weight).compact,
+        body_grease: sessions.map(&:body_grease).compact,
+        muscle_mass: sessions.map(&:muscle_mass).compact
+      }
     end
   end
 end

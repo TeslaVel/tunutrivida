@@ -6,19 +6,24 @@
   </div>
 
   <div class="col-sm-12 d-flex mb-4">
-    <div class="card col-sm-4" id="left-card">
+    <div class="card col-sm-6" id="left-card">
       <div class="card-header bg-transparent">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
           </li>
           <li class="nav-item">
-            <%= link_to 'Edit', edit_patient_path(@patient), class: "nav-link" %>
+            <a class="nav-link" href="#login_data" data-toggle="tab">Login Data</a>
           </li>
         </ul>
       </div>
       <div class="card-body tab-content">
         <div class="tab-pane active" id="about">
+          <div class="row">
+            <div class="col-md-12 pl-0">
+              <%= link_to '[Edit]', edit_patient_path(@patient), class: "nav-link pl-0" %>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-6 p-0">
               <div class="list-unstyled">
@@ -58,10 +63,30 @@
             </div>
           </div>
         </div>
+
+        <div class="tab-pane" id='login_data'>
+          <div class="row">
+            <div class="col-md-4 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Email:</p>
+                <p class="mb-2 text-left">Username:</p>
+                <p class="mb-2 text-left">Password:</p>
+              </div>
+            </div>
+            <div class="col-md-8 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= @patient.email %></p>
+                <p class="mb-2 "><%= @patient.username %></p>
+                <p class="mb-2 "> tunutrivida </p>
+              
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card col-sm-8" id="right-card">
+    <div class="card col-sm-6" id="right-card">
       <div class="card-header bg-transparent">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">

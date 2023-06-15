@@ -1,38 +1,14 @@
-"<% @patient = @billing.patient %>"
-
-"<% used_package_ids = @billing.billing_items.where(itemable_type: 'Package').pluck(:itemable_id) %>"
-"<% used_product_ids= @billing.billing_items.where(itemable_type: 'Product').pluck(:itemable_id)%>"
-"<% used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').pluck(:itemable_id)%>"
-
-"<% @patient_packages = @patient.packages.where.not(id: used_package_ids) %>"
-"<% @products = Product.where.not(id: used_product_ids) %>"
-"<% @discounts = Discount.where.not(id: used_discount_ids ) %>"
-"<% data_total = @billing.obtain_total_value %>"
 "<% data_pending_total = @billing.obtain_pending_total_value %>"
 
-$('#exampleModalCenter').removeClass('show').css('display', 'none')
-$('.modal-backdrop').remove()
+customCloseModal('newItemModal');
 
 
 $('#billing_pending_total_display').text("<%= "#{@gbl_configuration.currency_code} #{data_pending_total[:total] || 0}"%> | <%= "#{@billing.target_currency_code} #{data_pending_total[:total_conversion] || 0}" %>");
-$('#billing_total_display').text("<%= "#{@gbl_configuration.currency_code} #{data_total[:total] || 0 }" %> | <%= "#{@billing.target_currency_code} #{data_total[:total_conversion] || 0}" %>");
 
 $("#billing_items_partial").html("\
 		<%= escape_javascript(render(:partial => 'billings/billing_items', :locals => {\
 																 :key => '2',\
-																 :expanded => true,\
 																 :billing => @billing,\
-																 :patient_packages => @patient_packages,\
-															   :billing_items => @billing.billing_items.inprocess,\
-															   :products => @products,\
-															   :discounts => @discounts,\
+															   :billing_items => @billing.billing_items,\
 															   :title => 'Pending to pay'} )) %>");
-
-
-$("#paid_items_partial").html("\
-		<%= escape_javascript(render(:partial => 'billings/paid_items', :locals => {\
-																 :key => '2',\
-																 :expanded => true,\
-															   :payments => @billing.payments,\
-															   :title => 'Paid Items'} )) %>");
 

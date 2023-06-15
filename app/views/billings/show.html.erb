@@ -1,11 +1,12 @@
 <div class="billing-view">
-  <div class="d-sm-flex  col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
     <span class="h3 mb-0 text-darsk">[Billing info]</span>
      <%= link_to t('billings.back'), billings_path(@billing) %>
   </div>
 
   <div class="col-sm-12 col-md-12 mb-4">
-    <div class="card col-sm-12">
+    <!-- BILLING INFO -->
+    <div class="card col-sm-12" id="left-card">
       <div class="card-header bg-transparent">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
@@ -16,17 +17,18 @@
       <div class="card-body tab-content">
         <div class="tab-pane active" id="about">
           <div class="row">
-            <div class="col-md-2 p-0">
+            <div class="col-md-5 p-0">
               <div class="list-unstyled">
+                <p class="mb-2 text-left">Status:</p>
                 <p class="mb-2 text-left">Code:</p>
                 <p class="mb-2 text-left">Patient:</p>
                 <p class="mb-2 text-left">Description:</p>
-                <p class="mb-2 text-left">Pending Total:</p>
-                <p class="mb-2 text-left">Processed Total:</p>
+                <p class="mb-2 text-left">Total:</p>
               </div>
             </div>
-            <div class="col-md-10 p-0">
+            <div class="col-md-5 p-0">
               <div class="list-unstyled">
+                <p class="mb-2 "><%= @billing.status || '-'%></p>
                 <p class="mb-2 "><%= @billing.code %></p>
                 <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
                 <p class="mb-2 "><%= @billing.description %></p>
@@ -38,14 +40,36 @@
                   <%= "#{@billing.target_currency_code} #{data_total[:total_conversion]|| 0}" %>
                 </span>
                 </p>
-                <p class="mb-2 ">
-                  <span id='billing_total_display'>
-                    <%= "#{@gbl_configuration.currency_code} #{@billing&.total.to_f}" || 0 %> |
-                    <%= "#{@billing.target_currency_code} #{@billing&.total_conversion.to_f}" || 0 %>
-                  </span>
-                </p>
+               
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILLING ITEMS -->
+     <div class="card col-sm-12 px-0" id="right-card">
+      <div class="card-header bg-transparent">
+      <div class="text-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newItemModal">
+          <%= t('billings.new_item') %>
+        </button>
+      </div>
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#items" role="tab" aria-controls="items" aria-selected="true" data-toggle="tab">Billing Items (<%= @billing.billing_items.size%>)</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body tab-content px-0">
+        <div id="items" class="tab-pane active">
+          <div class="col-sm-12" id="billing_items_partial">
+            <%= render 'billing_items',
+               key: 2,
+               billing: @billing,
+               billing_items: @billing.billing_items,
+               title: "Billing Items" %>
           </div>
         </div>
       </div>
@@ -53,20 +77,57 @@
   </div>
 
 
+<!-- Modal -->
+
+<%= render layout: "layouts/components/modal",
+  locals: {
+    id_modal: 'newItemModal',
+    title: 'Add Item',
+    action_name: 'Create',
+    action_call: 'add_billing_item()'
+  } do %>
+  
+  <div>
+    <%= form_with scope: BillingItem.new, url: billing_items_create_path(@billing), data: { type: :json }, html: {id:"billing_item_form_id", class: 'billing_item_form', multipart: true, remote: true} do |f| %>
+      <div class="form-group">
+        <label for="billing_type_item_type">Type</label>
+        <%= f.select(:item_type, options_for_select((BillingItem::ItemTypes || []).map {|k| [k.to_s.humanize, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+      </div>
+
+      <div class="form-group to-hide" style="display: none;">
+        <label for="patient_package_id">Package</label>
+        <%= f.select(:patient_package_id, options_for_select(@patient_packages.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control package'}) %>
+      </div>
+
+      <div class="form-group to-hide" style="display: none;">
+        <label for="product_id">Product</label>
+        <%= f.select(:product_id, options_for_select(@products.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control product'}) %>
+      </div>
+
+      <div class="form-group to-hide" style="display: none;">
+        <label for="quantity">Quantity</label>
+        <%= f.text_field :quantity, label: t('.quantity'), class: "form-control quantity" %>
+      </div>
+
+      <div class="form-group to-hide" style="display: none;">
+        <label for="discount_id">Discount</label>
+        <%= f.select(:discount_id, options_for_select(@discounts.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control discount'}) %>
+      </div>
+
+      <div class="form-group to-hide" style="display: none;">
+        <label for="description">Description</label>
+        <%= f.text_field :description, label: t('.description'), class: "form-control" %>
+      </div>
+
+    <% end %>
+  </div>
+<% end %>
+
+
   <%= hidden_field_tag(:billing_id, @billing.id) %>
   <%= hidden_field_tag(:current_user_id, current_user.id) %>
-  <div class="col-sm-12 col-md-12" id="billing_items_partial">
-    <%= render 'billing_items',
-         key: 2,
-         expanded: true,
-         billing: @billing,
-         patient_packages: @patient_packages,
-         billing_items: @billing.billing_items.inprocess,
-         products: @products,
-         discounts: @discounts,
-         title: "Pending to pay" %>
-  </div>
 
+<% if false %>
   <div class="col-sm-12 col-md-12" id="paid_items_partial">
     <%= render 'paid_items',
          key: 3,
@@ -74,6 +135,8 @@
          payments: @billing.payments,
          title: "Paid Items" %>
   </div>
+<% end %>
+
 </div>
 <% content_for :javascript do %>
   <script>
@@ -124,7 +187,7 @@
           // contentType: "application/json; charset=utf-8",
           dataType: "script",
           success: function(data) {
-            
+            customCloseModal('newItemModal');
           },
           error: function(err) {
             console.log('err', err);
@@ -135,38 +198,39 @@
     //******************
     //* Create payment
     //*
-    function add_paid_item() {
-      const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
-      const item_ids = []
-      const billing_id = $("#billing_id")[0].value;
-      const current_user_id = $("#current_user_id")[0].value;
-      checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
 
-      if (item_ids.length < 1) {
-         toastr.error('Must select a leats one item');
-         return;
-      }
-      const billing_data = {
-        payment: {
-          billing_id,
-          item_ids,
-          current_user_id
-        }
-      };
-      const url = `/billings/${billing_id}/paid_items/create`
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(billing_data),
-        contentType: "application/json;",
-        dataType: "script",
-        success: function(data) {
-        },
-        error: function(err) {
-          console.log('err', err);
-        }
-      })
-    };
+    // function add_paid_item() {
+    //   const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+    //   const item_ids = []
+    //   const billing_id = $("#billing_id")[0].value;
+    //   const current_user_id = $("#current_user_id")[0].value;
+    //   checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+
+    //   if (item_ids.length < 1) {
+    //      toastr.error('Must select a leats one item');
+    //      return;
+    //   }
+    //   const billing_data = {
+    //     payment: {
+    //       billing_id,
+    //       item_ids,
+    //       current_user_id
+    //     }
+    //   };
+    //   const url = `/billings/${billing_id}/paid_items/create`
+    //   $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(billing_data),
+    //     contentType: "application/json;",
+    //     dataType: "script",
+    //     success: function(data) {
+    //     },
+    //     error: function(err) {
+    //       console.log('err', err);
+    //     }
+    //   })
+    // };
 
     //******************
     //* Destroy payment item

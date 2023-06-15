@@ -320,6 +320,7 @@ CREATE TABLE public.billings (
     description character varying,
     code character varying,
     billing_type integer DEFAULT 0,
+    status integer DEFAULT 0,
     dietitian_id bigint NOT NULL,
     patient_id bigint NOT NULL,
     created_by_id bigint NOT NULL,
@@ -999,7 +1000,6 @@ ALTER SEQUENCE public.payment_billing_items_id_seq OWNED BY public.payment_billi
 
 CREATE TABLE public.payments (
     id bigint NOT NULL,
-    status integer,
     code character varying,
     dietitian_id bigint NOT NULL,
     billing_id bigint NOT NULL,
@@ -1113,6 +1113,7 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.sessions (
     id bigint NOT NULL,
+    age integer,
     weight numeric(8,2),
     height numeric(8,2),
     waist numeric(8,2),

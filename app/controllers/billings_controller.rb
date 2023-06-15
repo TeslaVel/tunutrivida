@@ -34,7 +34,12 @@ class BillingsController < ApplicationController
 
   # POST /billings or /billings.json
   def create
-    @billing = Billing.new(billing_params.merge(dietitian_id: current_user.id, created_by_id: current_user.id))
+    billingData = {
+      dietitian_id: current_user.id,
+      status: :unpaid,
+      created_by_id: current_user.id
+    }
+    @billing = Billing.new(billing_params.merge(billingData))
 
     if @billing.save
       redirect_to billing_path(@billing), notice: "Billing was successfully created."

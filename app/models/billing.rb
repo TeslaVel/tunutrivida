@@ -15,13 +15,19 @@ class Billing < ApplicationRecord
     invoice
   ].freeze
 
+  BILLING_STATUS = %i[
+    unpaid
+    paid
+  ].freeze
+
   enum billing_type: BILLING_ITEMS
+  enum status: BILLING_STATUS
 
   before_create :set_code_and_currency
   before_save :check_and_set_description
 
   def obtain_pending_total_value
-    total = billing_items.inprocess.sum(:total).to_f
+    total = billing_items.sum(:total).to_f
     discount_percentage = billing_items.inprocess&.discount_percentage_items&.first&.amount.to_f || 0
     total = (total - (total * (discount_percentage / 100))).round(2)
     total_conversion = (total * target_conversion.to_f).round(2)
@@ -30,12 +36,13 @@ class Billing < ApplicationRecord
   end
 
   def obtain_total_value
-    total = billing_items.processed.sum(:total).to_f
-    discount_percentage = billing_items.processed&.discount_percentage_items&.first&.amount.to_f || 0
-    total = (total - (total * (discount_percentage / 100))).round(2)
-    total_conversion = (total * target_conversion.to_f).round(2)
+    # total = billing_items.processed.sum(:total).to_f
+    # discount_percentage = billing_items.processed&.discount_percentage_items&.first&.amount.to_f || 0
+    # total = (total - (total * (discount_percentage / 100))).round(2)
+    # total_conversion = (total * target_conversion.to_f).round(2)
 
-    {total: total, total_conversion: total_conversion}
+    # {total: total, total_conversion: total_conversion}
+    0
   end
 
   private

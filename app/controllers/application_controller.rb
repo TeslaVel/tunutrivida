@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 	before_action :set_locale
 	before_action :get_global_configurations
 
+	before_action :authenticate_all, only: %i[ update_dolar_price ]
+
 	GLOBAL_EMOJIS = ['👍', '👏', '☺️', '🎉', '🤔', '😎', '🙏']
 
 	def set_locale
@@ -45,6 +47,24 @@ class ApplicationController < ActionController::Base
 				flash[:error] = "You must be logged in to access this section"
 				redirect_to login_path
 			end
+    end
+  end
+
+  def update_dolar_price
+  	id = params[:id]
+  	newPrice = params[:global_configuration][:target_conversion]
+
+		@gbl_configuration.target_conversion = newPrice.to_f
+
+		respond_to do |format|
+      if @gbl_configuration.save
+				@notifications = Notification.where(recipient_id: current_user&.id, seen: false, notification_type: :comment)
+				@emails = Notification.where(seen: false, notification_type: :contactus)
+
+        format.js { render 'layouts/shared/topbar', layout: false }
+      else
+        format.json { render json: @gbl_configuration.errors, status: :unprocessable_entity }
+      end
     end
   end
 

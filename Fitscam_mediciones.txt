@@ -133,3 +133,31 @@ ideal_weight = (imc * h2 )
 
 
 
+
+
+1 peso corporal
+2 indice masa corpola
+3 % grasa corporal
+4 % agua total cuerpo
+5 kg masa muscular
+6 complexion fisica
+7 kg masa osea
+8 BMR Tasa metabólica basal cantidad de kg a comer
+9 edad metabolica
+10 % grasa visceral
+
+
+
+laura 2023-06-15
+
+1) 70.2
+2) 27.4 imc
+3) 26.3 %
+4) 54.8 %
+5) 49.1 kg masa muscular
+6) 6 complexion fis
+7) 2.6 kg masa osea
+8) 1539 BMR
+9) 26 EDAD META
+10 3.5 % GRASA VISCERAL
+

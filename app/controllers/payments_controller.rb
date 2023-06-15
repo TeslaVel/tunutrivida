@@ -6,8 +6,6 @@ class PaymentsController < ApplicationController
 
   # POST /billings or /billings.json
   def create
-    # BillingItem::ItemTypes.keys.include?('package'.to_sym)
-
     pmt_params = {
       dietitian_id: payment_params[:current_user_id],
       created_by_id: payment_params[:current_user_id]

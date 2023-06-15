@@ -26,7 +26,7 @@ class Appointment < ApplicationRecord
   before_save :set_title
 
   scope :current_and_future, -> {
-    where(start_date: Time.zone.today..(Time.zone.today + 3.days), status: statuses.values_at(:pending, :happening))
+    where(start_date: Time.zone.today..(Time.zone.today + 5.days), status: statuses.values_at(:pending, :happening))
   }
 
   private

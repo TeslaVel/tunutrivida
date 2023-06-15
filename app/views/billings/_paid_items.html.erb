@@ -18,6 +18,7 @@
                   <th><%= t('payments.description') %></th>
                   <th class="text-center"><%= t('payments.amount') %></th>
                   <th class="text-center"><%= t('payments.quantity') %></th>
+                  <th class="text-center"><%= t('payments.target_conversion') %></th>
                   <th class="text-center">Total</th>
                 </tr>
               </thead>
@@ -32,6 +33,7 @@
                     <%= "#{payment_item.billing_item.target_currency_code} #{(payment_item.billing_item.itemable.price * payment_item.billing_item.target_conversion).round(2) }" %>
                   </td>
                   <td class="text-center"><%= payment_item.billing_item.quantity %></td>
+                  <td class="text-center"><%= payment_item.billing_item.target_conversion %></td>
                   <td class="text-center">
                     <%= "#{@gbl_configuration.currency_code} #{payment_item.billing_item.total}" %> |
                     <%= "#{payment_item.billing_item.target_currency_code} #{payment_item.billing_item.total_conversion}" %>

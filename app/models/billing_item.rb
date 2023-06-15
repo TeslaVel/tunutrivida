@@ -27,7 +27,7 @@ class BillingItem < ApplicationRecord
   }
 
   # scope :not_discount_percentage_items, -> {
-  #   joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type != 1")
+  #  joins("INNER JOIN discounts ON itemable_id = discounts.id AND itemable_type = 'Discount'").where("discounts.discount_type != 1")
   # }
 
   enum item_type: ItemTypes
@@ -77,8 +77,15 @@ class BillingItem < ApplicationRecord
                   self.quantity * itemable.price.to_f
                  end
 
-    self.total_conversion = self.total * self.billing.target_conversion
-    self.target_conversion = self.billing.target_conversion
+    convers = if self.billing.created_at.strftime('%d-%M-%Y') != Time.now.strftime('%d-%M-%Y') && self.billing.target_conversion != target_conversion
+                target_conversion
+              else
+                self.billing.target_conversion
+              end
+    
+
+    self.total_conversion = self.total * convers
+    self.target_conversion = convers
     self.target_currency = self.billing.target_currency
     self.target_currency_code = self.billing.target_currency_code
 
@@ -88,8 +95,8 @@ class BillingItem < ApplicationRecord
   end
 
   def recalculate_parent
-    total = self.billing.billing_items.processed.sum(:total).to_f || 0
-    discount_percentage = self.billing.billing_items.processed&.discount_percentage_items&.first&.amount.to_f || 0
+    total = self.billing.billing_items.sum(:total).to_f || 0
+    discount_percentage = self.billing.billing_items&.discount_percentage_items&.first&.amount.to_f || 0
     total = (total - (total * (discount_percentage / 100))).round(2) || 0
     total_conversion = sub_total_conversion = (total * self.billing.target_conversion.to_f).round(2)
     self.billing.update(

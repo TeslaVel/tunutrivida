@@ -27,8 +27,10 @@
       <% height = @entry.image.present? ? 'h-200px' : 'h-300px' %>
       <div class="card-body px-0 pb-1 pt-0 <%= height %> overflow-hidden">
         <div class="px-3 h-100 overflow-y-scroll">
-          <div id="comments_partial">
-            <%= render 'comments', comments: @comments %>
+          <div id="comments_partial" class="d-flex flex-column ">
+            <% @comments.map do |comment| %>
+                <%= render 'comments', comment: comment %>
+            <% end %>
           </div>
         </div>
       </div>

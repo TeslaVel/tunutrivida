@@ -36,7 +36,8 @@ class PatientPackagesController < ApplicationController
     active_packages = @patient.patient_packages.active.first
 
     if active_packages && active_packages.sessions.not_initials.count < ( active_packages.package.weeks * active_packages.package.session_quantity.to_i)
-      redirect_to @patient, alert: 'Current Patient package is not completed.'
+      redirect_to patient_path(@patient), alert: 'Current Patient package is not completed.'
+      return
     end
 
     patient_package_params[:date] = patient_package_params[:date].to_date
@@ -58,9 +59,11 @@ class PatientPackagesController < ApplicationController
   # GET /patients/:patient_id/packages/:id/sessions/sessionsjson
   def sessionsjson
     patient = get_patient_json
-    patien_package = get_patient_packages_json(patient)
-    sessions = patien_package.sessions.date_asc
-    sessions = sessions.last(10)
+    patient_packages = get_patient_packages_json(patient)
+
+    sessions = [patient.sessions.first] | patient_packages.sessions.date_asc.last(9)
+    # sessions = patient_packages.sessions.date_asc
+    # sessions = sessions.last(10)
     days = sessions.map { |sess| sess.date.to_date.strftime('%d-%m-%Y') }
 
     render :json => {

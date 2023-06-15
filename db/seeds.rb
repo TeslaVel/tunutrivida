@@ -1,4 +1,4 @@
-def create_patient_packages_and_sessions(patient,package,dietitian,height,days_week,date_base)
+def create_patient_packages_and_sessions(patient, package, dietitian, height, days_week, date_base)
 	puts "CREANDO PACIENTE PACKAGE FECHA:#{date_base}"
 	h2 = (height*height).round(2)
 
@@ -56,410 +56,165 @@ def create_patient_packages_and_sessions(patient,package,dietitian,height,days_w
 		)
 		iterador += 1
 	end
-
 end
 
 def get_username(value)
 	"#{value.parameterize}#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
 end
 
+def patient_creator(idx, patient_data, dietitian, org, gpassword, days_week)
+	patient = nil
+	puts "Creating Patients #{idx+ 1}"
+		created = Time.now - 14.days
+		age = ((Time.zone.now - patient_data[:dob].to_time) / 1.year.seconds).floor
+		username = get_username(patient_data[:first_name])
+		patient = User.create(
+								first_name: patient_data[:first_name],
+								last_name: patient_data[:last_name],
+								dietitian_id: dietitian.id,
+								username: username,
+								email: "#{username}@example.com",
+								status: :active,
+								gender: patient_data[:sex],
+								age: age,
+								date_of_birth: patient_data[:dob],
+								organization_id: org.id,
+								password: gpassword,
+								password_confirmation: gpassword
+							)
+		patient.add_role :patient
+
+		puts "Patient #{patient.first_name} Created."
+
+		height = rand(1.50...1.90).round(2)
+
+		patient_data[:packages].each_with_index do |pkg, indx|
+			puts "Creating Patient Packages #{indx + 1}"
+			if indx > 0
+				date_base = (patient&.sessions&.first&.date || Time.now) - (days_week * pkg[:package].weeks ).days
+			else
+				date_base = Time.now - (days_week * pkg[:package].weeks ).days
+			end
+
+			create_patient_packages_and_sessions(patient, pkg[:package], dietitian, height, days_week, date_base)
+		end
+end
+
+
+require_relative "seed_scripts/create_admins_and_config"
 gpassword ='tunutrivida'
 
-org = Organization.create(
-	name: 'Tunutrivida',
-	description: 'Dieititan and patients web'
-)
+dietitian = User.find_by_email('tunutrividalb@gmail.com')
+org = dietitian.organization
 
-puts "Created Organization: #{org.name}"
-
-puts "Creating Genders"
-male = Gender.create(name: "Male", description: "Male")
-female = Gender.create(name: "Female", description: "Female")
-other = Gender.create(name: "Ohter", description: "Ohter")
-both = Gender.create(name: "Both", description: "Both")
-
-user = User.create!(
-	email: 'm3taljose@gmail.com',
-	username: 'm3taljose',
-	first_name: 'Admin 1',
-	last_name: 'Admin 1',
-	password: '2351310',
-	password_confirmation: '2351310',
-	organization_id: org.id,
-	status: :active,
-	gender: male
-)
-puts "Created admin: #{user.email}"
-
-dietitian = User.create!(
-	email: 'tunutrividalb@gmail.com',
-	username: 'tunutrividalb',
-	first_name: "Lic Laura",
-	last_name: "Berrios",
-	password: '2351310',
-	password_confirmation: '2351310',
-	organization_id: org.id,
-	status: :active,
-	gender: female
-)
-puts "Created dietitian: #{dietitian.email}"
-
-role_dietitian = Role.create(name: 'dietitian', description: "Dietitian", created_by_id: user.id)
-role_amin = Role.create(name: 'super_admin', description: "Super Admin", created_by_id: user.id)
-role_patient = Role.create(name: 'patient', description: "Patient", created_by_id: user.id)
-puts "Created roles: #{role_dietitian.name}, #{role_amin.name}, #{role_patient.name}"
-
-UserRole.create(user:user,role: role_dietitian, created_by_id: user.id)
-UserRole.create(user:user,role: role_amin, created_by_id: user.id)
-UserRole.create(user: dietitian, role: role_dietitian, created_by_id: user.id)
-puts "Asigned Roles"
+# get female male etc as variable
+Gender.all.each do |gender|
+  variable_name = gender.name.downcase
+  instance_variable_set("@#{variable_name}", gender)
+end
 
 
-OrganizationMemberships.create(
-	is_admin: 1,
-	organization_id: org.id,
-	user_id: user.id
-)
-
-OrganizationMemberships.create(
-	is_admin: 0,
-	organization_id: org.id,
-	user_id: dietitian.id
-)
+# get packages as variables
+Package.all.each_with_index do |pak, index|
+  instance_variable_set("@package#{index}", pak)
+end
 
 
-puts "Creating Availability for #{dietitian.first_name}"
-available1 = Availability.create(
-	time_start: '09:30'.to_time,
-	time_end: '23:00'.to_time,
-	dietitian_id: dietitian.id
-)
-
-puts "Creating AppointmentSetting for #{dietitian.first_name}"
-AppointmentSetting.create(
-	time_step: 5,
-	dietitian_id: dietitian.id
-)
-
-puts "Creating GlobalConfiguration"
-glb = GlobalConfiguration.create(
-	currency: 'USD',
-	currency_code: "$",
-	target_currency: 'VES',
-	target_currency_code: 'Bs',
-	target_conversion: '24.45',
-	created_by_id: 1
-)
-
-puts "Creating IndicatorTypes"
-type_imc = IndicatorType.create(name: "IMC", description: "IMC", created_by_id: user.id)
-type_pdc = IndicatorType.create(name: "PDC", description: "Perimetro de cintura", created_by_id: user.id)
-type_icc = IndicatorType.create(name: "ICC", description: "Indice cintura cadera ", created_by_id: user.id)
-
-puts "Creating Indicators"
-Indicator.create(value_min: 0.0, value_max: 18.4 , name: 'Bajo peso', gender: both, position: 1, indicator_type: type_imc, created_by_id: user.id)
-Indicator.create(value_min: 18.41, value_max: 24.9 , name: 'Normo peso', gender: both, position: 2, indicator_type: type_imc, created_by_id: user.id)
-Indicator.create(value_min: 25.0, value_max: 29.9 , name: 'Sobre Peso', gender: both, position: 3, indicator_type: type_imc, created_by_id: user.id)
-Indicator.create(value_min: 30.0, value_max: 34.9 , name: 'Obesidad I', gender: both, position: 4, indicator_type: type_imc, created_by_id: user.id)
-Indicator.create(value_min: 35.0, value_max: 39.9 , name: 'Obesidad II', gender: both, position: 5, indicator_type: type_imc, created_by_id: user.id)
-Indicator.create(value_min: 40, value_max: 999 , name: 'Obesidad morbida', gender: both, position: 6, indicator_type: type_imc, created_by_id: user.id)
-
-Indicator.create(value_min: 0.0, value_max: 80 , name: 'Bajo', gender: female, position: 1, indicator_type: type_pdc, created_by_id: user.id)
-Indicator.create(value_min: 80, value_max: 88.1 , name: 'Aumentado', gender: female, position: 2, indicator_type: type_pdc, created_by_id: user.id)
-Indicator.create(value_min: 88.0, value_max: 999 , name: 'Aumentado', gender: female, position: 2, indicator_type: type_pdc, created_by_id: user.id)
-
-#compara cintura
-Indicator.create(value_min: 0.0, value_max: 94 , name: 'Bajo', gender: male, position: 1, indicator_type: type_pdc, created_by_id: user.id)
-Indicator.create(value_min: 94.0, value_max: 102.1 , name: 'Aumentado', gender: male, position: 2, indicator_type: type_pdc, created_by_id: user.id)
-Indicator.create(value_min: 102.0, value_max: 999 , name: 'Aumentado', gender: male, position: 3, indicator_type: type_pdc, created_by_id: user.id)
-
-#icc cintura / cadera
-Indicator.create(value_min: 0.0, value_max: 0.80 , name: 'Sin riesgo', gender: female, position: 1, indicator_type: type_icc, created_by_id: user.id)
-Indicator.create(value_min: 0.80, value_max: 999 , name: 'Con Riesgo', gender: female, position: 2, indicator_type: type_icc, created_by_id: user.id)
-
-Indicator.create(value_min: 0.0, value_max: 0.9 , name: 'Sin riesgo', gender: male, position: 1, indicator_type: type_icc, created_by_id: user.id)
-Indicator.create(value_min: 0.9, value_max: 999 , name: 'Con Riesgo', gender: male, position: 2, indicator_type: type_icc, created_by_id: user.id)
-
-# CONST BMR
-puts "Creating BMR FACTORS"
-sleep(2)
-BmrFactor.create!(
-	base_value: 66.473,
-	base_weight: 13.751,
-	base_height: 5.0033,
-	base_age: 6.55,
-	position: 1,
-	gender: male,
-	created_by_id: user.id,
-	name: 'Benedict	',
-	source: 1
-)
-
-BmrFactor.create!(
-	base_value: 665.51,
-	base_weight: 9.463,
-	base_height: 1.8496,
-	base_age: 4.6756,
-	position: 1,
-	gender: female,
-	created_by_id: user.id,
-	name: 'Benedict',
-	source: 1
-)
+@activity_factor1 = ActivityFactor.first
 
 
-BmrFactor.create!(
-	base_value: 5,
-	base_weight: 10,
-	base_height: 6.25,
-	base_age: 5,
-	position: 1,
-	gender: male,
-	created_by_id: user.id,
-	name: 'Mifflin	',
-	source: 2
-)
-
-BmrFactor.create!(
-	base_value: 161,
-	base_weight: 10,
-	base_height: 6.25,
-	base_age: 5,
-	position: 1,
-	gender: female,
-	created_by_id: user.id,
-	name: 'Mifflin',
-	source: 2
-)
-
-puts "Creating Packages"
-package0 = Package.create!(name: "Empty Package", description: "Paquete Vacio", price: 0, weeks: 0, created_by_id: user.id)
-package1 = Package.create!(name: "Paquete 1 semanas", description: "Paquete que incluye tal y tal", price: 25.00, weeks: 1, session_quantity: 1, created_by_id: user.id)
-package2 = Package.create!(name: "Paquete 2 semanas", description: "Paquete que incluye tal y tal", price: 36.80, weeks: 2, session_quantity: 1,created_by_id: user.id)
-package3 = Package.create!(name: "Paquete 3 semanas", description: "Paquete que incluye tal y tal", price: 60, weeks: 3, session_quantity: 1, created_by_id: user.id)
-package4 = Package.create!(name: "Paquete 4 semanas", description: "Paquete que incluye tal y tal", price: 81.50, weeks: 4, session_quantity: 1, created_by_id: user.id)
-package5 = Package.create!(name: "Paquete 5 semanas", description: "Paquete que incluye tal y tal", price: 126.00, weeks: 5, session_quantity: 1, created_by_id: user.id)
-
-puts "Creating ActivityFactor"
-activity_factor1 = ActivityFactor.create!(name: "Sedentario", description: "(poco o ningun ejercicio)", value: 1.2, created_by_id: user.id)
-activity_factor2 = ActivityFactor.create!(name: "Ligeramente activo", description: "(ejercicio ligero / deportes 1-3 dias / semana)", value: 1.375, created_by_id: user.id)
-activity_factor3 = ActivityFactor.create!(name: "Moderadamente activo", description: "(ejercicio moderado / deportes 3-5 dias / semana)", value: 1.55, created_by_id: user.id)
-activity_factor4 = ActivityFactor.create!(name: "Muy activo", description: "(ejercicio duro / deportes 6-7 dias a la semana)", value: 1.725, created_by_id: user.id)
-activity_factor5 = ActivityFactor.create!(name: "Extra activo", description: "(ejercicio muy duro / deportes y trabajo fisico o entrenamiento 2x)", value: 1.9, created_by_id: user.id)
-
-
-puts "Creating Products"
-Product.create(
-	name: "Balines x4",
-	description: 'Balines Magneticos',
-	price: '12.5',
-	status: 1,
-	created_by_id: dietitian.id
-)
-
-Product.create(
-	name: "Pastilla Nutt",
-	description: 'Pastillas supresora de alimento',
-	price: '5.2',
-	status: 1,
-	created_by_id: dietitian.id
-)
-
-puts "Creating Discounts"
-Discount.create(
-	name: "2.5 | Bienvenida",
-	description: '-2.5 de descuento',
-	amount: '2.5',
-	status: 1,
-	created_by_id: dietitian.id
-)
-
-Discount.create(
-	name: "%5 | gift",
-	description: "-5% de descuento",
-	amount: '5',
-	status: 1,
-	created_by_id: dietitian.id
-)
-
-
+# create patients
 y1=15
 y2=70
 gender = rand(1..2)
 days_week = 7
 
+patient_data = [
+	{
+		first_name: 'Lucia',
+		last_name: 'Mora',
+		dob: Time.now - rand(y1...y2).years,
+		sex: @female,
+		packages: [{package: @package1}, {package: @package5}]
+	},
+	{
+		first_name: 'Marina',
+		last_name: 'Perdomo',
+		dob: Time.now - rand(y1...y2).years,
+		sex: @female,
+		packages: [{package: @package2}]
+	},
+	{
+		first_name: 'Marlon',
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: @male,
+		packages: [{package: @package3}]
+	},
+	{
+		first_name: 'Johnny',
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: @male,
+		packages: [{package: @package4}]
+	},
+	{
+		first_name: 'Mether',
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: @male,
+		packages: [{package: @package3}, {package: @package5}]
+	},
+	{
+		first_name: 'Leneu',
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: @male,
+		packages: []
+	},
+	{
+		first_name: Faker::Name.first_name,
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: [@female, @male].sample,
+		packages: [
+			{package: @package1},
+			{package: @package2},
+			{package: @package3},
+			{package: @package4},
+			{package: @package5},
+		].take(rand(0...4))
+	},
+	{
+		first_name: Faker::Name.first_name,
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: [@female, @male].sample,
+		packages: [
+			{package: @package1},
+			{package: @package2},
+			{package: @package3},
+			{package: @package4},
+			{package: @package5},
+		].take(rand(0...4))
+	},
+	{
+		first_name: Faker::Name.first_name,
+		last_name: Faker::Name.last_name,
+		dob: Time.now - rand(y1...y2).years,
+		sex: [@female, @male].sample,
+		packages: [
+			{package: @package2},
+			{package: @package3},
+			{package: @package4},
+			{package: @package5},
+		].take(rand(0...4))
+	}
+]
 
-puts "Creating Patients 1"
-# Pactient 1
-dob =Time.now - rand(y1...y2).years
-created = Time.now - 14.days
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Lucia')
-patient1 = User.create(
-								first_name: "Lucia",
-								last_name: 'Mora',
-								dietitian_id: dietitian.id,
-								username: username,
-								email: "#{username}@example.com",
-								status: :active,
-								gender: female,
-								age: age,
-								date_of_birth: dob,
-								organization_id: org.id,
-								password: gpassword,
-								password_confirmation: gpassword
-							)
-patient1.add_role :patient
-
-puts "Patient #{patient1.first_name} Created."
-
-height = rand(1.50...1.90).round(2)
-date_base = Time.now - (days_week * package1.weeks ).days
-puts "Creating Patient Package 1. "
-create_patient_packages_and_sessions(patient1, package1, dietitian, height, days_week, date_base)
-
-puts "Creating Task Patient 1."
-Task.create(
-	title: "Lograr %10 ",
-	description: "Rebajar el %10 de su peso acutal #{patient1&.sessions&.first&.weight}",
-	dietitian_id: dietitian.id,
-	patient_id: patient1.id
-)
-
-puts "Creating Patients 2"
-# Pactient 2
-dob =Time.now - rand(y1...y2).years
-created = Time.now - 14.days
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Lucia')
-patient2 = User.create(
-	first_name: "Marina",
-	last_name: "Perdomo",
-	username: username,
-	email: "#{username}@example.com",
-	dietitian_id: dietitian.id,
-	status: :active,
-	gender: female,
-	age: age,
-	date_of_birth: dob,
-	organization_id: org.id,
-	password: gpassword,
-	password_confirmation: gpassword
-)
-patient2.add_role :patient
-puts "Patient #{patient2.first_name} Created."
-
-
-height = rand(1.50...1.90).round(2)
-date_base = Time.now - (days_week * package2.weeks ).days
-create_patient_packages_and_sessions(patient2, package2, dietitian, height, days_week, date_base)
-
-puts "Creating Patients 3"
-# Pactient 3
-dob =Time.now - rand(y1...y2).years
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Marlon')
-patient3 = User.create(
-	first_name: 'Marlon',
-	last_name: Faker::Name.last_name,
-	username: username,
-	email: "#{username}@example.com",
-	dietitian_id: dietitian.id,
-	status: :active,
-	gender: female ,
-	age: age,
-	date_of_birth: dob,
-	organization_id: org.id,
-	password: gpassword,
-	password_confirmation: gpassword
-)
-patient3.add_role :patient
-puts "Patient #{patient3.first_name} Created."
-
-height = rand(1.50...1.90).round(2)
-date_base = Time.now - (days_week * package3.weeks ).days
-create_patient_packages_and_sessions(patient3,package3,dietitian,height,days_week,date_base)
-
-puts "Creating Patients 4"
-# Pactient 4
-dob =Time.now - rand(y1...y2).years
-created = Time.now - 14.days
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Johnny')
-patient4 = User.create(
-	first_name: 'Johnny',
-	last_name: Faker::Name.last_name,
-	username: username,
-	email: "#{username}@example.com",
-	dietitian_id: dietitian.id,
-	status: :active,
-	gender: female,
-	age: age,
-	date_of_birth: dob,
-	organization_id: org.id,
-	password: gpassword,
-	password_confirmation: gpassword
-)
-patient4.add_role :patient
-puts "Patient #{patient4.first_name} Created."
-
-height = rand(1.50...1.90).round(2)
-date_base = Time.now - (days_week * package4.weeks ).days
-create_patient_packages_and_sessions(patient4,package4,dietitian,height,days_week,date_base)
-
-puts "Creating Patients 5"
-# Pactient 5 with two packages
-dob =Time.now - rand(y1...y2).years
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Mether')
-patient5 = User.create(
-	first_name: 'Mether',
-	last_name: Faker::Name.last_name,
-	username: username,
-	email: "#{username}@example.com",
-	dietitian_id: dietitian.id,
-	status: :active,
-	gender: female ,
-	age: age,
-	date_of_birth: dob,
-	organization_id: org.id,
-	password: gpassword,
-	password_confirmation: gpassword
-)
-patient5.add_role :patient
-puts "Patient #{patient5.first_name} Created."
-
-height = rand(1.50...1.90).round(2)
-# primer paquete
-date_base = Time.now - (days_week * package3.weeks ).days
-create_patient_packages_and_sessions(patient5,package3,dietitian,height,days_week,date_base)
-
-# segundo paquete
-date_base = patient5.sessions.first.date - (days_week * package5.weeks ).days
-create_patient_packages_and_sessions(patient5,package5,dietitian,height,days_week,date_base)
-
-puts "Creating Patients 6"
-# Pactient 6 with 0 packages
-dob =Time.now - rand(y1...y2).years
-created = Time.now - 14.days
-age = ((Time.zone.now - dob.to_time) / 1.year.seconds).floor
-username = get_username('Leneu')
-patient6 = User.create(
-	first_name: 'Leneu',
-	last_name: Faker::Name.last_name,
-	username: username,
-	email: "#{username}@example.com",
-	dietitian_id: dietitian.id,
-	status: :active,
-	gender: male ,
-	age: 33,
-	date_of_birth: dob,
-	organization_id: org.id,
-	password: gpassword,
-	password_confirmation: gpassword
-)
-patient6.add_role :patient
-puts "Patient #{patient6.first_name} Created."
+patient_data.each_with_index do |ptn, idx|
+	patient_creator(idx, ptn, dietitian, org, gpassword, days_week)
+end
 
 puts "Creating Patients Laura"
 # Pactient Laura
@@ -474,7 +229,7 @@ patientL = User.create(
 	email: "#{username}@example.com",
 	dietitian_id: dietitian.id,
 	status: :active,
-	gender: female ,
+	gender: @female ,
 	age: age,
 	date_of_birth: dob,
 	organization_id: org.id,
@@ -484,7 +239,7 @@ patientL = User.create(
 patientL.add_role :patient
 puts "Patient #{patientL.first_name} Created."
 
-patient_package = PatientPackage.create(package: package5, patient: patientL, dietitian_id: dietitian.id, date: date_base)
+patient_package = PatientPackage.create(package: @package5, patient: patientL, dietitian_id: dietitian.id, date: date_base)
 
 created = date_base
 height = 1.6
@@ -522,7 +277,7 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
@@ -565,7 +320,7 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
@@ -608,7 +363,7 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
@@ -651,7 +406,7 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
@@ -693,7 +448,50 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
+	patient_package: patient_package,
+	created_by_id: dietitian.id
+)
+
+
+created = "2023-06-15".to_date
+height = 1.582
+h2 = (height*height).round(2)
+weight = 70.2
+high_abdomen = nil
+low_abdomen = nil
+waist = nil
+hip = nil
+imc = (weight / h2 ).round(2)
+body_grease = 26.3
+visceral_grease = 3.5
+muscle_mass = 49.1
+water_percentage = 54.8
+bone_mass = 2.6
+bmr = 1539
+metabolic_age = 26
+physical_complexion = 6
+ideal_weight = (imc * h2 )
+
+Session.create!(
+	weight: weight,height: height,
+	waist: waist,hip: hip,
+	imc: imc,
+	high_abdomen: high_abdomen,
+	low_abdomen: low_abdomen,
+	date: created,
+	dietitian_id: dietitian.id,
+	patient_id: patientL.id,
+	ideal_weight: ideal_weight,
+	body_grease: body_grease,
+	visceral_grease: visceral_grease,
+	muscle_mass: muscle_mass,
+	bone_mass: bone_mass,
+	bmr: bmr,
+	metabolic_age: metabolic_age,
+	water_percentage: water_percentage,
+	physical_complexion: physical_complexion,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
@@ -713,7 +511,7 @@ patientFran = User.create(
 	email: "francisberrios@example.com",
 	dietitian_id: dietitian.id,
 	status: :active,
-	gender: female,
+	gender: @female,
 	age: age,
 	date_of_birth: dob,
 	organization_id: org.id,
@@ -723,8 +521,10 @@ patientFran = User.create(
 patientFran.add_role :patient
 puts "Patient #{patientFran.first_name} Created."
 
+
+
 # paquete uno francis
-patient_package = PatientPackage.create(package: package4, patient_id: patientFran.id, dietitian_id: dietitian.id, date: date_base)
+patient_package = PatientPackage.create(package: @package4, patient_id: patientFran.id, dietitian_id: dietitian.id, date: date_base)
 
 puts "Creating Session 1 of Francis"
 # session 1
@@ -766,9 +566,18 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
+)
+
+
+puts "Creating Task Patient 1."
+Task.create(
+	title: "Lograr %10 ",
+	description: "Rebajar el %10 de su peso acutal #{patientFran&.sessions&.first&.weight}",
+	dietitian_id: dietitian.id,
+	patient_id: patientFran.id
 )
 
 puts "Creating Session 2 of Francis"
@@ -811,7 +620,7 @@ Session.create!(
 	metabolic_age: metabolic_age,
 	water_percentage: water_percentage,
 	physical_complexion: physical_complexion,
-	activity_factor_id: activity_factor1.id,
+	activity_factor_id: @activity_factor1.id,
 	patient_package: patient_package,
 	created_by_id: dietitian.id
 )
