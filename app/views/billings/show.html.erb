@@ -8,6 +8,13 @@
     <!-- BILLING INFO -->
     <div class="card col-sm-12" id="left-card">
       <div class="card-header bg-transparent">
+        <% if @billing.unpaid? %>
+          <div class="text-right">
+            <button type="button" class="btn btn-success" onclick="pay_billing()">
+              <%= 'Pagar' %>
+            </button>
+          </div>
+        <% end%>
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
@@ -28,7 +35,7 @@
             </div>
             <div class="col-md-5 p-0">
               <div class="list-unstyled">
-                <p class="mb-2 "><%= @billing.status || '-'%></p>
+                <p class="mb-2 <%= @billing.paid? ? 'c-green' : '' %>"><%= @billing.status || '-'%></p>
                 <p class="mb-2 "><%= @billing.code %></p>
                 <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
                 <p class="mb-2 "><%= @billing.description %></p>
@@ -51,11 +58,13 @@
     <!-- BILLING ITEMS -->
      <div class="card col-sm-12 px-0" id="right-card">
       <div class="card-header bg-transparent">
-      <div class="text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newItemModal">
-          <%= t('billings.new_item') %>
-        </button>
-      </div>
+        <% if @billing.unpaid? %>
+          <div class="text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newItemModal">
+              <%= t('billings.new_item') %>
+            </button>
+          </div>
+        <% end %>
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a class="nav-link active" href="#items" role="tab" aria-controls="items" aria-selected="true" data-toggle="tab">Billing Items (<%= @billing.billing_items.size%>)</a>
@@ -258,8 +267,42 @@
       }
     }
 
-    function add_tr_to_billing_list () {
-      // billing_items_table_body
-    }
+    function pay_billing() {
+      // const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+      // const item_ids = []
+      // checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+      const billing_id = $("#billing_id")[0].value;
+      const current_user_id = $("#current_user_id")[0].value;
+
+      // if (item_ids.length < 1) {
+      //    toastr.error('Must select a leats one item');
+      //    return;
+      // }
+      const billing_data = {
+        payment: {
+          billing_id,
+          current_user_id
+        }
+      };
+
+      console.log('billing_data', billing_data);
+      const url = `/billings/${billing_id}/payment/create`
+
+      const resp = window.confirm('Esta seguro de pagar esta billing')
+      if (resp) {
+        $.ajax({
+          url: url,
+          type: "POST",
+          data: JSON.stringify(billing_data),
+          contentType: "application/json;",
+          dataType: "script",
+          success: function(data) {
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
+    };
   </script>
 <% end %>

@@ -43,7 +43,8 @@ Rails.application.routes.draw do
 
   resources :billings do
     post '/billing_items/create', to: 'billing_items#create', as: :items_create
-    post '/paid_items/create', to: 'payments#create', as: :paid_items_create
+    # post '/paid_items/create', to: 'payments#create', as: :paid_items_create
+    post '/payment/create', to: 'payments#create', as: :create_payment
     get '/billing_items/new', to: 'billing_items#new', as: :items
     delete '/billing_items/:id', to: 'billing_items#destroy', as: :items_destroy
     post '/payments/create', to: 'payments#create', as: :payments_create

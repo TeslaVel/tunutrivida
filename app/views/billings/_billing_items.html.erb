@@ -27,7 +27,9 @@
             <%= item.show_correct_total_text %>
           </td>
           <td class="text-center">
-            <%= link_to t('billing_items.delete'), billing_items_destroy_path(billing, item), method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy_item", :remote => true %>
+            <% if billing.unpaid? %>
+              <%= link_to t('billing_items.delete'), billing_items_destroy_path(billing, item), method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy_item", :remote => true %>
+            <% end %>
           </td>
         </tr>
         <% end %>

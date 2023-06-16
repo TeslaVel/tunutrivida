@@ -1,8 +1,10 @@
 class Payment < ApplicationRecord
   belongs_to :billing
-  has_many :payment_billing_items
+  belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
+  # has_many :payment_billing_items
 
   before_create :set_code
+  after_create :set_billing_paid
 
   PaymentStatus = %i[
     paid
@@ -11,7 +13,7 @@ class Payment < ApplicationRecord
 
   enum status: PaymentStatus
 
-  accepts_nested_attributes_for :payment_billing_items
+  # accepts_nested_attributes_for :payment_billing_items
 
   def set_code
     self.code = "P-#{"10000000".to_i + (Payment.count&.next || 1)}"
@@ -19,5 +21,9 @@ class Payment < ApplicationRecord
 
   def check_and_recalculate
     self.destroy if self.payment_billing_items.empty?
+  end
+
+  def set_billing_paid
+    self.billing.update(status: :paid)
   end
 end
