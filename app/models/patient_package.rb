@@ -8,7 +8,7 @@ class PatientPackage < ApplicationRecord
   has_one :billing
   has_many :billing_items, as: :itemable # relacion polimorfica
 
-  before_create :finished_all_package
+  # after_create :finished_all_package
   after_create :create_appointments_for_packages
   after_create :check_and_set_status
 
@@ -30,9 +30,11 @@ class PatientPackage < ApplicationRecord
 
   private
 
-  	def finished_all_package
-  		self.patient.patient_packages.update_all(status: :finished)
-  	end
+  	# def finished_all_package
+    #   if package.session_quantity.to_i == sessions.count
+  	# 	  self.patient.patient_packages.update_all(status: :finished)
+    #   end
+  	# end
 
     def check_and_set_status
       if package.weeks <= 0

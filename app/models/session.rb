@@ -7,6 +7,7 @@ class Session < ApplicationRecord
   belongs_to :activity_factor
 
   before_create :check_and_set_initial
+  after_create :check_and_finish_package
   before_save :set_imc, if: -> {weight_changed?}
 
   scope :date_desc, -> { order(date: :desc) }
@@ -23,6 +24,12 @@ class Session < ApplicationRecord
   def check_and_set_initial
     unless patient.sessions.present?
       self.initial = true
+    end
+  end
+
+ def check_and_finish_package
+    if patient_package.package.session_quantity.to_i == patient_package.sessions.count
+      patient_package.update(status: :finished)
     end
   end
 
