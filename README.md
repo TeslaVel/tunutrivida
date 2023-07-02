@@ -32,7 +32,7 @@ rails db:seed
 ```sh
 Terminal 1: rails server
 Terminal 2: redis-server
-Terminal 3: bin/webpack-dev
+Terminal 3: bin/webpack-dev-server
 ```
 
 # [About Start Bootstrap - SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/)
