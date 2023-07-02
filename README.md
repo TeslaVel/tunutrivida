@@ -6,22 +6,14 @@
 - Rails 6.1.1
 - Bootstrap 4
 
-## Download and Installation
-
-```sh
-git clone https://github.com/WallasFaria/rails-startbootstrap-sb-admin-2.git project_name
-```
-
-```sh
-cd project_name
-```
+## Config
 
 ```sh
 bundle install
 ```
 
 ```sh
-yarn
+yarn install
 ```
 
 ```sh
@@ -29,8 +21,12 @@ rails db:create
 ```
 
 ```sh
-rails server
+rails db:migrate
 ```
+
+```sh
+rails db:seed
+,,,
 
 
 # [About Start Bootstrap - SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/)
