@@ -26,8 +26,14 @@ rails db:migrate
 
 ```sh
 rails db:seed
-,,,
+```
+# Run project
 
+```sh
+Terminal 1: rails server
+Terminal 2: redis-server
+Terminal 3: bin/webpack-dev
+```
 
 # [About Start Bootstrap - SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/)
 
