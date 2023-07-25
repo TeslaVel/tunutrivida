@@ -18,31 +18,26 @@
   </head>
 
   <body id="page-top">
+    <main id="wrapper" class="bg-purple-01">
+      <aside>
+        <%= render "layouts/shared/sidebar" %>
+      </aside>
 
-    <div id="wrapper">
-      <%= render "layouts/shared/sidebar" %>
-
-      <div id="content-wrapper" class="d-flex flex-column">
-
-        <div id="content">
+      <section class="d-flex flex-column no-background w-100">
+        <header>
           <%= render "layouts/shared/topbar" %>
-          <div class="container-fluid">
-            <%= render "layouts/notifications/notification" %>
-            <%= yield %>
-          </div>
-        </div>
+        </header>
+        <section class="container-fluid mt-4 text-dark-purple-200"
+          style="height: calc(100vh - 172px); scroll-behavior: smooth; overflow: scroll; overflow-x: hidden;">
+          <%= render "layouts/notifications/notification" %>
+          <%= yield %>
+        </section>
 
-        <footer class="sticky-footer bg-white">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright &copy; Your Website 2019</span>
-            </div>
-          </div>
+        <footer class="sticky-footer bg-purple-200 text-white-01">
+          <%= render "layouts/shared/footer" %>
         </footer>
-
-      </div>
-
-    </div>
+      </section>
+    </main>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

@@ -46,8 +46,8 @@
   <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>
     <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
-      <%= active_link_to 'Brand', '', class: 'collapse-item' %>
-      <%= active_link_to 'Colors', '', class: 'collapse-item' %>
+      <%= active_link_to 'Brand', '/brand', class: 'collapse-item' %>
+      <%= active_link_to 'Colors', '/colors', class: 'collapse-item' %>
       <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
       <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
       <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>
