@@ -2,7 +2,10 @@ class Api::EntriesController < Api::ApiController
 
    def create
       entry = current_user.entries.build(entry_params)
-      entry.image.attach(params[:image]) if params[:image]
+
+      if params[:image].present? && params[:image] != 'undefined'
+        entry.image.attach(params[:image])
+      end
 
       if entry.save
         render json: { message: 'Entrada creada exitosamente', status: :ok }, status: :created
@@ -14,6 +17,6 @@ class Api::EntriesController < Api::ApiController
   private
 
    def entry_params
-     params.permit(:entry_type, :description, :image)
+     params.permit(:entry_type, :description)
    end
 end

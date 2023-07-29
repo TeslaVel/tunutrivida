@@ -760,6 +760,7 @@ ALTER SEQUENCE public.instant_sessions_id_seq OWNED BY public.instant_sessions.i
 CREATE TABLE public.notes (
     id bigint NOT NULL,
     message text NOT NULL,
+    seen boolean DEFAULT false,
     conversation_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,

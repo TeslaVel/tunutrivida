@@ -18,74 +18,86 @@ $white-01: #EEE;
 $red-01: red;
 
 $arrayDarkPurpleNames: (
-  dark-purple-700,
-  dark-purple-600,
-  dark-purple-500,
-  dark-purple-400,
-  dark-purple-300,
-  dark-purple-200,
-  dark-purple-100,
-  dark-purple-50,
-  dark-purple-40,
-  dark-purple-30,
-  dark-purple-20,
-  dark-purple-10,
+  dark-purple-700, dark-purple-600, dark-purple-500, dark-purple-400,
+  dark-purple-300, dark-purple-200, dark-purple-100, dark-purple-50,
+  dark-purple-40, dark-purple-30, dark-purple-20, dark-purple-10,
   dark-purple-05
 );
 
 $arrayDarkPurpleNamesMap: (
   dark-purple-700: rgb(70, 3, 96),
-  dark-purple-600: rgb(72, 3, 96),
-  dark-purple-500: rgb(74, 3, 96),
-  dark-purple-400: rgb(76, 4, 96),
-  dark-purple-300: rgb(78, 4, 96),
-  dark-purple-200: rgb(80, 4, 96),
-  dark-purple-100: rgb(82, 5, 96),
-  dark-purple-50: rgb(84, 5, 96),
-  dark-purple-40: rgb(86, 5, 96),
-  dark-purple-30: rgb(88, 5, 96),
-  dark-purple-20: rgb(90, 5, 96),
-  dark-purple-10: rgb(92, 5, 96),
-  dark-purple-05: rgb(94, 7, 93)
+  dark-purple-600: rgb(74, 7, 100),
+  dark-purple-500: rgb(78, 11, 104),
+  dark-purple-400: rgb(82, 15, 108),
+  dark-purple-300: rgb(86, 19, 112),
+  dark-purple-200: rgb(90, 23, 116),
+  dark-purple-100: rgb(94, 27, 120),
+  dark-purple-50: rgb(98, 31, 124),
+  dark-purple-40: rgb(102, 35, 128),
+  dark-purple-30: rgb(106, 39, 132),
+  dark-purple-20: rgb(110, 43, 136),
+  dark-purple-10: rgb(114, 47, 140),
+  dark-purple-05: rgb(118, 51, 144),
 );
 
 $arrayPurpleNames: (
-  purple-500,
-  purple-400,
-  purple-300,
-  purple-200,
-  purple-100,
-  purple-50,
-  purple-30,
-  purple-20,
-  purple-15,
-  purple-10,
-  purple-05,
-  purple-01,
+  purple-500, purple-400, purple-300, purple-200,
+  purple-100, purple-50, purple-30, purple-20,
+  purple-15, purple-10, purple-05, purple-01,
 );
 
 $arrayPurpleNamesMap: (
-  purple-500: rgb(145, 98, 145),
-  purple-400: rgb(156, 108, 156),
-  purple-300: rgb(167, 118, 167),
-  purple-200: rgb(178, 128, 178),
-  purple-100: rgb(189, 138, 189),
-  purple-50: rgb(210, 148, 210),
-  purple-30: rgb(211, 158, 211),
-  purple-20: rgb(222, 168, 222),
-  purple-15: rgb(233, 178, 233),
-  purple-10: rgb(244, 188, 244),
-  purple-05: rgb(255, 198, 255),
-  purple-01: rgb(250, 215, 250)
+  purple-500: rgb(145, 98, 145), purple-400: rgb(156, 108, 156), purple-300: rgb(167, 118, 167),
+  purple-200: rgb(178, 128, 178), purple-100: rgb(189, 138, 189), purple-50: rgb(210, 148, 210),
+  purple-30: rgb(211, 158, 211), purple-20: rgb(222, 168, 222), purple-15: rgb(233, 178, 233),
+  purple-10: rgb(244, 188, 244), purple-05: rgb(255, 198, 255), purple-01: rgb(250, 215, 250)
 );
 
+// $pink-700: rgb(80, 12, 80);
+// $pink-600: rgb(90, 16, 90);
+// $pink-500: rgb(100, 20, 100);
+// $pink-400: rgb(110, 24, 110);
+// $pink-300: rgb(120, 28, 120);
+// $pink-200: rgb(130, 32, 130);
+// $pink-100: rgb(140, 36, 140);
+// $pink-50: rgb(150, 40, 150);
+// $pink-50: rgb(160, 44, 160);
+// $pink-40: rgb(170, 48, 170);
+// $pink-30: rgb(180, 52, 180);
+// $pink-20: rgb(190, 56, 190);
+// $pink-20: rgb(200, 60, 200);
+// $pink-10: rgb(210, 64, 210);
+// $pink-05: rgb(237, 129, 237);
 
+
+$pink-700: rgb(80, 14, 70);
+$pink-600: rgb(96, 23, 79);
+$pink-500: rgb(112, 32, 88);
+$pink-400: rgb(128, 41, 97);
+$pink-300: rgb(144, 50, 106);
+$pink-200: rgb(160, 59, 115);
+$pink-100: rgb(176, 68, 124);
+$pink-50: rgb(192, 77, 133);
+$pink-50: rgb(208, 86, 142);
+$pink-40: rgb(224, 95, 151);
+$pink-30: rgb(240, 104, 160);
+$pink-20: rgb(256, 113, 169);
+$pink-10: rgb(272, 122, 178);
+$pink-05: rgb(288, 131, 187);
+
+
+$gray-red-400: rgb(130, 63, 76);
+$gray-red-300: rgb(164, 71, 88);
+$gray-red-200: rgb(184, 87, 105);
+$gray-red-100: rgb(202, 105, 122);
+
+/* Override text color */
 * {
   color: map-get($arrayDarkPurpleNamesMap, dark-purple-700);;
 }
 
 
-
+/************ CUSTOM CSS ************/
 /* custom date field */
 .select-date-wrapper{
   select.select-date {
@@ -104,10 +116,9 @@ $arrayPurpleNamesMap: (
     width: 10%;
     margin-right: 0;
   }
-}
-/* end custom date field */
+} /* end custom date field */
 
-/* Style for simple calendar */
+/* STYLE for simple calendar */
 .simple-calendar {
   .day {
     width: 400px;
@@ -145,9 +156,8 @@ $arrayPurpleNamesMap: (
       padding: 4px 0 4px 0;
     }
   }
-}
+} /* EN STYLE FOR CALENDAR */
 
-/*CUSTOM CSS*/
 
 .overflow-y-scroll { overflow-y: scroll;}
 .overflow-x-scroll { overflow-x: scroll;}
@@ -161,9 +171,9 @@ $arrayPurpleNamesMap: (
     color: #1aeaaf;
 }
 
+/********* LOOPS TO CREATE CLASSES  *******/
 
-/***** LOOPS para crear clases ***/
-/* define w-[10 to 400]px 10 in 10 */
+/* Defining width  w-[10 to 400]px 10 in 10 */
 @for $i from 1 through 50 {
   .w-#{$i*10}px {
     width: 10px * $i;
@@ -175,7 +185,7 @@ $arrayPurpleNamesMap: (
 }
 
 
-/* font-size-px */
+/* Defining font-size-px */
 @for $i from 8 through 25 {
   .f-size-#{$i} {
     font-size: 1px * $i;
@@ -188,9 +198,31 @@ $arrayPurpleNamesMap: (
   }
 }
 
+/* Generate classes for purple */
+@each $key in $arrayPurpleNames {
+  $value: map-get($arrayPurpleNamesMap, $key);
+
+  .bg-#{$key} { background-color: $value; }
+  .text-#{$key} { color: $value; }
+
+  .border-#{$key} { border: 0.1rem solid $value !important }
+  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
+}
+
+/* Generate classes for dark purple */
+@each $key in $arrayDarkPurpleNames {
+  $value: map-get($arrayDarkPurpleNamesMap, $key);
+
+  .bg-#{$key} { background-color: $value; }
+  .text-#{$key} { color: $value; }
+
+  .border-#{$key} { border: 0.1rem solid $value !important }
+  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
+}
 /* Fin de los loops*/
 
-/* clases para height */
+
+/* HEIGHT CLASSES */
 .h-100vh { height: 100vh; }
 .h-100vhi { height: 100vh !important; }
 /* clases para width */
@@ -216,7 +248,6 @@ $arrayPurpleNamesMap: (
 .w-100   { width: 100%; }
 .w-100i  { width: 100% !important;}
 
-/* w-auto actual exist in boostrap */
 
 .diagonis_imc {
   background: #f9d1a7b5;
@@ -232,60 +263,29 @@ $arrayPurpleNamesMap: (
 }
 
 .hidden { display: none;}
-
-
 .c-red { color: #be1700; }
 .c-blue { color: #5597ff; }
 .c-green { color: #03abb0; }
 .pointer {cursor: pointer;}
 
 .no-background { background: none;}
-
-/* generar classes with purple */
-@each $key in $arrayPurpleNames {
-  $value: map-get($arrayPurpleNamesMap, $key);
-
-  .bg-#{$key} { background-color: $value; }
-  .text-#{$key} { color: $value; }
-
-  .border-#{$key} { border: 0.1rem solid $value !important }
-  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
+.d-none { display: none !important;}
+.btn-none {
+  background: none;
+  border: none;
 }
-
-/* generar classes with dark purple */
-@each $key in $arrayDarkPurpleNames {
-  $value: map-get($arrayDarkPurpleNamesMap, $key);
-
-  .bg-#{$key} { background-color: $value; }
-  .text-#{$key} { color: $value; }
-
-  .border-#{$key} { border: 0.1rem solid $value !important }
-  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
-}
-
-$pink-500: #801565;
-$pink-400: #8c1d70;
-$pink-300: #a22b84;
-$pink-200: #b53b96;
-$pink-100: #c14aa3;
-$pink-50: #d55fb7;
-$pink-40: #e371c6;
-$pink-30: #f083d4;
-$pink-20: #f999e0;
-$pink-10: #f4b1e3;
 
 
 
 /*@mixin bg-pink-custom { background-color: $pink-custom }*/
-
 @mixin bg-purple-gradient {
-  background: linear-gradient(30deg, rgb(80, 4, 96) 0%, rgb(78, 4, 96) 100%);
+  background: linear-gradient(30deg, map-get($arrayDarkPurpleNamesMap, dark-purple-200) 0%, map-get($arrayDarkPurpleNamesMap, dark-purple-300) 100%);
 }
-
 /* End Colors */
 
 
-/* Override sidebar */
+/************ OVERRIDING CLASES ****************/
+/* Override SIDEBAR **/
 .navbar-nav.sidebar {
   @include bg-purple-gradient;
 
@@ -335,13 +335,63 @@ $pink-10: #f4b1e3;
   & .nav-item .collapsing .collapse-inner .collapse-header {
     color: map-get($arrayPurpleNamesMap, purple-500);
   }
- }
+} /* end override sidebar */
 
-/* end override sidebar */
+/* override buttons styles */
+.btn {
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background-color: $pink-500;
+  border-color:  $pink-700;
+
+  &:hover, &:focus {
+    background-color: $pink-700;
+    border-color: $pink-600
+  }
+
+  &:not(:disabled):not(.disabled):active {
+    background-color: map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+    border-color: $pink-300
+  }
+
+  &:not(:disabled):not(.disabled):active:focus ,
+  &:focus { box-shadow: none; }
+}
+
+.btn-secondary {
+  background-color: $gray-red-100;
+  border-color:  $gray-red-200;
 
 
-/*Colores para las categorias de enties*/
+  &:hover, &:focus {
+    background-color:  $gray-red-300;
+    border-color: $gray-red-200;
+  }
 
+  &:not(:disabled):not(.disabled):active {
+    background-color:  $gray-red-300;
+    border-color: $gray-red-400;
+  }
+
+  &:not(:disabled):not(.disabled):active:focus ,
+  &:focus { box-shadow: none }
+}
+
+/* override notification styles */
+.topbar {
+  & .dropdown-list {
+    border: 1px solid map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+
+    & .dropdown-header {
+      background-color: map-get($arrayDarkPurpleNamesMap, dark-purple-500);
+      border: 1px solid map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+    }
+  }
+}
+/************ END OVERRIDING CLASES ****************/
+
+/* Color for entry categories */
 .workout-entry {
   background: #ebf1f1;
   border-bottom-color: #a9d9e8 !important
@@ -358,30 +408,8 @@ $pink-10: #f4b1e3;
   border-color: map-get($arrayPurpleNamesMap, purple-200);
 }
 
-.emoji-panel {
-/*  right: 6rem;
-  border-radius: 50px 50px 0 50px;
-  bottom: 2.5rem;*/
-  
-}
 
-.d-none { display: none !important;}
-.btn-none {
-  background: none;
-  border: none;
-}
-
-.emoji-panel::after {
-/*  content: '';
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  border-width: 8px;
-  border-color: #e8abb5;
-  border-radius: 50px 9px 4px;*/
-}
-
-/* some form customization */
+/* Override form style */
 .error_notification { color: red; }
 
 .field_with_errors {
