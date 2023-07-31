@@ -1,24 +1,19 @@
-development:
+default: &default
   adapter: postgresql
-  database: tunutrivida_development
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: postgres
-  password: password
-  host: localhost
-  port: 5432
+  password: tunutriclave123*
+
+development:
+  <<: *default
+  database: tunutrivida_development
 
 test:
-  adapter: postgresql
+  <<: *default
   database: tunutrivida_test
-  username: postgres
-  password: password
-  host: localhost
-  port: 5432
-
 
 production:
-  adapter: postgresql
+  <<: *default
   database: tunutrivida_production
-  username: postgres
-  password: password
   host: localhost
-  port: 5432
