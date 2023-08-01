@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 	def get_global_configurations
 		@organization = current_user&.organization
 		@gbl_configuration = GlobalConfiguration.first
-		@notifications = Notification.where(recipient_id: current_user&.id, seen: false, notification_type: :comment)
+		@notifications = Notification.where(recipient_id: current_user&.id, seen: false, notification_type: %i[comment note])
 		@emails = Notification.where(seen: false, notification_type: :contactus)
 	end
 

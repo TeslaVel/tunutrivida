@@ -11,10 +11,10 @@ module Mutations
       current_user = context[:current_user]
 
       #puts "mutation ### current_user #{current_user}"
-      
+
       return {errors: ['Not logged']} unless current_user.present?
       return {errors: ['User has not dietitian_id']} unless current_user.dietitian.present?
-      
+
       conversation = Conversation.find_by(id: conversation_id)
 
       unless conversation.present?
@@ -29,9 +29,10 @@ module Mutations
         conversation_id: conversation_id,
         message: message
       )
-        
+
 
       if note.save
+        note.send_alert_notification(current_user)
       {
         id: note.id,
         message: note.message,

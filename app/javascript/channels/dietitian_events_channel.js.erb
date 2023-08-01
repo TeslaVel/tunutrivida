@@ -19,7 +19,7 @@ $(document).on('turbolinks:load', function() {
 
     received(data) {
       console.log('recibimos en el js', data)
-      if(data.type == 'comment') {
+      if(data.type == 'comment' || data.type == 'note') {
         $("#notification-counter").removeClass('d-none');
         $("#notification-counter").text(`${data.notification_count} +`);
       }

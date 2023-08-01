@@ -21,7 +21,7 @@ class Comment < ApplicationRecord
 
     CommentNotification.create!(
       notification_type: :comment,
-      content: "#{c_user.full_name} has sent you a comment",
+      content: "#{c_user.full_name} has commented to you",
       sender_id: c_user.id,
       associated_object_type: 'Comment',
       associated_object_id: id,

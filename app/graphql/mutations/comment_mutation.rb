@@ -19,7 +19,6 @@ module Mutations
           message: message,
           # comment_type: type
         )
-        
 
         if comment.save
           comment.send_alert_notification(current_user)
@@ -29,7 +28,7 @@ module Mutations
             created_at: comment.created_at,
             user: comment.user
           }
-          
+
         else
           {errors: ['Error on comment']}
         end

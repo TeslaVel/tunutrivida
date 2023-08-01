@@ -10,6 +10,7 @@ class Notification < ApplicationRecord
     comment
     entry
     contactus
+    note
   ].freeze
 
   enum notification_type: NOTIFICATION_TYPES

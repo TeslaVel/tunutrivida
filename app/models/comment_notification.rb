@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# CommentNotification model
 class CommentNotification < Notification
   after_create :send_alert_notification
 

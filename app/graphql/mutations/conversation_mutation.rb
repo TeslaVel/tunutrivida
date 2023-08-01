@@ -24,7 +24,6 @@ module Mutations
         dietitian_id: dietitian_id,
         patient_id: current_user.id,
       )
-        
 
       if conversation.save
         Note.create(
