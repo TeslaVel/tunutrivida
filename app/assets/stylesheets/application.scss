@@ -16,39 +16,39 @@ $white-01: #EEE;
 $red-01: red;
 
 $arrayDarkPurpleNames: (
-  dark-purple-700, dark-purple-600, dark-purple-500, dark-purple-400,
-  dark-purple-300, dark-purple-200, dark-purple-100, dark-purple-50,
-  dark-purple-40, dark-purple-30, dark-purple-20, dark-purple-10,
-  dark-purple-05
+  primary-700, primary-600, primary-500, primary-400,
+  primary-300, primary-200, primary-100, primary-50,
+  primary-40, primary-30, primary-20, primary-10,
+  primary-05
 );
 
 $arrayDarkPurpleNamesMap: (
-  dark-purple-700: rgb(70, 3, 96),
-  dark-purple-600: rgb(74, 7, 100),
-  dark-purple-500: rgb(78, 11, 104),
-  dark-purple-400: rgb(82, 15, 108),
-  dark-purple-300: rgb(86, 19, 112),
-  dark-purple-200: rgb(90, 23, 116),
-  dark-purple-100: rgb(94, 27, 120),
-  dark-purple-50: rgb(98, 31, 124),
-  dark-purple-40: rgb(102, 35, 128),
-  dark-purple-30: rgb(106, 39, 132),
-  dark-purple-20: rgb(110, 43, 136),
-  dark-purple-10: rgb(114, 47, 140),
-  dark-purple-05: rgb(118, 51, 144),
+  primary-700: rgb(70, 3, 96),
+  primary-600: rgb(74, 7, 100),
+  primary-500: rgb(78, 11, 104),
+  primary-400: rgb(82, 15, 108),
+  primary-300: rgb(86, 19, 112),
+  primary-200: rgb(90, 23, 116),
+  primary-100: rgb(94, 27, 120),
+  primary-50: rgb(98, 31, 124),
+  primary-40: rgb(102, 35, 128),
+  primary-30: rgb(106, 39, 132),
+  primary-20: rgb(110, 43, 136),
+  primary-10: rgb(114, 47, 140),
+  primary-05: rgb(118, 51, 144),
 );
 
 $arrayPurpleNames: (
-  purple-500, purple-400, purple-300, purple-200,
-  purple-100, purple-50, purple-30, purple-20,
-  purple-15, purple-10, purple-05, purple-01,
+  secondary-500, secondary-400, secondary-300, secondary-200,
+  secondary-100, secondary-50, secondary-30, secondary-20,
+  secondary-15, secondary-10, secondary-05, secondary-01,
 );
 
 $arrayPurpleNamesMap: (
-  purple-500: rgb(145, 98, 145), purple-400: rgb(156, 108, 156), purple-300: rgb(167, 118, 167),
-  purple-200: rgb(178, 128, 178), purple-100: rgb(189, 138, 189), purple-50: rgb(210, 148, 210),
-  purple-30: rgb(211, 158, 211), purple-20: rgb(222, 168, 222), purple-15: rgb(233, 178, 233),
-  purple-10: rgb(244, 188, 244), purple-05: rgb(255, 198, 255), purple-01: rgb(250, 215, 250)
+  secondary-500: rgb(145, 98, 145), secondary-400: rgb(156, 108, 156), secondary-300: rgb(167, 118, 167),
+  secondary-200: rgb(178, 128, 178), secondary-100: rgb(189, 138, 189), secondary-50: rgb(210, 148, 210),
+  secondary-30: rgb(211, 158, 211), secondary-20: rgb(222, 168, 222), secondary-15: rgb(233, 178, 233),
+  secondary-10: rgb(244, 188, 244), secondary-05: rgb(255, 198, 255), secondary-01: rgb(250, 215, 250)
 );
 
 // $pink-700: rgb(80, 12, 80);
@@ -91,7 +91,7 @@ $gray-red-100: rgb(202, 105, 122);
 
 /* Override text color */
 * {
-  color: map-get($arrayDarkPurpleNamesMap, dark-purple-700);;
+  color: map-get($arrayDarkPurpleNamesMap, primary-700);
 }
 
 
@@ -276,8 +276,8 @@ $gray-red-100: rgb(202, 105, 122);
 
 
 /*@mixin bg-pink-custom { background-color: $pink-custom }*/
-@mixin bg-purple-gradient {
-  background: linear-gradient(30deg, map-get($arrayDarkPurpleNamesMap, dark-purple-200) 0%, map-get($arrayDarkPurpleNamesMap, dark-purple-300) 100%);
+@mixin bg-secondary-gradient {
+  background: linear-gradient(30deg, map-get($arrayDarkPurpleNamesMap, primary-200) 0%, map-get($arrayDarkPurpleNamesMap, primary-300) 100%);
 }
 /* End Colors */
 
@@ -285,40 +285,40 @@ $gray-red-100: rgb(202, 105, 122);
 /************ OVERRIDING CLASES ****************/
 /* Override SIDEBAR **/
 .navbar-nav.sidebar {
-  @include bg-purple-gradient;
+  @include bg-secondary-gradient;
 
   & .sidebar-brand, & .nav-item .nav-link {
     & span {
       color: $white-01;
     }
     & span:hover {
-      color: map-get($arrayPurpleNamesMap, purple-20);
+      color: map-get($arrayPurpleNamesMap, secondary-20);
     }
   }
 
   /* Icons */
   & .nav-item .nav-link svg path {
-    fill: map-get($arrayPurpleNamesMap, purple-10);
+    fill: map-get($arrayPurpleNamesMap, secondary-10);
   }
 
   /* Background color del dropdown */
   & .nav-item .collapse .bg-white,
   & .nav-item .collapse .collapse-inner,
   & .nav-item .collapsing .collapse-inner {
-    background-color: map-get($arrayPurpleNamesMap, purple-01) !important;
+    background-color: map-get($arrayPurpleNamesMap, secondary-01) !important;
   }
 
   /* Hover bg color de los items dentro del dropdown */
   & .nav-item .collapse.show .collapse-inner .collapse-item:hover {
     color: $white-01;
-    background: map-get($arrayPurpleNamesMap, purple-300);
+    background: map-get($arrayPurpleNamesMap, secondary-300);
   }
 
   /* color de los items dentro del dropdown */
   & .nav-item .collapse.show .collapse-inner .collapse-item,
   & .nav-item .collapse .collapse-inner .collapse-item,
   & .nav-item .collapsing .collapse-inner .collapse-item {
-    color: map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+    color: map-get($arrayDarkPurpleNamesMap, primary-700);
   }
 
   /* bg color del item seleccionado dentro del dropdown */
@@ -326,12 +326,12 @@ $gray-red-100: rgb(202, 105, 122);
   & .nav-item .collapse .collapse-inner .collapse-item.active,
   & .nav-item .collapsing .collapse-inner .collapse-item.active {
     color: $white-01;
-    background: map-get($arrayPurpleNamesMap, purple-300);
+    background: map-get($arrayPurpleNamesMap, secondary-300);
   }
 
   & .nav-item .collapse .collapse-inner .collapse-header,
   & .nav-item .collapsing .collapse-inner .collapse-header {
-    color: map-get($arrayPurpleNamesMap, purple-500);
+    color: map-get($arrayPurpleNamesMap, secondary-500);
   }
 } /* end override sidebar */
 
@@ -354,7 +354,7 @@ $gray-red-100: rgb(202, 105, 122);
   }
 
   &:not(:disabled):not(.disabled):active {
-    background-color: map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+    background-color: map-get($arrayDarkPurpleNamesMap, primary-700);
     border-color: $pink-300
   }
 
@@ -384,11 +384,11 @@ $gray-red-100: rgb(202, 105, 122);
 /* override notification styles */
 .topbar {
   & .dropdown-list {
-    border: 1px solid map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+    border: 1px solid map-get($arrayDarkPurpleNamesMap, primary-700);
 
     & .dropdown-header {
-      background-color: map-get($arrayDarkPurpleNamesMap, dark-purple-500);
-      border: 1px solid map-get($arrayDarkPurpleNamesMap, dark-purple-700);
+      background-color: map-get($arrayDarkPurpleNamesMap, primary-500);
+      border: 1px solid map-get($arrayDarkPurpleNamesMap, primary-700);
     }
   }
 }
@@ -407,8 +407,8 @@ $gray-red-100: rgb(202, 105, 122);
 
 /* css for entries and chat emoji */
 .button-emoji:hover {
-  background-color: map-get($arrayPurpleNamesMap, purple-200);
-  border-color: map-get($arrayPurpleNamesMap, purple-200);
+  background-color: map-get($arrayPurpleNamesMap, secondary-200);
+  border-color: map-get($arrayPurpleNamesMap, secondary-200);
 }
 
 

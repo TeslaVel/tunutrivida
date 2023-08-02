@@ -2,7 +2,7 @@
   <% @entries.each do |entry| %>
     <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 p-0 mb-6">
       <%= link_to entry_path(entry), class: 'text-decoration-none' do %>
-      <div class="card mb-4 py-2 border-bottom-pink-300">
+      <div class="card mb-4 py-2 border-bottom-secondary-400">
         <div class="p-0 px-2 pb-2 pt-1 text-center"><%= entry.user.full_name %> </div>
         <% if entry.image.present? %>
           <div class="card-header bg-transparent">

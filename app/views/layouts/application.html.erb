@@ -20,7 +20,7 @@
   </head>
 
   <body id="page-top">
-    <main id="wrapper" class="bg-purple-01">
+    <main id="wrapper" class="bg-secondary-01">
       <aside>
         <%= render "layouts/shared/sidebar" %>
       </aside>
@@ -29,13 +29,13 @@
         <header>
           <%= render "layouts/shared/topbar" %>
         </header>
-        <section class="container-fluid mt-4 text-dark-purple-200"
+        <section class="container-fluid mt-4 text-primary-200"
           style="height: calc(100vh - 172px); scroll-behavior: smooth; overflow: scroll; overflow-x: hidden;">
           <%= render "layouts/notifications/notification" %>
           <%= yield %>
         </section>
 
-        <footer class="sticky-footer bg-purple-200 text-white-01">
+        <footer class="sticky-footer bg-secondary-200 text-white-01">
           <%= render "layouts/shared/footer" %>
         </footer>
       </section>
