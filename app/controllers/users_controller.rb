@@ -78,6 +78,7 @@ class UsersController < ApplicationController
     )
 
     if @patient.persisted?
+      InstantSession.find(params[:id]).destroy
       redirect_to patient_path(@patient), notice: 'Patient was successfully created.'
     else
       redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
