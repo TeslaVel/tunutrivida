@@ -1,37 +1,42 @@
-<h1>Discounts</h1>
-<div class="w-100 text-right mb-4">
-  <%= link_to t('discounts.new_discount'), new_discount_path , class: "btn btn-primary" %>
+<div class="col-12">
+  <h1>Discounts</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('discounts.new_discount'), new_discount_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @discounts.each do |discount| %>
+          <tr>
+            <td><%= discount.name %></td>
+            <td><%= discount.description %></td>
+            <td><%= discount.discount_type %></td>
+            <td class="d-flex justify-content-center">
+              <%= link_to discount do%>
+                <i class="fa fa-eye c-blue mr-3"></i>
+              <% end %>
+
+              <%= link_to edit_discount_path(discount) do%>
+                <i class="fa fa-pen c-green mr-3"></i>
+              <% end %>
+
+              <%= link_to discount, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash c-red"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Type</th>
-      <th class="text-center">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @discounts.each do |discount| %>
-      <tr>
-        <td><%= discount.name %></td>
-        <td><%= discount.description %></td>
-        <td><%= discount.discount_type %></td>
-        <td class="d-flex justify-content-center">
-          <%= link_to discount do%>
-            <i class="fa fa-eye c-blue mr-3"></i>
-          <% end %>
-
-          <%= link_to edit_discount_path(discount) do%>
-            <i class="fa fa-pen c-green mr-3"></i>
-          <% end %>
-
-          <%= link_to discount, method: :delete, data: { confirm: 'Are you sure?' } do %>
-            <i class="fa fa-trash c-red"></i>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>

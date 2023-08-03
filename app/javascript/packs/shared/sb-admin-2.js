@@ -1,4 +1,20 @@
 $(document).on('turbolinks:load', function() {
+  function load_and_close() {
+    if ($(window).width() < 768) {
+      $('.sidebar .collapse').removeClass('show');
+    } else {
+      $('.sidebar .collapse').removeClass('show');
+    };
+
+    if ($(window).width() < 576) {
+      $("#accordionSidebar").addClass("toggled");
+      $("body").addClass("sidebar-toggled");
+    } else {
+      $('#accordionSidebar').removeClass('toggled');
+    }
+  }
+
+  load_and_close()
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");
@@ -13,17 +29,7 @@ $(document).on('turbolinks:load', function() {
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
-    if ($(window).width() < 768) {
-      $('.sidebar .collapse').removeClass('show');
-    } else {
-      $('.sidebar .collapse').removeClass('show');
-    };
-
-    if ($(window).width() < 576) {
-      $('#accordionSidebar').addClass('toggled');
-    } else {
-      $('#accordionSidebar').removeClass('toggled');
-    }
+    load_and_close()
   });
 
   // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
