@@ -28,11 +28,15 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-    <% active_patient_modules = active_link?(includes: ['patients', 'billings' , 'instant_sessions']) %>
+    <% array_modules = {
+      patient_modules: ['patients', 'billings' , 'instant_sessions', 'tasks', 'appointments', 'availabilities', 'entries'],
+      company_config: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types', 'bmr_factors']
+    } %>
+    <% active_patient_modules = active_link?(includes: array_modules[:patient_modules]) %>
     <%= nav_context :patient_modules, 'Patient modules', icon: 'cog' , active_link: active_patient_modules do %>
       <h6 class="collapse-header">Patient modules:</h6>
     <% if current_user.has_role?(:dietitian) %>
-      <%= active_link_to 'Temporal Session', instant_sessions_path, class: 'collapse-item' %>
+      <%= active_link_to 'Instant Session', instant_sessions_path, class: 'collapse-item' %>
       <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
       <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
       <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
@@ -43,7 +47,7 @@
   <% end %>
 
   <% if current_user.has_role?(:dietitian) %>
-  <% active_modules = active_link?(includes: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types']) %>
+  <% active_modules = active_link?(includes: array_modules[:company_config]) %>
     <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: active_modules do %>
     <h6 class="collapse-header">Admin modules:</h6>
       <%= active_link_to 'Brand', '/brand', class: 'collapse-item' %>
@@ -59,16 +63,16 @@
     <% end %>
   <% end %>
 
-  <% if current_user.has_role?(:dietitian) %>
-    <% active_emails_module = active_link?(includes: ['email']) %>
-    <%= nav_context :email_modules, 'Emails', icon: 'cog' , active_link: active_emails_module do %>
-       <h6 class="collapse-header">Emails:</h6>
-      <%= active_link_to 'Emails', contact_us_path, class: 'collapse-item' %>
-    <% end %>
-  <% end %>
 
-   <% if current_user.has_role?(:dietitian) %>
-   <li class="nav-item <%= add_active_class(conversations_path) %>">
+  <% if current_user.has_role?(:dietitian) %>
+   <li class="nav-item <%= add_active_class(contact_us_path) %> single">
+      <a class="nav-link" href="<%= contact_us_path %>">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Emails</span>
+      </a>
+    </li>
+
+   <li class="nav-item <%= add_active_class(conversations_path) %> single">
       <a class="nav-link" href="<%= conversations_path %>">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Chats</span>

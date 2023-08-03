@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   get 'patients/search', to: 'users#search', as: :patients_search
   patch 'patients/:id', to: 'users#update', as: :patch_patient
   post 'patients', to: 'users#create', as: :post_patients
+  post 'instant_patient/:id', to: 'users#create_from_instant', as: :create_patient_from_instant_session
   resources :patients, controller: 'users', type: 'User' do
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
     get '/packagesjson', to: 'patient_packages#packagesjson'

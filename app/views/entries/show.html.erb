@@ -26,7 +26,7 @@
       </div>
       <% height = @entry.image.present? ? 'h-200px' : 'h-300px' %>
       <div class="card-body px-0 pb-1 pt-0 <%= height %> overflow-hidden">
-        <div class="px-3 h-100 overflow-y-scroll">
+        <div class="px-3 h-100 overflow-y-scroll" id="content-comment-scroll">
           <div id="comments_partial" class="d-flex flex-column ">
             <%= render 'comments', comments: @comments %>
           </div>
@@ -55,7 +55,7 @@
             id:"comment_form",
             remote: true
           }) do |f| %>
-         
+
           <input
             id="messageInput"
             type="text"
@@ -80,6 +80,11 @@
 
 <% content_for :javascript do %>
   <script>
+    $(document).on('turbolinks:load', function() {
+      const myDiv = document.getElementById('content-comment-scroll');
+      myDiv.scrollTop = myDiv.scrollHeight;
+      console.log('myDiv', myDiv)
+    });
     //******************
     //* Create billing item
     //*
@@ -112,6 +117,8 @@
         dataType: "script",
         success: function(data) {
           $("#messageInput").val('');
+            const myDiv = document.getElementById('content-comment-scroll');
+            myDiv.scrollTop = myDiv.scrollHeight;
         },
         error: function(err) {
           console.log('err', err);

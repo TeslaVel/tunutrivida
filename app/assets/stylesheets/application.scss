@@ -51,37 +51,29 @@ $arrayPurpleNamesMap: (
   secondary-10: rgb(244, 188, 244), secondary-05: rgb(255, 198, 255), secondary-01: rgb(250, 215, 250)
 );
 
-// $pink-700: rgb(80, 12, 80);
-// $pink-600: rgb(90, 16, 90);
-// $pink-500: rgb(100, 20, 100);
-// $pink-400: rgb(110, 24, 110);
-// $pink-300: rgb(120, 28, 120);
-// $pink-200: rgb(130, 32, 130);
-// $pink-100: rgb(140, 36, 140);
-// $pink-50: rgb(150, 40, 150);
-// $pink-50: rgb(160, 44, 160);
-// $pink-40: rgb(170, 48, 170);
-// $pink-30: rgb(180, 52, 180);
-// $pink-20: rgb(190, 56, 190);
-// $pink-20: rgb(200, 60, 200);
-// $pink-10: rgb(210, 64, 210);
-// $pink-05: rgb(237, 129, 237);
+$arrayPinkNames: (
+  pink-700, pink-600, pink-500,
+  pink-400, pink-300, pink-200,
+  pink-100, pink-50, pink-30,
+  pink-20,  pink-15, pink-10,
+  pink-05, pink-01,
+);
 
-
-$pink-700: rgb(80, 14, 70);
-$pink-600: rgb(96, 23, 79);
-$pink-500: rgb(112, 32, 88);
-$pink-400: rgb(128, 41, 97);
-$pink-300: rgb(144, 50, 106);
-$pink-200: rgb(160, 59, 115);
-$pink-100: rgb(176, 68, 124);
-$pink-50: rgb(192, 77, 133);
-$pink-50: rgb(208, 86, 142);
-$pink-40: rgb(224, 95, 151);
-$pink-30: rgb(240, 104, 160);
-$pink-20: rgb(256, 113, 169);
-$pink-10: rgb(272, 122, 178);
-$pink-05: rgb(288, 131, 187);
+$arrayPinkNamesMap: (
+  pink-700: rgb(168, 13, 116),
+  pink-600: rgb(174, 25, 124),
+  pink-500: rgb(180, 37, 132),
+  pink-400: rgb(186, 49, 140),
+  pink-300: rgb(192, 61, 148),
+  pink-200: rgb(198, 73, 156),
+  pink-100: rgb(204, 85, 164),
+  pink-50: rgb(210, 97, 172),
+  pink-40: rgb(216, 109, 180),
+  pink-30: rgb(222, 121, 188),
+  pink-20: rgb(228, 133, 196),
+  pink-10: rgb(234, 145, 204),
+  pink-05: rgb(240, 157, 212)
+);
 
 
 $gray-red-400: rgb(130, 63, 76);
@@ -99,20 +91,21 @@ $gray-red-100: rgb(202, 105, 122);
 /* custom date field */
 .select-date-wrapper{
   select.select-date {
-    width: 30%;
+    width: 25%;
     margin-right: 10px;
     float: left;
   }
-
-  select:first-of-type {
-    width: 10%;
-  }
-  select:nth-of-type(2) {
-    width: 15%;
-  }
-  select:last-of-type {
-    width: 10%;
-    margin-right: 0;
+  &.custom-width {
+    select:first-of-type {
+      width: 15%;
+    }
+    select:nth-of-type(2) {
+      width: 15%;
+    }
+    select:last-of-type {
+      width: 15%;
+      margin-right: 0;
+    }
   }
 } /* end custom date field */
 
@@ -297,8 +290,34 @@ $gray-red-100: rgb(202, 105, 122);
   }
 
   /* Icons */
-  & .nav-item .nav-link svg path {
-    fill: map-get($arrayPurpleNamesMap, secondary-10);
+  & .nav-item  {
+    & .nav-link svg path {
+      fill: map-get($arrayPurpleNamesMap, secondary-05);
+    }
+
+    &.active {
+      &.single > .nav-link {
+        background: map-get($arrayPurpleNamesMap, secondary-100);
+
+        & span {
+          color: map-get($arrayDarkPurpleNamesMap, primary-100);
+          font-weight: 700;
+        }
+        & svg path {
+          fill: map-get($arrayDarkPurpleNamesMap, primary-100);
+        }
+      }
+
+      & > .nav-link {
+        & span {
+          color: map-get($arrayPinkNamesMap, pink-100);
+          font-weight: 700;
+        }
+        & svg path {
+          fill: map-get($arrayPinkNamesMap, pink-100);
+        }
+      }
+    }
   }
 
   /* Background color del dropdown */
@@ -311,10 +330,10 @@ $gray-red-100: rgb(202, 105, 122);
   /* Hover bg color de los items dentro del dropdown */
   & .nav-item .collapse.show .collapse-inner .collapse-item:hover {
     color: $white-01;
-    background: map-get($arrayPurpleNamesMap, secondary-300);
+    background: map-get($arrayPurpleNamesMap, secondary-100);
   }
 
-  /* color de los items dentro del dropdown */
+  /* color de texto de los items dentro del dropdown */
   & .nav-item .collapse.show .collapse-inner .collapse-item,
   & .nav-item .collapse .collapse-inner .collapse-item,
   & .nav-item .collapsing .collapse-inner .collapse-item {
@@ -326,7 +345,7 @@ $gray-red-100: rgb(202, 105, 122);
   & .nav-item .collapse .collapse-inner .collapse-item.active,
   & .nav-item .collapsing .collapse-inner .collapse-item.active {
     color: $white-01;
-    background: map-get($arrayPurpleNamesMap, secondary-300);
+    background: map-get($arrayPurpleNamesMap, secondary-100);
   }
 
   & .nav-item .collapse .collapse-inner .collapse-header,
@@ -340,8 +359,8 @@ $gray-red-100: rgb(202, 105, 122);
   border: 1px solid transparent;
 }
 .btn-primary {
-  background-color: $pink-500;
-  border-color:  $pink-700;
+  background-color: map-get($arrayPinkNamesMap, pink-300);
+  border-color: map-get($arrayPinkNamesMap, pink-700);
   color: $white-01;
 
   & > :first-child {
@@ -349,13 +368,13 @@ $gray-red-100: rgb(202, 105, 122);
   }
 
   &:hover, &:focus {
-    background-color: $pink-700;
-    border-color: $pink-600
+    background-color: map-get($arrayPinkNamesMap, pink-700);
+    border-color:map-get($arrayPinkNamesMap, pink-600);
   }
 
   &:not(:disabled):not(.disabled):active {
     background-color: map-get($arrayDarkPurpleNamesMap, primary-700);
-    border-color: $pink-300
+    border-color: map-get($arrayPinkNamesMap, pink-300);
   }
 
   &:not(:disabled):not(.disabled):active:focus ,

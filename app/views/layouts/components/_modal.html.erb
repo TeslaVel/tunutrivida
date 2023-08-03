@@ -13,10 +13,12 @@
           <%= yield %>
         <% end %>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="<%= action_call %>"><%= action_name %></button>
-      </div>
+      <% if action_call %>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="<%= action_call %>"><%= action_name %></button>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

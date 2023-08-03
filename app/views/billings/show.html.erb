@@ -87,7 +87,6 @@
 
 
 <!-- Modal -->
-
 <%= render layout: "layouts/components/modal",
   locals: {
     id_modal: 'newItemModal',
@@ -95,7 +94,7 @@
     action_name: 'Create',
     action_call: 'add_billing_item()'
   } do %>
-  
+
   <div>
     <%= form_with scope: BillingItem.new, url: billing_items_create_path(@billing), data: { type: :json }, html: {id:"billing_item_form_id", class: 'billing_item_form', multipart: true, remote: true} do |f| %>
       <div class="form-group">
@@ -181,7 +180,7 @@
         }
       }
     });
-    
+
     //******************
     //* Create billing item
     //*

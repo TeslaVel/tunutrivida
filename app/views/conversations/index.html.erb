@@ -12,10 +12,7 @@
       </div>
       <div class="flex-grow-1">
         <div class="d-flex justify-content-center" id='current_conversation'>
-          <% if @conversation %>
-            <%= render 'chat', conversation: @conversation %>
-          <% end %>
-        </div>
+          <%= render 'chat', conversation: @conversation %>
       </div>
     </div>
   </div>
@@ -57,12 +54,13 @@
 
 <% content_for :javascript do %>
   <script>
+
     $(document).on('turbolinks:load', function() {
       const myDiv = document.getElementById('content-notes-scoll');
       myDiv.scrollTop = myDiv.scrollHeight;
       console.log('myDiv', myDiv)
     });
-    
+
     function sendComment() {
       let dataToSubmit = $("#conversation_form").serialize();
       console.log('dataToSubmit', dataToSubmit)
@@ -73,6 +71,8 @@
         dataType: "script",
         success: function(data) {
           $("#messageInput").val('');
+           const myDiv = document.getElementById('content-notes-scoll');
+           myDiv.scrollTop = myDiv.scrollHeight;
         },
         error: function(err) {
           console.log('err', err);

@@ -5,7 +5,7 @@
            <span class="f-size-12"><%= note.created_at.strftime('%b %-d at %I:%P') %></span>&nbsp; - &nbsp;<strong><%= note.user.first_name_initial %></strong>
         </span>
         <p class="m-0 d-flex justify-content-end"><%= note.message %></p>
-        
+
      </div>
      <div>
         <div class="border-radius-40 bg-pink-100 p-2">
@@ -25,7 +25,7 @@
            <strong><%= note.user.first_name_initial %></strong>&nbsp; - &nbsp;<span class="f-size-12"><%= note.created_at.strftime('%b %-d at %I:%P') %></span>
         </span>
         <p class="m-0"><%= note.message %></p>
-        
+
      </div>
   </div>
 <% end %>

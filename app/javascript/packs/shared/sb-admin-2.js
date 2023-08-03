@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");

@@ -14,15 +14,13 @@ class UsersController < ApplicationController
     srch = search_params[:search].downcase
 
     plist = current_user.patients
-    @patients = (if srch.present?
-                  plist.search_patients(srch)
-                  else
-                    plist
-                  end).page(params[:page] || 1)
+    @patients = plist.search_patients(srch) if srch.present? 
+    @patients = plist if srch.blank?
+    @patients = @patients.page(params[:page] || 1)
 
     respond_to do |format|
       format.html { redirect_to patients_url }
-      format.js { render :index, :layout => false }
+      format.js { render :index, layout: false }
     end
   end
 
@@ -71,6 +69,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def create_from_instant
+    @patient = User.create_patient_from_insant_session(
+      current_user.id,
+      patient_params,
+      params[:id],
+      params[:user][:package_id]
+    )
+
+    if @patient.persisted?
+      redirect_to patient_path(@patient), notice: 'Patient was successfully created.'
+    else
+      redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
+    end
+  end
+
   # PATCH/PUT /patients/1 or /patients/1.json
   def update
     respond_to do |format|
@@ -95,6 +108,7 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
     def set_patient
       @patient = User.find_by_id(params[:id])
       # @patient = User.find_by_slug(params[:id])

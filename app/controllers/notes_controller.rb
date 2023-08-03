@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
-  before_action :set_conversation, only: %i[ create ]
-  before_action :set_note, only: %i[ show edit update destroy ]
+  before_action :set_conversation, only: %i[create]
+  before_action :set_note, only: %i[show edit update destroy]
 
   # # GET /notes or /notes.json
   # def index
@@ -28,15 +28,17 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
-        format.html { redirect_to "/conversations?convo_id=#{@conversation.id}", notice: "Note was successfully created." }
-        format.json { render 'conversations/index', status: :created, location: @note }
-        # format.js { render 'conversations/index', layout: false }
+        format.html {
+          redirect_to "/conversations?convo_id=#{@conversation.id}", notice: "Note was successfully created."
+        }
+        # format.json { render 'conversations/index', status: :created, location: @note }
+        format.js { render 'conversations/index', layout: false }
       else
         # format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
-   
+
   end
 
   # PATCH/PUT /notes/1 or /notes/1.json

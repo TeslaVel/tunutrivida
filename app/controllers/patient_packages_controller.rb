@@ -113,6 +113,6 @@ class PatientPackagesController < ApplicationController
     end
 
     def patient_package_params
-      params.require(:patient_package).permit(:date,:package_id)
+      params.require(:patient_package).permit(:date, :package_id)
     end
 end

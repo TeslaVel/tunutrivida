@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: %i[ show edit update destroy ]
-  before_action :set_conversations, only: %i[ index create ]
+  before_action :set_conversation, only: %i[show edit update destroy]
+  before_action :set_conversations, only: %i[index create]
 
   # GET /conversations or /conversations.json
   def index

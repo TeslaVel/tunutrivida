@@ -18,7 +18,7 @@ module ActiveLinkToHelper
 
     return nil unless option.is_a? Hash
 
-    return current_page?(option[:path]) if option[:path]
+    return request.path.include?(option[:path]) if option[:path]
 
     if option[:starting_with]
       return request.path.start_with? option[:starting_with]

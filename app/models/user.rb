@@ -13,14 +13,12 @@ class User < ApplicationRecord
 	validates :last_name, presence: true
 
   belongs_to :organization
- 
 
   # user onwer general
   has_many :user_roles
   has_many :roles, through: :user_roles
   has_many :entries
   has_many :notifications, class_name: 'Notification', foreign_key: 'recipient'
-
 
   # patient owner
   belongs_to :dietitian, class_name: 'User', optional: true
@@ -43,10 +41,8 @@ class User < ApplicationRecord
   has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
   has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
 
-
   scope :only_dieitians, ->(organization_id = 1) { joins(user_roles: :role).where(role: {name: 'dietitian'}, organization_id: organization_id) }
   scope :active_patients, ->(organization_id = 1) { where(status: :active).joins(user_roles: :role).where(role: {name: 'patient'}, organization_id: organization_id) }
-
 
   # new
   PatientStatus = %i[
@@ -110,9 +106,9 @@ class User < ApplicationRecord
   	return false unless exists_role
 
     if created_by
-  	 UserRole.create(user: self ,role: exists_role, created_by_id: created_by.id)
+  	 UserRole.create(user: self, role: exists_role, created_by_id: created_by.id)
     else
-     UserRole.create(user: self ,role: exists_role)
+     UserRole.create(user: self, role: exists_role)
     end
   end
 
@@ -137,14 +133,10 @@ class User < ApplicationRecord
     uname = "#{first_name.parameterize}#{Time.now.to_i.to_s(36)}#{SecureRandom.hex(1)}"
     mail = "#{uname}@example.com"
 
-    # if email.present? && 
-    #   uname = 'tunutrividalb'
-    #   mail = email
-    # end
-
     self.username = uname
     self.email = mail
-    self.save!
+    # self.save!
+    save!
   end
 
   def set_date_of_birth
@@ -154,4 +146,47 @@ class User < ApplicationRecord
 		dob = date_of_birth
   	self.age = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
 	end
+
+  def self.create_patient_from_insant_session(current_user_id, patient_params, instant_session_id, package_id)
+    transaction do
+      current_user = User.find(current_user_id)
+      instant = InstantSession.find(instant_session_id)
+
+      patient = User.create(patient_params)
+      session_params = {
+        date: instant.date,
+        weight: instant.weight,
+        height: instant.height,
+        waist: instant.waist,
+        hip: instant.hip,
+        high_abdomen: instant.high_abdomen,
+        low_abdomen: instant.low_abdomen,
+        ideal_weight: instant.ideal_weight,
+        body_grease: instant.body_grease,
+        visceral_grease: instant.visceral_grease,
+        muscle_mass: instant.muscle_mass,
+        bone_mass: instant.bone_mass,
+        bmr: instant.bmr,
+        metabolic_age: instant.metabolic_age,
+        water_percentage: instant.water_percentage,
+        physical_complexion: instant.physical_complexion,
+        activity_factor_id: instant.activity_factor_id,
+        created_by_id: current_user.id,
+        dietitian_id: current_user.id,
+        patient_id: patient.id
+      }
+
+      patient_package_params = {
+        date: instant.date,
+        dietitian_id: current_user.id,
+        status: :active,
+        package_id: package_id
+      }
+
+      patient_package = patient.patient_packages.create(patient_package_params)
+      patient_package.sessions.create(session_params)
+
+      patient
+    end
+  end
 end
