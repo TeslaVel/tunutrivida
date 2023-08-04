@@ -78,7 +78,7 @@ class EntriesController < ApplicationController
     def mark_notification_seen
       @entry.update(seen: true)
       comment_ids = @entry.comments.select(:id)
-      
+
       recipient_id = if @entry.user.is_dietitian?
                         @entry.user.id
                       else

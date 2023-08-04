@@ -74,4 +74,22 @@ class ConversationsController < ApplicationController
       # params.fetch(:conversation, {})
       params.require(:conversation).permit(:patient_id).merge(dietitian_id: current_user.id)
     end
+
+    def mark_notification_seen
+      @conversation.update(seen: true)
+
+      note_ids = @conversation.note.where(seen: false).select(:id)
+
+      recipient_id = if @note.user.is_dietitian?
+                        @note.user.id
+                      else
+                        @note.user.dietitian.id
+                      end
+
+      Notification.where(
+        recipient_id: recipient_id,
+        associated_object_id: note_ids,
+        notification_type: :note
+      ).update_all(seen: true)
+    end
 end
