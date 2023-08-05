@@ -44,7 +44,7 @@
             <%= f.hidden_field :message, id: "input_emoji" %>
             <%= f.hidden_field :comment_tpe, value: 'reaction', id: "input_reaction" %>
             <span class="px-0 p-0 m-0 pl-2 d-flex emoji-panel" id="emoji-panel">
-              <%= render 'emojis' %>
+              <%= render "layouts/components/emojis", action_call: 'addReaction(event)' %>
             </span>
           <% end %>
         </div>
@@ -80,10 +80,12 @@
 
 <% content_for :javascript do %>
   <script>
-    $(document).on('turbolinks:load', function() {
+    function scrollDown() {
       const myDiv = document.getElementById('content-comment-scroll');
       myDiv.scrollTop = myDiv.scrollHeight;
-      console.log('myDiv', myDiv)
+    }
+    $(document).on('turbolinks:load', function() {
+      scrollDown()
     });
     //******************
     //* Create billing item
@@ -100,7 +102,7 @@
           data: dataToSubmit,
           dataType: "script",
           success: function(data) {
-            
+            scrollDown()
           },
           error: function(err) {
             console.log('err', err);
@@ -117,8 +119,7 @@
         dataType: "script",
         success: function(data) {
           $("#messageInput").val('');
-            const myDiv = document.getElementById('content-comment-scroll');
-            myDiv.scrollTop = myDiv.scrollHeight;
+          scrollDown()
         },
         error: function(err) {
           console.log('err', err);

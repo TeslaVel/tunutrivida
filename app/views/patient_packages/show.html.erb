@@ -1,65 +1,110 @@
-<div class="patient-package-view" id="patient-package-view">
+<div class="col-12 patient-package-view" id="patient-package-view">
   <input type="hidden" id="package_patient_view_patient_id" value="<%= @patient.id %>">
   <input type="hidden" id="package_patient_view_package_id" value="<%= @patient_package.id %>">
-  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+  <div class="d-flex col-12 align-items-center justify-content-between mb-4">
     <span class="h3 mb-0 text-darsk">[Packages] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= @patient_package.package.name %></span>
   	<%= link_to t('sessions.back'), patient_path(@patient) %>
   </div>
 
-	<div class="col-sm-12 col-md-12">
+	<div class="col-12">
     <div class="card shadow mb-4">
       <a href="#collapseCardExample_charting_1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample_charting_1">
         <h6 class="m-0 font-weight-bold text-primary">Graficos [IMC]- [WEIGHT - [Body Grease] - [Muscle Mass]</h6>
       </a>
       <div class="collapse" id="collapseCardExample_charting_1">
-        <div class="card-body">
-          <!-- Graficos IMC - WIEGHT -->
-          <div class="d-flex">
-              <div class="col-sm-6">
-                <%= render 'patient_sessions_chart',
-                     key:1,
-                     expanded: @patient_package.sessions.count > 0 ? true : false,
-                     id: 'imcChart',
-                     hide_header: false,
-                     title: "patient_packages.imc_charting" %>
-              </div>
+        <div class="card-body table-responsive">
 
-              <div class="col-sm-6">
-                <%= render 'patient_sessions_chart',
-                     key:2,
-                     expanded: @patient_package.sessions.count > 0 ? true : false,
-                     id: 'weightChart',
-                     hide_header: false,
-                     title: "patient_packages.weight_charting" %>
-              </div>
-          </div>
+          <% if device != "mobile"%>
+            <!-- Graficos IMC - WIEGHT -->
+            <div class="d-flex">
+                <div class="col-6">
+                  <%= render 'patient_sessions_chart',
+                      key:1,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'imcChart',
+                      hide_header: false,
+                      title: "patient_packages.imc_charting" %>
+                </div>
 
-          <!-- Graficos MASA CORPORAL - MASA MUSCULAR -->
-          <div class="d-flex">
-              <div class="col-sm-6">
-                <%= render 'patient_sessions_chart',
-                     key:3,
-                     expanded: @patient_package.sessions.count > 0 ? true : false,
-                     id: 'bodyGreaseChart',
-                     hide_header: false,
-                     title: "patient_packages.body_grease" %>
-              </div>
+                <div class="col-6">
+                  <%= render 'patient_sessions_chart',
+                      key:2,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'weightChart',
+                      hide_header: false,
+                      title: "patient_packages.weight_charting" %>
+                </div>
+            </div>
 
-              <div class="col-sm-6">
-                <%= render 'patient_sessions_chart',
-                     key:4,
-                     expanded: @patient_package.sessions.count > 0 ? true : false,
-                     id: 'muscleMassChart',
-                     hide_header: false,
-                     title: "patient_packages.muscle_mass" %>
-              </div>
-          </div>
+            <!-- Graficos MASA CORPORAL - MASA MUSCULAR -->
+            <div class="d-flex flex-col flex-sm-row"">
+                <div class="col-6">
+                  <%= render 'patient_sessions_chart',
+                      key:3,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'bodyGreaseChart',
+                      hide_header: false,
+                      title: "patient_packages.body_grease" %>
+                </div>
+
+                <div class="col-6">
+                  <%= render 'patient_sessions_chart',
+                      key:4,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'muscleMassChart',
+                      hide_header: false,
+                      title: "patient_packages.muscle_mass" %>
+                </div>
+            </div>
+          <% end %>
+
+          <% if device == "mobile"%>
+            <div class="d-flex">
+                 <!-- Graficos IMC - WIEGHT -->
+                <div class="col-12">
+                  <%= render 'patient_sessions_chart',
+                      key:1,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'imcChart',
+                      hide_header: false,
+                      title: "patient_packages.imc_charting" %>
+                </div>
+
+                <div class="col-12">
+                  <%= render 'patient_sessions_chart',
+                      key:2,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'weightChart',
+                      hide_header: false,
+                      title: "patient_packages.weight_charting" %>
+                </div>
+
+                <!-- Graficos MASA CORPORAL - MASA MUSCULAR -->
+                <div class="col-12">
+                  <%= render 'patient_sessions_chart',
+                      key:3,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'bodyGreaseChart',
+                      hide_header: false,
+                      title: "patient_packages.body_grease" %>
+                </div>
+
+                <div class="col-12">
+                  <%= render 'patient_sessions_chart',
+                      key:4,
+                      expanded: @patient_package.sessions.count > 0 ? true : false,
+                      id: 'muscleMassChart',
+                      hide_header: false,
+                      title: "patient_packages.muscle_mass" %>
+                </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-sm-12 col-md-12">
+  <div class="col-12">
     <%= render 'patient_sessions',
          key: 5,
          expanded: @patient_package.sessions.count > 0 ? true : false,
@@ -67,15 +112,17 @@
          patient_package: @patient_package,
          sessions: @patient_package.sessions.date_desc,
          show_button_new: @show_button_new,
-         title: "patient_packages.patient_sessions" %>
+         title: "patient_packages.patient_sessions"
+    %>
   </div>
 
-  <div class="col-sm-12 col-md-12">
+  <div class="col-12">
     <%= render 'comparative_table',
          key: 6,
          expanded: true,
          sessions: @patient_package.sessions,
-         title: "patient_packages.comparative_table" %>
+         title: "patient_packages.comparative_table"
+    %>
   </div>
 </div>
 

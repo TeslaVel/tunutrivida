@@ -31,7 +31,7 @@
           <div class="d-flex flex-start mb-2">
             <div class="border-radius-40 d-flex justify-content-center">
               <span class="px-0 p-0 m-0 pl-2 d-flex emoji-panel" id="emoji-panel">
-                <%= render 'conversations/emojis' %>
+                <%= render "layouts/components/emojis", action_call: 'addEmoji(event)' %>
               </span>
             </div>
           </div>

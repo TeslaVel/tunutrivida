@@ -15,7 +15,7 @@ class EntriesController < ApplicationController
 
   # GET /entries/1 or /entries/1.json
   def show
-    @comments = @entry.comments.order(created_at: :desc)
+    @comments = @entry.comments.order(created_at: :asc)
   end
 
   # GET /entries/new

@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        @comments = @entry.comments.order(created_at: :desc)
+        @comments = @entry.comments.order(created_at: :asc)
         format.html { redirect_to entry_path(@entry), notice: 'Comment was successfully created.' }
         format.js { render 'entries/show', layout: false }
       else

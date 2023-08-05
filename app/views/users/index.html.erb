@@ -7,29 +7,30 @@
 </div>
 
 
-<script>
-  //******************
-  //* Search patient
-  //*
-  $(document).on('keyup','#searcher',function(e) {
-    console.log('event', e);
-    if(e.keyCode != 13) return;
+<% content_for :javascript do %>
+  <script>
+    //******************
+    //* Search patient
+    //*
+    $(document).on('keyup','#searcher',function(e) {
+      console.log('event', e);
+      if(e.keyCode != 13) return;
 
-    const search_value = e.target.value;
+      const search_value = e.target.value;
 
-      let url = "<%= patients_search_path %>?page=<%= @patients.current_page %>&search="+search_value;
-      console.log('url', url);
-      $.ajax({
-        url: url,
-        type: "GET",
-        // contentType: "application/json;",
-        dataType: "script",
-        success: function(data) {
-        },
-        error: function(err) {
-          console.log('err', err);
-        }
-      })
-  });
-
-</script>
+        let url = "<%= patients_search_path %>?page=<%= @patients.current_page %>&search="+search_value;
+        console.log('url', url);
+        $.ajax({
+          url: url,
+          type: "GET",
+          // contentType: "application/json;",
+          dataType: "script",
+          success: function(data) {
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    });
+  </script>
+<% end %>
