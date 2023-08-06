@@ -59,10 +59,15 @@
 
 <% content_for :javascript do %>
   <script>
-    $(document).on('turbolinks:load', function() {
+    function scroll_down() {
       const myDiv = document.getElementById('content-notes-scoll');
-      myDiv.scrollTop = myDiv.scrollHeight;
-      console.log('myDiv', myDiv)
+      if (myDiv) {
+        myDiv.scrollTop = myDiv.scrollHeight;
+        console.log('myDiv', myDiv)
+      }
+    }
+    $(document).on('turbolinks:load', function() {
+      scroll_down()
     });
 
     $(document).on('click','#btn-open-conversation-aside',function(e) {
@@ -80,8 +85,7 @@
         dataType: "script",
         success: function(data) {
           $("#messageInput").val('');
-           const myDiv = document.getElementById('content-notes-scoll');
-           myDiv.scrollTop = myDiv.scrollHeight;
+           scroll_down()
         },
         error: function(err) {
           console.log('err', err);

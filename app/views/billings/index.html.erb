@@ -4,39 +4,46 @@
     <%= link_to t('billings.new_billing'), new_billing_path , class: "btn btn-primary" %>
   </div>
 
-  <div class="custom-responsible-table">
-    <table class="table ">
-      <thead>
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th>Patient</th>
-          <th>Pending</th>
-          <th>Paid</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </thead>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Patient</th>
+        <th>Pending</th>
+        <th>Paid</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
 
-      <tbody>
-        <% @billings.each do |billing| %>
-          <tr>
-            <td><%= link_to billing.code, billing %></td>
-            <td><%= billing.description %></td>
-            <td><%= billing.patient.first_name %></td>
-            <td>
-                <% data_total = billing.obtain_pending_total_value %>
-                <%= "#{@gbl_configuration.currency_code} #{data_total[:total] || 0}"%> |
-                <%= "#{billing.target_currency_code} #{data_total[:total_conversion]|| 0}" %>
-            </td>
-            <td>
-                <%= "#{@gbl_configuration.currency_code} #{billing&.total}" || 0 %> |
-                <%= "#{billing.target_currency_code} #{billing&.total_conversion}" || 0 %>
-            </td>
-            <td class="text-center"><%= link_to t('billings.delete'), billing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+    <tbody>
+      <% @billings.each do |billing| %>
+        <tr>
+          <td><%= link_to billing.code, billing %></td>
+          <td><%= billing.description %></td>
+          <td><%= billing.patient.first_name %></td>
+          <td>
+            <% if billing.unpaid? %>
+              <% data_total = billing.obtain_pending_total_value %>
+              <%= "#{@gbl_configuration.currency_code} #{data_total[:total] || 0}"%> |
+              <%= "#{billing.target_currency_code} #{data_total[:total_conversion]|| 0}" %>
+            <% else %>
+              0
+            <% end %>
+          </td>
+          <td>
+            <% if billing.paid? %>
+              <%= "#{@gbl_configuration.currency_code} #{billing&.total}" || 0 %> |
+              <%= "#{billing.target_currency_code} #{billing&.total_conversion}" || 0 %>
+            <% else %>
+              0
+            <% end %>
+          </td>
+          </td>
+          <td class="text-center"><%= link_to t('billings.delete'), billing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 

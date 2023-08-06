@@ -1,12 +1,12 @@
 <div class="billing-view">
-  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
+  <div class="d-flex col-12 align-items-center justify-content-between mb-4">
     <span class="h3 mb-0">[Billing info]</span>
      <%= link_to t('billings.back'), billings_path(@billing) %>
   </div>
 
-  <div class="col-sm-12 col-md-12 mb-4">
+  <div class="col-12 mb-4">
     <!-- BILLING INFO -->
-    <div class="card col-sm-12" id="left-card">
+    <div class="card col-12" >
       <div class="card-header bg-transparent">
         <% if @billing.unpaid? %>
           <div class="text-right">
@@ -24,7 +24,7 @@
       <div class="card-body tab-content">
         <div class="tab-pane active" id="about">
           <div class="row">
-            <div class="col-md-5 p-0">
+            <div class="col-5 p-0">
               <div class="list-unstyled">
                 <p class="mb-2 text-left">Status:</p>
                 <p class="mb-2 text-left">Code:</p>
@@ -33,9 +33,9 @@
                 <p class="mb-2 text-left">Total:</p>
               </div>
             </div>
-            <div class="col-md-5 p-0">
+            <div class="col-5 p-0">
               <div class="list-unstyled">
-                <p class="mb-2 <%= @billing.paid? ? 'c-green' : '' %>"><%= @billing.status || '-'%></p>
+                <p class="mb-2 <%= @billing.paid? ? 'c-green' : 'c-red' %>"><%= @billing.status || '-'%></p>
                 <p class="mb-2 "><%= @billing.code %></p>
                 <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
                 <p class="mb-2 "><%= @billing.description %></p>
@@ -47,7 +47,6 @@
                   <%= "#{@billing.target_currency_code} #{data_total[:total_conversion]|| 0}" %>
                 </span>
                 </p>
-               
               </div>
             </div>
           </div>
@@ -56,7 +55,7 @@
     </div>
 
     <!-- BILLING ITEMS -->
-     <div class="card col-sm-12 px-0" id="right-card">
+    <div class="card col-12 px-0 pt-1" id="right-card">
       <div class="card-header bg-transparent">
         <% if @billing.unpaid? %>
           <div class="text-right">
