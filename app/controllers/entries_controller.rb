@@ -1,7 +1,7 @@
 class EntriesController < ApplicationController
   before_action :authenticate_all
-  before_action :set_entry, only: %i[ show edit update destroy, mark_notification_seen]
-  after_action :mark_notification_seen, only: [:show]
+  before_action :set_entry, only: %i[show edit update destroy mark_notification_seen]
+  before_action :mark_notification_seen, only: [:show]
 
   # GET /entries or /entries.json
   def index

@@ -1,7 +1,7 @@
 <div class="col-12 patient-view">
 
-  <div class="d-sm-flex col-sm-12 col-md-12 align-items-center justify-content-between mb-4">
-    <span class="h3 mb-0 text-darsk">[Patient Info]</span>
+  <div class="d-flex col-12 align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0">[Patient Info]</span>
      <%= link_to t('patient.back'), patients_path %>
   </div>
 
@@ -100,10 +100,10 @@
             </li>
           </ul>
         </div>
-        <div class="card-body tab-content">
+        <div class="card-body tab-content  px-0 px-sm-5">
           <!-- IMC -->
           <div id="imc" class="tab-pane active" role="tabpanel">
-            <div class="col-12">
+            <div class="col-12 px-0">
               <%= render 'sessions/diagnoses_partial',
                 indicators: @indicatorsImc,
                 diagnosis: @diagnosisImc,
@@ -113,7 +113,7 @@
 
           <!-- ICC -->
           <div id="icc" class="tab-pane" role="tabpanel">
-            <div class="col-12">
+            <div class="col-12 px-0">
               <%= render 'sessions/diagnoses_partial',
                 indicators: @indicatorsIcc,
                 diagnosis: @diagnosisIcc,
@@ -123,7 +123,7 @@
 
           <!-- PDC -->
           <div id="pdc" class="tab-pane" role="tabpanel">
-            <div class="col-12">
+            <div class="col-12 px-0">
               <%= render 'sessions/diagnoses_partial',
                 indicators: @indicatorsDpc,
                 diagnosis: @diagnosisDpc,

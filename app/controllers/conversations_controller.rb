@@ -1,10 +1,12 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: %i[show edit update destroy]
-  before_action :set_conversations, only: %i[index create]
+  before_action :set_conversations, only: %i[index create update destroy]
 
   # GET /conversations or /conversations.json
   def index
     @conversation ||= Conversation.find_by(id: params[:convo_id])
+
+    mark_notification_seen if @conversation && params[:convo_id].present?
   end
 
   # GET /conversations/1 or /conversations/1.json
@@ -76,15 +78,10 @@ class ConversationsController < ApplicationController
     end
 
     def mark_notification_seen
-      @conversation.update(seen: true)
+      # @conversation.update(seen: true) if !@conversation.seen
 
-      note_ids = @conversation.note.where(seen: false).select(:id)
-
-      recipient_id = if @note.user.is_dietitian?
-                        @note.user.id
-                      else
-                        @note.user.dietitian.id
-                      end
+      note_ids = @conversation.notes.where(seen: false).select(:id)
+      recipient_id = @conversation.dietitian_id
 
       Notification.where(
         recipient_id: recipient_id,

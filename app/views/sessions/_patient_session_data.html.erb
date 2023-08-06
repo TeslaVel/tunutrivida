@@ -1,5 +1,4 @@
-<div class="col-12">
-  <div class="table-responsive  d-flex mb-4 shadow">
+<div class="table-responsive  d-flex mb-4 shadow">
     <!-- About -->
     <div class="card col-12 col-sm-6" id="left-card">
       <div class="card-header bg-transparent">
@@ -66,35 +65,34 @@
         <!-- advanced -->
         <div id="advanced" class="tab-pane active" role="tabpanel">
           <div class="row">
-            <div class="col-6 p-0">
-              <div class="list-unstyled">
-                <p class="mb-2 text-left">Grasa Corporal:</p>
-                <p class="mb-2 text-left">Grasa Visceral:</p>
-                <p class="mb-2 text-left "> Masa Muscular </p>
-                <p class="mb-2 text-left "> Masa Osea </p>
-                <p class="mb-2 text-left "> Activiy Factor </p>
-                <p class="mb-2 text-left "> BMR </p>
-                <p class="mb-2 text-left "> Edad Metabolica </p>
-                <p class="mb-2 text-left "> Porcetaje de Agua </p>
-                <p class="mb-2 text-left "> Comlexion Fisica </p>
+              <div class="col-6 p-0">
+                <div class="list-unstyled">
+                  <p class="mb-2 text-left">Grasa Corporal:</p>
+                  <p class="mb-2 text-left">Grasa Visceral:</p>
+                  <p class="mb-2 text-left "> Masa Muscular </p>
+                  <p class="mb-2 text-left "> Masa Osea </p>
+                  <p class="mb-2 text-left "> Activiy Factor </p>
+                  <p class="mb-2 text-left "> BMR </p>
+                  <p class="mb-2 text-left "> Edad Metabolica </p>
+                  <p class="mb-2 text-left "> Porcetaje de Agua </p>
+                  <p class="mb-2 text-left "> Comlexion Fisica </p>
+                </div>
               </div>
-            </div>
-            <div class="col-6 p-0">
-              <div class="list-unstyled">
-                <p class="mb-2 "><%= session.body_grease %> <strong>%</strong></p>
-                <p class="mb-2 "><%= session.visceral_grease %> <strong>%</strong></p>
-                <p class="mb-2 "><%= session.muscle_mass %> <strong>Kg</strong></p>
-                <p class="mb-2 "><%= session.bone_mass %> <strong>Kg</strong></p>
-                <p class="mb-2 "><%= session.activity_factor.description %>
-                <p class="mb-2 "><%= session&.bmr %> => <%= ((session&.bmr || 0) * (session&.activity_factor.value || 0)).round(4) %> <strong>Kca</strong></td></p>
-                <p class="mb-2 "><%= session.metabolic_age %></p>
-                <p class="mb-2 "><%= session.water_percentage %> <strong>%</strong></p>
-                <p class="mb-2 "><%= session.physical_complexion %></p>
+              <div class="col-6 p-0">
+                <div class="list-unstyled">
+                  <p class="mb-2 "><%= session.body_grease %> <strong>%</strong></p>
+                  <p class="mb-2 "><%= session.visceral_grease %> <strong>%</strong></p>
+                  <p class="mb-2 "><%= session.muscle_mass %> <strong>Kg</strong></p>
+                  <p class="mb-2 "><%= session.bone_mass %> <strong>Kg</strong></p>
+                  <p class="mb-2 "><%= session.activity_factor.description %>
+                  <p class="mb-2 "><%= session&.bmr %> => <%= ((session&.bmr || 0) * (session&.activity_factor.value || 0)).round(4) %> <strong>Kca</strong></td></p>
+                  <p class="mb-2 "><%= session.metabolic_age %></p>
+                  <p class="mb-2 "><%= session.water_percentage %> <strong>%</strong></p>
+                  <p class="mb-2 "><%= session.physical_complexion %></p>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
+    </div>
   </div>
-  </div>
-</div>
