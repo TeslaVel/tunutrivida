@@ -1,24 +1,21 @@
 <div class="col-12">
-  <div class="col-12 p-0 m-0">
-    <div class="d-flex flex-col flex-grow-1 px-2 " style="height: 576px;">
-      <div id="conversations-list-id" style="border: solid 1px gray;" class="w-200px p-3 d-none">
-        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#newConversationModal">
-          New Conversation
-        </button>
-        <header class="p-0 pb-3">Conversations (<%= @conversations.count %>)</header>
-        <section id='conversations_section'>
-          <%= render 'conversations', conversations: @conversations %>
-        </section>
-      </div>
-      <div class="d-flex flex-column justify-content-center px-2">
-        <button id="btn-open-conversation-aside" class="btn btn-link btn-transparent p-0">
-          <%= render "layouts/components/icons", type: 'arrow-bar-right', height: '20', width: '20', color: 'purple' %>
-        </button>
-      </div>
-      <div class="flex-grow-1">
-        <div class="d-flex justify-content-center" id='current_conversation'>
-          <%= render 'chat', conversation: @conversation %>
-      </div>
+  <div class="d-flex flex-col flex-grow-1" style="height: 576px;">
+    <div id="conversations-list-id" style="border: solid 1px gray;" class="w-200px p-3 d-none">
+      <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#newConversationModal">
+        New Conversation
+      </button>
+      <header class="p-0 pb-3">Conversations (<%= @conversations.count %>)</header>
+      <section id='conversations_section'>
+        <%= render 'conversations', conversations: @conversations %>
+      </section>
+    </div>
+    <div class="d-flex flex-column justify-content-center px-2">
+      <button id="btn-open-conversation-aside" class="btn btn-link btn-transparent p-0">
+        <%= render "layouts/components/icons", type: 'arrow-bar-right', height: '20', width: '20', color: 'purple' %>
+      </button>
+    </div>
+    <div class="flex-grow-1 d-flex justify-content-center" id='current_conversation'>
+      <%= render 'chat', conversation: @conversation %>
     </div>
   </div>
 </div>

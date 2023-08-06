@@ -20,8 +20,8 @@ class Entry < ApplicationRecord
   scope :other_entries, -> { where(type: 'OtherEntry') }
 
   belongs_to :user
-  has_many :comments
-  has_one_attached :image, dependent: :destroy
+  has_many :comments, dependent: :delete_all
+  has_one_attached :image, dependent: :delete_all
 
   validates :description, presence: true
   validates :entry_type, presence: true

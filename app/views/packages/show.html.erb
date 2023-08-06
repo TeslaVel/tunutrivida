@@ -1,27 +1,45 @@
-<p>
-  <strong>Name:</strong>
-  <%= @package.name %>
-</p>
-<p>
-  <strong>Price:</strong>
-  <%= @package.price %>
-</p>
+<div class="col-12 col-md-6 mx-auto">
+    <div class="d-flex col-12 align-items-center justify-content-between mb-4">
+      <span class="h3 mb-0 text-darsk">[Package info]</span>
+       <%= link_to 'Back', packages_path %>
+    </div>
 
-<p>
-  <strong>Weeks:</strong>
-  <%= @package.weeks %>
-</p>
-
-<p>
-  <strong>Sessions per week:</strong>
-  <%= @package.session_quantity %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @package.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_package_path(@package) %> |
-<%= link_to 'Back', packages_path %>
+    <div class="col-12 mb-4">
+      <div class="card col-sm-12">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+            </li>
+          </ul>
+          <span class="">
+            <%= link_to 'Edit', edit_package_path(@package) %> 
+          </span>
+        </div>
+        <div class="card-body tab-content">
+          <div class="tab-pane active" id="about">
+            <div class="row">
+              <div class="col-4 p-0">
+                <div class="list-unstyled">
+                  <p class="mb-2 text-left">Name:</p>
+                  <p class="mb-2 text-left">Price:</p>
+                  <p class="mb-2 text-left">Weeks:</p>
+                  <p class="mb-2 text-left">Sessions per week:</p>
+                  <p class="mb-2 text-left">Description:</p>
+                </div>
+              </div>
+              <div class="col-6 p-0">
+                <div class="list-unstyled">
+                  <p class="mb-2 "><%= @package.name %></p>
+                  <p class="mb-2 "><%= @package.price %></p>
+                  <p class="mb-2 "><%= @package.weeks %></p>
+                  <p class="mb-2 "><%= @package.session_quantity %></p>
+                  <p class="mb-2 "><%= @package.description %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

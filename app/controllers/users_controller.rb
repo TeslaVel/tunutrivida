@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     srch = search_params[:search].downcase
 
     plist = current_user.patients
-    @patients = plist.search_patients(srch) if srch.present? 
+    @patients = plist.search_patients(srch) if srch.present?
     @patients = plist if srch.blank?
     @patients = @patients.page(params[:page] || 1)
 
@@ -70,6 +70,8 @@ class UsersController < ApplicationController
   end
 
   def create_from_instant
+    instant = InstantSession.find(params[:id])
+
     @patient = User.create_patient_from_insant_session(
       current_user.id,
       patient_params,
@@ -77,11 +79,11 @@ class UsersController < ApplicationController
       params[:user][:package_id]
     )
 
-    if @patient.persisted?
+    if @patient.present?
       InstantSession.find(params[:id]).destroy
       redirect_to patient_path(@patient), notice: 'Patient was successfully created.'
     else
-      redirect_to new_patient_path(@patient), notice: @patient.errors.full_messages.join(". ") << "."
+      redirect_to instant_session_path(instant), alert: "Ha ocurrido um error al crear al paciente"
     end
   end
 

@@ -1,12 +1,11 @@
 
-<div class="d-flex justify-content-center">
-  <div class="col-sm-12 col-md-6">
-    <div class="d-sm-flex col-sm-12 align-items-center justify-content-between mb-4">
+<div class="col-12 col-md-6 mx-auto">
+    <div class="d-flex col-12 align-items-center justify-content-between mb-4">
       <span class="h3 mb-0 text-darsk">[Task info]</span>
        <%= link_to 'Back', tasks_path %>
     </div>
 
-    <div class="col-sm-12 col-md-12 mb-4">
+    <div class="col-12 mb-4">
       <div class="card col-sm-12">
         <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
           <ul class="nav nav-tabs card-header-tabs">
@@ -32,7 +31,6 @@
               </div>
               <div class="col-md-10 p-0">
                 <div class="list-unstyled">
-                 
                   <p class="mb-2 "><%= @task.title %></p>
                   <p class="mb-2 "><%= @task.description %></p>
                   <p class="mb-2 "><%= @task.patient.first_name %></p>
@@ -45,5 +43,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>

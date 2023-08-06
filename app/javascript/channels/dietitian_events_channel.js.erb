@@ -23,6 +23,8 @@ $(document).on('turbolinks:load', function() {
         $("#notification-counter").removeClass('d-none');
         $("#notification-counter").text(`${data.notification_count} +`);
       }
+      if (data.type == 'note') {
+      }
       // let partialHTML = "<%= j render(partialn : 'layout/shared/_noti
       // Called when there's incoming data on the websocket for this channel
     }

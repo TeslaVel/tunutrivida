@@ -24,9 +24,9 @@ class User < ApplicationRecord
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
   has_one :patient_conversation, class_name: 'Conversation', foreign_key: 'patient_id'
-	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id'
+	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id', dependent: :destroy
   has_many :sessions, through: :patient_packages
-  has_many :packages, through: :patient_packages
+  has_many :packages, through: :patient_packages, dependent: :delete_all
 	has_many :billings
   has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
 	has_many :tasks
@@ -148,51 +148,48 @@ class User < ApplicationRecord
 	end
 
   def self.create_patient_from_insant_session(current_user_id, patient_params, instant_session_id, package_id)
-    begin
-      transaction do
-        current_user = User.find(current_user_id)
-        instant = InstantSession.find(instant_session_id)
+    self.transaction do
+      current_user = User.find(current_user_id)
+      instant = InstantSession.find(instant_session_id)
 
-        patient = User.create(patient_params)
-        session_params = {
-          date: instant.date,
-          weight: instant.weight,
-          height: instant.height,
-          waist: instant.waist,
-          hip: instant.hip,
-          high_abdomen: instant.high_abdomen,
-          low_abdomen: instant.low_abdomen,
-          ideal_weight: instant.ideal_weight,
-          body_grease: instant.body_grease,
-          visceral_grease: instant.visceral_grease,
-          muscle_mass: instant.muscle_mass,
-          bone_mass: instant.bone_mass,
-          bmr: instant.bmr,
-          metabolic_age: instant.metabolic_age,
-          water_percentage: instant.water_percentage,
-          physical_complexion: instant.physical_complexion,
-          activity_factor_id: instant.activity_factor_id,
-          created_by_id: current_user.id,
-        }
+      patient = User.create(patient_params)
+      patient_package_params = {
+        date: instant.date,
+        dietitian_id: current_user.id,
+        status: :active,
+        package_id: package_id
+      }
+      patient_package = patient.patient_packages.create(patient_package_params)
 
-        patient_package_params = {
-          date: instant.date,
-          dietitian_id: current_user.id,
-          status: :active,
-          package_id: package_id
-        }
+      session_params = {
+        date: instant.date,
+        weight: instant.weight,
+        height: instant.height,
+        waist: instant.waist,
+        hip: instant.hip,
+        high_abdomen: instant.high_abdomen,
+        low_abdomen: instant.low_abdomen,
+        ideal_weight: instant.ideal_weight,
+        body_grease: instant.body_grease,
+        visceral_grease: instant.visceral_grease,
+        muscle_mass: instant.muscle_mass,
+        bone_mass: instant.bone_mass,
+        bmr: instant.bmr,
+        metabolic_age: instant.metabolic_age,
+        water_percentage: instant.water_percentage,
+        physical_complexion: instant.physical_complexion,
+        activity_factor_id: instant.activity_factor_id,
+        created_by_id: current_user.id,
+        patient_id: patient.id,
+        dietitian_id: current_user.id
+      }
+      session = patient_package.sessions.create(session_params)
 
-        patient_package = patient.patient_packages.create(patient_package_params)
-        patient_package.sessions.create(session_params)
+      raise StandardError.new "Error" unless patient.persisted? && patient_package.persisted? && session.persisted?
 
-        patient
-      end
-    rescue => e
-      return OpenStruct.new(
-        errors: OpenStruct.new(full_messages: ['Ocurrio un error al inter crear el usuario']),
-        error_message: e,
-        persisted?: false
-      )
+      patient
+    rescue
+      raise ActiveRecord::Rollback
     end
   end
 end

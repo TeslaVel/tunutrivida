@@ -11,12 +11,11 @@ class DietitianEvents < ApplicationCable::Channel
       stream_from ch_name
       puts "############ BCKEND Dietitian Event Listenin #{ch_name} Params #{params}"
     end
-   
+
   end
 
   def receive(data)
     puts "############ BCKEND Dietitian Event DATA RECIBIDA ## #{data}"
-   
   end
 
   def unsubscribed
