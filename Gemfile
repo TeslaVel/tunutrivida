@@ -42,7 +42,7 @@ gem 'rack-cors', '~> 2.0', '>= 2.0.1'
 gem "simple_calendar", "~> 2.4"
 gem 'activestorage', '6.1.7.3'
 gem 'apollo_upload_server', '~> 2.1', '>= 2.1.5'
-
+gem 'passenger', '~> 6.0', '>= 6.0.18'
 
 group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'

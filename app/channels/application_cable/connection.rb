@@ -18,7 +18,7 @@ module ApplicationCable
                     cookies.encrypted[:_sb_admin_session]['user_id']
                   end
 
-        if user_id.present? && user_id.present?
+        if user_id.present?
           return User.find_by(id: user_id)
           # else
           #   reject_unauthorized_connection
