@@ -4,19 +4,27 @@
 class Note < ApplicationRecord
   belongs_to :user
   belongs_to :conversation, dependent: :destroy
+  after_create :create_notification
 
   validates :message, presence: true
 
-  def send_alert_notification(c_user)
-    return unless c_user.dietitian.present?
+  private
+
+  def create_notification
+    # for now only dietitian recieves notifications from patient
+    return if user.is_patient? && user.dietitian.blank?
+
+    # check if message if for user o dietitian.
+    recipient_id = user.is_patient? ? user.dietitian.id : user.id
+    # recipient_id = user.dietitian.id
 
     NoteNotification.create!(
       notification_type: :note,
-      content: "#{c_user.full_name} has written you",
-      sender_id: c_user.id,
+      content: "#{user.full_name} has written you",
+      sender_id: user.id,
       associated_object_type: 'Note',
       associated_object_id: id,
-      recipient_id: c_user.dietitian.id
+      recipient_id: recipient_id
     )
   end
 end

@@ -61,6 +61,16 @@ class ConversationsController < ApplicationController
     end
   end
 
+  def render_chat_partial
+    @conversation = Conversation.find(params[:id])
+    @notes = @conversation.notes.includes(:patient) # Carga las asociaciones notes y patient
+
+    # Renderizar el parcial y obtener el contenido como una cadena
+    chat_partial_html = render_to_string(partial: 'conversations/chat', locals: { conversation: @conversation, notes: @notes })
+
+    render plain: chat_partial_html
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conversation

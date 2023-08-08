@@ -11,31 +11,29 @@ module Mutations
     def resolve(entry_id:, message:)
       current_user = context[:current_user]
 
-      #puts "mutation ### current_user #{current_user}"
-      if current_user.present?
-        comment = Comment.new(
-          user_id: current_user.id,
-          entry_id: entry_id,
-          message: message,
-          # comment_type: type
-        )
+      return { errors: ['Not logged'] } unless current_user.present?
+      return { errors: ['User has not dietitian_id'] } unless current_user.dietitian.present?
 
-        if comment.save
-          comment.send_alert_notification(current_user)
-          {
-            id: comment.id,
-            message: comment.message,
-            created_at: comment.created_at,
-            user: comment.user
-          }
+      comment = Comment.new(
+        user_id: current_user.id,
+        entry_id: entry_id,
+        message: message
+        # comment_type: type
+      )
 
-        else
-          {errors: ['Error on comment']}
-        end
+      if comment.save
+        # comment.send_alert_notification(current_user)
+        # moved to a model callback
+        {
+          id: comment.id,
+          message: comment.message,
+          created_at: comment.created_at,
+          user: comment.user
+        }
+
       else
-        {errors: ['Not logged']}
+        { errors: ['Error on comment'] }
       end
     end
   end
 end
-

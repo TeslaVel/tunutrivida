@@ -12,16 +12,14 @@
                   <%= conversation.patient.full_name %>
                 <% end %>
               </span>
-              <span class='text-white-01'><%= conversation.created_at.strftime('%b %-d at %I:%P') %></span>
+              <span class='text-white-01'><%= conversation.created_at.strftime('%b %-d at %I:%M:%P') %></span>
           </div>
         </div>
         <div class="card-body px-0 pt-0 h-400px overflow-hidden" id="content-notes">
             <!-- Renderizamos las notas -->
           <div class="px-3 h-100 overflow-y-scroll" id="content-notes-scoll">
-              <div id="comments_partial" class="d-flex flex-column ">
-                <% conversation.notes.map do |note| %>
-                  <%= render 'conversations/note', note: note%>
-                <% end %>
+              <div id="notes-partial" class="d-flex flex-column ">
+                <%= render 'conversations/note', notes: conversation.notes%>
               </div>
           </div>
         </div>

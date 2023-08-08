@@ -12,8 +12,8 @@ module Mutations
 
       #puts "mutation ### current_user #{current_user}"
 
-      return {errors: ['Not logged']} unless current_user.present?
-      return {errors: ['User has not dietitian_id']} unless current_user.dietitian.present?
+      return { errors: ['Not logged'] } unless current_user.present?
+      return { errors: ['User has not dietitian_id'] } unless current_user.dietitian.present?
 
       conversation = Conversation.find_by(id: conversation_id)
 
@@ -32,7 +32,8 @@ module Mutations
 
 
       if note.save
-        note.send_alert_notification(current_user)
+        # note.send_alert_notification(current_user)
+        # moved into a model callback
       {
         id: note.id,
         message: note.message,

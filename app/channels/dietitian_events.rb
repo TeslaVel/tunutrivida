@@ -16,6 +16,9 @@ class DietitianEvents < ApplicationCable::Channel
 
   def receive(data)
     puts "############ BCKEND Dietitian Event DATA RECIBIDA ## #{data}"
+    conversation = Conversation.find(data.conversation_id)
+    html = render_to_string(partial: 'conversations/note', locals: { conversation: conversation })
+    puts "html #{html}"
   end
 
   def unsubscribed

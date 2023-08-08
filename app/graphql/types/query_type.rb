@@ -31,7 +31,7 @@ module Types
       else
         entries = context[:current_user]&.entries&.with_attached_image || []
       end
-       
+
       entries
     end
 
@@ -43,9 +43,6 @@ module Types
         else
           appointments = context[:current_user]&.patient_appointments.where(status: filter[:status].to_sym) || []
         end
-
-          
-        
       else
         appointments = context[:current_user]&.patient_appointments || []
       end
@@ -58,7 +55,7 @@ module Types
     end
 
     def sessions
-      context[:current_user]&.sessions.order(:date) || []
+      context[:current_user].sessions&.order(:date) || []
     end
 
     def conversation
