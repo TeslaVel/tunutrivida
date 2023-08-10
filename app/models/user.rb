@@ -27,7 +27,7 @@ class User < ApplicationRecord
 	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id', dependent: :destroy
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages, dependent: :delete_all
-	has_many :billings
+  has_many :patient_billings, foreign_key: 'patient_id'
   has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
 	has_many :tasks
 
@@ -35,6 +35,7 @@ class User < ApplicationRecord
 
 
   # dieitian owner
+  has_many :dietitian_billings, foreign_key: 'dietitian_id'
   has_one :availability, foreign_key: "dietitian_id"
   has_one :appointment_setting, foreign_key: "dietitian_id"
   has_many :dietitian_conversations, class_name: 'Conversation', foreign_key: 'dietitian_id'

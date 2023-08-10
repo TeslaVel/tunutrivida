@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_all
   before_action :set_patient, only: %i[ show edit update destroy ]
   before_action :set_session, only: %i[show]
 

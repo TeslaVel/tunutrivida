@@ -17,7 +17,10 @@ module Types
     field :appointments, [Types::AppointmentType], null: false do
       argument :filter, Types::FilterInput, required: false
     end
-    field :sessions, [Types::SessionType], null: false
+    field :sessions, Types::PaginatedSessionType, null: false do
+      argument :page, Integer, required: false
+      argument :limit, Integer, required: false
+    end
     field :conversation, Types::ConversationType, null: true
     field :session_data_chart, Types::SessionDataChartType, null: true
 
@@ -25,9 +28,9 @@ module Types
       User.all
     end
 
-    def entries(order: String)
+    def entries(order: nil)
       if order.present?
-        entries = context[:current_user]&.entries&.with_attached_image.order(created_at: :desc) || []
+        entries = context[:current_user]&.entries&.with_attached_image&.order(created_at: :desc) || []
       else
         entries = context[:current_user]&.entries&.with_attached_image || []
       end
@@ -39,9 +42,9 @@ module Types
       if filter[:status].present?
 
         if filter[:status] == 'pending'
-          appointments = context[:current_user]&.patient_appointments.current_and_future || []
+          appointments = context[:current_user]&.patient_appointments&.current_and_future || []
         else
-          appointments = context[:current_user]&.patient_appointments.where(status: filter[:status].to_sym) || []
+          appointments = context[:current_user]&.patient_appointments&.where(status: filter[:status].to_sym) || []
         end
       else
         appointments = context[:current_user]&.patient_appointments || []
@@ -54,8 +57,22 @@ module Types
       context[:current_user]&.patient_appointments&.current_and_future || []
     end
 
-    def sessions
-      context[:current_user].sessions&.order(:date) || []
+    def sessions(page: 1, limit: 6)
+      sessions = context[:current_user]&.sessions&.order(:date)
+
+      return Session.none unless sessions.present?
+
+      sessions = sessions.page(page).per(limit)
+
+      return {
+        paginated: sessions,
+        page: page,
+        limit: limit,
+        next_page: sessions.next_page,
+        prev_page: sessions.prev_page,
+        current_page: sessions.current_page,
+        total_pages: sessions.total_pages
+      }
     end
 
     def conversation
