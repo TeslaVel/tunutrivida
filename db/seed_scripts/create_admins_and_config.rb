@@ -1,7 +1,24 @@
+# Here is created
+# Organization
+# Genders
+# Admin Users
+# Roles
+# OrganizationMemberships
+# Some Availabilities
+# AppointmentSetting
+# GlobalConfiguration
+# Algunos typs de indicadores e indicadores
+# BmrFactor
+# Prducts
+# Discount
+# Package
+# Activity Factos
+
 org = Organization.create(
 	name: 'Tunutrivida',
 	description: 'Dieititan and patients web'
 )
+
 puts "Created Organization: #{org.name}"
 
 
@@ -38,9 +55,6 @@ dietitian = User.create!(
 	gender: female
 )
 puts "Created dietitian: #{dietitian.email}"
-
-
-
 
 role_dietitian = Role.create(name: 'dietitian', description: "Dietitian", created_by_id: user.id)
 role_amin = Role.create(name: 'super_admin', description: "Super Admin", created_by_id: user.id)

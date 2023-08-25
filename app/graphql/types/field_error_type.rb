@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-FieldErrorType = GraphQL::ObjectType.define do
-  name "FieldError"
-  description "Information about field that didn’t pass validation"
-
-  # Expose fields from the model
-  field :field, types.String, "Field name that caused these errors"
-  field :message, !types.String, "Validation message"
+module Types
+  class FieldErrorType < Types::BaseObject
+    field :field, String, null: true
+    field :message, String, null: false
+    # Otros campos de tipo que desees agregar
+  end
 end

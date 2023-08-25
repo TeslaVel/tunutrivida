@@ -1,77 +1,59 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.2.2'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.1'
-# Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'rails', '~> 7.0', '>= 7.0.7'
+gem 'pg', '~> 1.5', '>= 1.5.3'
 gem 'pg_search', '~> 2.3', '>= 2.3.6'
-# Use Puma as the app server
-gem 'puma', '~> 3.12'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
-# Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'puma', '~> 6.3', '>= 6.3.1'
+gem 'sass-rails', '~> 6.0'
+gem 'webpacker', '~> 5.4', '>= 5.4.4'
+gem 'turbolinks', '~> 5.2', '>= 5.2.1'
+gem 'jbuilder', '~> 2.11', '>= 2.11.5'
+gem 'redis', '~> 3.2', '>= 3.2.2'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '~> 1.16', require: false
 
 gem 'rails-i18n'
-gem 'bcrypt', '~> 3.1', '>= 3.1.18'
+gem 'bcrypt', '~> 3.1', '>= 3.1.19'
 gem 'bootstrap', '~> 4.0'
 gem 'jquery-rails', '~> 4.4'
-gem 'cancancan', '~> 3.2', '>= 3.2.1'
-gem 'simple_form', '~> 5.1'
-gem 'actiontext', '~> 6.1', '>= 6.1.3.2'
+gem 'cancancan', '~> 3.5'
+gem 'simple_form', '~> 5.2'
+gem 'actiontext', '~> 7.0', '>= 7.0.7'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
-gem 'graphql', '~> 2.0', '>= 2.0.21'
+gem 'graphql', '~> 2.0', '>= 2.0.26'
 gem 'graphql-ruby', '~> 9001.0'
-gem 'jwt', '~> 2.7'
+gem 'jwt', '~> 2.7', '>= 2.7.1'
 gem 'rack-cors', '~> 2.0', '>= 2.0.1'
-gem "simple_calendar", "~> 2.4"
-gem 'activestorage', '6.1.7.3'
+gem 'simple_calendar', '~> 3.0', '>= 3.0.1'
+gem 'activestorage', '~> 7.0', '>= 7.0.7'
 gem 'apollo_upload_server', '~> 2.1', '>= 2.1.5'
 gem 'passenger', '~> 6.0', '>= 6.0.18'
 
 group :test do
-  gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
-  gem 'database_cleaner', '~> 1.7'
+  gem 'shoulda-matchers', '~> 5.3'
+  gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
 end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
-  gem 'faker', '~> 3.2'
-  gem 'rspec-rails', '~> 3.8'
-  gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
+  gem 'pry-byebug'
+  gem 'faker', '~> 3.2', '>= 3.2.1'
+  gem 'rspec-rails', '~> 6.0', '>= 6.0.3'
+  gem 'factory_bot_rails', '~> 6.2'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'web-console', '~> 4.2'
+  gem 'listen', '~> 3.8'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-
+  gem 'spring-watcher-listen', '~> 2.1'
   gem 'pry'
   gem 'pry-doc'
   gem 'annotate'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphiql-rails', group: :development
-gem "acts_as_reactable", "~> 0.4.0"
+gem 'acts_as_reactable', '~> 0.4.0'

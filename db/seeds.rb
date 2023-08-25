@@ -102,12 +102,16 @@ end
 
 
 require_relative "seed_scripts/create_admins_and_config"
+
+return if Rails.env.production?
+
 gpassword ='tunutrivida'
 
 dietitian = User.find_by_email('tunutrividalb@gmail.com')
 org = dietitian.organization
 
-# get female male etc as variable
+# Get female male etc as variable
+# Create intances @female @male
 Gender.all.each do |gender|
   variable_name = gender.name.downcase
   instance_variable_set("@#{variable_name}", gender)
@@ -119,14 +123,11 @@ Package.all.each_with_index do |pak, index|
   instance_variable_set("@package#{index}", pak)
 end
 
-
 @activity_factor1 = ActivityFactor.first
 
-
 # create patients
-y1=15
-y2=70
-gender = rand(1..2)
+y1 = 15
+y2 = 70
 days_week = 7
 
 patient_data = [
@@ -625,9 +626,7 @@ Session.create!(
 	created_by_id: dietitian.id
 )
 
-
 #### Creating some entries and comments
-
 entry = Entry.create(
 	description: 'Comiendo sano ahora yay!',
 	user_id: patientFran.id,

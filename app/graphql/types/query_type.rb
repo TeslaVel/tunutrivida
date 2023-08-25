@@ -14,8 +14,10 @@ module Types
       argument :order, String, required: false
     end
     field :current_appointments, [Types::AppointmentType], null: false
-    field :appointments, [Types::AppointmentType], null: false do
+    field :appointments, Types::PaginatedAppointmentType, null: false do
       argument :filter, Types::FilterInput, required: false
+      argument :page, Integer, required: false
+      argument :limit, Integer, required: false
     end
     field :sessions, Types::PaginatedSessionType, null: false do
       argument :page, Integer, required: false
@@ -38,7 +40,7 @@ module Types
       entries
     end
 
-    def appointments(filter: {})
+    def appointments(filter: {}, page: 1, limit: 7)
       if filter[:status].present?
 
         if filter[:status] == 'pending'
@@ -50,14 +52,25 @@ module Types
         appointments = context[:current_user]&.patient_appointments || []
       end
 
-      appointments
+
+      appointments = appointments.page(page).per(limit)
+
+      return {
+        paginated: appointments,
+        page: page,
+        limit: limit,
+        next_page: appointments.next_page,
+        prev_page: appointments.prev_page,
+        current_page: appointments.current_page,
+        total_pages: appointments.total_pages
+      }
     end
 
     def current_appointments
       context[:current_user]&.patient_appointments&.current_and_future || []
     end
 
-    def sessions(page: 1, limit: 6)
+    def sessions(page: 1, limit: 7)
       sessions = context[:current_user]&.sessions&.order(:date)
 
       return Session.none unless sessions.present?

@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   resources :availabilities
   resources :tasks
   resources :bmr_factors
+
+  get 'render_chat_partial/:id', to: 'conversations#render_chat_partial'
   resources :conversations do
     resources :notes
   end

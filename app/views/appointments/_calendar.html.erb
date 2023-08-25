@@ -5,7 +5,7 @@
       <%= link_to date.day, new_appointment_path(date: date) %>
     </div>
     <% appointments.each do |appointment| %>
-      <div class='appointment-title d-inline-flex mt-1 p-1' style='background: #b0ebe8;'>
+      <div class='appointment-title d-inline-flex mt-1 p-1' style='background: rgba(222, 159, 239, 0.89);'>
         <%= link_to appointment_path(appointment),
               data: {
                 toggle: "tooltip",
@@ -13,7 +13,7 @@
               },
               title: appointment.patient.full_name,
               class: 'd-flex align-items-center' do %>
-              <i class="fa fa-phone"></i>
+              <%= render "layouts/icons/icons", name: appointment.appointment_type %>
               <span style="font-size: 9px;" class="ml-2 d-inline-flex flex-column">
                 <span>
                 <%= appointment.time_start.strftime("%H:%M %p")%>
@@ -32,7 +32,7 @@
   <%= week_calendar(events: calendar_options[:events], attribute: :start_date) do |date, appointments| %>
     <%= link_to date.day, new_appointment_path(date: date) %>
     <% appointments.each do |appointment| %>
-      <div class='appointment-title mt-1 p-1' style='background: #b0ebe8;'>
+      <div class='appointment-title mt-1 p-1' style='background: rgba(222, 159, 239, 0.89);'>
         <%= link_to appointment_path(appointment),
               data: {
                 toggle: "tooltip",
@@ -40,7 +40,7 @@
               },
               title: appointment.patient.full_name,
               class: 'd-flex align-items-center' do %>
-              <i class="fa fa-phone"></i>
+              <%= render "layouts/icons/icons", name: appointment.appointment_type %>
               <span class="ml-2">
                 <%= appointment.title.truncate(12, omission: "...") %>
               </span>

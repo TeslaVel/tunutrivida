@@ -75,7 +75,6 @@ $arrayPinkNamesMap: (
   pink-05: rgb(240, 157, 212)
 );
 
-
 $gray-red-400: rgb(130, 63, 76);
 $gray-red-300: rgb(164, 71, 88);
 $gray-red-200: rgb(184, 87, 105);
@@ -127,14 +126,14 @@ $gray-red-100: rgb(202, 105, 122);
   .wday-5 {}
   .wday-6 {}
 
-  .today {background-color: rgb(193, 255, 241);}
+  .today {background-color: map-get($arrayDarkPurpleNamesMap, primary-10);}
   .past {}
   .future {}
 
   .start-date {}
 
-  .prev-month {}
-  .next-month { }
+  .prev-month {background-color: rgb(205, 191, 209); }
+  .next-month {background-color: rgb(222, 121, 188); }
   .current-month {}
 
   .has-events {}

@@ -84,7 +84,7 @@
         </div>
 
          <div class="row">
-          <label class="col-sm-3 col-form-label">Appointment Type</label>
+          <label class="col-sm-3 col-form-label">Status</label>
           <div class="col-sm-8">
             <div class="form-group">
               <%= f.input :status, label: false, collection: Appointment::STATUS_TYPES.map { |type| [type.to_s, type] }, input_html: { class: 'form-control' } %>

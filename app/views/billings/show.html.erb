@@ -84,65 +84,54 @@
     </div>
   </div>
 
+  <!-- Modal -->
+  <%= render layout: "layouts/components/modal",
+    locals: {
+      id_modal: 'newItemModal',
+      title: 'Add Item',
+      action_name: 'Create',
+      action_call: 'add_billing_item()'
+    } do %>
 
-<!-- Modal -->
-<%= render layout: "layouts/components/modal",
-  locals: {
-    id_modal: 'newItemModal',
-    title: 'Add Item',
-    action_name: 'Create',
-    action_call: 'add_billing_item()'
-  } do %>
+    <div>
+      <%= form_with scope: BillingItem.new, url: billing_items_create_path(@billing), data: { type: :json }, html: {id:"billing_item_form_id", class: 'billing_item_form', multipart: true, remote: true} do |f| %>
+        <div class="form-group">
+          <label for="billing_type_item_type">Type</label>
+          <%= f.select(:item_type, options_for_select((BillingItem::ItemTypes || []).map {|k| [k.to_s.humanize, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+        </div>
 
-  <div>
-    <%= form_with scope: BillingItem.new, url: billing_items_create_path(@billing), data: { type: :json }, html: {id:"billing_item_form_id", class: 'billing_item_form', multipart: true, remote: true} do |f| %>
-      <div class="form-group">
-        <label for="billing_type_item_type">Type</label>
-        <%= f.select(:item_type, options_for_select((BillingItem::ItemTypes || []).map {|k| [k.to_s.humanize, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
-      </div>
+        <div class="form-group to-hide" style="display: none;">
+          <label for="patient_package_id">Package</label>
+          <%= f.select(:patient_package_id, options_for_select(@patient_packages.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control package'}) %>
+        </div>
 
-      <div class="form-group to-hide" style="display: none;">
-        <label for="patient_package_id">Package</label>
-        <%= f.select(:patient_package_id, options_for_select(@patient_packages.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control package'}) %>
-      </div>
+        <div class="form-group to-hide" style="display: none;">
+          <label for="product_id">Product</label>
+          <%= f.select(:product_id, options_for_select(@products.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control product'}) %>
+        </div>
 
-      <div class="form-group to-hide" style="display: none;">
-        <label for="product_id">Product</label>
-        <%= f.select(:product_id, options_for_select(@products.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control product'}) %>
-      </div>
+        <div class="form-group to-hide" style="display: none;">
+          <label for="quantity">Quantity</label>
+          <%= f.text_field :quantity, label: t('.quantity'), class: "form-control quantity" %>
+        </div>
 
-      <div class="form-group to-hide" style="display: none;">
-        <label for="quantity">Quantity</label>
-        <%= f.text_field :quantity, label: t('.quantity'), class: "form-control quantity" %>
-      </div>
+        <div class="form-group to-hide" style="display: none;">
+          <label for="discount_id">Discount</label>
+          <%= f.select(:discount_id, options_for_select(@discounts.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control discount'}) %>
+        </div>
 
-      <div class="form-group to-hide" style="display: none;">
-        <label for="discount_id">Discount</label>
-        <%= f.select(:discount_id, options_for_select(@discounts.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control discount'}) %>
-      </div>
+        <div class="form-group to-hide" style="display: none;">
+          <label for="description">Description</label>
+          <%= f.text_field :description, label: t('.description'), class: "form-control" %>
+        </div>
 
-      <div class="form-group to-hide" style="display: none;">
-        <label for="description">Description</label>
-        <%= f.text_field :description, label: t('.description'), class: "form-control" %>
-      </div>
-
-    <% end %>
-  </div>
-<% end %>
+      <% end %>
+    </div>
+  <% end %>
 
 
   <%= hidden_field_tag(:billing_id, @billing.id) %>
   <%= hidden_field_tag(:current_user_id, current_user.id) %>
-
-<% if false %>
-  <div class="col-sm-12 col-md-12" id="paid_items_partial">
-    <%= render 'paid_items',
-         key: 3,
-         expanded: false,
-         payments: @billing.payments,
-         title: "Paid Items" %>
-  </div>
-<% end %>
 
 </div>
 <% content_for :javascript do %>
