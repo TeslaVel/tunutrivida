@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   before_action :set_patient
   before_action :set_package
-  before_action :set_session, except: [:new, :create]
+  before_action :set_session, except: [:new, :create, :update]
   # include JavascriptInclusion
 
   # # GET /sessions/new
