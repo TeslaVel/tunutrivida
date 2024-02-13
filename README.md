@@ -2,8 +2,8 @@
 
 ## Using:
 
-- Ruby 2.7.2
-- Rails 6.1.1
+- Ruby 3.2.2
+- Rails 7.0
 - Bootstrap 4
 
 ## Config

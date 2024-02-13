@@ -54,6 +54,19 @@ def create_patient_packages_and_sessions(patient, package, dietitian, height, da
 			activity_factor_id: rand(1...3),
 			created_by_id: dietitian.id
 		)
+
+		st = created.to_time > Time.now ? 0 : 1
+
+		Appointment.create(
+			start_date: created,
+			time_start: created,
+			time_end: created + dietitian.appointment_setting.time_step.minutes,
+			status: st,
+			dietitian_id: dietitian.id,
+			patient_id: patient.id,
+			appointment_type: Appointment::APPOINTMENT_TYPES.index(Appointment::APPOINTMENT_TYPES.sample).to_i
+		)
+
 		iterador += 1
 	end
 end

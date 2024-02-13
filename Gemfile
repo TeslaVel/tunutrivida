@@ -3,8 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '~> 7.0', '>= 7.0.7'
-gem 'pg', '~> 1.5', '>= 1.5.3'
+gem 'rails', '~> 7.0'
+gem 'pg', '~> 1.5', '>= 1.5.4'
 gem 'pg_search', '~> 2.3', '>= 2.3.6'
 gem 'puma', '~> 6.3', '>= 6.3.1'
 gem 'sass-rails', '~> 6.0'
@@ -17,7 +17,7 @@ gem 'bootsnap', '~> 1.16', require: false
 
 gem 'rails-i18n'
 gem 'bcrypt', '~> 3.1', '>= 3.1.19'
-gem 'bootstrap', '~> 4.0'
+gem 'bootstrap', '~> 5.0'
 gem 'jquery-rails', '~> 4.4'
 gem 'cancancan', '~> 3.5'
 gem 'simple_form', '~> 5.2'

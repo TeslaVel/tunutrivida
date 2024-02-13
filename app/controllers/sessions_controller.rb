@@ -1,29 +1,29 @@
 class SessionsController < ApplicationController
   before_action :set_patient
   before_action :set_package
-  before_action :set_session, except: [:new, :create, :update]
+  before_action :set_session, except: %i[new create update]
   # include JavascriptInclusion
 
   # # GET /sessions/new
   def new
-    if ( @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i ) && @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
+    session_qty = (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
+
+    if (@patient_package.sessions.count == session_qty) &&
+        @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
     end
     @session = @patient_package.sessions.build
     @activity_factors = ActivityFactor.all
   end
 
-
   def show
     @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
     # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
     @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
 
-
     @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
     # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
     @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
-
 
     icc = if @session.waist.blank? || @session.hip.blank?
              0
@@ -32,20 +32,6 @@ class SessionsController < ApplicationController
           end
     @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @patient.gender_id)
     @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
-    
-    # sql = <<-SQL
-    #   SELECT
-    #     value_min,value_max,position
-    #     FROM
-    #       indicators i
-    #     WHERE
-    #     i.indicator_type_id = :type AND i.gender_id = :gender
-    # SQL
-
-    # @indicators_im =
-    # ActiveRecord::Base.connection.execute(
-    #   ActiveRecord::Base.send(:sanitize_sql_array, [sql, type: 1, gender: 4])
-    # )
   end
 
   # GET /sessions/1/edit
@@ -54,10 +40,12 @@ class SessionsController < ApplicationController
     @activity_factors = ActivityFactor.all
   end
 
-  # # POST /sessions
+  # POST /sessions
   def create
-    if @patient_package.sessions.count == (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i &&
-      @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
+    session_qty = (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
+
+    if @patient_package.sessions.count == session_qty &&
+       @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
       return
     end
@@ -67,7 +55,6 @@ class SessionsController < ApplicationController
     @session.dietitian = current_user
     @session.patient = @patient
     @session.date = Time.now
-
 
     return respond_to do |format|
       if @session.save
@@ -80,7 +67,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  # # PATCH/PUT /posts/1
+  # PATCH/PUT /posts/1
   def update
     @session.imc = (@session.weight / (@session.height * @session.height)).round(2)
     if @session.update(session_params)
@@ -94,39 +81,39 @@ class SessionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_patient
-      @patient = User.find_by_id(params[:patient_id])
-      # @patient = User.find_by_slug(params[:patient_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_patient
+    @patient = User.find_by_id(params[:patient_id])
+    # @patient = User.find_by_slug(params[:patient_id])
+  end
 
-    def set_package
-      @patient_package = @patient.patient_packages.find(params[:patient_package_id])
-    end
+  def set_package
+    @patient_package = @patient.patient_packages.find(params[:patient_package_id])
+  end
 
-    def set_session
-      @session = @patient_package.sessions.find(params[:id])
-    end
+  def set_session
+    @session = @patient_package.sessions.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def session_params
-      params.require(:session).permit(
-        :date, :weight,
-        :height,
-        :waist,
-        :hip,
-        :high_abdomen,
-        :low_abdomen,
-        :ideal_weight,
-        :body_grease,
-        :visceral_grease,
-        :muscle_mass,
-        :bone_mass,
-        :bmr,
-        :metabolic_age,
-        :water_percentage,
-        :physical_complexion,
-        :activity_factor_id
-     )
-    end
+  # Only allow a trusted parameter "white list" through.
+  def session_params
+    params.require(:session).permit(
+      :date, :weight,
+      :height,
+      :waist,
+      :hip,
+      :high_abdomen,
+      :low_abdomen,
+      :ideal_weight,
+      :body_grease,
+      :visceral_grease,
+      :muscle_mass,
+      :bone_mass,
+      :bmr,
+      :metabolic_age,
+      :water_percentage,
+      :physical_complexion,
+      :activity_factor_id
+    )
+  end
 end

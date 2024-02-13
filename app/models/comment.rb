@@ -13,7 +13,7 @@ class Comment < ApplicationRecord
     reaction
   ].freeze
 
-  enum commen_type: COMMENT_TPE
+  enum comment_type: COMMENT_TPE
 
   validates :message, presence: true
 
