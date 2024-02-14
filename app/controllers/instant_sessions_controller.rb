@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
+# InstantSessionsController
 class InstantSessionsController < ApplicationController
   ## load cancan abilities
   before_action :set_instant_session, only: %i[ show edit update destroy ]
+  include SessionConcern
 
   # GET /instant_sessions or /instant_sessions.json
   def index
@@ -9,22 +13,14 @@ class InstantSessionsController < ApplicationController
 
   # GET /instant_sessions/1 or /instant_sessions/1.json
   def show
-    @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    # @diagnosisImc = @indicatorsImc.find {|ind| @instant_session.imc >= ind.value_min && @instant_session.imc <= ind.value_max}
-    @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @instant_session.imc, @instant_session.imc).first
+    @indicatorsImc = resource_indicators_imc(4)
+    @indicatorsDpc = resource_indicator_dpc(@instant_session.gender_id)
+    @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @instant_session.imc)
+    @diagnosisDpc = resource_diagnosis_dpc(@indicatorsDpc, @instant_session.waist)
 
-    @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @instant_session.gender_id)
-    # @diagnosisDpc = @indicatorsDpc.find {|ind| @instant_session.waist >= ind.value_min && @instant_session.waist < ind.value_max}
-    @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @instant_session.waist, @instant_session.waist).first
-
-    @icc = if @instant_session.waist.nil? || @instant_session.hip.nil?
-             0
-          else
-            (@instant_session.waist / @instant_session.hip).round(2).round(2)
-          end
-    @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @instant_session.gender_id)
-    # @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
-    @diagnosisIcc = @indicatorsIcc.where("value_min < ? AND value_max >= ?", @icc, @icc).first
+    @icc = resource_icc(@instant_session&.waist, @instant_session&.hip)
+    @indicatorsIcc = resource_indicators_icc(@instant_session.gender_id)
+    @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, @icc)
   end
 
   # GET /instant_sessions/new
@@ -76,31 +72,32 @@ class InstantSessionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_instant_session
-      @instant_session = InstantSession.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
 
-    # Only allow a list of trusted parameters through.
-    def instant_session_params
-      params.require(:instant_session).permit(
-        :date, :weight,
-        :height,
-        :waist,
-        :hip,
-        :high_abdomen,
-        :low_abdomen,
-        :ideal_weight,
-        :body_grease,
-        :visceral_grease,
-        :muscle_mass,
-        :bone_mass,
-        :bmr,
-        :metabolic_age,
-        :water_percentage,
-        :physical_complexion,
-        :activity_factor_id,
-        :gender_id
-     )
-    end
+  def set_instant_session
+    @instant_session = InstantSession.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def instant_session_params
+    params.require(:instant_session).permit(
+      :date, :weight,
+      :height,
+      :waist,
+      :hip,
+      :high_abdomen,
+      :low_abdomen,
+      :ideal_weight,
+      :body_grease,
+      :visceral_grease,
+      :muscle_mass,
+      :bone_mass,
+      :bmr,
+      :metabolic_age,
+      :water_percentage,
+      :physical_complexion,
+      :activity_factor_id,
+      :gender_id
+    )
+  end
 end

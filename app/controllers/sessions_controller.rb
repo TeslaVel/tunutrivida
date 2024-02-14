@@ -1,37 +1,31 @@
+# frozen_string_literal: true
+
+# SessionsController
 class SessionsController < ApplicationController
   before_action :set_patient
   before_action :set_package
   before_action :set_session, except: %i[new create update]
   # include JavascriptInclusion
+  include SessionConcern
 
   # # GET /sessions/new
   def new
-    session_qty = (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
-
     if (@patient_package.sessions.count == session_qty) &&
         @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
-      redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"
+      redirect_to patient_patient_package_path(@patient, @patient_package), notice: "All sessions was completed"
     end
     @session = @patient_package.sessions.build
     @activity_factors = ActivityFactor.all
   end
 
   def show
-    @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
-    @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
-
-    @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
-    # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
-    @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
-
-    icc = if @session.waist.blank? || @session.hip.blank?
-             0
-          else
-            (@session.waist / @session.hip).round(2)
-          end
-    @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @patient.gender_id)
-    @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
+    @indicatorsImc = resource_indicators_imc(4)
+    @indicatorsDpc = resource_indicator_dpc(@patient.gender_id)
+    @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @session.imc)
+    @diagnosisDpc = resource_diagnosis_dpc(@indicatorsImc, @session.waist)
+    icc = resource_icc(@session&.waist, @session&.hip)
+    @indicatorsIcc = resource_indicators_icc(@patient.gender_id)
+    @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, icc)
   end
 
   # GET /sessions/1/edit
@@ -42,8 +36,6 @@ class SessionsController < ApplicationController
 
   # POST /sessions
   def create
-    session_qty = (@patient_package.package.weeks * @patient_package.package.session_quantity).to_i
-
     if @patient_package.sessions.count == session_qty &&
        @patient_package.package.weeks > 0 && @patient_package.package.session_quantity > 0
       redirect_to patient_patient_package_path(@patient,@patient_package), notice: "All sessions was completed"

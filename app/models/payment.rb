@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Payment
 class Payment < ApplicationRecord
   belongs_to :billing
   belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
@@ -6,17 +9,17 @@ class Payment < ApplicationRecord
   before_create :set_code
   after_create :set_billing_paid
 
-  PaymentStatus = %i[
-    paid
+  PAYMENT_STATUS = %i[
     unpaid
+    paid
   ].freeze
 
-  enum status: PaymentStatus
+  enum status: PAYMENT_STATUS
 
   # accepts_nested_attributes_for :payment_billing_items
 
   def set_code
-    self.code = "P-#{"10000000".to_i + (Payment.count&.next || 1)}"
+    self.code = "P-#{'10000000'.to_i + (Payment.count&.next || 1)}"
   end
 
   def check_and_recalculate
@@ -24,6 +27,6 @@ class Payment < ApplicationRecord
   end
 
   def set_billing_paid
-    self.billing.update(status: :paid)
+    self.billing.update(status: Payment::PAYMENT_STATUS.index(:paid))
   end
 end

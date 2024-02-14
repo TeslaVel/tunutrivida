@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
+# UsersController
 class UsersController < ApplicationController
   before_action :authenticate_all
   before_action :set_patient, only: %i[ show edit update destroy ]
   before_action :set_session, only: %i[show]
+
+  include SessionConcern
 
   # GET /patients or /patients.json
   def index
@@ -27,25 +32,16 @@ class UsersController < ApplicationController
 
   # GET /patients/1 or /patients/1.json
   def show
-    @indicatorsImc = Indicator.where(indicator_types: 1, gender_id: 4)
-    @indicatorsDpc = Indicator.where(indicator_types: 2, gender_id: @patient.gender_id)
-    @indicatorsIcc = Indicator.where(indicator_types: 3, gender_id: @patient.gender_id)
+    @indicatorsImc = resource_indicators_imc(4)
+    @indicatorsDpc = resource_indicator_dpc(@patient.gender_id)
+    @indicatorsIcc = resource_indicators_icc(@patient.gender_id)
 
     if @session.present?
-      # @diagnosisImc = @indicatorsImc.find {|ind| @session.imc >= ind.value_min && @session.imc <= ind.value_max}
-      @diagnosisImc = @indicatorsImc.where("value_min <= ? AND value_max >= ?", @session.imc, @session.imc).first
-
-      # @diagnosisDpc = @indicatorsDpc.find {|ind| @session.waist >= ind.value_min && @session.waist < ind.value_max}
-      @diagnosisDpc = @indicatorsDpc.where("value_min <= ? AND value_max > ?", @session.waist, @session.waist).first
-
-      @icc = if @session.waist.blank? || @session.hip.blank?
-               0
-            else
-              (@session.waist / @session.hip).round(2)
-            end
-      @diagnosisIcc = @indicatorsIcc.find { |ind| @icc > ind.value_min && @icc <= ind.value_max }
+      @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @session.imc)
+      @diagnosisDpc = resource_diagnosis_dpc(@indicatorsDpc, @session.waist)
+      @icc = resource_icc(@session&.waist, @session&.hip)
+      @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, @icc)
     end
-    # @sessions = @patient.sessions.id_desc
   end
 
   # GET /patients/new

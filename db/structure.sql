@@ -1009,6 +1009,7 @@ ALTER SEQUENCE public.payment_billing_items_id_seq OWNED BY public.payment_billi
 CREATE TABLE public.payments (
     id bigint NOT NULL,
     code character varying,
+    status integer DEFAULT 0,
     dietitian_id bigint NOT NULL,
     billing_id bigint NOT NULL,
     created_by_id bigint NOT NULL,

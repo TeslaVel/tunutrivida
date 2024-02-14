@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
+# PaymentsController
 class PaymentsController < ApplicationController
   before_action :set_billing, only: %i[ create ]
-  
-  skip_before_action :verify_authenticity_token, only: [:create]
 
+  skip_before_action :verify_authenticity_token, only: [:create]
 
    # POST /billings or /billings.json
   def create

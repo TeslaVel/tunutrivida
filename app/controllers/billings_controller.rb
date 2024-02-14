@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# BillingsController
 class BillingsController < ApplicationController
   before_action :authenticate_all
   before_action :set_billing, only: %i[ show edit items update destroy]
@@ -13,13 +16,13 @@ class BillingsController < ApplicationController
     # @sessions = @patient.sessions.id_desc
     @patient = @billing.patient
 
-    used_package_ids = @billing.billing_items.where(itemable_type: 'Package').pluck(:itemable_id)
-    used_product_ids = @billing.billing_items.where(itemable_type: 'Product').pluck(:itemable_id)
-    used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').pluck(:itemable_id)
+    used_package_ids = @billing.billing_items.where(itemable_type: 'Package').select(:itemable_id)
+    used_product_ids = @billing.billing_items.where(itemable_type: 'Product').select(:itemable_id)
+    used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').select(:itemable_id)
 
     @patient_packages = @patient.packages.where.not(id: used_package_ids) # .active
     @products = Product.where.not(id: used_product_ids) # .active
-    @discounts = Discount.where.not(id: used_discount_ids ) # .active
+    @discounts = Discount.where.not(id: used_discount_ids) # .active
 
     # raise @patient.firs.to_yaml
   end
