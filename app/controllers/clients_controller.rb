@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ClientsController
 class ClientsController < ApplicationController
 	before_action :set_locale
 

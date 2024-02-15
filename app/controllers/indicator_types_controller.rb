@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# IndicatorTypesController
 class IndicatorTypesController < ApplicationController
   before_action :set_indicator_type, only: %i[ show edit update destroy ]
 

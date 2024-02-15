@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# ContactUsController
 class ContactUsController < ApplicationController
-  before_action :set_contact_us, only: %i[show edit update destroy, mark_notification_seen]
+  before_action :set_contact_us, only: %i[show edit update destroy mark_notification_seen]
   after_action :mark_notification_seen, only: [:show]
 
   def index

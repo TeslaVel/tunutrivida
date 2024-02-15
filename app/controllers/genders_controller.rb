@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# GendersController
 class GendersController < ApplicationController
   ## load cancan abilities
   load_and_authorize_resource

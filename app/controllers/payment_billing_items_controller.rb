@@ -8,9 +8,9 @@ class PaymentBillingItemsController < ApplicationController
   # DELETE /billings/1.json
   def destroy
     @payment_item.destroy
- 
+
     respond_to do |format|
-      format.html { redirect_to billing_path(@billing), notice: "Paid Item was successfully destroyed." }
+      format.html { redirect_to billing_path(@billing), notice: 'Paid Item was successfully destroyed.' }
       format.js { render 'billings/show', :layout => false }
     end
   end

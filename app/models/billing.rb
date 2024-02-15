@@ -6,8 +6,8 @@ class Billing < ApplicationRecord
   belongs_to :patient, class_name: 'User', foreign_key: 'patient_id'
 
   has_many :billing_items
-  has_many :payments
-  has_many :payment_billing_items, through: :payments
+  has_one :payment
+  has_many :payment_billing_items, through: :payment
 
   BILLING_ITEMS = %i[
     ballot

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# DiscountsController
 class DiscountsController < ApplicationController
   ## load cancan abilities
   load_and_authorize_resource

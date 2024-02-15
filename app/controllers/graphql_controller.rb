@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# GraphqlController
 class GraphqlController < ApplicationController
   before_action :authenticate_all
   protect_from_forgery with: :null_session

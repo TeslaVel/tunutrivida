@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# BmrFactorsController
 class BmrFactorsController < ApplicationController
   before_action :authenticate_all
   before_action :set_bmr_factor, only: %i[ show edit update destroy ]

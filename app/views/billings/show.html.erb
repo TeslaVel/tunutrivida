@@ -8,7 +8,7 @@
     <!-- BILLING INFO -->
     <div class="card col-12" >
       <div class="card-header bg-transparent">
-        <% if @billing&.payments.none? %>
+        <% if @billing.unpaid? %>
           <div class="text-right">
             <button type="button" class="btn btn-success" onclick="pay_billing()">
               <%= 'Pagar' %>
@@ -35,7 +35,9 @@
             </div>
             <div class="col-5 p-0">
               <div class="list-unstyled">
-                <p class="mb-2 <%= @billing.paid? ? 'c-green' : 'c-red' %>"><%= @billing.status || '-'%></p>
+                <p class="mb-2 <%= @billing.paid? ? 'c-green' : 'c-red' %>" id="payment_status">
+                  <%= @billing.status || '-'%>
+                </p>
                 <p class="mb-2 "><%= @billing.code %></p>
                 <p class="mb-2 "><%= "#{@patient.first_name} #{@patient.last_name}" %></p>
                 <p class="mb-2 "><%= @billing.description %></p>

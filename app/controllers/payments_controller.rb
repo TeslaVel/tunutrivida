@@ -10,14 +10,15 @@ class PaymentsController < ApplicationController
   def create
     pmt_params = {
       dietitian_id: payment_params[:current_user_id],
-      created_by_id: payment_params[:current_user_id]
+      created_by_id: payment_params[:current_user_id],
+      billing_id: @billing.id
     }.with_indifferent_access
 
     # if payment_params[:item_ids].present?
     #   pmt_params[:payment_billing_items_attributes] = payment_params[:item_ids].map(&:to_h)
     # end
 
-    @payment = @billing.payments.build(pmt_params)
+    @payment = Payment.build(pmt_params)
 
     respond_to do |format|
       if @payment.save

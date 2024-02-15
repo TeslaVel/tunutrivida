@@ -27,6 +27,7 @@ class Payment < ApplicationRecord
   end
 
   def set_billing_paid
+    self.update(status: Payment::PAYMENT_STATUS.index(:paid))
     self.billing.update(status: Payment::PAYMENT_STATUS.index(:paid))
   end
 end

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# BillingItemsController
 class BillingItemsController < ApplicationController
   before_action :authenticate_all
   before_action :set_billing, only: %i[ create destroy]

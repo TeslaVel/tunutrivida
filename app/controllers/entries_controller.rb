@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# EntriesController
 class EntriesController < ApplicationController
   before_action :authenticate_all
   before_action :set_entry, only: %i[show edit update destroy mark_notification_seen]

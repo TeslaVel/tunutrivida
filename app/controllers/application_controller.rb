@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# ApplicationController
 class ApplicationController < ActionController::Base
-	protect_from_forgery with: :exception
-	helper_method :current_user
-	before_action :set_locale
-	before_action :get_global_configurations
+  protect_from_forgery with: :exception
+  helper_method :current_user
+  before_action :set_locale
+  before_action :get_global_configurations
 
 	before_action :authenticate_all, only: %i[ update_dolar_price ]
 

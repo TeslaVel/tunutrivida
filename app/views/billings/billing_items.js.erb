@@ -1,8 +1,8 @@
 "<% @patient = @billing.patient %>"
 
-"<% used_package_ids = @billing.billing_items.where(itemable_type: 'Package').pluck(:itemable_id) %>"
-"<% used_product_ids= @billing.billing_items.where(itemable_type: 'Product').pluck(:itemable_id)%>"
-"<% used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').pluck(:itemable_id)%>"
+"<% used_package_ids = @billing.billing_items.where(itemable_type: 'Package').select(:itemable_id) %>"
+"<% used_product_ids= @billing.billing_items.where(itemable_type: 'Product').select(:itemable_id)%>"
+"<% used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').select(:itemable_id)%>"
 
 "<% @patient_packages = @patient.packages.where.not(id: used_package_ids) %>"
 "<% @products = Product.where.not(id: used_product_ids) %>"

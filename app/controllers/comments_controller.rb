@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# CommentsController
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :set_entry, only: %i[ create ]

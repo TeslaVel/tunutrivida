@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# DashboardController
 class DashboardController < ApplicationController
   before_action :authenticate_all
 

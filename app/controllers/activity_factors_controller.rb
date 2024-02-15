@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ActivityFactorsController
 class ActivityFactorsController < ApplicationController
   before_action :authenticate_all
   before_action :set_activity_factor, only: %i[ show edit update destroy ]
