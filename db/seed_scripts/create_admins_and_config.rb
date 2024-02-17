@@ -22,11 +22,11 @@ org = Organization.create(
 puts "Created Organization: #{org.name}"
 
 
-puts "Creating Genders"
-male = Gender.create(name: "Male", description: "Male")
-female = Gender.create(name: "Female", description: "Female")
-other = Gender.create(name: "Ohter", description: "Ohter")
-both = Gender.create(name: "Both", description: "Both")
+puts 'Creating Genders'
+male = Gender.create(name: 'Male', description: 'Male')
+female = Gender.create(name: 'Female', description: 'Female')
+other = Gender.create(name: 'Ohter', description: 'Ohter')
+both = Gender.create(name: 'Both', description: 'Both')
 
 user = User.create!(
 	email: 'm3taljose@gmail.com',
@@ -46,8 +46,8 @@ puts "Created admin: #{user.email}"
 dietitian = User.create!(
 	email: 'tunutrividalb@gmail.com',
 	username: 'tunutrividalb',
-	first_name: "Lic Laura",
-	last_name: "Berrios",
+	first_name: 'Lic Laura',
+	last_name: 'Berrios',
 	password: '2351310',
 	password_confirmation: '2351310',
 	organization_id: org.id,
@@ -56,16 +56,14 @@ dietitian = User.create!(
 )
 puts "Created dietitian: #{dietitian.email}"
 
-role_dietitian = Role.create(name: 'dietitian', description: "Dietitian", created_by_id: user.id)
-role_amin = Role.create(name: 'super_admin', description: "Super Admin", created_by_id: user.id)
-role_patient = Role.create(name: 'patient', description: "Patient", created_by_id: user.id)
+role_dietitian = Role.create(name: 'dietitian', description: 'Dietitian', created_by_id: user.id)
+role_amin = Role.create(name: 'super_admin', description: 'Super Admin', created_by_id: user.id)
+role_patient = Role.create(name: 'patient', description: 'Patient', created_by_id: user.id)
 puts "Created roles: #{role_dietitian.name}, #{role_amin.name}, #{role_patient.name}"
-
 
 dietitian.add_role :dietitian
 user.add_role :dietitian
 user.add_role :super_admin
-
 
 OrganizationMemberships.create(
 	is_admin: 1,
@@ -78,7 +76,6 @@ OrganizationMemberships.create(
 	organization_id: org.id,
 	user_id: dietitian.id
 )
-
 
 puts "Creating Availability for #{dietitian.first_name}"
 available1 = Availability.create(
@@ -93,10 +90,10 @@ AppointmentSetting.create(
 	dietitian_id: dietitian.id
 )
 
-puts "Creating GlobalConfiguration"
+puts 'Creating GlobalConfiguration'
 glb = GlobalConfiguration.create(
 	currency: 'USD',
-	currency_code: "$",
+	currency_code: '$',
 	target_currency: 'VES',
 	target_currency_code: 'Bs',
 	target_conversion: '24.45',

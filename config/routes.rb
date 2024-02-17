@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   resources :availabilities
   resources :tasks
   resources :bmr_factors
+  resources :diets
+  resources :conditions
+  resources :restricted_ingredient_conditions
 
   get 'render_chat_partial/:id', to: 'conversations#render_chat_partial'
   resources :conversations do
@@ -67,6 +70,8 @@ Rails.application.routes.draw do
   post 'patients', to: 'users#create', as: :post_patients
   post 'instant_patient/:id', to: 'users#create_from_instant', as: :create_patient_from_instant_session
   resources :patients, controller: 'users', type: 'User' do
+    post '/patient_conditions', to: 'patient_conditions#create', as: :post_patient_conditions
+    delete '/patient_conditions/:id', to: 'patient_conditions#destroy', as: :destroy_patient_conditions
     get '/packages/:id/sessions/sessionsjson', to: 'patient_packages#sessionsjson'
     get '/packagesjson', to: 'patient_packages#packagesjson'
     #PACKAGES

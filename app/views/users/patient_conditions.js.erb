@@ -1,0 +1,7 @@
+customCloseModal('newPatientConditionModal');
+
+$("#patient_condition").html("\
+		<%= escape_javascript(render(:partial => 'users/patient_conditions', :locals => {\
+																:key => '1',\
+																:patient => @patient} )) %>");
+

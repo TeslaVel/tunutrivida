@@ -1,0 +1,46 @@
+ <div class="card col-12 col-sm-6" id="right-card">
+    <div class="card-header bg-transparent">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#imc" role="tab" aria-controls="imc" aria-selected="true" data-toggle="tab">IMC</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#pdc" role="tab" aria-controls="pdc" data-toggle="tab">PDC</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#icc" role="tab" aria-controls="icc" data-toggle="tab">ICC</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body tab-content  px-0 px-sm-5">
+      <!-- IMC -->
+      <div id="imc" class="tab-pane active" role="tabpanel">
+        <div class="col-12 px-0">
+          <%= render 'sessions/diagnoses_partial',
+            indicators: indicators_imc,
+            diagnosis: diagnosis_imc,
+            title: "IMC" %>
+        </div>
+      </div>
+
+      <!-- ICC -->
+      <div id="icc" class="tab-pane" role="tabpanel">
+        <div class="col-12 px-0">
+          <%= render 'sessions/diagnoses_partial',
+            indicators: indicators_icc,
+            diagnosis: diagnosis_icc,
+            title: "ICC" %>
+        </div>
+      </div>
+
+      <!-- PDC -->
+      <div id="pdc" class="tab-pane" role="tabpanel">
+        <div class="col-12 px-0">
+          <%= render 'sessions/diagnoses_partial',
+            indicators: indicators_dpc,
+            diagnosis: diagnosis_dpc,
+            title: "PDC" %>
+        </div>
+      </div>
+    </div>
+  </div>

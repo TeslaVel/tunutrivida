@@ -1,0 +1,49 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Conditions</h1>
+    <%= link_to 'New Condition', new_restricted_ingredient_condition_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center mb-3">
+    <%= render 'paginations/pagination', objectData: @restricted_ingredients %>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Ingredient</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @restricted_ingredients.each do |restricted_ingredient| %>
+          <tr>
+            <td>
+              <%= restricted_ingredient.condition.name %>
+            </td>
+            <td>
+              <%= restricted_ingredient.ingredient.name %>
+            </td>
+            <td class="text-center">
+              <%= link_to restricted_ingredient, class: 'mr-3' do %>
+                <i class="fa fa-eye c-blue"></i>
+              <% end %>
+
+              <%= link_to edit_restricted_ingredient_condition_path(restricted_ingredient), class: 'mr-3'  do %>
+                <i class="fa fa-pen c-green"></i>
+              <% end %>
+
+              <%= link_to restricted_ingredient, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash c-red"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

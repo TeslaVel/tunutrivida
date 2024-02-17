@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="row col-md-6">
+    <%= simple_form_for(@restricted_ingredient) do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <div class="card">
+        <div class="card-header bg-transparent text-center">
+          <%= title %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-9 form-group">
+              <%= f.input :condition_id,
+                  label: false,
+                  collection: (Condition.all),
+                  label_method: :name,
+                  label_html: {
+                    class: "form-label"
+                  },
+                  input_html: {
+                    class: "form-control"
+                  },
+                  prompt: "Select a condition",
+                  include_blank: false,
+                  selected: @restricted_ingredient&.condition_id || nil
+                %>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-sm-2 col  -form-label">Description</label>
+            <div class="col-sm-9 form-group">
+                <%= f.input :ingredient_id,
+                  label: false,
+                  collection: (Ingredient.all),
+                  label_method: :name,
+                  label_html: {
+                    class: "form-label"
+                  },
+                  input_html: {
+                    class: "form-control"
+                  },
+                  prompt: "Select an Ingredient",
+                  include_blank: false,
+                  selected: @restricted_ingredient&.ingredient_id || nil
+                %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-center" style="background: transparent;">
+          <%= f.button :submit, action_button , class: "btn btn-primary" %>
+          <%= link_to 'Back', restricted_ingredient_conditions_path %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

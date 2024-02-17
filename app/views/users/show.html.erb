@@ -5,131 +5,22 @@
   </div>
 
   <div class="table-responsive d-flex mb-4">
-    <div class="card col-12 col-sm-6" id="left-card">
-      <div class="card-header bg-transparent">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#login_data" data-toggle="tab">Login Data</a>
-          </li>
-        </ul>
-      </div>
-      <div class="card-body tab-content">
-        <div class="tab-pane active" id="about">
-          <div class="row">
-            <div class="col-12 pl-0">
-              <%= link_to '[Edit]', edit_patient_path(@patient), class: "nav-link pl-0" %>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 p-0">
-              <div class="list-unstyled">
-                <% if @patient.sessions.first.present? %>
-                  <p class="mb-2 text-left">Ideal Weight:</p>
-                <% end %>
-                <p class="mb-2 text-left">Nombre:</p>
-                <p class="mb-2 text-left">Apellido:</p>
-                <p class="mb-2 text-left">Edad:</p>
-                <p class="mb-2 text-left">Genero:</p>
-                <p class="mb-2 text-left">Ultima Session:</p>
-                <p class="mb-2 text-left diagonis_imc"> IMC </p>
-                <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
-                <p class="mb-2 text-left diagonis_icc"> ICC </p>
-              </div>
-            </div>
-            <div class="col-6 p-0">
-              <div class="list-unstyled">
-                <% if @patient.sessions.first.present? %>
-                  <p class="mb-2 "><%= @patient.sessions.count > 0 ? @patient.sessions.first&.ideal_weight || '-' : '-' %></p>
-                <% end %>
-                <p class="mb-2 "><%= @patient.first_name %></p>
-                <p class="mb-2 "><%= @patient.last_name %></p>
-                <p class="mb-2 "><%= @patient.age %></p>
-                <p class="mb-2 "><%= @patient.gender.name %></p>
-                <p class="mb-2 ">
-                  <% if (@session) %>
-                    <%= link_to @session&.date, patient_patient_package_session_show_path(@patient, @session.patient_package, @session) %>
-                  <% else %>
-                    -
-                  <% end %>
-                </p>
-                <p class="mb-2 diagonis_imc"><%= @session&.imc || '-' %></p>
-                <p class="mb-2 diagonis_pdc"><%= @session&.waist || '-' %> </p>
-                <p class="mb-2 diagonis_icc"><%= @icc || '-' %></p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <%= render 'patient_info',
+                key: 1,
+                expanded: true,
+                patient: @patient,
+                session: @session %>
 
-        <div class="tab-pane" id='login_data'>
-          <div class="row">
-            <div class="col-4 p-0">
-              <div class="list-unstyled">
-                <p class="mb-2 text-left">Email:</p>
-                <p class="mb-2 text-left">Username:</p>
-                <p class="mb-2 text-left">Password:</p>
-              </div>
-            </div>
-            <div class="col-8 p-0">
-              <div class="list-unstyled">
-                <p class="mb-2 "><%= @patient.email %></p>
-                <p class="mb-2 "><%= @patient.username %></p>
-                <p class="mb-2 "> tunutrivida </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card col-12 col-sm-6" id="right-card">
-      <div class="card-header bg-transparent">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" href="#imc" role="tab" aria-controls="imc" aria-selected="true" data-toggle="tab">IMC</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#pdc" role="tab" aria-controls="pdc" data-toggle="tab">PDC</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#icc" role="tab" aria-controls="icc" data-toggle="tab">ICC</a>
-          </li>
-        </ul>
-      </div>
-      <div class="card-body tab-content  px-0 px-sm-5">
-        <!-- IMC -->
-        <div id="imc" class="tab-pane active" role="tabpanel">
-          <div class="col-12 px-0">
-            <%= render 'sessions/diagnoses_partial',
-              indicators: @indicatorsImc,
-              diagnosis: @diagnosisImc,
-              title: "IMC" %>
-          </div>
-        </div>
-
-        <!-- ICC -->
-        <div id="icc" class="tab-pane" role="tabpanel">
-          <div class="col-12 px-0">
-            <%= render 'sessions/diagnoses_partial',
-              indicators: @indicatorsIcc,
-              diagnosis: @diagnosisIcc,
-              title: "ICC" %>
-          </div>
-        </div>
-
-        <!-- PDC -->
-        <div id="pdc" class="tab-pane" role="tabpanel">
-          <div class="col-12 px-0">
-            <%= render 'sessions/diagnoses_partial',
-              indicators: @indicatorsDpc,
-              diagnosis: @diagnosisDpc,
-              title: "PDC" %>
-          </div>
-        </div>
-      </div>
-    </div>
+     <%= render 'patient_indicators',
+            key: 3,
+            expanded: true,
+            diagnosis_dpc: @diagnosisDpc,
+            diagnosis_icc: @diagnosisIcc,
+            diagnosis_imc: @diagnosisImc,
+            indicators_icc: @indicatorsIcc,
+            indicators_imc: @indicatorsImc,
+            indicators_dpc: @indicatorsDpc
+            %>
   </div>
 
   <div class="d-none">
@@ -162,11 +53,82 @@
 
   <div class="">
     <%= render 'patient_packages',
-                key: 2,
+                key: 3,
                 expanded: true,
                 patient: @patient,
                 patient_packages: @patient.patient_packages.order_status,
                 title: "Packages" %>
   </div>
 </div>
+
+
+ <!-- Modal -->
+  <%= render layout: "layouts/components/modal",
+    locals: {
+      id_modal: 'newPatientConditionModal',
+      title: 'Add Condition',
+      action_name: 'Create',
+      action_call: 'add_patient_condition()'
+    } do %>
+
+    <div>
+      <%= form_with scope: PatientCondition.new, url: patient_post_patient_conditions_path(@patient), data: { type: :json }, html: {id:"patient_condition_form_id", class: 'patient_condition_form', multipart: true, remote: true} do |f| %>
+        <div class="form-group">
+          <label for="condition_id">Condition</label>
+          <%= f.collection_select :condition_id, Condition.where.not(id: @patient.reload.conditions.select(:id)), :id, :name, {selected: nil }, { class: 'form-control' } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+<% content_for :javascript do %>
+  <script>
+    //******************
+    //* Create patient conditions
+    //*
+    function add_patient_condition() {
+        var dataToSubmit = $("#patient_condition_form_id").serialize();
+        // console.log('dataToSubmit', dataToSubmit);
+        // document.getElementById('patient_condition_form_id').submit();
+        $.ajax({
+          url: $("#patient_condition_form_id").attr('action'),
+          type: "POST",
+          data: dataToSubmit,
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            customCloseModal('newPatientConditionModal');
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    }
+
+    //******************
+    //* Destroy payment item
+    //*
+    function destroy_patient_condition(el, patient_id, patient_condition_id) {
+      if (patient_condition_id) {
+        const url = `/patients/${patient_id}/patient_conditions/${patient_condition_id}`
+        const resp = window.confirm('Are you sure?');
+
+        if (!resp) return;
+
+        $.ajax({
+          url: url,
+          type: "DELETE",
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            // $(el).closest('tr').remove();
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
+    }
+  </script>
+<% end %>
 

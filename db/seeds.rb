@@ -78,23 +78,23 @@ end
 def patient_creator(idx, patient_data, dietitian, org, gpassword, days_week)
 	patient = nil
 	puts "Creating Patients #{idx+ 1}"
-		created = Time.now - 14.days
-		age = ((Time.zone.now - patient_data[:dob].to_time) / 1.year.seconds).floor
-		username = get_username(patient_data[:first_name])
-		patient = User.create(
-								first_name: patient_data[:first_name],
-								last_name: patient_data[:last_name],
-								dietitian_id: dietitian.id,
-								username: username,
-								email: "#{username}@example.com",
-								status: :active,
-								gender: patient_data[:sex],
-								age: age,
-								date_of_birth: patient_data[:dob],
-								organization_id: org.id,
-								password: gpassword,
-								password_confirmation: gpassword
-							)
+  created = Time.now - 14.days
+  age = ((Time.zone.now - patient_data[:dob].to_time) / 1.year.seconds).floor
+  username = get_username(patient_data[:first_name])
+  patient = User.create(
+            first_name: patient_data[:first_name],
+            last_name: patient_data[:last_name],
+            dietitian_id: dietitian.id,
+            username: username,
+            email: "#{username}@example.com",
+            status: :active,
+            gender: patient_data[:sex],
+            age: age,
+            date_of_birth: patient_data[:dob],
+            organization_id: org.id,
+            password: gpassword,
+            password_confirmation: gpassword
+            )
 		patient.add_role :patient
 
 		puts "Patient #{patient.first_name} Created."
@@ -113,8 +113,7 @@ def patient_creator(idx, patient_data, dietitian, org, gpassword, days_week)
 		end
 end
 
-
-require_relative "seed_scripts/create_admins_and_config"
+require_relative 'seed_scripts/create_admins_and_config'
 
 return if Rails.env.production?
 
@@ -227,7 +226,7 @@ patient_data = [
 ]
 
 patient_data.each_with_index do |ptn, idx|
-	patient_creator(idx, ptn, dietitian, org, gpassword, days_week)
+  patient_creator(idx, ptn, dietitian, org, gpassword, days_week)
 end
 
 puts "Creating Patients Laura"
@@ -659,3 +658,5 @@ Comment.create(
 	comment_type: 1,
 	message: '🎉'
 )
+
+require_relative 'seed_scripts/creare_ingredient_and_conditions'

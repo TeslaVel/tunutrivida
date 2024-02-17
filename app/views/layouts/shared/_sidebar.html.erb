@@ -29,7 +29,18 @@
 
   <!-- Nav Item - Pages Collapse Menu -->
     <% array_modules = {
-      patient_modules: ['patients', 'billings' , 'instant_sessions', 'tasks', 'appointments', 'availabilities', 'entries'],
+      patient_modules: [
+        'patients',
+        'billings' ,
+        'instant_sessions',
+        'tasks',
+        'diets',
+        'conditions',
+        'restricted_ingredient_conditions',
+        'appointments',
+        'availabilities',
+        'entries'
+      ],
       company_config: ['discounts', 'products','packages','indicators', 'genders','activity_factors','indicator_types', 'bmr_factors']
     } %>
     <% active_patient_modules = active_link?(includes: array_modules[:patient_modules]) %>
@@ -40,6 +51,9 @@
       <%= active_link_to 'Patients', patients_path, class: 'collapse-item' %>
       <%= active_link_to 'Billings', billings_path, class: 'collapse-item' %>
       <%= active_link_to 'Tasks', tasks_path, class: 'collapse-item' %>
+      <%= active_link_to 'Diets', diets_path, class: 'collapse-item' %>
+      <%= active_link_to 'Conditions', conditions_path, class: 'collapse-item' %>
+      <%= active_link_to 'Restricted Ingredientes', restricted_ingredient_conditions_path, class: 'collapse-item' %>
       <%= active_link_to 'Appointment', appointments_path, class: 'collapse-item' %>
       <%= active_link_to 'Availability', availabilities_path, class: 'collapse-item' %>
     <% end %>
@@ -50,8 +64,6 @@
   <% active_modules = active_link?(includes: array_modules[:company_config]) %>
     <%= nav_context :modules, 'Company Config', icon: 'cog' , active_link: (active_modules && device == 'mobile') do %>
     <h6 class="collapse-header">Admin modules:</h6>
-      <%= active_link_to 'Brand', '/brand', class: 'collapse-item' %>
-      <%= active_link_to 'Colors', '/colors', class: 'collapse-item' %>
       <%= active_link_to 'Discounts', discounts_path, class: 'collapse-item' %>
       <%= active_link_to 'Products', products_path, class: 'collapse-item' %>
       <%= active_link_to 'Packages', packages_path, class: 'collapse-item' %>

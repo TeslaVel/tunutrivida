@@ -430,6 +430,38 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
+-- Name: conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.conditions (
+    id bigint NOT NULL,
+    name character varying,
+    description character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.conditions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.conditions_id_seq OWNED BY public.conditions.id;
+
+
+--
 -- Name: contact_us; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -497,6 +529,137 @@ CREATE SEQUENCE public.conversations_id_seq
 --
 
 ALTER SEQUENCE public.conversations_id_seq OWNED BY public.conversations.id;
+
+
+--
+-- Name: diet_ingredients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diet_ingredients (
+    id bigint NOT NULL,
+    diet_meal_time_id bigint,
+    instructions character varying,
+    ingredient_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: diet_ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.diet_ingredients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: diet_ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.diet_ingredients_id_seq OWNED BY public.diet_ingredients.id;
+
+
+--
+-- Name: diet_meal_times; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diet_meal_times (
+    id bigint NOT NULL,
+    diet_meal_week_id bigint,
+    meal_time integer DEFAULT 0,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: diet_meal_times_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.diet_meal_times_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: diet_meal_times_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.diet_meal_times_id_seq OWNED BY public.diet_meal_times.id;
+
+
+--
+-- Name: diet_meal_weeks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diet_meal_weeks (
+    id bigint NOT NULL,
+    diet_id bigint,
+    day_of_week integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: diet_meal_weeks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.diet_meal_weeks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: diet_meal_weeks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.diet_meal_weeks_id_seq OWNED BY public.diet_meal_weeks.id;
+
+
+--
+-- Name: diets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diets (
+    id bigint NOT NULL,
+    name character varying,
+    description character varying,
+    dietitian_id bigint NOT NULL,
+    patient_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: diets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.diets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: diets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.diets_id_seq OWNED BY public.diets.id;
 
 
 --
@@ -708,6 +871,38 @@ CREATE SEQUENCE public.indicators_id_seq
 --
 
 ALTER SEQUENCE public.indicators_id_seq OWNED BY public.indicators.id;
+
+
+--
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ingredients (
+    id bigint NOT NULL,
+    name character varying,
+    ingredient_type integer DEFAULT 0,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ingredients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
 --
@@ -936,6 +1131,39 @@ ALTER SEQUENCE public.packages_id_seq OWNED BY public.packages.id;
 
 
 --
+-- Name: patient_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.patient_conditions (
+    id bigint NOT NULL,
+    patient_id bigint NOT NULL,
+    condition_id bigint,
+    created_by_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: patient_conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.patient_conditions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: patient_conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.patient_conditions_id_seq OWNED BY public.patient_conditions.id;
+
+
+--
 -- Name: patient_packages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1072,6 +1300,38 @@ CREATE SEQUENCE public.products_id_seq
 --
 
 ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- Name: restricted_ingredient_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.restricted_ingredient_conditions (
+    id bigint NOT NULL,
+    ingredient_id bigint,
+    condition_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: restricted_ingredient_conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.restricted_ingredient_conditions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: restricted_ingredient_conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.restricted_ingredient_conditions_id_seq OWNED BY public.restricted_ingredient_conditions.id;
 
 
 --
@@ -1391,6 +1651,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
+-- Name: conditions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conditions ALTER COLUMN id SET DEFAULT nextval('public.conditions_id_seq'::regclass);
+
+
+--
 -- Name: contact_us id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1402,6 +1669,34 @@ ALTER TABLE ONLY public.contact_us ALTER COLUMN id SET DEFAULT nextval('public.c
 --
 
 ALTER TABLE ONLY public.conversations ALTER COLUMN id SET DEFAULT nextval('public.conversations_id_seq'::regclass);
+
+
+--
+-- Name: diet_ingredients id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_ingredients ALTER COLUMN id SET DEFAULT nextval('public.diet_ingredients_id_seq'::regclass);
+
+
+--
+-- Name: diet_meal_times id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_times ALTER COLUMN id SET DEFAULT nextval('public.diet_meal_times_id_seq'::regclass);
+
+
+--
+-- Name: diet_meal_weeks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_weeks ALTER COLUMN id SET DEFAULT nextval('public.diet_meal_weeks_id_seq'::regclass);
+
+
+--
+-- Name: diets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets ALTER COLUMN id SET DEFAULT nextval('public.diets_id_seq'::regclass);
 
 
 --
@@ -1447,6 +1742,13 @@ ALTER TABLE ONLY public.indicators ALTER COLUMN id SET DEFAULT nextval('public.i
 
 
 --
+-- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
+
+
+--
 -- Name: instant_sessions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1489,6 +1791,13 @@ ALTER TABLE ONLY public.packages ALTER COLUMN id SET DEFAULT nextval('public.pac
 
 
 --
+-- Name: patient_conditions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_conditions ALTER COLUMN id SET DEFAULT nextval('public.patient_conditions_id_seq'::regclass);
+
+
+--
 -- Name: patient_packages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1514,6 +1823,13 @@ ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.pay
 --
 
 ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- Name: restricted_ingredient_conditions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.restricted_ingredient_conditions ALTER COLUMN id SET DEFAULT nextval('public.restricted_ingredient_conditions_id_seq'::regclass);
 
 
 --
@@ -1655,6 +1971,14 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: conditions conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conditions
+    ADD CONSTRAINT conditions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: contact_us contact_us_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1668,6 +1992,38 @@ ALTER TABLE ONLY public.contact_us
 
 ALTER TABLE ONLY public.conversations
     ADD CONSTRAINT conversations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diet_ingredients diet_ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_ingredients
+    ADD CONSTRAINT diet_ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diet_meal_times diet_meal_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_times
+    ADD CONSTRAINT diet_meal_times_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diet_meal_weeks diet_meal_weeks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_weeks
+    ADD CONSTRAINT diet_meal_weeks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diets diets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets
+    ADD CONSTRAINT diets_pkey PRIMARY KEY (id);
 
 
 --
@@ -1719,6 +2075,14 @@ ALTER TABLE ONLY public.indicators
 
 
 --
+-- Name: ingredients ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ingredients
+    ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: instant_sessions instant_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1767,6 +2131,14 @@ ALTER TABLE ONLY public.packages
 
 
 --
+-- Name: patient_conditions patient_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_conditions
+    ADD CONSTRAINT patient_conditions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: patient_packages patient_packages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1796,6 +2168,14 @@ ALTER TABLE ONLY public.payments
 
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: restricted_ingredient_conditions restricted_ingredient_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.restricted_ingredient_conditions
+    ADD CONSTRAINT restricted_ingredient_conditions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2002,6 +2382,48 @@ CREATE INDEX index_conversations_on_patient_id ON public.conversations USING btr
 
 
 --
+-- Name: index_diet_ingredients_on_diet_meal_time_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diet_ingredients_on_diet_meal_time_id ON public.diet_ingredients USING btree (diet_meal_time_id);
+
+
+--
+-- Name: index_diet_ingredients_on_ingredient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diet_ingredients_on_ingredient_id ON public.diet_ingredients USING btree (ingredient_id);
+
+
+--
+-- Name: index_diet_meal_times_on_diet_meal_week_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diet_meal_times_on_diet_meal_week_id ON public.diet_meal_times USING btree (diet_meal_week_id);
+
+
+--
+-- Name: index_diet_meal_weeks_on_diet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diet_meal_weeks_on_diet_id ON public.diet_meal_weeks USING btree (diet_id);
+
+
+--
+-- Name: index_diets_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_on_dietitian_id ON public.diets USING btree (dietitian_id);
+
+
+--
+-- Name: index_diets_on_patient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_on_patient_id ON public.diets USING btree (patient_id);
+
+
+--
 -- Name: index_discounts_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2121,6 +2543,27 @@ CREATE INDEX index_packages_on_created_by_id ON public.packages USING btree (cre
 
 
 --
+-- Name: index_patient_conditions_on_condition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_patient_conditions_on_condition_id ON public.patient_conditions USING btree (condition_id);
+
+
+--
+-- Name: index_patient_conditions_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_patient_conditions_on_created_by_id ON public.patient_conditions USING btree (created_by_id);
+
+
+--
+-- Name: index_patient_conditions_on_patient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_patient_conditions_on_patient_id ON public.patient_conditions USING btree (patient_id);
+
+
+--
 -- Name: index_patient_packages_on_dietitian_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2181,6 +2624,20 @@ CREATE INDEX index_payments_on_dietitian_id ON public.payments USING btree (diet
 --
 
 CREATE INDEX index_products_on_created_by_id ON public.products USING btree (created_by_id);
+
+
+--
+-- Name: index_restricted_ingredient_conditions_on_condition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_restricted_ingredient_conditions_on_condition_id ON public.restricted_ingredient_conditions USING btree (condition_id);
+
+
+--
+-- Name: index_restricted_ingredient_conditions_on_ingredient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_restricted_ingredient_conditions_on_ingredient_id ON public.restricted_ingredient_conditions USING btree (ingredient_id);
 
 
 --
@@ -2322,6 +2779,14 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: diet_ingredients fk_rails_1f31e50afd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_ingredients
+    ADD CONSTRAINT fk_rails_1f31e50afd FOREIGN KEY (diet_meal_time_id) REFERENCES public.diet_meal_times(id);
+
+
+--
 -- Name: payments fk_rails_1fb182b99e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2354,6 +2819,14 @@ ALTER TABLE ONLY public.conversations
 
 
 --
+-- Name: diet_meal_weeks fk_rails_2bbb96b5c5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_weeks
+    ADD CONSTRAINT fk_rails_2bbb96b5c5 FOREIGN KEY (diet_id) REFERENCES public.diets(id);
+
+
+--
 -- Name: user_roles fk_rails_318345354e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2367,6 +2840,22 @@ ALTER TABLE ONLY public.user_roles
 
 ALTER TABLE ONLY public.user_roles
     ADD CONSTRAINT fk_rails_3369e0d5fc FOREIGN KEY (role_id) REFERENCES public.roles(id);
+
+
+--
+-- Name: patient_conditions fk_rails_344693fe12; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_conditions
+    ADD CONSTRAINT fk_rails_344693fe12 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: diets fk_rails_3900be8572; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets
+    ADD CONSTRAINT fk_rails_3900be8572 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -2407,6 +2896,14 @@ ALTER TABLE ONLY public.notifications
 
 ALTER TABLE ONLY public.payment_billing_items
     ADD CONSTRAINT fk_rails_54ccdfeceb FOREIGN KEY (billing_item_id) REFERENCES public.billing_items(id);
+
+
+--
+-- Name: patient_conditions fk_rails_5835c89fa4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_conditions
+    ADD CONSTRAINT fk_rails_5835c89fa4 FOREIGN KEY (patient_id) REFERENCES public.users(id);
 
 
 --
@@ -2538,6 +3035,14 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- Name: diet_meal_times fk_rails_afb36dc25b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_meal_times
+    ADD CONSTRAINT fk_rails_afb36dc25b FOREIGN KEY (diet_meal_week_id) REFERENCES public.diet_meal_weeks(id);
+
+
+--
 -- Name: sessions fk_rails_b1767efc49; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2551,6 +3056,14 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.roles
     ADD CONSTRAINT fk_rails_b41292c88f FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: restricted_ingredient_conditions fk_rails_b462e3083d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.restricted_ingredient_conditions
+    ADD CONSTRAINT fk_rails_b462e3083d FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id);
 
 
 --
@@ -2575,6 +3088,14 @@ ALTER TABLE ONLY public.appointments
 
 ALTER TABLE ONLY public.bmr_factors
     ADD CONSTRAINT fk_rails_c8cc5f72da FOREIGN KEY (gender_id) REFERENCES public.genders(id);
+
+
+--
+-- Name: restricted_ingredient_conditions fk_rails_c905c45025; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.restricted_ingredient_conditions
+    ADD CONSTRAINT fk_rails_c905c45025 FOREIGN KEY (condition_id) REFERENCES public.conditions(id);
 
 
 --
@@ -2610,6 +3131,22 @@ ALTER TABLE ONLY public.activity_factors
 
 
 --
+-- Name: diet_ingredients fk_rails_ebfbbccce5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diet_ingredients
+    ADD CONSTRAINT fk_rails_ebfbbccce5 FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id);
+
+
+--
+-- Name: patient_conditions fk_rails_f51d791a3d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patient_conditions
+    ADD CONSTRAINT fk_rails_f51d791a3d FOREIGN KEY (condition_id) REFERENCES public.conditions(id);
+
+
+--
 -- Name: patient_packages fk_rails_f7b95554e5; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2631,6 +3168,14 @@ ALTER TABLE ONLY public.indicator_types
 
 ALTER TABLE ONLY public.global_configurations
     ADD CONSTRAINT fk_rails_f8cfbd3f2a FOREIGN KEY (created_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: diets fk_rails_fa39051349; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets
+    ADD CONSTRAINT fk_rails_fa39051349 FOREIGN KEY (dietitian_id) REFERENCES public.users(id);
 
 
 --
@@ -2656,6 +3201,14 @@ ALTER TABLE ONLY public.instant_sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240215142825'),
+('20240215142824'),
+('20240215142823'),
+('20240215030832'),
+('20240215030831'),
+('20240215030710'),
+('20240215030633'),
+('20240215030514'),
 ('20230520144416'),
 ('20230518222715'),
 ('20230513012452'),

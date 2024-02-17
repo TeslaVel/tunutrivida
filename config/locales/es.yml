@@ -73,7 +73,6 @@ es:
       description: 'Descricion'
       create_product: 'Crear Producto'
       update_product: 'Actualizar Producto'
-  
   patients:
     new_patient: 'Nuevo Paciente'
     edit_patient: 'Editar Paciente'
@@ -97,6 +96,26 @@ es:
       session_quantity: 'Cantidad de sessiones'
       create_package: 'Crear paquete'
       update_package: 'Actualizar paquete'
+
+  diets:
+    meal_time: 'Horario de comida'
+    new_diet: 'Nuevo Dieta'
+    edit_diet: 'Editar Dieta'
+    back: 'Atras'
+    form:
+      create_diet: 'Crear dieta'
+      update_diet: 'Actualizar dieta'
+
+  sunday: 'Domingo'
+  monday: 'Lunes'
+  tuesday: 'Martes'
+  wednesday: 'Miercoles'
+  thursday: 'Jueves'
+  friday: 'Viernes'
+  saturday: 'Sabado'
+  breakfast: 'Desayuno'
+  lunch: 'Almuerzo'
+  dinner: 'Cena'
 
   patient_packages:
     new_package: 'Nuevo Paquete'

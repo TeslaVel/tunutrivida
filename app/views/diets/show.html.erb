@@ -1,0 +1,44 @@
+<div class="col-12 mx-auto">
+    <div class="d-flex col-12 align-items-center justify-content-between mb-4">
+      <span class="h3 mb-0 text-darsk">[Diet info]</span>
+       <%= link_to t('diets.back'), diets_path %>
+    </div>
+
+    <div class="card col-sm-12">
+      <div class="card-header bg-transparent d-flex justify-content-between align-items-rigth">
+        <span></span>
+        <span class="">
+          <%= link_to 'Edit', edit_diet_path(@diet) %>
+        </span>
+      </div>
+      <div class="card-body tab-content">
+        <div class="tab-pane active" id="about">
+          <div class="row">
+            <div class="col-md-2 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Description:</p>
+                <p class="mb-2 text-left">Dietitian:</p>
+                <p class="mb-2 text-left">Patient:</p>
+              </div>
+            </div>
+            <div class="col-md-10 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= @diet.description || '-' %></p>
+                <p class="mb-2 "><%= @diet.dietitian.first_name %></p>
+                <p class="mb-2 "><%= @diet.patient.first_name %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="col-sm-12 px-0">
+        <%= render 'diet_meal_weeks',
+                    key: 2,
+                    expanded: true,
+                    diet: @diet,
+                    diet_meal_weeks: @diet.diet_meal_weeks,
+                    title: t('diets.meal_time') %>
+    </div>
+</div>

@@ -60,7 +60,7 @@
     <div class="card col-12 px-0 pt-1" id="right-card">
       <div class="card-header bg-transparent">
         <% if @billing.unpaid? %>
-          <div class="text-right">
+          <div class="text-right" id="id_div_add_new_item">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newItemModal">
               <%= t('billings.new_item') %>
             </button>

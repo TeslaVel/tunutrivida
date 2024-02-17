@@ -1,0 +1,47 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Conditions</h1>
+    <%= link_to 'New Coondition', new_condition_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center mb-3">
+    <%= render 'paginations/pagination', objectData: @conditions %>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @conditions.each do |condition| %>
+          <tr>
+            <td><%= link_to condition do %>
+                <%= condition.name %>
+              <% end %></td>
+            <td><%= condition.description %></td>
+            <td class="text-center">
+              <%= link_to condition, class: 'mr-3' do %>
+                <i class="fa fa-eye c-blue"></i>
+              <% end %>
+
+              <%= link_to edit_condition_path(condition), class: 'mr-3'  do %>
+                <i class="fa fa-pen c-green"></i>
+              <% end %>
+
+              <%= link_to condition, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash c-red"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

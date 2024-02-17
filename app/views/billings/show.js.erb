@@ -1,13 +1,15 @@
+"<% @billing = @billing.reload %>"
 "<% @data_pending_total = @billing.obtain_pending_total_value %>"
-"<% @satus_class = @billing.paid? ? 'c-green' : 'c-red' %>"
-"<% @billing = @billing %>"
+"<% @add_satus_class = @billing.paid? ? 'c-green' : 'c-red' %>"
+"<% @remove_status_class = @billing.unpaid? ? 'c-green' : 'c-red' %>"
 
-$('#payment_status').class(@satus_class);
+$('#payment_status').removeClass("<%= @remove_status_class %>");
+$('#payment_status').addClass("<%= @add_satus_class %>");
 $('#payment_status').text("<%= "#{@billing.status.to_s || 'js'}"%>");
 
 customCloseModal('newItemModal');
 
-$('#billing_pending_total_display').text("<%= "#{@gbl_configuration.currency_code} #{data_pending_total[:total] || 0}"%> | <%= "#{@billing.target_currency_code} #{data_pending_total[:total_conversion] || 0}" %>");
+$('#billing_pending_total_display').text("<%= "#{@gbl_configuration.currency_code} #{@data_pending_total[:total] || 0}"%> | <%= "#{@billing.target_currency_code} #{@data_pending_total[:total_conversion] || 0}" %>");
 
 $("#billing_items_partial").html("\
 		<%= escape_javascript(render(:partial => 'billings/billing_items', :locals => {\

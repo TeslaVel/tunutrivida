@@ -30,9 +30,11 @@ class User < ApplicationRecord
   has_many :patient_billings, foreign_key: 'patient_id'
   has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
 	has_many :tasks
-
+  has_many :patient_conditions, foreign_key: 'patient_id'
+  has_many :conditions, through: :patient_conditions
+  has_many :restricted_ingredient_conditions, through: :conditions
+  # has_many :restricted_ingredients, through: :restricted  _ingredient_conditions, source: :ingredient
   scope :last_sessions, -> { self.sessions.order(date: :asc) }
-
 
   # dieitian owner
   has_many :dietitian_billings, foreign_key: 'dietitian_id'
@@ -46,12 +48,12 @@ class User < ApplicationRecord
   scope :active_patients, ->(organization_id = 1) { where(status: :active).joins(user_roles: :role).where(role: {name: 'patient'}, organization_id: organization_id) }
 
   # new
-  PatientStatus = %i[
+  PATIENT_STATUS = %i[
     active
     inactive
   ].freeze
 
-  enum status: PatientStatus
+  enum status: PATIENT_STATUS
 
   paginates_per 6
 

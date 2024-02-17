@@ -1,0 +1,36 @@
+<div class="col-12">
+  <h1>Diets</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('diet.new_diet'), new_diet_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @diets %>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th colspan="3">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @diets.each do |diet| %>
+          <tr>
+            <td><%= diet.name %></td>
+            <td><%= diet.description %></td>
+            <td><%= link_to t('diets.show'), diet %></td>
+            <td><%= link_to t('diets.edit'), edit_diet_path(diet) %></td>
+            <td><%= link_to t('diets.delete'), diet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-sm-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @diets %>
+  </div>
+</div>
