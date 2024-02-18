@@ -3,5 +3,5 @@
 # DietIngredient
 class DietIngredient < ApplicationRecord
   belongs_to :diet_meal_time
-  belongs_to :ingredient
+  belongs_to :meal
 end

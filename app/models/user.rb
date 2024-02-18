@@ -33,7 +33,6 @@ class User < ApplicationRecord
   has_many :patient_conditions, foreign_key: 'patient_id'
   has_many :conditions, through: :patient_conditions
   has_many :restricted_ingredient_conditions, through: :conditions
-  # has_many :restricted_ingredients, through: :restricted  _ingredient_conditions, source: :ingredient
   scope :last_sessions, -> { self.sessions.order(date: :asc) }
 
   # dieitian owner

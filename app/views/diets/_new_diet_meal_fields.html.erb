@@ -13,11 +13,11 @@
             <strong><%= t(dmt.meal_time) %>:</strong>
             <%= dmw_form.fields_for 'diet_meal_times_attributes[]', dmt do |dmt_form| %>
               <%= dmt_form.hidden_field :id %>
-              <% dmt.diet_ingredients.each do |di| %>
-                <%= dmt_form.fields_for 'diet_ingredients_attributes[]', di do |di_form| %>
+              <% dmt.diet_meals.each do |di| %>
+                <%= dmt_form.fields_for 'diet_meals_attributes[]', di do |di_form| %>
                   <%= di_form.hidden_field :id %>
                   <div class="form-group">
-                    <%= di_form.collection_select :ingredient_id, Ingredient.all, :id, :name, { selected: di_form.object&.ingredient_id }, { class: 'form-control' } %>
+                    <%= di_form.collection_select :meal_id, Meal.all, :id, :name, { selected: di_form.object&.ingredient_id }, { class: 'form-control' } %>
                   </div>
                   <div class="form-group">
                     <%= di_form.label :instructions, class: 'col-form-label' %>

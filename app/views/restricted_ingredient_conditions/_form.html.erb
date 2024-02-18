@@ -31,9 +31,9 @@
           <div class="row">
             <label class="col-sm-2 col  -form-label">Description</label>
             <div class="col-sm-9 form-group">
-                <%= f.input :ingredient_id,
+                <%= f.input :meal_id,
                   label: false,
-                  collection: (Ingredient.all),
+                  collection: (Meal.all),
                   label_method: :name,
                   label_html: {
                     class: "form-label"
@@ -41,9 +41,9 @@
                   input_html: {
                     class: "form-control"
                   },
-                  prompt: "Select an Ingredient",
+                  prompt: "Select an Meal",
                   include_blank: false,
-                  selected: @restricted_ingredient&.ingredient_id || nil
+                  selected: @restricted_ingredient&.meal_id || nil
                 %>
             </div>
           </div>

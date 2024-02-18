@@ -30,9 +30,12 @@ Rails.application.routes.draw do
   resources :availabilities
   resources :tasks
   resources :bmr_factors
-  resources :diets
   resources :conditions
+  resources :meals
   resources :restricted_ingredient_conditions
+
+  resources :diets
+  post 'diets/session/:session_id', to: 'diets#create_diet_session', as: :create_diet_session
 
   get 'render_chat_partial/:id', to: 'conversations#render_chat_partial'
   resources :conversations do

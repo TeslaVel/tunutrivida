@@ -1,0 +1,50 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1><%= t('meals.meals') %></h1>
+    <%= link_to t('meals.new_meal'), new_meal_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @meals %>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= t('name') %></th>
+          <th><%= t('meals.meal_type') %></th>
+          <th><%= t('meals.type_of_uses') %></th>
+          <th class="text-center"><%= t('actions') %></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @meals.each do |meal| %>
+          <tr>
+            <td>
+              <%= link_to meal do %>
+                <%= meal.name %>
+              <% end %>
+            </td>
+            <td><%= t(meal.meal_type) %></td>
+            <td><%= t(meal.type_of_use) %></td>
+            <td class="text-center">
+              <%= link_to meal, class: 'mr-3' do %>
+                <i class="fa fa-eye c-blue"></i>
+              <% end %>
+
+              <%= link_to edit_meal_path(meal), class: 'mr-3'  do %>
+                <i class="fa fa-pen c-green"></i>
+              <% end %>
+
+              <%= link_to meal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash c-red"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

@@ -4,7 +4,6 @@
 class DietMealWeek < ApplicationRecord
   belongs_to :diet
   has_many :diet_meal_times, dependent: :destroy
-  # has_many :ingredients, through: :diet_ingredients
 
   accepts_nested_attributes_for :diet_meal_times, allow_destroy: true
 

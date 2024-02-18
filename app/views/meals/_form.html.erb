@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-center">
+  <div class="row col-md-6">
+    <%= simple_form_for(@meal) do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <div class="card">
+        <div class="card-header bg-transparent text-center">
+          <%= title %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-9 form-group">
+              <%= f.input :name, label: false, html5: true, input_html: { class: "form-control" } %>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-sm-2 col-form-label">Ingedient Type</label>
+            <div class="col-sm-9 form-group">
+              <% if @meal.new_record? %>
+                <%= f.select(:meal_type, options_for_select(Meal::MEAL_TYPES.map {|k| [k.to_s.humanize, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+              <% else %>
+                <%= f.select(:meal_type, options_for_select(Meal::MEAL_TYPES.map {|k| [k.to_s.humanize, k]}, :selected => @meal.meal_type ), {}, {:required => true ,:class => 'form-control'}) %>
+              <% end %>
+            </div>
+          </div>
+
+           <div class="row">
+            <label class="col-sm-2 col-form-label">Type of uses</label>
+            <div class="col-sm-9 form-group">
+              <% if @meal.new_record? %>
+                <%= f.select(:type_of_use, options_for_select(Meal::TYPE_OF_USES.map {|k| [k.to_s.humanize, k]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+              <% else %>
+                <%= f.select(:type_of_use, options_for_select(Meal::TYPE_OF_USES.map {|k| [k.to_s.humanize, k]}, :selected => @meal.type_of_use ), {}, {:required => true ,:class => 'form-control'}) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-center" style="background: transparent;">
+          <%= f.button :submit, action_button , class: "btn btn-primary" %>
+          <%= link_to 'Back', meals_path %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

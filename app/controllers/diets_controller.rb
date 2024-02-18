@@ -22,7 +22,6 @@ class DietsController < ApplicationController
     end
 
     @patients = current_user.patients
-    # @ingredients = Ingredient.all.select { |i| i.allowed_for_patient?(@patient) }
   end
 
   # GET /diets_controller/1 or /diets_controller/1.json
@@ -54,8 +53,31 @@ class DietsController < ApplicationController
     end
   end
 
+  def create_diet_session
+    @session = Session.find(params[:session_id])
+    return unless @session
+    @patient = @session.patient
+
+    @diet = Diet.new(name: "Dieta para #{@session.patient.first_name}", description: 'Descripcion de la dieta')
+    @diet.dietitian_id = current_user.id
+    @diet.patient_id = @patient.id
+    @diet.session_id = @session.id
+    @patients = current_user.patients
+
+    generate_random_meals
+
+    respond_to do |format|
+      if @diet.save
+        format.html { redirect_to @diet, notice: 'La dieta se creó exitosamente.' }
+      else
+        binding.pry
+        format.html { redirect_to patient_patient_package_session_show_path(@patient.id, @session.patient_package.id, @session.id), alert: @diet.errors.full_messages.join(". ") }
+      end
+    end
+  end
+
   # PATCH/PUT /diets_controller/1 or /diets_controller/1.json
-  def update
+  def updatex
     # raise diet_params.to_yaml
     respond_to do |format|
       if @diet.update(diet_params)
@@ -100,7 +122,7 @@ class DietsController < ApplicationController
           :meal_time,
           diet_ingredients_attributes: [
             :id,
-            :ingredient_id,
+            :meal_id,
             :instructions
           ]
         ]
@@ -109,19 +131,24 @@ class DietsController < ApplicationController
   end
 
   def generate_random_meals
+    r_ids = restricted_meal_ids
+
     7.times do |idx|
       dmw = @diet.diet_meal_weeks.build(day_of_week: idx)
-      ingredients = Ingredient.where.not(id: restricted_ingredient_ids).pluck(:id).sample(3)
       3.times do |tmx|
+        meal_id = Meal.where(type_of_use: Meal::TYPE_OF_USES[tmx])
+                      .where.not(id: r_ids)
+                      .select(:id).sample.id
+        puts "idx: #{idx} - tmx:#{tmx}: #{Meal::TYPE_OF_USES[tmx]} - meal_id: #{meal_id}"
         dmt = dmw.diet_meal_times.build(meal_time: tmx)
-        dmt.diet_ingredients.build({ ingredient_id: ingredients[tmx], instructions: 'Agregar' })
+        dmt.diet_ingredients.build({ meal_id: meal_id, instructions: 'Agregar' })
       end
     end
   end
 
-  def restricted_ingredient_ids
-    patient_conditions = PatientCondition.where(patient_id: diet_params[:patient_id])
-    restricted_ingredients = RestrictedIngredientCondition.where(condition_id: patient_conditions.select(:condition_id))
-    restricted_ingredients.select(:ingredient_id)
+  def restricted_meal_ids
+    patient_conditions = PatientCondition.where(patient_id: @patient.id)
+    restricted_meals = RestrictedIngredientCondition.where(condition_id: patient_conditions.select(:condition_id))
+    restricted_meals.select(:meal_id)
   end
 end

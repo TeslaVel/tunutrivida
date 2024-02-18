@@ -1,6 +1,6 @@
 <div class="col-md-12 ">
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1>Conditions</h1>
+    <h1>Restricted Meal by condition</h1>
     <%= link_to 'New Condition', new_restricted_ingredient_condition_path , class: "btn btn-primary" %>
   </div>
 
@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <th>Condition</th>
-          <th>Ingredient</th>
+          <th>Meal</th>
           <th class="text-center">Actions</th>
         </tr>
       </thead>
@@ -25,7 +25,7 @@
               <%= restricted_ingredient.condition.name %>
             </td>
             <td>
-              <%= restricted_ingredient.ingredient.name %>
+              <%= restricted_ingredient.meal.name %>
             </td>
             <td class="text-center">
               <%= link_to restricted_ingredient, class: 'mr-3' do %>

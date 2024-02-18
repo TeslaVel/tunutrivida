@@ -1,6 +1,11 @@
 <div class="col-12 mx-auto">
     <div class="d-flex col-12 align-items-center justify-content-between mb-4">
-      <span class="h3 mb-0 text-darsk">[Diet info]</span>
+      <span class="h3 mb-0 text-darsk">
+        [Diet info]
+        <% if @diet.session %>
+         >  <%= link_to "Session #{@diet.session.date}" , patient_patient_package_session_show_path(@diet.patient, @diet.session.patient_package, @diet.session) %>
+        <% end %>
+      </span>
        <%= link_to t('diets.back'), diets_path %>
     </div>
 
@@ -16,16 +21,16 @@
           <div class="row">
             <div class="col-md-2 p-0">
               <div class="list-unstyled">
-                <p class="mb-2 text-left">Description:</p>
                 <p class="mb-2 text-left">Dietitian:</p>
                 <p class="mb-2 text-left">Patient:</p>
+                <p class="mb-2 text-left">Description:</p>
               </div>
             </div>
             <div class="col-md-10 p-0">
               <div class="list-unstyled">
-                <p class="mb-2 "><%= @diet.description || '-' %></p>
-                <p class="mb-2 "><%= @diet.dietitian.first_name %></p>
                 <p class="mb-2 "><%= @diet.patient.first_name %></p>
+                <p class="mb-2 "><%= @diet.dietitian.first_name %></p>
+                <p class="mb-2 "><%= @diet.description || '-' %></p>
               </div>
             </div>
           </div>
@@ -38,7 +43,6 @@
                     key: 2,
                     expanded: true,
                     diet: @diet,
-                    diet_meal_weeks: @diet.diet_meal_weeks,
                     title: t('diets.meal_time') %>
     </div>
 </div>

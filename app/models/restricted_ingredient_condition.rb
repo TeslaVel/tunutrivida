@@ -2,6 +2,8 @@
 
 # RestrictedIngredientCondition
 class RestrictedIngredientCondition < ApplicationRecord
-  belongs_to :ingredient
+  belongs_to :meal
   belongs_to :condition
+
+  validates :meal_id, uniqueness: { scope: :condition_id }
 end

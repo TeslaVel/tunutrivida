@@ -1,7 +1,7 @@
 
 <div class="col-12 col-md-6 mx-auto">
     <div class="d-flex col-12 align-items-center justify-content-between mb-4">
-      <span class="h3 mb-0 text-darsk">[Restricted Ingredient info]</span>
+      <span class="h3 mb-0 text-darsk">[Restricted meal info]</span>
        <%= link_to 'Back', restricted_ingredient_conditions_path %>
     </div>
 
@@ -23,12 +23,12 @@
               <div class="col-md-2 p-0">
                 <div class="list-unstyled">
                   <p class="mb-2 text-left">Condition:</p>
-                  <p class="mb-2 text-left">Ingredient:</p>
+                  <p class="mb-2 text-left">Meal:</p>
                 </div>
               </div>
               <div class="col-md-10 p-0">
                 <div class="list-unstyled">
-                  <p class="mb-2 "><%= @restricted_ingredient.ingredient.name %></p>
+                  <p class="mb-2 "><%= @restricted_ingredient.meal.name %></p>
                   <p class="mb-2 "><%= @restricted_ingredient.condition.name %></p>
                 </div>
               </div>

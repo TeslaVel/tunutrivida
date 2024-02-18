@@ -106,6 +106,13 @@ es:
       create_diet: 'Crear dieta'
       update_diet: 'Actualizar dieta'
 
+  meals:
+    new_meal: 'Nuevo meale'
+    meals: 'Comidas'
+    meal: 'Comida'
+    type_of_uses: 'Tipos de uso'
+    meal_type: 'Tipo de comida'
+
   sunday: 'Domingo'
   monday: 'Lunes'
   tuesday: 'Martes'
@@ -116,6 +123,11 @@ es:
   breakfast: 'Desayuno'
   lunch: 'Almuerzo'
   dinner: 'Cena'
+  simple: 'Simple'
+  compound: 'Compuesto'
+  actions: 'Acciones'
+  name: 'Nombre'
+  description: 'Descripcion'
 
   patient_packages:
     new_package: 'Nuevo Paquete'
@@ -213,7 +225,7 @@ es:
 
   billing_items:
     delete: 'Eliminar'
-   
+
   payments:
     create: 'Crear pago'
     delete: 'Eliminar'

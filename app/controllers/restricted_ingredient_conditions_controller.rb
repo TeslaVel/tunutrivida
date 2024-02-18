@@ -21,7 +21,7 @@ class RestrictedIngredientConditionsController < ApplicationController
 
     respond_to do |format|
       if @restricted_ingredient.save
-        format.html { redirect_to @restricted_ingredient, notice: "Restricted_ingredient was successfully created." }
+        format.html { redirect_to @restricted_ingredient, notice: "Restricted was successfully created." }
         format.json { render :show, status: :created, location: @restricted_ingredient }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,7 +34,7 @@ class RestrictedIngredientConditionsController < ApplicationController
   def update
     respond_to do |format|
       if @restricted_ingredient.update(retricted_ingredient_condition_params)
-        format.html { redirect_to @restricted_ingredient, notice: "Restricted ingredient was successfully updated." }
+        format.html { redirect_to @restricted_ingredient, notice: "Restricted was successfully updated." }
         format.json { render :show, status: :ok, location: @restricted_ingredient }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,6 +60,6 @@ class RestrictedIngredientConditionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def retricted_ingredient_condition_params
-    params.require(:restricted_ingredient_condition).permit(:condition_id, :ingredient_id)
+    params.require(:restricted_ingredient_condition).permit(:condition_id, :meal_id)
   end
 end

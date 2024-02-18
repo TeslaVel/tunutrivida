@@ -4,6 +4,7 @@ class Session < ApplicationRecord
   belongs_to :dietitian, class_name: 'User', foreign_key: 'dietitian_id'
   belongs_to :patient_package
   has_one :package, through: :patient_package
+  has_one :diet
   belongs_to :activity_factor
 
   before_create :check_and_set_initial

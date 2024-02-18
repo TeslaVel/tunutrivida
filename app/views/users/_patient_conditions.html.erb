@@ -20,9 +20,9 @@
           <td>
             <p class="ml-1 my-1">No puede comer</p>
             <ul>
-              <% p_condition.condition.restricted_ingredients.map do |ingredient| %>
+              <% p_condition.condition.restricted_ingredients.map do |meal| %>
                 <li>
-                  <%= ingredient.name %>
+                  <%= meal.name %>
                 </li>
               <% end %>
             </ul>
