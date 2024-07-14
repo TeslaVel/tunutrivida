@@ -14,13 +14,13 @@ class InstantSessionsController < ApplicationController
   # GET /instant_sessions/1 or /instant_sessions/1.json
   def show
     @indicatorsImc = resource_indicators_imc(4)
-    @indicatorsDpc = resource_indicator_dpc(@instant_session.gender_id)
-    @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @instant_session.imc)
-    @diagnosisDpc = resource_diagnosis_dpc(@indicatorsDpc, @instant_session.waist)
+    @indicatorsDpc = resource_indicator_pdc(@instant_session.gender_id)
+    @diagnosisImc = resource_diagnosis(@indicatorsImc, @instant_session.imc)
+    @diagnosisDpc = resource_diagnosis(@indicatorsDpc, @instant_session.waist)
 
     @icc = resource_icc(@instant_session&.waist, @instant_session&.hip)
     @indicatorsIcc = resource_indicators_icc(@instant_session.gender_id)
-    @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, @icc)
+    @diagnosisIcc = resource_diagnosis(@indicatorsIcc, @icc)
   end
 
   # GET /instant_sessions/new

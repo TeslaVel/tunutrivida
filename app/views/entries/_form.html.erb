@@ -7,6 +7,11 @@
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
+    <% if entry.image.present? %>
+      <div class="bg-transparent">
+        <%= image_tag entry.image, style: 'background-size: cover; background-position: center center; height: 250px; width: 100%;' %>
+      </div>
+    <% end %>
     <div class="form-group">
       <%= f.label :image %>
       <%= f.file_field :image %>

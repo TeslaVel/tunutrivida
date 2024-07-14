@@ -22,7 +22,9 @@ module SbAdmin
     config.time_zone = 'Caracas'
     config.action_cable.mount_path = '/cable'
     config.action_cable.allowed_request_origins = ['http://127.0.0.1:5173']
-    config.action_cable.url = "ws://localhost:3000/cable"
+    config.action_cable.url = 'ws://localhost:3000/cable'
+
+    config.view_component.preview_paths << "#{Rails.root}/spec/components/previews" if Rails.env.development?
 
     # Configuration for the application, engines, and railties goes here.
     # These settings can be overridden in specific environments using the files

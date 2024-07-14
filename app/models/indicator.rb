@@ -6,5 +6,11 @@ class Indicator < ApplicationRecord
   scope :order_by_id, -> { order(id: :asc) }
   scope :order_by_type, -> { order(:id ,:indicator_type_id) }
 
+  scope :within_range, -> (value) { where('value_min <= ? AND value_max > ?', value, value) }
+
+  scope :indicators_by_type, -> (type) {
+    joins(:indicator_type).where(indicator_types: { name: type.upcase })
+  }
+
   paginates_per 8
 end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     post 'entries', to: 'entries#create'
     get 'patients', to: 'patients#index'
     get 'patients/search', to: 'patients#search'
+    post 'profiles', to: 'profiles#update'
     # post 'patients', to: 'patients#new'
   end
 

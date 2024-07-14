@@ -245,6 +245,7 @@ patientL = User.create(
 	gender: @female ,
 	age: age,
 	date_of_birth: dob,
+	bmr_factor_source: 1,
 	organization_id: org.id,
 	password: gpassword,
 	password_confirmation: gpassword

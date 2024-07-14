@@ -22,6 +22,7 @@ module Types
     field :metabolic_age, String
     field :physical_complexion, String
     field :activity_factor, ActivityFactorType
+    field :diet, DietType, null: true
 
     def age
       object.patient.age
@@ -48,6 +49,14 @@ module Types
         object[:activity_factor]
       else
         object.activity_factor
+      end
+    end
+
+    def diet
+      if object.is_a?(Hash)
+        object[:diet]
+      else
+        object.diet
       end
     end
   end

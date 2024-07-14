@@ -1,4 +1,4 @@
-<div class="col-12 col-sm-12 col-md-9 col-lg-6 ">
+<div class="col-12 col-sm-12 col-md-9 col-lg-6 mx-auto">
 	<% url = if editing
             patch_patient_path(@patient)
            else
@@ -14,6 +14,23 @@
 					<h4 class="card-title"><%= t(title) %></h4>
 			</div>
 			<div class="card-body">
+					<% if @patient.image.present? %>
+						<div class="row py-2">
+							<div class="col-sm-12">
+								<div class="bg-transparent">
+									<%= image_tag @patient.image, style: 'background-size: cover; background-position: center center; height: 250px; width: 100%;' %>
+								</div>
+							</div>
+						</div>
+					<% end %>
+					<div class="row">
+						<label class="col-sm-2 col-form-label"><%= t('.image')%></label>
+						<div class="col-sm-7">
+							<div class="form-group">
+								<%= f.file_field :image %>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<label class="col-sm-2 col-form-label"><%= t('.first_name')%></label>
 						<div class="col-sm-7">
@@ -49,6 +66,12 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<label class="col-sm-2 col-form-label">BMR Source</label>
+					<div class="col-sm-7">
+							<%= f.input :bmr_factor_source, collection: BmrFactor.distinct.select(:name, :source), label: false, value_method: :source, name: "bmr", include_blank: false, selected: @patient&.bmr_factor_source, input_html: { class: "form-control"} %>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer text-center" style="background: transparent;">
 					<%= f.button :submit , class: "btn btn-primary" %>

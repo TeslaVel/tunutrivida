@@ -17,7 +17,7 @@ class DietsController < ApplicationController
       dmw = @diet.diet_meal_weeks.build(day_of_week: idx)
       3.times do |tmx|
         dmt = dmw.diet_meal_times.build(meal_time: tmx)
-        dmt.diet_ingredients.build
+        dmt.diet_ingredient.build
       end
     end
 
@@ -77,7 +77,7 @@ class DietsController < ApplicationController
   end
 
   # PATCH/PUT /diets_controller/1 or /diets_controller/1.json
-  def updatex
+  def update
     # raise diet_params.to_yaml
     respond_to do |format|
       if @diet.update(diet_params)
@@ -120,7 +120,7 @@ class DietsController < ApplicationController
         diet_meal_times_attributes: [
           :id,
           :meal_time,
-          diet_ingredients_attributes: [
+          diet_ingredient_attributes: [
             :id,
             :meal_id,
             :instructions
@@ -141,7 +141,7 @@ class DietsController < ApplicationController
                       .select(:id).sample.id
         puts "idx: #{idx} - tmx:#{tmx}: #{Meal::TYPE_OF_USES[tmx]} - meal_id: #{meal_id}"
         dmt = dmw.diet_meal_times.build(meal_time: tmx)
-        dmt.diet_ingredients.build({ meal_id: meal_id, instructions: 'Agregar' })
+        dmt.diet_ingredient = DietIngredient.new(meal_id: meal_id, instructions: 'Agregar')
       end
     end
   end

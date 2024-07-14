@@ -1,60 +1,56 @@
-<nav class="navbar navbar-expand navbar-light topbar static-top shadow
-  bg-secondary-200 text-white-01
-">
+ <header>
+  <nav class="navbar navbar-expand navbar-light topbar static-top shadow bg-secondary-200 text-white-01">
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+      <i class="fa fa-bars"></i>
+    </button>
 
-  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-    <i class="fa fa-bars"></i>
-  </button>
-
-  <div>
-    <a href="" target="" data-toggle="modal" data-target="#editDolarPriceModal" class="text-primary-500">
-      <strong class="ml-3"> <%= @gbl_configuration.target_currency_code %>:</strong>
-      <span id="target_conversion">
-        <%= @gbl_configuration.target_conversion %>
-      </span>
-    </a>
-  </div>
-
-  <ul class="navbar-nav ml-auto">
-    <div id="partial_notifications">
-      <%= render "layouts/shared/notifications", notifications: @notifications %>
-     </div>
-    <div id="partial_messages">
-      <%= render "layouts/shared/messages", emails: @emails %>
+    <div>
+      <a href="" target="" data-toggle="modal" data-target="#editDolarPriceModal" class="text-primary-500">
+        <strong class="ml-3"> <%= @gbl_configuration.target_currency_code %>:</strong>
+        <span id="target_conversion">
+          <%= @gbl_configuration.target_conversion %>
+        </span>
+      </a>
     </div>
 
-    <div class="topbar-divider d-none d-sm-block"></div>
-
-    <%= render "layouts/shared/user_nav" %>
-  </ul>
-
-</nav>
-
-
-<%= render layout: "layouts/components/modal",
-  locals: {
-    id_modal: 'editDolarPriceModal',
-    title: 'Edit Dolar Price',
-    action_name: 'Update',
-    action_call: 'update_dolar_function()'
-  } do %>
-
-  <div>
-    <%= form_with scope: @gbl_configuration,
-      url: patch_update_dolar_price_path(@gbl_configuration),
-      data: { type: :json },
-      html: {
-        id:"edit_price_dolar_form",
-        class: 'mx-4 h-auto',
-        multipart: true,
-        remote: true} do |f| %>
-      <div class="form-group">
-        <label for="target_conversion">Dolar Price</label>
-        <%= f.text_field :target_conversion, label: t('.target_conversion'), class: "form-control" %>
+    <ul class="navbar-nav ml-auto">
+      <div id="partial_notifications">
+        <%= render "layouts/shared/notifications", notifications: @notifications %>
       </div>
-    <% end %>
-  </div>
-<% end %>
+      <div id="partial_messages">
+        <%= render "layouts/shared/messages", emails: @emails %>
+      </div>
+
+      <div class="topbar-divider d-none d-sm-block"></div>
+
+      <%= render "layouts/shared/user_nav" %>
+    </ul>
+  </nav>
+  <%= render layout: "layouts/components/modal",
+    locals: {
+      id_modal: 'editDolarPriceModal',
+      title: 'Edit Dolar Price',
+      action_name: 'Update',
+      action_call: 'update_dolar_function()'
+    } do %>
+
+    <div>
+      <%= form_with scope: @gbl_configuration,
+        url: patch_update_dolar_price_path(@gbl_configuration),
+        data: { type: :json },
+        html: {
+          id:"edit_price_dolar_form",
+          class: 'mx-4 h-auto',
+          multipart: true,
+          remote: true} do |f| %>
+        <div class="form-group">
+          <label for="target_conversion">Dolar Price</label>
+          <%= f.text_field :target_conversion, label: t('.target_conversion'), class: "form-control" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+ </header>
 
 <!-- functions for modal -->
 <script>

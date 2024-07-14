@@ -22,9 +22,8 @@
 
   <body id="page-top" class="bg-secondary-01">
     <main id="wrapper" class="bg-secondary-01">
-      <aside>
-        <%= render "layouts/shared/sidebar" %>
-      </aside>
+
+      <%= render Navigation::SidebarComponent.new(organization: @organization, device:) %>
 
       <section class="d-flex flex-column bg-white w-100">
         <header>

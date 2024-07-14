@@ -43,6 +43,8 @@ class User < ApplicationRecord
   has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
   has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
 
+  has_one_attached :image, dependent: :delete_all
+
   scope :only_dieitians, ->(organization_id = 1) { joins(user_roles: :role).where(role: {name: 'dietitian'}, organization_id: organization_id) }
   scope :active_patients, ->(organization_id = 1) { where(status: :active).joins(user_roles: :role).where(role: {name: 'patient'}, organization_id: organization_id) }
 
@@ -65,7 +67,6 @@ class User < ApplicationRecord
                       tsvector_column: 'searchable'
                     }
                   }
-
 
   def is_patient?
     return true if has_role? :patient
@@ -97,6 +98,10 @@ class User < ApplicationRecord
     "#{stripped_first_name[0].capitalize}. #{stripped_last_name}"
   end
 
+  def bmr_factor
+    BmrFactor.find_by(source: self.bmr_factor_source, gender_id: self.gender_id)
+  end
+
   include RolesConcern
 
   def add_role(role, created_by = nil)
@@ -112,6 +117,12 @@ class User < ApplicationRecord
     else
      UserRole.create(user: self, role: exists_role)
     end
+  end
+
+  def image_url
+    return unless image.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_url(image).strip
   end
 
   private

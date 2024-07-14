@@ -7,11 +7,18 @@ module Types
     field :first_name, String
     field :last_name, String
     field :dietitian_id, String
+    field :image_url, String, null: true
     field :height, String
     field :weight, String
     field :imc, String
     field :age, String
     field :gender, String
+
+    # def image_url
+    #   return unless object.image.attached?
+
+    #   Rails.application.routes.url_helpers.rails_blob_url(object.image).strip
+    # end
 
     # def height
     #   binding.pry

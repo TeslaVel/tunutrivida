@@ -39,7 +39,7 @@ class Session < ApplicationRecord
   def calculate_bmr
     return unless height.present? && weight.present?
 
-    bmr_factor = BmrFactor.where('gender_id = ? AND source = ?', patient.gender_id, 1).first
+    bmr_factor = BmrFactor.where('gender_id = ? AND source = ?', patient.gender_id, patient.bmr_factor_source).first
     return unless bmr_factor.present?
 
     self.bmr = (bmr_factor.base_value.to_f +

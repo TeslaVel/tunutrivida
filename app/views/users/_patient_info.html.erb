@@ -30,6 +30,7 @@
             <p class="mb-2 text-left">Apellido:</p>
             <p class="mb-2 text-left">Edad:</p>
             <p class="mb-2 text-left">Genero:</p>
+            <p class="mb-2 text-left">BMR Factor:</p>
             <p class="mb-2 text-left">Ultima Session:</p>
             <p class="mb-2 text-left diagonis_imc"> IMC </p>
             <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
@@ -45,6 +46,7 @@
             <p class="mb-2 "><%= patient.last_name %></p>
             <p class="mb-2 "><%= patient.age %></p>
             <p class="mb-2 "><%= patient.gender.name %></p>
+            <p class="mb-2 "><%= patient.bmr_factor&.name || '-' %></p>
             <p class="mb-2 ">
               <% if (session) %>
                 <%= link_to session&.date, patient_patient_package_session_show_path(patient, session.patient_package, session) %>

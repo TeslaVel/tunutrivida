@@ -71,7 +71,7 @@ module Types
     end
 
     def sessions(page: 1, limit: 7)
-      sessions = context[:current_user]&.sessions&.order(:date)
+      sessions = context[:current_user]&.sessions&.order(date: :desc)
 
       return Session.none unless sessions.present?
 

@@ -22,14 +22,12 @@
             </div>
             <div style="grid-template-columns: repeat(7, 200px); column-gap: 4px; row-gap: 15px;display: grid;">
               <% diet.diet_meal_weeks.each do |dmw| %>
-                  <div style="white-space: normal;">
+                  <div style="white-space: normal; white-space: normal;display: flex;flex-direction: column;justify-content: space-between;gap: 5px;" >
                     <% dmw.diet_meal_times.each do |dmt| %>
-                      <div class="border" >
+                      <div class="border" style="min-height: 150px;">
                         <strong class="text-center"><%= t(dmt.meal_time) %>:</strong>
-                        <% dmt.diet_ingredients.each do |di| %>
-                          <div class="ml-0"><%= di.meal.name %></div>
-                          <small class="ml-1" style="color: gray"><%= di.instructions %></small>
-                        <% end %>
+                        <div class="ml-0"><%= dmt.diet_ingredient.meal.name %></div>
+                        <small class="ml-1" style="color: gray"><%= dmt.diet_ingredient.instructions %></small>
                       </div>
                     <% end %>
                   </div>

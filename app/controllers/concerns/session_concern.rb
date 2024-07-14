@@ -15,30 +15,19 @@ module SessionConcern
     end
 
     def resource_indicators_imc(gender_id = 4)
-      Indicator.where(indicator_types: 1, gender_id:)
+      Indicator.indicators_by_type('imc').where(gender_id: gender_id)
     end
 
-    def resource_indicator_dpc(gender_id)
-      Indicator.where(indicator_types: 2, gender_id:)
+    def resource_indicator_pdc(gender_id)
+      Indicator.indicators_by_type('pdc').where(gender_id: gender_id)
     end
 
     def resource_indicators_icc(gender_id)
-      Indicator.where(indicator_types: 3, gender_id:)
+      Indicator.indicators_by_type('icc').where(gender_id: gender_id)
     end
 
-    def resource_diagnosis_imc(query, imc)
-      # @diagnosisImc = @indicatorsImc.find {|ind| @instant_session.imc >= ind.value_min && @instant_session.imc <= ind.value_max}
-      query.where('value_min <= ? AND value_max >= ?', imc, imc).first
-    end
-
-    def resource_diagnosis_dpc(query, waist)
-     # @diagnosisDpc = @indicatorsDpc.find {|ind| @instant_session.waist >= ind.value_min && @instant_session.waist < ind.value_max}
-      query.where('value_min <= ? AND value_max > ?', waist, waist).first
-    end
-
-    def resource_diagnosis_icc(query, icc)
-      # @diagnosisIcc = @indicatorsIcc.find { |ind| icc > ind.value_min && icc <= ind.value_max }
-      query.where('value_min < ? AND value_max >= ?', icc, icc).first
+    def resource_diagnosis(query, value)
+      query.within_range(value).first
     end
 
     def resource_icc(waist, hip)

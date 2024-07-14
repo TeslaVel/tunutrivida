@@ -9,13 +9,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -1550,6 +1543,7 @@ CREATE TABLE public.users (
     date_of_birth date,
     gender_id integer,
     status integer,
+    bmr_factor_source integer DEFAULT 1,
     dietitian_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,

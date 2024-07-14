@@ -20,12 +20,12 @@ class SessionsController < ApplicationController
 
   def show
     @indicatorsImc = resource_indicators_imc(4)
-    @indicatorsDpc = resource_indicator_dpc(@patient.gender_id)
-    @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @session.imc)
-    @diagnosisDpc = resource_diagnosis_dpc(@indicatorsImc, @session.waist)
+    @indicatorsDpc = resource_indicator_pdc(@patient.gender_id)
+    @diagnosisImc = resource_diagnosis(@indicatorsImc, @session.imc)
+    @diagnosisDpc = resource_diagnosis(@indicatorsImc, @session.waist)
     icc = resource_icc(@session&.waist, @session&.hip)
     @indicatorsIcc = resource_indicators_icc(@patient.gender_id)
-    @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, icc)
+    @diagnosisIcc = resource_diagnosis(@indicatorsIcc, icc)
   end
 
   # GET /sessions/1/edit

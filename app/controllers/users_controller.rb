@@ -33,14 +33,14 @@ class UsersController < ApplicationController
   # GET /patients/1 or /patients/1.json
   def show
     @indicatorsImc = resource_indicators_imc(4)
-    @indicatorsDpc = resource_indicator_dpc(@patient.gender_id)
+    @indicatorsDpc = resource_indicator_pdc(@patient.gender_id)
     @indicatorsIcc = resource_indicators_icc(@patient.gender_id)
 
     if @session.present?
-      @diagnosisImc = resource_diagnosis_imc(@indicatorsImc, @session.imc)
-      @diagnosisDpc = resource_diagnosis_dpc(@indicatorsDpc, @session.waist)
+      @diagnosisImc = resource_diagnosis(@indicatorsImc, @session.imc)
+      @diagnosisDpc = resource_diagnosis(@indicatorsDpc, @session.waist)
       @icc = resource_icc(@session&.waist, @session&.hip)
-      @diagnosisIcc = resource_diagnosis_icc(@indicatorsIcc, @icc)
+      @diagnosisIcc = resource_diagnosis(@indicatorsIcc, @icc)
     end
   end
 
@@ -57,7 +57,12 @@ class UsersController < ApplicationController
 
   # POST /patients or /patients.json
   def create
-    @patient = User.new(patient_params)
+    @patient = User.new(patient_params.merge(
+      password: 'tunutrivida',
+      password_confirmation: 'tunutrivida',
+      dietitian_id: current_user.id,
+      organization_id: current_user.organization_id
+    ))
 
     if @patient.save
       redirect_to patient_path(@patient), notice: 'Patient was successfully created.'
@@ -71,7 +76,12 @@ class UsersController < ApplicationController
 
     @patient = User.create_patient_from_insant_session(
       current_user.id,
-      patient_params,
+      patient_params.merge(
+        password: 'tunutrivida',
+        password_confirmation: 'tunutrivida',
+        dietitian_id: current_user.id,
+        organization_id: current_user.organization_id
+      ),
       params[:id],
       params[:user][:package_id]
     )
@@ -107,34 +117,30 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share common setup or constraints between actions.
 
-    def set_patient
-      @patient = User.find_by_id(params[:id])
-      # @patient = User.find_by_slug(params[:id])
-    end
+  def set_patient
+    @patient = User.find_by_id(params[:id])
+    # @patient = User.find_by_slug(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def patient_params
-      params.require(:user)
-            .permit(
-              :first_name,
-              :last_name,
-              :date_of_birth,
-              :gender_id)
-              .merge(
-                password: 'tunutrivida',
-                password_confirmation: 'tunutrivida',
-                dietitian_id: current_user.id,
-                organization_id: current_user.organization_id
-              )
-    end
+  # Only allow a list of trusted parameters through.
+  def patient_params
+    params.require(:user)
+          .permit(
+            :first_name,
+            :last_name,
+            :date_of_birth,
+            :gender_id,
+            :bmr_factor_source,
+            :image)
+  end
 
-    def search_params
-      params.permit(:search, :page)
-    end
+  def search_params
+    params.permit(:search, :page)
+  end
 
-    def set_session
-      @session = @patient.sessions.date_asc.last
-    end
+  def set_session
+    @session = @patient.sessions.date_asc.last
+  end
 end

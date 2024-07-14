@@ -4,7 +4,6 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
-
     def resolve(email:, password:)
       user = User.find_by(email: email)
 
@@ -19,11 +18,12 @@ module Mutations
           first_name: user.first_name,
           last_name: user.last_name,
           dietitian_id: user.dietitian_id,
+          image_url: user.image_url,
           height: user.sessions&.first&.height,
           weight: user.sessions&.first&.weight,
           imc: user.sessions&.first&.imc,
           age: user.age,
-          gender: user&.gender.name.downcase
+          gender: user&.gender&.name&.downcase
         }
       else
         { error: 'Invalid email or password' }
