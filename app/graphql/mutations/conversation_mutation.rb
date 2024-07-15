@@ -12,17 +12,16 @@ module Mutations
 
       return {errors: ['Not logged']} unless current_user.present?
 
-      conversation = Conversation.where(dietitian_id: dietitian_id, patient_id: current_user.id).first
+      di = dietitian_id.to_i
+      conversation = Conversation.where(dietitian_id: di, patient_id: current_user.id).first
 
       if conversation.present?
-        return {
-          id: conversation.id
-        }
+        return conversation
       end
 
       conversation = Conversation.new(
-        dietitian_id: dietitian_id,
-        patient_id: current_user.id,
+        dietitian_id: di,
+        patient_id: current_user.id
       )
 
       if conversation.save
@@ -32,11 +31,9 @@ module Mutations
           message: message
         )
 
-        {
-          id: conversation.id,
-        }
+        return conversation
       else
-        {errors: ['Error on comment']}
+        { errors: ['Error on comment'] }
       end
     end
   end

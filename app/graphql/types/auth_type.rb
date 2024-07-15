@@ -3,9 +3,10 @@ module Types
     field :id, String
     field :email, String
     field :token, String
-    field :password, String
     field :first_name, String
     field :last_name, String
+    field :full_name, String
+    field :initials, String
     field :dietitian_id, String
     field :image_url, String, null: true
     field :height, String
@@ -14,32 +15,48 @@ module Types
     field :age, String
     field :gender, String
 
-    # def image_url
-    #   return unless object.image.attached?
+    def token
+      JwtService.encode({ user_id: object.id })
+    end
 
-    #   Rails.application.routes.url_helpers.rails_blob_url(object.image).strip
-    # end
+    def initials
+      object.get_initials
+    end
 
-    # def height
-    #   binding.pry
-    #   if object.is_a?(Hash)
-    #     object[:sessions]&.first&.height
-    #   else
-    #     object.sessions&.first&.height
-    #   end
-    # end
+    def height
+      if object.is_a?(Hash)
+        object[:sessions]&.first&.height
+      else
+        object.sessions&.first&.height
+      end
+    end
 
-    # def weight
-    #   binding.pry
-    #   object.sessions&.first&.weight
-    # end
+    def weight
+      if object.is_a?(Hash)
+        object[:sessions]&.first&.weight
+      else
+        object.sessions&.first&.weight
+      end
+    end
 
-    # def age
-    #   object.age
-    # end
+    def gender
+      if object.is_a?(Hash)
+        object[:gender]&.height&.downcase
+      else
+        object.gender&.name&.downcase
+      end
+    end
 
-    # def imc
-    #   object.sessions&.first&.imc
-    # end
+    def age
+      object.age
+    end
+
+    def imc
+      if object.is_a?(Hash)
+        object[:sessions]&.first&.imc
+      else
+        object.sessions&.first&.imc
+      end
+    end
   end
 end

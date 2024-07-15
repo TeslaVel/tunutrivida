@@ -25,6 +25,8 @@ module Types
     end
     field :conversation, Types::ConversationType, null: true
     field :session_data_chart, Types::SessionDataChartType, null: true
+    field :dietitian, Types::DietitianType, null: true
+    field :profile, Types::ProfileType, null: true
 
     def users
       User.all
@@ -107,6 +109,14 @@ module Types
         body_grease: sessions.map(&:body_grease).compact,
         muscle_mass: sessions.map(&:muscle_mass).compact
       }
+    end
+
+    def dietitian
+      context[:current_user]&.dietitian
+    end
+
+    def profile
+      context[:current_user]
     end
   end
 end

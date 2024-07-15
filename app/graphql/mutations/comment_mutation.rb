@@ -24,13 +24,7 @@ module Mutations
       if comment.save
         # comment.send_alert_notification(current_user)
         # moved to a model callback
-        {
-          id: comment.id,
-          message: comment.message,
-          created_at: comment.created_at,
-          user: comment.user
-        }
-
+        comment
       else
         { errors: ['Error on comment'] }
       end

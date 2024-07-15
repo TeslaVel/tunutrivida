@@ -1,7 +1,7 @@
 module Types
   class ConversationType < BaseObject
     field :id, ID
-    field :dietitian, UserType
+    field :dietitian, DietitianType
     field :patient, UserType
     field :created_at, String
     field :notes, [NoteType]

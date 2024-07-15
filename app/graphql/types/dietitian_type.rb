@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Types
-  class UserType < BaseObject
+  class DietitianType < BaseObject
     field :id, String
     field :first_name, String
     field :last_name, String
@@ -10,13 +10,6 @@ module Types
     field :full_name, String
     field :first_name_initial, String
     field :initials, String
-    field :image_url, String, null: true
-
-    def image_url
-      return unless object.image.attached?
-
-      Rails.application.routes.url_helpers.rails_blob_url(object.image).strip
-    end
 
     def full_name
       object.full_name

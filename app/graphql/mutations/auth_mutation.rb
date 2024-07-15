@@ -4,27 +4,14 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
+    field :auth, Types::AuthType, null: true
+    field :errors, [String], null: false
+
     def resolve(email:, password:)
       user = User.find_by(email: email)
 
       if user&.authenticate(password)
-        # current_user = user
-        # context[:current_user] = user
-
-        {
-          id: user.id,
-          token: JwtService.encode({ user_id: user.id }),
-          email: email,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          dietitian_id: user.dietitian_id,
-          image_url: user.image_url,
-          height: user.sessions&.first&.height,
-          weight: user.sessions&.first&.weight,
-          imc: user.sessions&.first&.imc,
-          age: user.age,
-          gender: user&.gender&.name&.downcase
-        }
+        user
       else
         { error: 'Invalid email or password' }
       end

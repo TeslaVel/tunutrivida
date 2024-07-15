@@ -4,7 +4,7 @@ module Types
     field :initial, Boolean
     field :age, String
     field :date, String
-    field :dietitian, UserType
+    field :dietitian, DietitianType
     field :height, String
     field :weight, String
     field :waist, String

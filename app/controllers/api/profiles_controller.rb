@@ -12,10 +12,9 @@ class Api::ProfilesController < Api::ApiController
         message: 'Perfil actualizado exitosamente',
         user: {
           id: current_user.id,
-          token: JwtService.encode({ user_id: current_user.id }),
-          email: current_user.email,
           firstName: current_user.first_name,
           lastName: current_user.last_name,
+          email: current_user.email,
           dietitianId: current_user.dietitian_id,
           imageUrl: current_user.image_url,
           height: current_user.sessions&.first&.height,

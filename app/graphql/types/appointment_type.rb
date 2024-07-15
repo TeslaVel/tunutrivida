@@ -6,7 +6,7 @@ module Types
     field :start_date, String
     field :time_start, String
     field :time_end, String
-    field :dietitian, UserType
+    field :dietitian, DietitianType
     field :status, String
     field :appointment_type, String
 
