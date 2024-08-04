@@ -6,10 +6,11 @@ module Navigation
     include ActiveLinkToHelper
     include TemplateNavHelper
 
-    def initialize(link_modules:, item_name:, device:)
+    def initialize(link_modules:, item_name:, icon:, device:)
       @link_modules = link_modules
       @item_name = item_name
       @device = device
+      @icon = icon
       super
     end
 
@@ -19,6 +20,6 @@ module Navigation
 
     private
 
-    attr_reader :link_modules, :item_name, :device
+    attr_reader :link_modules, :item_name, :device, :icon
   end
 end

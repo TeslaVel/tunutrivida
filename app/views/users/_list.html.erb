@@ -11,44 +11,24 @@
     <div class="py-2" style="flex-grow: 1;">
       <%= render 'paginations/pagination', objectData: patients %>
     </div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Date of bird</th>
-            <th>Gender</th>
-            <th>Packages-Sessions</th>
-            <th colspan="3" class="text-center">Actions</th>
-          </tr>
-        </thead>
+    <%= render Elements::TableComponent.new(
+      row_fields: [
+        { field: :first_name, link: ->(object) { link_to(object[:first_name], patient_path(object)) }},
+        { field: :last_name },
+        { field: :date_of_birth },
+        { field: 'gender.name', label: 'Gender' },
+        { field: 'sessions.count', label: 'Packages-Sessions' },
+      ],
+      row_objects: patients,
+      table_alias: 'patient',
+      # table_alias: patients.model.to_s.downcase,
+      row_actions:  {
+        edit: nil,
+        # show: { with_icon: { name: 'eye' }, color_class: 'c-red', label: nil },
+        # delete: { with_icon: { name: 'trash' }, color_class: 'c-red', label: nil, method: :delete,  data: { confirm: t('patients.are_you_sure') } }
+      }
+    )%>
 
-        <tbody>
-          <% patients.each do |patient| %>
-            <tr>
-              <td><%= link_to patient_path(patient.id) do %>
-                  <%= patient.first_name %>
-                <% end %></td>
-              <td><%= patient.last_name %></td>
-              <td><%= patient.date_of_birth %></td>
-              <td><%= patient.gender.name %></td>
-              <td><%= patient.sessions.count %></td>
-              <td>
-                <%= link_to patient_path(patient.id) do %>
-                  <i class="fa fa-eye c-blue"></i>
-                <% end %>
-              </td>
-              <td >
-                <%= link_to patient_path(patient.id), method: :delete, data: { confirm: t('patients.are_you_sure') } do %>
-                  <i class="fa fa-trash c-red"></i>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
     <div class="d-flex flex-column justify-content-center py-2">
       <%= render 'paginations/pagination', objectData: patients %>
     </div>

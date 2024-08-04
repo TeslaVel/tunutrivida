@@ -2,7 +2,7 @@
 
 # EntriesController
 class EntriesController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   before_action :set_entry, only: %i[show edit update destroy mark_notification_seen]
   before_action :mark_notification_seen, only: [:show]
 

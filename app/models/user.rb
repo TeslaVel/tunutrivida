@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :username, uniqueness: true
   validates :first_name, presence: true
-	validates :last_name, presence: true
+  validates :last_name, presence: true
 
   belongs_to :organization
 
@@ -24,21 +24,21 @@ class User < ApplicationRecord
   belongs_to :dietitian, class_name: 'User', optional: true
   belongs_to :gender
   has_one :patient_conversation, class_name: 'Conversation', foreign_key: 'patient_id'
-	has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id', dependent: :destroy
+  has_many :patient_packages, class_name: 'PatientPackage', foreign_key: 'patient_id', dependent: :destroy
   has_many :sessions, through: :patient_packages
   has_many :packages, through: :patient_packages, dependent: :delete_all
   has_many :patient_billings, foreign_key: 'patient_id'
   has_many :patient_appointments, class_name: 'Appointment', foreign_key: 'patient_id'
-	has_many :tasks
+  has_many :tasks
   has_many :patient_conditions, foreign_key: 'patient_id'
   has_many :conditions, through: :patient_conditions
   has_many :restricted_ingredient_conditions, through: :conditions
-  scope :last_sessions, -> { self.sessions.order(date: :asc) }
+  scope :last_sessions, -> { sessions.order(date: :asc) }
 
   # dieitian owner
   has_many :dietitian_billings, foreign_key: 'dietitian_id'
-  has_one :availability, foreign_key: "dietitian_id"
-  has_one :appointment_setting, foreign_key: "dietitian_id"
+  has_one :availability, foreign_key: 'dietitian_id'
+  has_one :appointment_setting, foreign_key: 'dietitian_id'
   has_many :dietitian_conversations, class_name: 'Conversation', foreign_key: 'dietitian_id'
   has_many :dietitian_appointments, class_name: 'Appointment', foreign_key: 'dietitian_id'
   has_many :patients, class_name: 'User', foreign_key: 'dietitian_id'
@@ -81,8 +81,8 @@ class User < ApplicationRecord
   end
 
   def full_name
-		"#{first_name} #{last_name}"
-	end
+    "#{first_name} #{last_name}"
+  end
 
   def get_initials
     stripped_first_name = first_name.strip

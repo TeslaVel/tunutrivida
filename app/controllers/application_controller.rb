@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :get_global_configurations
 
-	before_action :authenticate_all, only: %i[ update_dolar_price ]
+	before_action :check_auth_for_all_origin, only: %i[ update_dolar_price ]
 
 	GLOBAL_EMOJIS = ['👍', '👏', '☺️', '🎉', '🤔', '😎', '🙏']
 
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 			end
   end
 
-	def authenticate_all
+	def check_auth_for_all_origin
 		return if params[:operationName].in?(%w[AuthMutation CreateContactUs])
 		return if params[:query]&.match('AuthMutation') || params[:query]&.match('CreateContactUs')
 

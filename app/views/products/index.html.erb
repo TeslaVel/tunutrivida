@@ -7,35 +7,23 @@
   <div class="d-sm-flex justify-content-center">
     <%= render 'paginations/pagination', objectData: @products %>
   </div>
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Code</th>
-          <th>Price</th>
-          <th>New Price</th>
-          <th colspan="3">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @products.each do |product| %>
-          <tr>
-            <td><%= product.name %></td>
-            <td><%= product.description %></td>
-            <td><%= product.code %></td>
-            <td><%= product.price %></td>
-            <td><%= product.new_price %></td>
-            <td><%= link_to t('products.show'), product %></td>
-            <td><%= link_to t('products.edit'), edit_product_path(product) %></td>
-            <td><%= link_to t('products.delete'), product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <%= render Elements::TableComponent.new(
+      row_fields: [
+        { field: :name, link: ->(object) { link_to(object[:name], patient_path(object)) }},
+        { field: :description },
+        { field: :code },
+        { field: :price },
+        { field: :new_price },
+      ],
+      row_objects: @products,
+      # table_alias: 'patient',
+      table_alias: @products.model.to_s.downcase,
+      row_actions:  {
+        # edit: nil,
+        # show: { with_icon: { name: 'eye' }, color_class: 'c-red', label: nil },
+        # delete: { with_icon: { name: 'trash' }, color_class: 'c-red', label: nil, method: :delete,  data: { confirm: t('patients.are_you_sure') } }
+      }
+    )%>
   <div class="d-sm-flex justify-content-center">
     <%= render 'paginations/pagination', objectData: @products %>
   </div>

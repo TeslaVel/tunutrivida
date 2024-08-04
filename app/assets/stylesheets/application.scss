@@ -126,7 +126,7 @@ $gray-red-100: rgb(202, 105, 122);
   .wday-5 {}
   .wday-6 {}
 
-  .today {background-color: map-get($arrayDarkPurpleNamesMap, primary-10);}
+  .today { background-color: map-get($arrayDarkPurpleNamesMap, primary-10 );}
   .past {}
   .future {}
 

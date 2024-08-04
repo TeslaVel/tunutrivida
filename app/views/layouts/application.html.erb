@@ -20,23 +20,22 @@
     <%= yield :javascript %>
   </head>
 
-  <body id="page-top" class="bg-secondary-01">
+  <body id="page-top">
     <main id="wrapper" class="bg-secondary-01">
 
       <%= render Navigation::SidebarComponent.new(organization: @organization, device:) %>
 
       <section class="d-flex flex-column bg-white w-100">
-        <header>
-          <%= render "layouts/shared/topbar" %>
-        </header>
+        <%= render TopBar::TopBarComponent.new(current_user:) %>
+
         <section class=" mt-4 text-primary-200"
           style="height: calc(100vh - 172px); scroll-behavior: smooth; overflow: scroll; overflow-x: hidden;">
-          <%= render "layouts/notifications/notification" %>
+          <%= render Notifications::FlashComponent.new %>
           <%= yield %>
         </section>
 
         <footer class="sticky-footer bg-secondary-200 text-white-01">
-          <%= render "layouts/shared/footer" %>
+          <%= render FooterComponent.new(text: 'TeslaDev All Rights Reserved') %>
         </footer>
       </section>
     </main>
@@ -46,6 +45,20 @@
       <i class="fas fa-angle-up"></i>
     </a>
 
-    <%= render "layouts/shared/logout_modal" %>
+    <!-- Logout Modal-->
+    <%= render Forms::ModalComponent.new(
+      id_modal: 'logoutModal',
+      title: 'Ready to Leave?',
+      primary_actions: {
+        component: Elements::LinkComponent.new(
+          label: 'Logout',
+          url: destroy_user_session_path,
+          classes: 'btn btn-primary',
+          action_method: 'delete'
+        )
+      }
+    ) do %>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+    <% end %>
   </body>
 </html>

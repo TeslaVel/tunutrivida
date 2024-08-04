@@ -2,7 +2,7 @@
 
 # BmrFactorsController
 class BmrFactorsController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   before_action :set_bmr_factor, only: %i[ show edit update destroy ]
 
   # GET /indicators or /indicators.json

@@ -1,0 +1,18 @@
+<div>
+  <%= form_with scope: scope_instance,
+    url: url,
+    data: data_type,
+    html: html_options do |f| %>
+
+    <% if fields.present? %>
+      <div class="form-group">
+        <% fields.each do |fld| %>
+          <label for="target_conversion"><%= fld[:label] %></label>
+          <%= f.text_field fld[:name].to_sym, label: t(".#{fld[:name]}"), class: "form-control" %>
+        <% end %>
+      </div>
+    <% elsif content.present? %>
+      <%= content %>
+    <% end %>
+  <% end %>
+</div>

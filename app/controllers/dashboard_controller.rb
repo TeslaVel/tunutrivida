@@ -2,7 +2,7 @@
 
 # DashboardController
 class DashboardController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
 
   def index
     current_time = Time.zone.now.strftime("%H:%M")

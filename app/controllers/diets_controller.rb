@@ -2,7 +2,7 @@
 
 # DietsController
 class DietsController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   before_action :set_diet, only: %i[show edit update destroy]
   before_action :set_patient, only: %i[create]
 

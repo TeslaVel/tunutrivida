@@ -1,11 +1,1 @@
-
-
 $('#target_conversion').text("<%= @gbl_configuration.target_conversion %>")
-
-$("#partial_notifications").html("\
-		<%= escape_javascript(render(:partial => 'layouts/shared/notifications', :locals => {\
-																 :notifications => @notifications} )) %>");
-
-$("#partial_messages").html("\
-		<%= escape_javascript(render(:partial => 'layouts/shared/messages', :locals => {\
-																 :emails => @emails} )) %>");

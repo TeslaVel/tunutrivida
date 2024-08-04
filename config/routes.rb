@@ -92,16 +92,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # scope module: 'web' do
-      # post 'launcher/launch', action: 'launch', controller: 'launcher'
-  # end
-  # , :controllers => {:sessions => "sessions"}, skip:[:sessions]
-  # as :users do
-  #   get 'users/sign_in' => 'devise/sessions#new', :as => :new_user_session
-  #   # post 'login' => 'devise/sessions#create', :as => :user_session
-  #   # delete 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
-  # end
-
   get "dashboard", to: "dashboard#index"
   root 'dashboard#index'
   # root 'examples#index'

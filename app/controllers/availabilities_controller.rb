@@ -2,7 +2,7 @@
 
 # AvailabilitiesController
 class AvailabilitiesController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   before_action :set_availability, only: [:show, :edit, :update, :destroy]
 
   def index

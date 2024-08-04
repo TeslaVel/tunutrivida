@@ -1,0 +1,18 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <% header_fields.each do |field| %>
+          <th><%= field %></th>
+        <% end %>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% row_objects.each do |row| %>
+        <%= render_row(row) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

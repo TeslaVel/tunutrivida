@@ -2,7 +2,7 @@
 
 # GraphqlController
 class GraphqlController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   protect_from_forgery with: :null_session
 
   def execute

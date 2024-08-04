@@ -2,7 +2,7 @@
 
 # BillingItemsController
 class BillingItemsController < ApplicationController
-  before_action :authenticate_all
+  before_action :check_auth_for_all_origin
   before_action :set_billing, only: %i[ create destroy]
   before_action :set_billing_item, only: %i[destroy]
 
