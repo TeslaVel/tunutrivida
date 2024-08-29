@@ -1,0 +1,11 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Tasks</h1>
+    <%= link_to 'New Task', new_task_path , class: "btn btn-primary" %>
+  </div>
+
+  <div id="task_list_partial">
+    <%= render 'list', tasks: @tasks %>
+  </div>
+</div>
+

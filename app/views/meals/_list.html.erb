@@ -1,0 +1,10 @@
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, meal_path(object)) }},
+    { field: :meal_type },
+    { field: :type_of_uses },
+  ],
+  row_objects: meals,
+  table_alias: meals.model.to_s.downcase,
+  # row_actions: {}
+)%>

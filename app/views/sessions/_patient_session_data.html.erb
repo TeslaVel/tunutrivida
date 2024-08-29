@@ -1,0 +1,98 @@
+<div class="table-responsive  d-flex mb-4 shadow">
+  <!-- About -->
+  <div class="card col-12 col-sm-6" id="left-card">
+    <div class="card-header bg-transparent">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body tab-content">
+      <div class="tab-pane active d-flex" id="about">
+        <div class="col-6 p-0">
+          <div class="list-unstyled">
+            <% if @patient.sessions.first.present? %>
+              <p class="mb-2 text-left">Ideal Weight:</p>
+            <% end %>
+            <p class="mb-2 text-left">Edad:</p>
+            <p class="mb-2 text-left">Peso:</p>
+            <p class="mb-2 text-left">Genero:</p>
+            <p class="mb-2 text-left">Altura:</p>
+            <p class="mb-2 text-left "> Abdomen Alto </p>
+            <p class="mb-2 text-left "> Abdomen Bajo </p>
+            <p class="mb-2 text-left "> Cadera </p>
+            <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
+            <p class="mb-2 text-left diagonis_imc"> IMC </p>
+            <p class="mb-2 text-left diagonis_icc"> ICC </p>
+          </div>
+        </div>
+        <div class="col-6 p-0">
+          <div class="list-unstyled">
+            <% if @patient.sessions.first.present? %>
+              <p class="mb-2 "><%= patient.sessions.count > 0 ? @patient.sessions.first&.ideal_weight || '-' : '-' %></p>
+            <% end %>
+            <p class="mb-2 "><%= patient.age %></p>
+            <p class="mb-2 "><%= session.weight %> <strong>Kg</strong></p>
+            <p class="mb-2 "><%= patient.gender.name %></p>
+            <p class="mb-2 "><%= patient&.sessions&.first.height || '-' %> <strong>Mts</strong></p>
+            <p class="mb-2 "><%= session.high_abdomen %> <strong>cm</strong></p>
+            <p class="mb-2 "><%= session.low_abdomen %> <strong>cm</strong></p>
+            <p class="mb-2 "><%= session&.hip	 || '-' %> <strong>cm</strong></p>
+            <p class="mb-2 diagonis_pdc"><%= session&.waist || '-' %> <strong>cm</strong></p>
+            <p class="mb-2 diagonis_imc"><%= session&.imc || '-' %></p>
+            <p class="mb-2 diagonis_icc"><%= ((session&.waist || 0) / (session&.hip || 1)).round(2) %></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-footer bg-transparent">
+      <%= link_to t('session.edit'), patient_patient_package_edit_session_path(patient,session.patient_package,session), class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+
+  <!-- Advanced -->
+  <div class="card col-12 col-sm-6" id="right-card">
+    <div class="card-header bg-transparent">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#advanced" role="tab" aria-controls="advanced" aria-selected="true" data-toggle="tab">Advanced</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body tab-content">
+      <!-- advanced -->
+      <div id="advanced" class="tab-pane active" role="tabpanel">
+        <div class="row">
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Grasa Corporal:</p>
+                <p class="mb-2 text-left">Grasa Visceral:</p>
+                <p class="mb-2 text-left "> Masa Muscular </p>
+                <p class="mb-2 text-left "> Masa Osea </p>
+                <p class="mb-2 text-left "> Activiy Factor </p>
+                <p class="mb-2 text-left "> BMR </p>
+                <p class="mb-2 text-left "> Edad Metabolica </p>
+                <p class="mb-2 text-left "> Porcetaje de Agua </p>
+                <p class="mb-2 text-left "> Comlexion Fisica </p>
+              </div>
+            </div>
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= session.body_grease %> <strong>%</strong></p>
+                <p class="mb-2 "><%= session.visceral_grease %> <strong>%</strong></p>
+                <p class="mb-2 "><%= session.muscle_mass %> <strong>Kg</strong></p>
+                <p class="mb-2 "><%= session.bone_mass %> <strong>Kg</strong></p>
+                <p class="mb-2 "><%= session.activity_factor.description %>
+                <p class="mb-2 "><%= session&.bmr %> => <%= ((session&.bmr || 0) * (session&.activity_factor.value || 0)).round(4) %> <strong>Kca</strong></td></p>
+                <p class="mb-2 "><%= session.metabolic_age %></p>
+                <p class="mb-2 "><%= session.water_percentage %> <strong>%</strong></p>
+                <p class="mb-2 "><%= session.physical_complexion %></p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

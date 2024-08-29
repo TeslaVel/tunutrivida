@@ -1,0 +1,30 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: @task,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"discount_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        { type: 'text', name: :title, label: :title, value: @task.title },
+        { type: 'text', name: :description, label: :description, value: @task.description },
+        {
+          type: 'select', name: :dietitian_id, label: 'Dietitian',
+          collection: {
+            data: User.only_dieitians.all.order(:id, current_user.id),
+            label_method: :first_name,
+            selected: @task.dietitian_id
+          },
+        },
+        {
+          type: 'select', name: :patient_id, label: 'Patient',
+          collection: {
+            data: User.where.not(dietitian_id: nil),
+            label_method: :first_name,
+            selected: @task.patient_id,
+          },
+        },
+      ]
+  ) %>
+</div>

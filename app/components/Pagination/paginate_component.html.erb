@@ -1,0 +1,25 @@
+<nav>
+  <ul class="pagination mb-0">
+    <% unless first? %>
+      <li class="page-item" id="paginator-page-1">
+        <span class="page-link pointer" onclick="handleClick(this)" data-href="<%= url_for(page: 1) %>" data-page="1">Primero</a>
+      </li>
+      <li class="page-item" id="paginator-<%= previous_page %>">
+        <span class="page-link pointer" onclick="handleClick(this)" data-href="<%= url_for(page: previous_page) %>" data-page="<%= previous_page %>">&laquo;</a>
+      </li>
+    <% end %>
+    <% pages.each do |page| %>
+      <li class="page-item <%= 'active' if page == collection.current_page %>" id="paginator-<%= page %>">
+        <span class="page-link pointer" onclick="handleClick(this)" data-href="<%= url_for(page: page) %>" data-page="<%= page %>"><%= page %></a>
+      </li>
+    <% end %>
+    <% unless last? %>
+      <li class="page-item" id="paginator-<%= next_page %>">
+        <span class="page-link pointer" onclick="handleClick(this)" data-href="<%= url_for(page: next_page) %>" data-page="<%= next_page %>">&raquo;</a>
+      </li>
+      <li class="page-item" id="paginator-<%= last_page %>">
+        <span class="page-link pointer" onclick="handleClick(this)" data-href="<%= url_for(page: last_page ) %>" data-page="<%= last_page %>"><%= t('last') %></a>
+      </li>
+    <% end %>
+  </ul>
+</nav>

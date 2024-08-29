@@ -1,0 +1,30 @@
+<div class="card col-12 <%= card_classes %>" id="<%= card_collapsible_component_id %>">
+  <% if title_object.present? && header_tabs.nil? %>
+    <a href="#collapseCardExample_<%= collapsible_key %>" class="card-header <%= card_header_class %> <%= collapsed ? '' : 'collapsed' %> <%= title_object[:parent_classes] %>" data-toggle="collapse" role="button" aria-expanded="<%= collapsed %>" aria-controls="collapseCardExample_<%= collapsible_key %>">
+      <h6 class="m-0 font-weight-bold text-primary <%= title_object[:title_classes] %>"><%= t(title_object[:title_text])|| '-' %></h6>
+    </a>
+  <% end %>
+
+  <% if header_tabs.present? %>
+    <%= render Elements::Card::CardHeaderTabsComponent.new(
+      options: header_tabs
+    ) %>
+  <% end %>
+
+  <div class="collapse <%= collapsed ? 'show' : '' %>" id="collapseCardExample_<%= collapsible_key %>">
+    <% if sub_header.present? && sub_header[:component].present? %>
+      <div class="d-flex <%= sub_header[:classes] %>" style="gap: 4px;">
+        <%= render sub_header[:component] %>
+      </div>
+    <% end %>
+    <div class="card-body <%= card_body_class %>" style="<%= card_body_style %>">
+        <%= content %>
+    </div>
+
+    <% if text_footer.present? %>
+      <div class="card-footer <%= card_footer_class %>">
+        <%= text_footer %>
+      </div>
+    <% end %>
+  </div>
+</div>

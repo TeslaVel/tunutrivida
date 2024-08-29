@@ -1,0 +1,77 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: appointment,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"patient_form_id", class: 'form', remote: false},
+      action_buttons: {
+        back: {
+          label: 'Back',
+          url: appointments_path(start_date: @appointment.start_date.strftime("%Y-%m-%d"))
+        }
+      },
+      fields: [
+        { type: 'date', name: :start_date, label: :start_date, value: appointment.start_date },
+        {
+          type: 'custom_time', name: :time_start, label: :time_start,
+          options: {
+            time_step: current_user&.appointment_setting&.time_step,
+            time_start: current_user&.availability&.time_start,
+            time_end: current_user&.availability&.time_end,
+            selected: appointment&.time_start&.presence,
+          }
+        },
+        {
+          type: 'custom_time', name: :time_end, label: :time_end,
+          options: {
+            time_step: current_user&.appointment_setting&.time_step,
+            time_start: current_user&.availability&.time_start,
+            time_end: current_user&.availability&.time_end,
+            selected: appointment&.time_end&.presence,
+          }
+        },
+        {
+          type: 'select', name: :appointment_type, label: :appointment_type,
+          collection: {
+            data: Appointment::APPOINTMENT_TYPES,
+						label_method: :name,
+						selected: appointment.appointment_type.to_sym,
+          },
+        },
+        {
+          type: 'select', name: :dietitian_id, label: :dietitian,
+          collection: {
+            data: User.only_dieitians.all.order(:id, current_user.id),
+            label_method: :first_name,
+            selected: @appointment.dietitian_id,
+          },
+        },
+        {
+          type: 'select', name: :patient_id, label: :patient,
+          collection: {
+            data: User.where.not(dietitian_id: nil),
+            label_method: :first_name,
+            selected: @appointment.patient_id || nil,
+          },
+        },
+        {
+          type: 'select', name: :status, label: :status,
+          collection: {
+            data: Appointment::STATUS_TYPES,
+						label_method: :name,
+						selected: appointment.status.to_sym,
+          },
+        },
+      ]
+  ) %>
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+<%= render Elements::TableComponent.new(
+  row_objects: activity_factors,
+  table_alias: activity_factors.model.name.underscore,
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, activity_factor_path(object)) }},
+    { field: :description },
+    { field: :value },
+  ],
+  row_actions: {}
+) %>

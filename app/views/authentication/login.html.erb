@@ -1,0 +1,29 @@
+<% if flash[:notice] %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<div class="p-5">
+          <div class="text-center">
+            <h1 class="h4 text-primary-500 mb-4">Welcome Back!</h1>
+          </div>
+          <%= simple_form_for :auth, url: login_path do |f| %>
+            <div class="form-group">
+              <%= f.input :username, required: false, autofocus: true,
+                          input_html: { autocomplete: "username", class: "form-control form-control-user"} %>
+            </div>
+
+            <div class="form-group">
+              <%= f.input :password,
+                          required: false,
+                          input_html: { autocomplete: "current-password" , class: "form-control form-control-user" } %>
+            </div>
+
+            <div class="form-actions">
+              <%= f.button :submit, "Log in", class: "btn btn-primary btn-user btn-block" %>
+            </div>
+          <% end %>
+
+          <hr>
+      </div>

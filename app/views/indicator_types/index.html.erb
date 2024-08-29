@@ -1,0 +1,13 @@
+<div class="col-12">
+  <h1>Indicator Types</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('indicator_types.new_indicator_type'), new_indicator_type_path , class: "btn btn-primary" %>
+  </div>
+
+  <div id="indicator_types_list_partial">
+    <%= render 'list', indicator_types: @indicator_types %>
+  </div>
+</div>
+<br>
+
+

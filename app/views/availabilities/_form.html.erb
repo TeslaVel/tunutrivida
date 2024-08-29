@@ -1,0 +1,36 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: availability,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"availability_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        {
+          type: 'custom_time', name: :time_start, label: :time_start,
+          options: {
+            time_step: current_user&.appointment_setting&.time_step,
+            selected: availability.time_start,
+          }
+        },
+        {
+          type: 'custom_time', name: :time_end, label: :time_end,
+          options: {
+            time_step: current_user&.appointment_setting&.time_step,
+            selected: availability.time_end,
+          }
+        },
+      ]
+  ) %>
+</div>
+
+
+
+
+
+
+
+
+
+

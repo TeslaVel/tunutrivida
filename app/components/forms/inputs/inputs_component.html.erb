@@ -1,0 +1,5 @@
+<% if fields.present? %>
+  <% fields.each do |field| %>
+    <%= render Forms::Inputs::InputComponent.new(form, is_row, **field) %>
+  <% end %>
+<% end %>

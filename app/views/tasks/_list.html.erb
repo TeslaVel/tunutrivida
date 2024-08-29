@@ -1,0 +1,10 @@
+  <%= render Elements::TableComponent.new(
+    row_fields: [
+      { field: :title, link: ->(label, object) { link_to(label, task_path(object)) }},
+      { field: 'dietitian.full_name', label: 'Dietitian' },
+      { field: 'patient.full_name', label: 'Patient' },
+    ],
+    row_objects: tasks,
+    table_alias: tasks.model.name.to_s.downcase,
+    # row_actions: {}
+  )%>

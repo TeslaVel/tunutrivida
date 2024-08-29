@@ -1,0 +1,8 @@
+<% options = "<option value=\"all\" selected>#{t('all')}</option>" %>
+<% if type == 'collection' %>
+  <% options = options + options_for_select(rows.map { |row| [t(row.name.downcase), row.id] }) %>
+  <%= select_tag filter_id, options.html_safe, class: "form-control" %>
+<% elsif type == 'hash_array' %>
+<% options = "<option value=\"all\" selected>#{t('all')}</option>" + options_for_select(rows.map { |record| [ t(record[:label].downcase), record[:value]] }) %>
+<%= select_tag filter_id, options.html_safe, class: "form-control #{input_class}" %>
+<% end %>

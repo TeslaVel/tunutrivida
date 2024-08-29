@@ -1,0 +1,54 @@
+
+<% if calendar_options[:calendar_type] == :month %>
+  <%= month_calendar(events: calendar_options[:events], attribute: :start_date) do | date, appointments| %>
+    <div>
+      <%= link_to date.day, new_appointment_path(date: date) %>
+    </div>
+    <% appointments.each do |appointment| %>
+      <div class='appointment-title d-inline-flex mt-1 p-1 bg-primary-40'>
+        <%= link_to appointment_path(appointment),
+              data: {
+                toggle: "tooltip",
+                placement: "top"
+              },
+              title: appointment.patient.full_name,
+              class: 'd-flex align-items-center' do %>
+              <%= render "layouts/icons/icons", name: appointment.appointment_type %>
+              <span style="font-size: 9px;" class="ml-2 d-inline-flex flex-column">
+                <span>
+                <%= appointment.time_start.strftime("%H:%M %p")%>
+                </span>
+                <span>
+                <%= appointment.time_end.strftime("%H:%M %p")%>
+                </span>
+              </span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if calendar_options[:calendar_type] == :week %>
+  <%= week_calendar(events: calendar_options[:events], attribute: :start_date) do |date, appointments| %>
+    <%= link_to date.day, new_appointment_path(date: date) %>
+    <% appointments.each do |appointment| %>
+      <div class='appointment-title mt-1 p-1 bg-primary-40'>
+        <%= link_to appointment_path(appointment),
+              data: {
+                toggle: "tooltip",
+                placement: "top",
+              },
+              title: appointment.patient.full_name,
+              class: 'd-flex align-items-center' do %>
+              <%= render "layouts/icons/icons", name: appointment.appointment_type %>
+              <span class="ml-2">
+                <%= appointment.title.truncate(12, omission: "...") %>
+              </span>
+              <span style="font-size: 10px;" class="ml-2 d-inline-flex flex-column">
+                <%= appointment.time_start.strftime("%H:%M %p")%> - <%= appointment.time_end.strftime("%H:%M %p")%>
+              </span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

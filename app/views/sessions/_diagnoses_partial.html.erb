@@ -1,0 +1,19 @@
+<%= render Elements::Card::CardComponent.new(
+	title: (title.present? ? title : nil),
+	card_class: 'p-0',
+	card_body_class: 'p-0'
+) do %>
+	<%= render Elements::TableDiagnosesComponent.new(
+			row_fields: [
+				{ field: :value_min },
+				{ field: :value_max },
+				{ field: :name },
+			],
+			row_objects: indicators,
+			selected_row: diagnosis,
+			title: title,
+			table_alias: indicators.model_name.to_s.downcase,
+			table_class: 'table-borderless',
+			row_actions: nil
+		)%>
+<% end %>

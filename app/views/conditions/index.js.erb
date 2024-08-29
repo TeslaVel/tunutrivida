@@ -1,0 +1,7 @@
+$("#conditions_list_partial").html("\
+  <%= escape_javascript(render(:partial => 'conditions/list', :locals => {\
+                               :conditions => @conditions} )) %>");
+
+$("#pagination").html(`
+  <%= escape_javascript(render(Pagination::PaginateComponent.new(collection: @conditions))) %>
+`);

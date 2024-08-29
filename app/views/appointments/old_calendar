@@ -1,0 +1,6 @@
+<%= calendar_for Date.today, appointments do |date, appts| %>
+  <%= link_to date.day, new_appointment_path(date: date) %>
+  <% appts.each do |appointment| %>
+    <%= link_to appointment.title, appointment_path(appointment) %>
+  <% end %>
+<% end %>

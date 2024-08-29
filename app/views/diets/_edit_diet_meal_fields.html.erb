@@ -1,0 +1,35 @@
+<% diet.diet_meal_weeks.each do |dmw| %>
+  <div class="card shadow mb-4">
+    <div class="card-header py-2">
+      <h6 class="m-0 font-weight-bold text-primary"><%= t(dmw.day_of_week) %></h6>
+    </div>
+    <div class="card-body p-2 d-flex flex-column flex-lg-row justify-content-center">
+      <%= form.fields_for 'diet_meal_weeks_attributes[]', dmw do |dmw_form| %>
+        <%= dmw_form.hidden_field :id %>
+        <% dmw.diet_meal_times.each do |dmt| %>
+          <div class="mb-3 px-2 mx-3 gap-3">
+            <strong><%= t(dmt.meal_time) %>:</strong>
+            <%= dmw_form.fields_for 'diet_meal_times_attributes[]', dmt do |dmt_form| %>
+              <%= dmt_form.hidden_field :id %>
+                <%= dmt_form.fields_for 'diet_ingredient_attributes', dmt.diet_ingredient do |di_form| %>
+                  <%= di_form.hidden_field :id %>
+                  <div class="form-group">
+                    <%= di_form.select(:meal_id,
+                    create_options_from_collection({
+                      data: Meal.where(type_of_use: dmt.meal_time.to_sym),
+                      label_method: :name,
+                      selected: di_form.object&.meal_id,
+                    }), {}, { class: "form-control", autocomplete: "off"} ) %>
+                  </div>
+                  <div class="form-group">
+                    <%= di_form.label :instructions, class: 'col-form-label' %>
+                    <%= di_form.text_area :instructions, placeholder: 'instructions', class: 'form-control', autocomplete: "off" %>
+                  </div>
+                <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

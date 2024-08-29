@@ -1,0 +1,28 @@
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'Indicator Info', target: '#info' },
+  ],
+  extra_item_options: [
+    { element: ->() {
+      link_to 'Edit', edit_indicator_type_path(@indicator_type)
+    }}
+  ],
+  card_class: '',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'billings_info_component'
+) do %>
+  <div id="info" class="tab-pane active" role="tabpanel">
+    <%= render Elements::TableShowComponent.new(
+      row_object: @indicator_type,
+      table_alias: @indicator_type.model_name.to_s.downcase,
+      row_fields: [
+        { field: :name, classes: 'text-primary-400', width: '15%' },
+        { field: :description, classes: 'text-primary-400' },
+      ],
+      table_class: 'table-borderless'
+    )%>
+  </div>
+<% end %>
+<div class="d-flex col-3 mx-auto justify-content-center p-2">
+  <%= link_to 'Back', indicator_types_path, class: 'text-primary-700' %>
+</div>

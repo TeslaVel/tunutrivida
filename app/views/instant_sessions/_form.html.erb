@@ -1,0 +1,266 @@
+<div class="col-12">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Patient: Instant</h1>
+    <% if editing %>
+      <%= link_to t('sessions.back'), instant_session_path(@instant_session) %>
+    <% else %>
+      <%= link_to t('sessions.back'), instant_sessions_path %>
+    <% end %>
+  </div>
+
+  <!--
+`  <% url = if editing
+            instant_sessions_path(@instant_session)
+           else
+            instant_sessions_path(@instant_session)
+           end
+  %>`
+  -->
+  <%= simple_form_for(@instant_session) do |f| %>
+    <div class="p-0 col-12 col-sm-12 col-md-9 col-lg-6 m-auto">
+      <div class="card">
+        <div class="card-body p-1">
+            <ul role="tablist" class="nav nav-tabs">
+              <li role="presentation" class="nav-item" aria-expanded="false">
+                  <a class="nav-link active" id="info-tab" href="#basic_data" data-toggle="tab" aria-expanded="true">Basic Data</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="account-tab" href="#advance_data" data-toggle="tab" aria-expanded="false">Andvanced</a>
+              </li>
+            </ul>
+
+            <div class="tab-content p-3">
+              <div id="basic_data" class="tab-pane fade active show" role="tabpanel" aria-labelledby="info-tab" aria-expanded="true">
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.date')%></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :date, label: false, html5: true, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.weight') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :weight, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.height') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :height, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.imc') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :imc, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.high_abdomen') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :high_abdomen, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.low_abdomen') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :low_abdomen, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.waist') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :waist, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.hip') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :hip, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.ideal_weight') %></label>
+                  <div class="col-sm-8">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <%= f.input :ideal_weight, label: false, input_html: { class: "form-control" } %>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.gender') %></label>
+                  <div class="col-sm-8">
+                      <div class="form-group">
+                        <div class="form-group">
+                          <%= f.input :gender_id, collection: Gender.all, label: false, value_method: :id, name: "Gender", include_blank: false, selected: @instant_session&.gender_id || {}, input_html: { class: "form-control"} %>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.activity_factor') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :activity_factor_id, collection: ActivityFactor.all, label: false, value_method: :id, include_blank: false, selected: @instant_session&.activity_factor_id || {}, input_html: { class: "form-control"} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="advance_data" class="tab-pane fade" role="tabpanel" aria-labelledby="account-tab" aria-expanded="false">
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.body_grease') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :body_grease, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.visceral_grease') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :visceral_grease, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.muscle_mass') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :muscle_mass, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.bone_mass') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :bone_mass, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.bmr') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :bmr, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.metabolic_age') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :metabolic_age, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.water_percentage') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :water_percentage, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label"><%= t('.physical_complexion') %></label>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <%= f.input :physical_complexion, label: false, input_html: { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center form-group">
+          <%= f.button :submit, t(".#{action_button}"), class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  let imc = 0;
+  let h2 = 0;
+  let weight = 0;
+  let height = 0;
+  let ideal_weight = 0;
+
+  function recalcular_imc() {
+    weight = 0;
+    height = 0;
+    ideal_weight = 0;
+    imc = 0;
+    h2 = 0;
+
+    height = $("#instant_session_height").val().trim();
+    weight = $("#instant_session_weight").val().trim();
+    if (weight != '' && height != '')
+    {
+      h2 = (height*height).toFixed(2);
+      imc = (weight / h2 ).toFixed(2);
+      ideal_weight = (imc * h2 ).toFixed(2);
+      console.log("weight",weight);
+      console.log("height",height);
+      console.log("imc",imc);
+      console.log("h2",h2);
+      $("#instant_session_imc").val(imc);
+      $("#instant_session_ideal_weight").val(ideal_weight);
+
+    } else {$("#session_imc").val('')}
+  }
+
+  $(document).on('change','#instant_session_height',function(e){
+    e.preventDefault();
+    recalcular_imc();
+  })
+
+  $(document).on('change','#instant_session_weight',function(e){
+    e.preventDefault();
+    recalcular_imc();
+  })
+
+  $(document).on('change','#instant_session_imc',function(e){
+    e.preventDefault();
+
+    weight = 0;
+    height = 0;
+    ideal_weight = 0;
+    imc = 0;
+    h2 = 0;
+
+    imc = $("#instant_session_imc").val().trim();
+    height = $("#instant_session_height").val().trim();
+    weight = $("#instant_session_weight").val().trim();
+    if (weight != '' && height != '')
+    {
+      h2 = (height*height).toFixed(2);
+      ideal_weight = (imc * h2 ).toFixed(2);
+      $("#instant_session_ideal_weight").val(ideal_weight);
+    } else {$("#instant_session_ideal_weight").val('')}
+  })
+</script>

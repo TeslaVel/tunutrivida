@@ -1,0 +1,28 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1><%= t('meals.meals') %></h1>
+    <%= link_to t('meals.new_meal'), new_meal_path , class: "btn btn-primary" %>
+  </div>
+
+  <%= render(Pagination::PaginatorComponent.new(
+    collection: @meals,
+    filter_url: meals_filter_path,
+    filter_options: {
+      parent_class: '',
+      input_class: 'w-180px',
+      options: [
+      { name: 'meal_type', type: 'hash_array', rows: Meal::MEAL_TYPES.each_with_index.map { |mt, idx| { value: idx, label: mt.to_s.capitalize }}},
+      { name: 'type_of_use', type: 'hash_array', rows: Meal::TYPE_OF_USES.each_with_index.map { |tu, idx| { value: idx, label: tu.to_s.capitalize }}},
+      # { name: 'age', type: 'hash_array', rows: [
+      #   {label: 'Entre 16 a 20', value: 1},
+      #   {label: 'Entre 20 a 30', value: 2},
+      #   {label: 'Entre 40 a 50', value: 3},
+      # ]}
+      ]
+    }
+  )) %>
+  <div id="meals_list_partial">
+    <%= render 'list', meals: @meals %>
+  </div>
+</div>
+

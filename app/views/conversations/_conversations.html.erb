@@ -1,0 +1,7 @@
+<% conversations.map do |conversation|%>
+  <div class="pt-2">
+    <%= link_to "/conversations?convo_id=#{conversation.id}", class: 'text-decoration-none' do %>
+      <%= conversation.patient.full_name %>
+    <% end %>
+  </div>
+<% end %>

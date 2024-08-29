@@ -1,0 +1,7 @@
+$("#meals_list_partial").html("\
+  <%= escape_javascript(render(:partial => 'meals/list', :locals => {\
+                               :meals => @meals} )) %>");
+
+$("#pagination").html(`
+  <%= escape_javascript(render(Pagination::PaginateComponent.new(collection: @meals))) %>
+`);

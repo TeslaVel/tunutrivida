@@ -1,0 +1,37 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: billing,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"billing_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        {
+          type: 'select', name: :patient_id, label: :patient,
+          disabled: !billing.new_record? || billing.paid?,
+          collection: {
+            data: patients,
+						label_method: :first_name,
+						selected: billing.patient_id,
+          },
+        },
+        {
+          type: 'text', name: :description, label: :description, value: billing.description,
+        },
+        {
+          type: 'select', name: :billing_type, label: :billing_type,
+          disabled: !billing.new_record? || billing.paid?,
+          collection: {
+            data:  Billing::BILLING_ITEMS,
+						label_method: :name,
+						value_method: :source,
+						selected: billing.billing_type.to_sym,
+          },
+        },
+      ]
+  ) %>
+</div>
+
+
+

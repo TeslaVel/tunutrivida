@@ -1,0 +1,73 @@
+<div class="card shadow mb-4">
+  <a href="#collapseCardExample_<%= key %>" class="d-block card-header px-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>">
+    <h6 class="m-0 font-weight-bold text-primary"><%= t(title) %></h6>
+  </a>
+  <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>">
+	  <div class="card-body p-0">
+	  	<div class="table-responsive">
+				<table class="table table-bordered" width="100%">
+					<thead>
+						<tr>
+							<th width="">Concept</th>
+							<th width="">First session</th>
+							<th width="">Last session</th>
+							<th class="text-center" width="">Total tost</th>
+						</tr>
+					</thead>
+				  <tbody>
+						<% if sessions.count > 0 %>
+						  <tr class="">
+						    <td ><%= t('patient_packages.date') %></td>
+						    <td ><%= sessions.first.date %></td>
+						    <td ><%= sessions.last.date %> </td>
+						    <td class="text-center" > - </td>
+						  </tr>
+						  <tr class="">
+						    <td ><%= t('patient_packages.weight')%> </td>
+						    <td ><%= sessions.first.weight %></td>
+						    <td ><%= sessions.last.weight %> </td>
+						    <% restWeight = ((sessions&.first&.weight || 0) - (sessions&.last&.weight || 0)).round(2) %>
+						    <td class="text-center <%= restWeight > 0 ? '' : 'c-red' %>"><%= restWeight %></td>
+						  </tr>
+						  <tr class="">
+						    <td ><%= t('patient_packages.waist')%></td>
+						    <td ><%= sessions.first.waist %></td>
+						    <td ><%= sessions.last.waist %> </td>
+						    <% restWaist = ((sessions&.first.waist || 0) - (sessions&.last.waist || 0)).round(2) %>
+						    <td class="text-center <%= restWaist > 0 ? '' : 'c-red' %>"><%= restWaist %></td>
+						  </tr>
+						   <tr class="">
+						    <td ><%= t('patient_packages.hip')%></td>
+						    <td ><%= sessions.first.hip %></td>
+						    <td ><%= sessions.last.hip %> </td>
+						    <% restHip = ((sessions&.first.hip || 0) - (sessions&.last.hip || 0)).round(2) %>
+						    <td class="text-center <%= restHip > 0 ? '' : 'c-red' %>"><%= restHip %></td>
+						  </tr>
+						  <tr class="">
+						    <td ><%= t('patient_packages.high_abdomen')%></td>
+						    <td ><%= sessions.first.high_abdomen %></td>
+						    <td ><%= sessions.last.high_abdomen %> </td>
+						    <% restHighAbdomen = ((sessions&.first.high_abdomen || 0) - (sessions&.last.high_abdomen || 0 )).round(2) %>
+						    <td class="text-center <%= restHighAbdomen > 0 ? '' : 'c-red' %>"><%= restHighAbdomen %></td>
+						  </tr>
+						  <tr class="">
+						    <td ><%= t('patient_packages.low_abdomen')%></td>
+						    <td ><%= sessions.first.low_abdomen %></td>
+						    <td ><%= sessions.last.low_abdomen %> </td>
+						    <% restLowAbdomen = ((sessions.first.low_abdomen || 0) - (sessions.last.low_abdomen || 0)).round(2) %>
+						    <td class="text-center <%= restLowAbdomen > 0 ? '' : 'c-red' %>"><%= restLowAbdomen %></td>
+						  </tr>
+						   <tr class="">
+						    <td ><%= t('patient_packages.imc')%></td>
+						    <td ><%= sessions.first.imc %></td>
+						    <td ><%= sessions.last.imc %> </td>
+						    <% restImc = ((sessions&.first&.imc || 0) - (sessions&.last&.imc || 0)).round(2) %>
+						    <td class="text-center <%= restImc > 0 ? '' : 'c-red' %>"><%= restImc %></td>
+						  </tr>
+	  				<% end %>
+				  </tbody>
+				</table>
+	  	</div>
+	  </div>
+  </div>
+</div>

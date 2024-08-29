@@ -1,0 +1,33 @@
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'Appointment Info', target: '#info' },
+  ],
+  extra_item_options: [
+    { element: ->() {
+      link_to 'Edit', edit_appointment_path(@appointment)
+    }}
+  ],
+  title: @appointment.title,
+  card_class: '',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'billings_info_component'
+) do %>
+  <div id="info" class="tab-pane active" role="tabpanel">
+    <%= render Elements::TableShowComponent.new(
+      row_object: @appointment,
+      table_alias: @appointment.model_name.to_s.downcase,
+      row_fields: [
+        { field: :appointment_type, classes: 'text-primary-400', width: '15%' },
+        { field: :start_date, classes: 'text-primary-400' },
+        { field: 'initiate', value: "#{@appointment.time_start.strftime("%H:%M %p")} - #{@appointment.time_end.strftime("%H:%M %p")}", classes: 'text-primary-400' },
+        { field: :status, classes: 'text-primary-400' },
+        { field: 'dietitian.email', label: t('dietitian'), classes: 'text-primary-400' },
+        { field: 'patient.first_name', label: t('patient'), classes: 'text-primary-400' },
+      ],
+      table_class: 'table-borderless'
+    )%>
+  </div>
+<% end %>
+<div class="d-flex col-3 mx-auto justify-content-center p-2">
+  <%= link_to 'Back', appointments_path, class: 'text-primary-700' %>
+</div>

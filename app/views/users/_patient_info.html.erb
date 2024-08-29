@@ -1,0 +1,83 @@
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'patients.info', target: '#about' },
+    { label: 'Conditions', target: '#patient_condition' },
+    { label: 'Login Data', target: '#login_data' }
+  ],
+  card_body_class: 'tab-content',
+  card_class: 'col-12 col-sm-6',
+  card_component_id: 'patient-show-info-left-card'
+) do %>
+  <div class="tab-pane active" id="about">
+    <div class="row">
+      <div class="col-12 pl-0">
+        <%= link_to '[Edit]', edit_patient_path(patient), class: "nav-link pl-0" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 p-0">
+        <div class="list-unstyled">
+          <% if patient.sessions.first.present? %>
+            <p class="mb-2 text-left"><%= t('ideal_weight')%>:</p>
+          <% end %>
+          <p class="mb-2 text-left"><%= t('first_name')%>:</p>
+          <p class="mb-2 text-left"><%= t('last_name')%>:</p>
+          <p class="mb-2 text-left"><%= t('age') %>:</p>
+          <p class="mb-2 text-left"><%= t('gender') %>:</p>
+          <p class="mb-2 text-left"><%= t('bmr_factor') %>:</p>
+          <p class="mb-2 text-left"><%= t('last_session')%>:</p>
+          <p class="mb-2 text-left diagonis_imc"> IMC </p>
+          <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
+          <p class="mb-2 text-left diagonis_icc"> ICC </p>
+        </div>
+      </div>
+      <div class="col-6 p-0">
+        <div class="list-unstyled">
+          <% if patient.sessions.first.present? %>
+            <p class="mb-2 "><%= patient.sessions.count > 0 ? patient.sessions.first&.ideal_weight || '-' : '-' %></p>
+          <% end %>
+          <p class="mb-2 "><%= patient.first_name %></p>
+          <p class="mb-2 "><%= patient.last_name %></p>
+          <p class="mb-2 "><%= patient.age %></p>
+          <p class="mb-2 "><%= t(patient.gender.name.downcase) %></p>
+          <p class="mb-2 "><%= patient.bmr_factor&.name || '-' %></p>
+          <p class="mb-2 ">
+            <% if (session) %>
+              <%= link_to session&.date, patient_patient_package_session_show_path(patient, session.patient_package, session) %>
+            <% else %>
+              -
+            <% end %>
+          </p>
+          <p class="mb-2 diagonis_imc"><%= session&.imc || '-' %></p>
+          <p class="mb-2 diagonis_pdc"><%= session&.waist || '-' %> </p>
+          <p class="mb-2 diagonis_icc"><%= @icc || '-' %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id='patient_condition'>
+    <%= render 'patient_conditions',
+        key: 1,
+        patient: patient %>
+  </div>
+
+  <div class="tab-pane" id='login_data'>
+    <div class="row">
+      <div class="col-4 p-0">
+        <div class="list-unstyled">
+          <p class="mb-2 text-left">Email:</p>
+          <p class="mb-2 text-left">Username:</p>
+          <p class="mb-2 text-left">Password:</p>
+        </div>
+      </div>
+      <div class="col-8 p-0">
+        <div class="list-unstyled">
+          <p class="mb-2 "><%= patient.email %></p>
+          <p class="mb-2 "><%= patient.username %></p>
+          <p class="mb-2 "> tunutrivida </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

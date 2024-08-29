@@ -1,0 +1,36 @@
+<%= render Elements::Card::CardCollapsibleComponent.new(
+  collapsible_key: "#{key}-collapsible",
+  collapsed: expanded,
+  title_object: {
+    title_text: title,
+    title_classes: '',
+    parent_classes: ''
+  },
+  card_classes: 'col-xs-6 col-sm-12 shadow mb-4',
+  card_body_class: 'p-2',
+  card_header_class: 'px-3',
+  sub_header: {
+    component: Elements::LinkComponent.new(
+                label: 'New Package',
+                url: patient_package_new_path(patient),
+                classes: 'btn btn-primary'
+               ),
+    classes: 'justify-content-end py-2'
+  },
+  card_collapsible_component_id: "patient-packages-card-component"
+) do %>
+    <%= render Elements::TableComponent.new(
+      row_objects: patient.patient_packages.order_status,
+      table_alias: patient.patient_packages.model.name.underscore,
+      row_fields: [
+        { field: 'package.name', label: 'Name', link: ->(label, object) { link_to(label, patient_package_show_path(object.patient, object)) }},
+        { field: :date, },
+        { field: :status },
+        { field: 'package.price', label: 'Price' },
+        { field: 'package.weeks', label: 'Week' },
+        { field: 'sessions.count', label: 'sessions.sessions' },
+        { field: 'package.description', label: 'Description' },
+      ],
+      row_actions:  { render: false }
+    )%>
+<% end %>

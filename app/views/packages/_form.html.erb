@@ -1,0 +1,17 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: package,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"package_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        { type: 'text', name: :name, label: :name, value: package.name },
+        { type: 'text', name: :description, label: :description, value: package.description },
+        { type: 'number', name: :price, label: :price, value: package.price },
+        { type: 'number', name: :weeks, label: :weeks, value: package.weeks },
+        { type: 'number', name: :session_quantity, label: :session_quantity, value: package.session_quantity },
+      ]
+  ) %>
+</div>

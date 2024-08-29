@@ -1,0 +1,33 @@
+<% notes.map do |note| %>
+   <% if current_user == note.user %>
+      <div class="p-0 py-3 d-flex items-center" style="align-self: end;">
+      <div class="d-flex pr-2 flex-column">
+         <span class="d-flex justify-content-end">
+            <span class="f-size-12"><%= note.created_at.strftime('%b %-d at %I:%M:%P') %></span>&nbsp; - &nbsp;<strong><%= note.user.first_name_initial %></strong>
+         </span>
+         <p class="m-0 d-flex justify-content-end"><%= note.message %></p>
+
+      </div>
+      <div>
+         <div class="border-radius-40 bg-pink-100 p-2">
+            <strong class=""><%= note.user.get_initials %></strong>
+         </div>
+      </div>
+   </div>
+   <% else %>
+   <div class="p-0 py-2 d-flex items-center">
+      <div>
+         <div class="border-radius-40 bg-pink-100 p-2">
+            <strong class=""><%= note.user.get_initials %></strong>
+         </div>
+      </div>
+      <div class="d-flex pl-2 flex-column">
+         <span class="d-flex">
+            <strong><%= note.user.first_name_initial %></strong>&nbsp; - &nbsp;<span class="f-size-12"><%= note.created_at.strftime('%b %-d at %I:%M:%P') %></span>
+         </span>
+         <p class="m-0"><%= note.message %></p>
+
+      </div>
+   </div>
+   <% end %>
+<% end %>

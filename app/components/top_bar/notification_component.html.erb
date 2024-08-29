@@ -1,0 +1,21 @@
+<% if notification&.notification_type == 'comment' && notification&.associated_object&.entry&.present? %>
+  <a class="dropdown-item d-flex align-items-center" href="<%= entry_path(notification.associated_object.entry) %>">
+<% elsif notification&.notification_type == 'note' && notification&.associated_object&.present? %>
+  <a class="dropdown-item d-flex align-items-center" href="/conversations?convo_id=<%= notification&.associated_object.conversation_id%>">
+<% else %>
+  <a class="dropdown-item d-flex align-items-center" href="">
+<% end %>
+
+<div class="mr-3">
+  <div class="icon-circle bg-<%= notification.notification_type %>">
+    <i class="fas fa-file-alt text-white"></i>
+  </div>
+</div>
+<div>
+  <div class="small text-gray-500"><%= notification.created_at.strftime('%b %-d at %I:%H %P') %></div>
+  <% if notification.seen %>
+    <%= notification.content %>
+  <% else %>
+    <span class="font-weight-bold"><%= notification.content %></span>
+  <% end %>
+</div>

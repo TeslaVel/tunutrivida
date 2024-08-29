@@ -1,0 +1,26 @@
+<li class="nav-item dropdown no-arrow">
+  <a class="nav-link dropdown-toggle px-2" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= current_user.first_name %></span>
+    <%= render Elements::IconHandlerComponent.new(name: 'user-circle', classes: 'text-white', size: '35') %>
+  </a>
+  <!-- Dropdown - User Information -->
+  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+    <a class="dropdown-item" href="#">
+      <%= render Elements::IconHandlerComponent.new(name: 'user', classes: 'mr-2  text-gray-500', size: '20') %>
+      Profile
+    </a>
+    <a class="dropdown-item" href="#">
+      <%= render Elements::IconHandlerComponent.new(name: 'cogs', classes: 'mr-2 text-gray-500', size: '18') %>
+      Settings
+    </a>
+    <a class="dropdown-item" href="#">
+      <%= render Elements::IconHandlerComponent.new(name: 'list', classes: 'mr-2 text-gray-500', size: '20') %>
+      Activity Log
+    </a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+      <%= render Elements::IconHandlerComponent.new(name: 'sign-out-alt', classes: 'mr-2 text-gray-500') %>
+      Logout
+    </a>
+  </div>
+</li>

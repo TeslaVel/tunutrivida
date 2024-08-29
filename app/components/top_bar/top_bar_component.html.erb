@@ -1,0 +1,79 @@
+<header>
+  <nav class="navbar navbar-expand navbar-light topbar static-top shadow bg-primary-200 text-primary-30">
+    <button id="sidebarToggleTop" class="btn btn-link rounded-circle px-1 mr-3">
+      <%= render Elements::IconHandlerComponent.new(name: 'bars', size: '25') %>
+    </button>
+
+    <div>
+      <a href="" target="" data-toggle="modal" data-target="#editDolarPriceModal" class="text-primary-30 border-radius-5 border-primary-100 px-2 py-2">
+        <strong class=""> <%= gbl_configuration.target_currency_code %>:</strong>
+        <span id="target_conversion">
+          <%= gbl_configuration.target_conversion %>
+        </span>
+      </a>
+    </div>
+
+    <ul class="navbar-nav ml-auto">
+      <div id="partial_notifications">
+        <%= render TopBar::NotificationsComponent.new(current_user:) %>
+      </div>
+      <div id="partial_messages">
+        <%= render TopBar::EmailsComponent.new %>
+      </div>
+
+      <div class="topbar-divider d-none d-sm-block"></div>
+
+      <%= render TopBar::UserNavComponent.new(current_user:) %>
+    </ul>
+  </nav>
+  <%= render Forms::ModalComponent.new(
+    id_modal: 'editDolarPriceModal',
+    title: 'Edit Dolar Price',
+    primary_actions: {
+      name: 'Update',
+      action: 'update_dolar_function()',
+    }
+  ) do %>
+    <%= render Forms::CustomFormComponent.new(
+        scope_instance: @gbl_configuration,
+        url: patch_update_dolar_price_path(@gbl_configuration),
+        data_type: { type: :json },
+        html_options: {
+          id:"edit_price_dolar_form",
+          class: 'mx-4 h-auto'
+        },
+        is_row: true,
+        fields: [
+          { type: 'hidden', name: :user_id, value: '22' },
+          {
+            type: 'text', name: :target_conversion, value: @gbl_configuration.target_conversion,
+            label: :dolar_price, input_class: ''
+          },
+          {
+            type: 'date', name: :new_date, label: 'Date', input_class: ''
+          },
+        ]
+    ) %>
+  <% end %>
+</header>
+
+<!-- functions for modal -->
+<script>
+  function update_dolar_function() {
+    let dataToSubmit = $("#edit_price_dolar_form").serialize();
+    console.log('dataToSubmit', dataToSubmit);
+    $.ajax({
+     url: $("#edit_price_dolar_form").attr('action'),
+     type: "PATCH",
+     data: dataToSubmit,
+     // contentType: "application/json; charset=utf-8",
+     dataType: "script",
+     success: function(data) {
+      customCloseModal('editDolarPriceModal');
+     },
+     error: function(err) {
+       console.log('err', err);
+     }
+    })
+  }
+</script>

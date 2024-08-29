@@ -1,0 +1,9 @@
+<%= render Elements::TableComponent.new(
+  row_objects: genders,
+  table_alias: genders.model.name.underscore,
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, gender_path(object)) }},
+    { field: :description },
+  ],
+  row_actions: {}
+) %>

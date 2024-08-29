@@ -1,0 +1,2 @@
+module ActivityFactorsHelper
+end

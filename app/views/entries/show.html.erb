@@ -1,0 +1,148 @@
+<%= link_to 'Back', entries_path %>
+<div class="d-flex justify-content-center">
+  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 p-0 mb-5">
+    <div class="card p-0">
+      <div class="card-header bg-primary-300 text-white d-flex justify-content-between align-items-center px-0 py-2">
+        <div class="px-2"><img src="" alt="profile" tile="profile"></div>
+        <div class="d-flex flex-column flex-grow-1 px-2">
+          <span><%= @entry.user.first_name %></span>
+          <span><%= @entry.created_at.strftime('%b %-d at %I:%H %P') %></span>
+          <span class="font-size-12"><%= @entry.entry_type %></span>
+        </div>
+        <div class="px-2">
+          <%= link_to 'Edit', edit_entry_path(@entry) , class: 'text-primary-50 pr-3' %>
+        </div>
+      </div>
+      <% if @entry.image.present? %>
+        <div class="bg-transparent">
+          <%= image_tag @entry.image, style: 'background-size: cover; background-position: center center; height: 250px; width: 100%;' %>
+        </div>
+      <% end %>
+      <div class="p-0 py-2 d-flex justify-content-center bg-primary-300 text-white border-secondary-50 ">
+        <div class="d-flex px-2 flex-column">
+          <span class="d-flex"><p class="m-0">-&nbsp;<%= @entry.description %>&nbsp;-</p></span>
+          <span class="f-size-12 text-center"><%= @entry.created_at.strftime('%b %-d at %I:%H %P') %></span>
+        </div>
+      </div>
+      <% height = @entry.image.present? ? 'h-200px' : 'h-300px' %>
+      <div class="card-body px-0 pb-1 pt-0 <%= height %> overflow-hidden bg-primary-30">
+        <div class="px-3 h-100 overflow-y-scroll" id="content-comment-scroll">
+          <div id="comments_partial" class="d-flex flex-column ">
+            <%= render 'comments', comments: @comments %>
+          </div>
+        </div>
+      </div>
+      <div class="px-2 py-2 bg-primary-300">
+        <div class="d-flex flex-start mb-2">
+          <%= form_with scope: Comment.new, url: entry_comments_path(@entry),
+            data: { type: :json },
+            html: {
+              id:"reaction_form",
+              class: 'reaction_form border-radius-40 d-flex justify-content-center',
+              multipart: true, remote: true
+            } do |f| %>
+            <%= f.hidden_field :message, id: "input_emoji" %>
+            <%= f.hidden_field :comment_tpe, value: 'reaction', id: "input_reaction" %>
+            <span class="px-0 p-0 m-0 pl-2 d-flex emoji-panel" id="emoji-panel">
+              <%= render "layouts/components/emojis", action_call: 'addReaction(event)' %>
+            </span>
+          <% end %>
+        </div>
+
+        <%= simple_form_for([@entry, Comment.new],
+          html: {
+            class: 'd-flex justify-between items-center',
+            id:"comment_form",
+            remote: true
+          }) do |f| %>
+
+          <input
+            id="messageInput"
+            type="text"
+            name="comment[message]"
+            placeholder="Escribe tu mensaje..."
+            class="flex-grow-1 pl-2 mx-2 border-radius-40 border-0"
+          />
+          <input type="submit"
+            name="commit"
+            onclick="addComment(event)"
+            value="Crear"
+            class="btn bg-primary-500 hover:bg-primary-300 border-radius-40 px-2"
+            id="create_comment_button"
+            data-disable-with="Crear"
+            style="color: white;">
+        <% end %>
+      </div>
+    </div>
+    <hr />
+  </div>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    function scrollDown() {
+      const myDiv = document.getElementById('content-comment-scroll');
+      myDiv.scrollTop = myDiv.scrollHeight;
+    }
+    $(document).on('turbolinks:load', function() {
+      scrollDown()
+    });
+    //******************
+    //* Create billing item
+    //*
+    function addReaction(event) {
+        event.preventDefault();
+
+        $("#input_emoji").val(event.target.value);
+        let dataToSubmit = $("#reaction_form").serialize();
+
+        $.ajax({
+          url: $("#reaction_form").attr('action'),
+          type: "POST",
+          data: dataToSubmit,
+          dataType: "script",
+          success: function(data) {
+            scrollDown()
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    }
+
+    function sendComment() {
+      let dataToSubmit = $("#comment_form").serialize();
+      $.ajax({
+        url: $("#comment_form").attr('action'),
+        type: "POST",
+        data: dataToSubmit,
+        dataType: "script",
+        success: function(data) {
+          $("#messageInput").val('');
+          scrollDown()
+        },
+        error: function(err) {
+          console.log('err', err);
+        }
+      })
+    }
+
+    function addComment(event) {
+      event.preventDefault();
+      sendComment()
+    }
+
+    $(document).on('turbolinks:load', function() {
+      $("#messageInput").on("keypress", function(event) {
+        if (event.which === 13) {
+          event.preventDefault();
+         sendComment()
+        }
+      });
+
+      $("#messageInput").on("click", function() {
+        console.log('focus on')
+      })
+    });
+  </script>
+<% end %>

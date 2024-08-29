@@ -1,0 +1,14 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: activity_factor,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"activity_factor_form_id", class: 'form', remote: false},
+      action_buttons: {},
+      fields: [
+        { type: 'text', name: :name, label: :name, value: activity_factor.name },
+        { type: 'text', name: :value, label: :value, value: activity_factor.value },
+        { type: 'text', name: :description, label: :description, value: activity_factor.description },
+      ]
+  ) %>
+</div>

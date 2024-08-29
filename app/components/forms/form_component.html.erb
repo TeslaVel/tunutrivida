@@ -1,0 +1,26 @@
+<%= form_with scope: scope_instance,
+  url: url,
+  data: data_type,
+  method: method,
+  html: html_options do |form| %>
+
+  <% if fields.present? %>
+    <div class="card">
+      <div class="card-header bg-transparent text-center">
+        <h5 class="mb-0"><%= t(title) %></h5>
+      </div>
+      <div>
+        <%= form.error_notification message: form.object.errors[:base].to_sentence if form.object.errors[:base].present? %>
+      </div>
+      <div class="card-body">
+        <%= render Forms::Inputs::InputsComponent.new(form:, is_row:, fields:) %>
+      </div>
+      <div class="card-footer text-center" style="background: transparent;">
+        <%= form.button :submit, class: "btn btn-primary" do %>
+          <%= action_buttons[:submit][:label] %>
+        <% end %>
+        <%= link_to action_buttons[:back][:label], action_buttons[:back][:url], class: "btn btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

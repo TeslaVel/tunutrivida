@@ -1,0 +1,9 @@
+<%= render Elements::TableComponent.new(
+  row_objects: restricted_ingredients,
+  table_alias: restricted_ingredients.model.name.underscore,
+  row_fields: [
+    { field: 'condition.name', label: t('condition'), link: ->(label, object) { link_to(label, restricted_ingredient_condition_path(object)) }},
+    { field: 'meal.name', label: t('meal') },
+  ],
+  row_actions: {}
+) %>

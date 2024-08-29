@@ -1,0 +1,28 @@
+customCloseModal('newItemModal');
+close_and_reset_form();
+
+"<% @patient = @billing.patient %>"
+
+"<% used_package_ids = @billing.billing_items.where(itemable_type: 'Package').select(:itemable_id) %>"
+"<% used_product_ids= @billing.billing_items.where(itemable_type: 'Product').select(:itemable_id)%>"
+"<% used_discount_ids = @billing.billing_items.where(itemable_type: 'Discount').select(:itemable_id)%>"
+
+"<% @patient_packages = @patient.packages.where.not(id: used_package_ids) %>"
+"<% @products = Product.where.not(id: used_product_ids) %>"
+"<% @discounts = Discount.where.not(id: used_discount_ids ) %>"
+
+$("#billing_items_partial").html("\
+		<%= escape_javascript(render(:partial => 'billings/billing_items', :locals => {\
+																:key => '2',\
+																:billing => @billing.reload,\
+																:title => 'Pending to pay'} )) %>");
+
+$("#add_billing_item_form_partial").html("\
+		<%= escape_javascript(render(:partial => 'billings/add_billing_item_form', :locals => {\
+																:billing => @billing.reload,\
+																:patient_packages => @patient_packages,\
+																:products => @products,\
+																:discounts => @discounts,\
+																:current_user_id => @current_user_id } )) %>");
+
+

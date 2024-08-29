@@ -1,0 +1,38 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: @meal,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"meal_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        { type: 'text', name: :name, label: :name, value: @meal.name },
+        {
+          type: 'select', name: :meal_type, label: :meal_type,
+          collection: {
+            data: Meal::MEAL_TYPES,
+            top_option: {
+              value: :none,
+              label: 'Select a meal type'
+            },
+            selected: @meal.meal_type.to_sym,
+          },
+        },
+        {
+          type: 'select', name: :type_of_use, label: :type_of_use,
+          collection: {
+            data: Meal::TYPE_OF_USES,
+            top_option: {
+              value: :none,
+              label: 'Select a type of use'
+            },
+            selected: @meal.type_of_use.to_sym,
+          },
+        },
+      ]
+  ) %>
+</div>
+
+
+

@@ -1,0 +1,38 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: @restricted_ingredient,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"meal_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        {
+          type: 'select', name: :condition_id, label: :condition_id,
+          collection: {
+            data: Condition.all,
+            top_option: {
+              value: :none,
+              label: 'Select a condition'
+            },
+            selected: @restricted_ingredient&.condition_id,
+          },
+        },
+        {
+          type: 'select', name: :meal_id, label: :meal_id,
+          collection: {
+            data: Meal.all,
+            top_option: {
+              value: :none,
+              label: 'Select a meal'
+            },
+            selected: @restricted_ingredient&.meal_id,
+          },
+        },
+      ]
+  ) %>
+</div>
+
+
+
+

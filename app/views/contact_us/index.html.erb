@@ -1,0 +1,43 @@
+<div class="col-12">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Contact us</h1>
+    <%= link_to 'New Task', new_contact_u_path , class: "btn btn-primary" %>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Message</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @all_contact_us.each do |contactus| %>
+          <tr>
+            <td><%= link_to contactus do %>
+                <%= contactus.email %>
+              <% end %></td>
+            <td><%= contactus.message %></td>
+            <td class="text-center">
+              <%= link_to contactus, class: 'mr-3' do %>
+                <i class="fa fa-eye c-blue"></i>
+              <% end %>
+
+              <%= link_to edit_contact_u_path(contactus), class: 'mr-3' do %>
+                <i class="fa fa-pen c-green"></i>
+              <% end %>
+
+              <%= link_to contactus, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash c-red"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

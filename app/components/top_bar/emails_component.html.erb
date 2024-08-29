@@ -1,0 +1,43 @@
+<li class="nav-item dropdown no-arrow px-2">
+  <a href="#" class="nav-link dropdown-toggle px-1" id="messagesDropdown"
+    role="button" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false">
+    <%= render Elements::IconHandlerComponent.new(name: 'envelope', classes: 'text-white') %>
+
+    <!-- Counter - Messages -->
+    <span class="badge badge-danger badge-counter <%= 'd-none' if emails.blank? %>" id="emails-counter">
+      <%= emails&.size %>+
+    </span>
+  </a>
+
+  <!-- Dropdown - Messages -->
+  <div aria-labelledby="messagesDropdown"
+    class="dropdown-list dropdown-menu dropdown-menu-right
+           shadow animated--grow-in">
+
+    <h6 class="dropdown-header">
+      Message Center
+    </h6>
+
+  <div id="emails-container" class="h-300px overflow-hidden">
+     <div class="h-100 overflow-y-scroll">
+      <% emails&.each do | email| %>
+        <a class="dropdown-item d-flex align-items-center px-2" href="<%= contact_u_path(email.associated_object) %>">
+          <div class="dropdown-list-image ">
+            <img class="rounded-circle" src="" alt="<%= email.associated_object.first_name %>">
+          </div>
+          <div class="font-weight-bo ml-3">
+            <div class="text-truncate"><%= email.associated_object.message %></div>
+            <div class="small text-gray-600"><%= email.associated_object.email %></div>
+            <div class="small text-gray-600"><%= email.created_at.strftime('%b %-d at %I:%H %P') %></div>
+          </div>
+        </a>
+      <% end %>
+     </div>
+  </div>
+
+    <a class="dropdown-item text-center small text-gray-500" href="#">
+      Read More Messages
+    </a>
+  </div>
+</li>

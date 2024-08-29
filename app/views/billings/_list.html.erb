@@ -1,0 +1,36 @@
+<% show_paid_unpaid = ->(object, type) {
+    content_tag(:span) do
+      if type == 'pending' && object.unpaid?
+        data_total = object.obtain_pending_total_value
+        return "#{@gbl_configuration.currency_code} #{data_total[:total] || 0} | #{object.target_currency_code} #{data_total[:total_conversion]|| 0}"
+      end
+
+      if type == 'paid' && object.paid?
+        return "#{@gbl_configuration.currency_code} #{object&.total || 0} | #{object.target_currency_code} #{object&.total_conversion || 0} "
+      end
+
+      '0'
+    end
+  }
+%>
+
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: :code, link: ->(label, object) { link_to(label, billing_path(object)) }},
+    { field: :description },
+    { field: 'patient.first_name', label: 'Patient' },
+    { field: 'pending',
+      element: ->(object) { show_paid_unpaid.call(object, 'pending')}
+    },
+    { field: 'paid',
+      element: ->(object) { show_paid_unpaid.call(object, 'paid')}
+    },
+  ],
+  row_objects: billings,
+  table_alias: billings.model.name.to_s.downcase,
+  row_actions:  {
+    edit: { should_hide: ->(object) { object.paid?} },
+    delete: { should_hide: ->(object) { object.paid?} }
+  }
+) %>
+

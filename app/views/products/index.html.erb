@@ -1,0 +1,14 @@
+<div class="col-12">
+  <h1>Products</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('products.new_product'), new_product_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @products %>
+  </div>
+
+  <div id="products_list_partial">
+    <%= render 'list', products: @products %>
+  </div>
+</div>

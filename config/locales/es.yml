@@ -1,0 +1,336 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+es:
+  hello: "Hello world"
+  views:
+    pagination:
+      first: 'Primero'
+      last: 'Ultimo'
+      previous: '<'
+      next: '>'
+
+  all: 'Todo'
+  first: 'Primero'
+  last: 'Ultimo'
+  date: 'Fecha'
+  # months:
+  #   january: Enero
+  #   february: Febrero
+  #   march: Marzo
+  #   april: Abril
+  #   may: Mayo
+  #   june: Junio
+  #   july: Julio
+  #   august: Agosto
+  #   september: Septiembre
+  #   october: Octubre
+  #   november: Noviembre
+  #   december: Diciembre
+
+  back: 'Atras'
+  edit: 'Editar'
+  show: 'Mostrar'
+  delete: 'Eliminar'
+  update: 'Actualizar'
+
+  date_of_birth: 'Fecha de nacimiento'
+  gender: 'Genero'
+  male: 'Hombre'
+  female: 'Mujer'
+  both: 'Ambos'
+
+  age: 'Edad'
+  weight: 'Peso'
+  height: 'Altura'
+  waist: 'Cintura'
+  hip: 'Cadera'
+  high_abdomen: 'Abdomen Alto'
+  low_abdomen: 'Abdomen Bajo'
+  imc: 'IMC'
+  ideal_weight: 'Peso Ideal'
+  body_grease: 'Grasa Corporal'
+  visceral_grease: 'Grasa Visceral'
+  muscle_mass: 'Masa Muscular'
+  bone_mass: 'Masa Osea'
+  bmr: 'BMR'
+  bmr_factor: 'Factor BMR'
+  metabolic_age: 'Edad Metabolica'
+  water_percentage: 'Porcetaje de Agua'
+  physical_complexion: 'Comlexion Fisica'
+  activity_factor: 'Factor Actividad'
+
+
+  patient_sessions: 'Sesiones del paciente'
+  new_session: 'Nueva Session'
+  new_diet: 'Nueva Dieta'
+
+  sunday: 'Domingo'
+  monday: 'Lunes'
+  tuesday: 'Martes'
+  wednesday: 'Miercoles'
+  thursday: 'Jueves'
+  friday: 'Viernes'
+  saturday: 'Sabado'
+  breakfast: 'Desayuno'
+  lunch: 'Almuerzo'
+  dinner: 'Cena'
+  simple: 'Simple'
+  compound: 'Compuesto'
+  actions: 'Acciones'
+  name: 'Nombre'
+  description: 'Descripcion'
+  dietitian: 'Dietista'
+  patient: 'Paciente'
+  condition: 'Condición'
+  conditions: 'Condiciónes'
+  meal: 'Comida'
+  meals: 'Comidas'
+  weeks: 'Semanas'
+  week: 'Semana'
+  status: 'Estado'
+  price: 'Precio'
+  first_name: 'Nombres'
+  last_name: 'Apellidos'
+  last_session: 'Última Sesión'
+  first_session: 'Primera Sesión'
+  current_session: 'Sesión Actual'
+  value_min: 'Valor Minimo'
+  value_max: 'Valor Maximo'
+
+  activity_factors:
+    edit_activity_factor: 'Editar Factor Actividad'
+    form:
+      update_activity_factor: 'Actualizar Factor Actividad'
+
+
+  genders:
+    new_gender: 'Nuevo Genero'
+    edit_gender: 'Editar Genero'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    form:
+      name: 'Nombre'
+      description: 'Descricion'
+      create_gender: 'Crear Genero'
+      update_gender: 'Actualizar genero'
+
+  discounts:
+    new_discount: 'Nuevo Descuento'
+    edit_discount: 'Editar Descuento'
+    # show: 'Mostrar'
+    # back: 'Atras'
+    # delete: 'Eliminar'
+    # edit: 'Editar'
+    form:
+      name: 'Nombre'
+      description: 'Descricion'
+      create_discount: 'Crear Descuento'
+      update_discount: 'Actualizar Descuento'
+
+  products:
+    new_product: 'Nuevo Producto'
+    edit_product: 'Editar Producto'
+    # delete: 'Eliminar'
+    # edit: 'Editar'
+    form:
+      name: 'Nombre'
+      description: 'Descricion'
+      create_product: 'Crear Producto'
+      update_product: 'Actualizar Producto'
+
+  patients:
+    info: 'Info'
+    title: 'Pacientes'
+    new_patient: 'Nuevo Paciente'
+    edit_patient: 'Editar Paciente'
+    # show: 'Mostrar'
+    # back: 'Atras'
+    # delete: 'Eliminar'
+    # edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    form:
+      # first_name: 'Nombres'
+      # last_name: 'Apellidos'
+      # date_of_birth: 'Fecha de nacimiento'
+      # gender: 'Genero'
+
+  packages:
+    new_package: 'Nuevo Paquete'
+    edit_package: 'Editar Paquete'
+    back: 'Atras'
+    form:
+      # weeks: 'Semanas'
+      # week: 'Semana'
+      session_quantity: 'Cantidad de sessiones'
+      create_package: 'Crear paquete'
+      update_package: 'Actualizar paquete'
+
+  diets:
+    diets: 'Dietas'
+    meal_time: 'Horario de comida'
+    new_diet: 'Nuevo Dieta'
+    edit_diet: 'Editar Dieta'
+    form:
+      create_diet: 'Crear dieta'
+      update_diet: 'Actualizar dieta'
+
+  meals:
+    new_meal: 'Nuevo meale'
+    # meals: 'Comidas'
+    # meal: 'Comida'
+    type_of_uses: 'Tipos de uso'
+    meal_type: 'Tipo de comida'
+
+  patient_packages:
+    new_package: 'Nuevo Paquete'
+
+    comparative_table: 'Tabla Comparativa'
+    patient_charting: 'Graficos del paciente'
+    # imc_charting: 'Graficos de IMC'
+    # patient_sessions: 'Sesiones del paciente'
+    new:
+      agregate_package: 'Agregar paquete'
+
+  sessions:
+    sessions: 'Sesiónes'
+    session: 'Sesión'
+    new_session: 'Nueva sesión'
+    edit_session: 'Editar sesión'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    name: 'Nombre'
+    form:
+      create_session: 'Crear sesion'
+      update_session: 'Actualizar sesion'
+      # date: 'Fecha'
+      # weight: 'Peso'
+      # height: 'Altura'
+      # waist: 'Cintura'
+      # hip: 'Cadera'
+      # high_abdomen: 'Abdomen Alto'
+      # low_abdomen: 'Abdomen Bajo'
+      # imc: 'IMC'
+      # ideal_weight: 'Peso Ideal'
+      # body_grease: 'Grasa Corporal'
+      # visceral_grease: 'Grasa Visceral'
+      # muscle_mass: 'Masa Muscular'
+      # bone_mass: 'Masa Osea'
+      # bmr: 'BMR'
+      # metabolic_age: 'Edad Metabolica'
+      # water_percentage: 'Porcetaje de Agua'
+      # physical_complexion: 'Comlexion Fisica'
+      # activity_factor: 'Factor Actividad'
+
+  roles:
+    new_role: 'Nuevo Rol'
+    edit_role: 'Editar Rol'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    name: 'Nombre'
+    description: 'Descripcion'
+    form:
+      name: 'Nombre'
+      description: 'Descripcion'
+      create_role: 'create_role Rol'
+      update_role: 'Actualizar Rol'
+
+
+  indicator_types:
+    new_indicator_type: 'Nuevo indicador'
+    edit_indicator_type: 'Editar indicador'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    are_you_sure: 'Desea eliminar ?'
+    name: 'Nombre'
+    form:
+      create_indicator_type: 'Crear indicador'
+      update_indicator_type: 'Actualizar indicador'
+    new:
+      create_indicator_type: 'Crear indicador'
+
+  billings:
+    new_billing: 'Nueva Factura/Boleta'
+    new_item: 'Nuevo Item'
+    show: 'Mostrar'
+    back: 'Atras'
+    delete: 'Eliminar'
+    edit: 'Editar'
+    agregate_item: 'Agregar Item'
+    description: "Descripcion"
+    amount: "Monto"
+    quantity: "Cantidad"
+    new:
+      create_billing: 'Crear Boleta/Factura'
+
+  billing_items:
+    delete: 'Eliminar'
+
+  payments:
+    create: 'Crear pago'
+    delete: 'Eliminar'
+    description: "Descripcion"
+    amount: "Monto"
+    quantity: "Cantidad"
+
+  instant_sessions:
+    form:
+      new_session: 'Nueva Session'
+      create_instant_session: 'Crear Session Instantanea'
+      update_instant_session: 'Actualizar sesion'
+      date: 'Fecha'
+      weight: 'Peso'
+      height: 'Altura'
+      waist: 'Cintura'
+      hip: 'Cadera'
+      high_abdomen: 'Abdomen Alto'
+      low_abdomen: 'Abdomen Bajo'
+      imc: 'IMC'
+      ideal_weight: 'Peso Ideal'
+      body_grease: 'Grasa Corporal'
+      visceral_grease: 'Grasa Visceral'
+      muscle_mass: 'Masa Muscular'
+      bone_mass: 'Masa Osea'
+      bmr: 'BMR'
+      metabolic_age: 'Edad Metabolica'
+      water_percentage: 'Porcetaje de Agua'
+      physical_complexion: 'Comlexion Fisica'
+      activity_factor: 'Factor Actividad'

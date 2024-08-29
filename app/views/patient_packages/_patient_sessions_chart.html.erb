@@ -1,0 +1,207 @@
+<input type="hidden" id="package_patient_view_patient_id" value="<%= patient_id %>">
+<input type="hidden" id="package_patient_view_package_id" value="<%= patient_package_id %>">
+
+<%= render Elements::Card::CardCollapsibleComponent.new(
+  collapsible_key: "chart-collapsible",
+  collapsed: true,
+  title_object: {
+    title_text: title,
+    title_classes: '',
+    parent_classes: 'justify-content-center'
+  },
+  card_classes: 'col-xs-6 col-sm-12 shadow mb-4',
+  card_body_class: "px-2 #{device == "mobile" ? 'table-responsive d-flex col-12' : ''}",
+  card_body_style: 'gap: 25px',
+  card_header_class: 'px-3', #d-flex align-items-center justify-content-center
+  card_collapsible_component_id: "charts-card-component"
+) do %>
+    <% if device != "mobile"%>
+      <!-- Graficos IMC - WIEGHT -->
+      <div class="d-flex">
+          <div class="col-6">
+            <%= render Elements::Card::CardComponent.new(
+              title: t('imc'),
+              card_class: 'shadow mb-4', card_header_class: 'px-3',
+              card_component_id: 'patient_graph_bar'
+            ) do %>
+              <div class="chart-bar">
+                <canvas id="imcChart"></canvas>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="col-6">
+            <%= render Elements::Card::CardComponent.new(
+              title: t('weight'),
+              card_class: 'shadow mb-4', card_header_class: 'px-3',
+              card_component_id: 'patient_graph_bar'
+            ) do %>
+              <div class="chart-bar">
+                <canvas id="weightChart"></canvas>
+              </div>
+            <% end %>
+          </div>
+      </div>
+
+      <!-- Graficos MASA CORPORAL - MASA MUSCULAR -->
+      <div class="d-flex">
+          <div class="col-6">
+            <%= render Elements::Card::CardComponent.new(
+              title: t('body_grease'),
+              card_class: 'shadow mb-4', card_header_class: 'px-3',
+              card_component_id: 'patient_graph_bar'
+            ) do %>
+              <div class="chart-bar">
+                <canvas id="bodyGreaseChart"></canvas>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="col-6">
+            <%= render Elements::Card::CardComponent.new(
+              title: t('muscle_mass'),
+              card_class: 'shadow mb-4', card_header_class: 'px-3',
+              card_component_id: 'patient_graph_bar'
+            ) do %>
+              <div class="chart-bar">
+                <canvas id="muscleMassChart"></canvas>
+              </div>
+            <% end %>
+          </div>
+      </div>
+    <% end %>
+
+    <% if device == "mobile"%>
+      <!-- Graficos IMC - WIEGHT -->
+      <div class="col-12 px-0">
+        <%= render Elements::Card::CardComponent.new(
+          title: t('imc'),
+          card_class: 'shadow mb-4', card_header_class: 'px-3',
+          card_component_id: 'patient_graph_bar'
+        ) do %>
+          <div class="chart-bar">
+            <canvas id="imcChart"></canvas>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-12 px-0">
+        <%= render Elements::Card::CardComponent.new(
+            title: t('weight'),
+            card_class: 'shadow mb-4', card_header_class: 'px-3',
+            card_component_id: 'patient_graph_bar'
+          ) do %>
+            <div class="chart-bar">
+              <canvas id="weightChart"></canvas>
+            </div>
+          <% end %>
+      </div>
+
+      <!-- Graficos MASA CORPORAL - MASA MUSCULAR -->
+      <div class="col-12 px-0">
+        <%= render Elements::Card::CardComponent.new(
+            title: t('body_grease'),
+            card_class: 'shadow mb-4', card_header_class: 'px-3',
+            card_component_id: 'patient_graph_bar'
+          ) do %>
+            <div class="chart-bar">
+              <canvas id="bodyGreaseChart"></canvas>
+            </div>
+          <% end %>
+      </div>
+
+      <div class="col-12 px-0 mr-10">
+        <%= render Elements::Card::CardComponent.new(
+            title: t('muscle_mass'),
+            card_class: 'shadow mb-4', card_header_class: 'px-3',
+            card_component_id: 'patient_graph_bar'
+          ) do %>
+            <div class="chart-bar">
+              <canvas id="muscleMassChart"></canvas>
+            </div>
+          <% end %>
+      </div>
+    <% end %>
+<% end %>
+
+<script type="text/javascript">
+  function load_imc_chart_bar() {
+    let patient_id = $("#package_patient_view_patient_id").val();
+    let patient_package_id = $("#package_patient_view_package_id").val();
+
+    let all = "<%= all%>";
+
+    if (patient_id && patient_id != '' ) {
+
+      $("#patient_graph_bar").removeClass('d-none');
+
+      $.ajax({
+        url: '/charts/sessionsjson',
+        type : 'post',
+        dataType : 'json',
+        data: {
+          all: all,
+          patient_id: patient_id,
+          patient_package_id: patient_package_id
+        },
+        success: function(data) {
+          imc_values = data.imc.values.map(e => parseFloat(e))
+          min_i = Math.min(...imc_values)
+          min_imc = parseInt(min_i > 14 ? 10 : min_i)
+          max_imc = Math.max(...imc_values)
+          setAreaChart(
+            data.days,
+            imc_values,
+            'imcChart',
+            min_imc,
+            max_imc,
+            6,
+            'Imc'
+          );
+
+          weight_values = data.weight.values.map(e => parseFloat(e))
+          min_w = Math.min(...weight_values)
+          min_weight = parseInt(min_w > 25 ? 25 : min_w)
+          max_weight = Math.max(...weight_values)
+          console.log('weight_values', weight_values)
+          console.log('min_weight', min_weight)
+          setAreaChart(
+            data.days,
+            weight_values,
+            'weightChart',
+            min_weight,
+            max_weight,
+            6,
+            'Weight'
+          );
+
+          setAreaChart(
+            data.days,
+            data.body_grease.values,
+            'bodyGreaseChart',
+            5,
+            Math.max(...data.body_grease.values.map(e => parseFloat(e))),
+            6,
+            'Body Grease'
+          );
+
+          setAreaChart(
+            data.days,
+            data.muscle_mass.values,
+            'muscleMassChart',
+            5,
+            Math.max(...data.muscle_mass.values.map(e => parseFloat(e))),
+            6,
+            'Muscle Mass'
+          );
+        },
+        error: function(e) {
+            console.log('failure');
+            console.log(e);
+        }
+      });
+    }
+  }
+
+  load_imc_chart_bar();
+</script>

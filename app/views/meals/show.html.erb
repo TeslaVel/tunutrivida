@@ -1,0 +1,31 @@
+<div class="col-12 mx-auto">
+    <%= render Elements::Card::CardComponent.new(
+      header_tabs: [
+        { label: 'Meal Info', target: '#info' },
+      ],
+      extra_item_options: [
+        { element: ->() {
+          link_to 'Edit', edit_meal_path(@meal)
+        }}
+      ],
+      card_class: '',
+      card_body_class: 'tab-content p-2',
+      card_component_id: 'billings_info_component'
+    ) do %>
+      <div id="info" class="tab-pane active" role="tabpanel">
+        <%= render Elements::TableShowComponent.new(
+          row_fields: [
+            { field: :name, classes: 'text-primary-400' },
+            { field: :meal_type, classes: 'text-primary-400' },
+            { field: :description, classes: 'text-primary-400' },
+          ],
+          row_object: @meal,
+          table_alias: @meal.model_name.to_s.downcase,
+          table_class: 'table-borderless'
+        )%>
+      </div>
+    <% end %>
+    <div class="d-flex col-3 mx-auto justify-content-center p-2">
+      <%= link_to 'Back', meals_path, class: 'text-primary-700' %>
+    </div>
+</div>

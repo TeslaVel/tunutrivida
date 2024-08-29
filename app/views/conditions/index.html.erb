@@ -1,0 +1,21 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Conditions</h1>
+    <%= link_to 'New Coondition', new_condition_path , class: "btn btn-primary" %>
+  </div>
+
+  <%= render(Pagination::PaginatorComponent.new(
+    collection: @conditions,
+    filter_url: conditions_filter_path,
+    searcher_options: {
+      parent_class: 'd-flex flex-1 px-2',
+      input_class: 'w-180px border-radius-10 px-2 border-primary-100',
+      options: [{ name: 'name', type: 'text', place_holder: 'Search Condition' }],
+    }
+  )) %>
+
+  <div id="conditions_list_partial">
+    <%= render 'list', conditions: @conditions %>
+  </div>
+</div>
+

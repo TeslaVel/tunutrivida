@@ -1,0 +1,45 @@
+import consumer from "./consumer"
+
+function renderChat(conversation_id = null) {
+ const current_conversation = $('#current_conversation')
+ if (current_conversation.length && conversation_id != null && conversation_id != undefined) {
+    // console.log('ejecutar ajax');
+    $.ajax({
+      url: '/render_chat_partial/' + conversation_id,
+      method: 'GET',
+      dataType: 'html',
+      success: function(data) {
+        current_conversation.html(data);
+        scroll_down();
+      },
+      error: function() {
+        console.error('Error al obtener el contenido del parcial');
+      }
+    });
+ }
+}
+
+$(document).on('turbolinks:load', function() {
+  consumer.subscriptions.create({channel: "DietitianEvents"}, {
+    connected() {
+      // Called when the subscription is ready for use on the server
+      console.log(`from bck js global DietitianEvents`)
+    },
+
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
+
+    received(data) {
+      console.log('recibimos en el js', data)
+      if(data.type == 'comment') {
+        $("#notification-counter").removeClass('d-none');
+       
+      }
+      if (data.type == 'note' && data.event_emitter == 'patient') {
+        renderChat(data.conversation_id)
+       $("#notification-counter").text(`${data.notification_count} +`);
+      }
+    }
+  });
+});

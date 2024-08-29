@@ -1,0 +1,53 @@
+<div class="card shadow mb-4">
+
+  <% payments.each do |payment| %>
+    <a href="#collapseCardExample_<%= key %>-<%= payment.id %>" class="d-block card-header py-3 <%= expanded ? '' : 'collapsed' %>" data-toggle="collapse" role="button" aria-expanded="<%= expanded %>" aria-controls="collapseCardExample_<%= key %>-<%= payment.id %>">
+      <h6 class="m-0 font-weight-bold text-primary"><%= payment.code %> - <%= title %> (<%= payment.payment_billing_items.count %>)</h6>
+    </a>
+    <div class="collapse <%= expanded ? 'show' : '' %>" id="collapseCardExample_<%= key %>-<%= payment.id %>">
+      <div class="py-2 px-4 d-flex justify-content-start">
+      </div>
+
+      <% if payment.present? %>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th><%= t('payments.description') %></th>
+                  <th class="text-center"><%= t('payments.amount') %></th>
+                  <th class="text-center"><%= t('payments.quantity') %></th>
+                  <th class="text-center"><%= t('payments.target_conversion') %></th>
+                  <th class="text-center">Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+               	<% payment.payment_billing_items.each do |payment_item| %>
+                <tr>
+                  <td><%= payment_item.billing_item.item_type %></td>
+                  <td><%= payment_item.billing_item.description %></td>
+                  <td class="text-center">
+                    <%= "#{@gbl_configuration.currency_code} #{payment_item.billing_item.itemable.price}" %> |
+                    <%= "#{payment_item.billing_item.target_currency_code} #{(payment_item.billing_item.itemable.price * payment_item.billing_item.target_conversion).round(2) }" %>
+                  </td>
+                  <td class="text-center"><%= payment_item.billing_item.quantity %></td>
+                  <td class="text-center"><%= payment_item.billing_item.target_conversion %></td>
+                  <td class="text-center">
+                    <%= "#{@gbl_configuration.currency_code} #{payment_item.billing_item.total}" %> |
+                    <%= "#{payment_item.billing_item.target_currency_code} #{payment_item.billing_item.total_conversion}" %>
+                  </td>
+                  <td class="text-center">
+                    <%= link_to t('payments.delete'), "javascript:void(0)", id: 'destroy_paid_item', onclick: "destroy_paid_item(this, #{payment_item.id})" %>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

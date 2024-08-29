@@ -1,0 +1,52 @@
+
+<div class="row col-xs-12 col-sm-8 col-md-6 bg-primary-400 text-white rounded-lg p-3 m-auto">
+  <%= simple_form_for(entry) do |f| %>
+    <%= notice %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="card bg-primary-400 border-0">
+      <div class="card-header bg-transparent border-0 text-center">
+        <h5><%= t(title) %></h5>
+      </div>
+      <div class="card-body">
+        <% if entry.image.present? %>
+          <div class="bg-transparent pb-5">
+            <%= image_tag entry.image, style: 'background-size: cover; background-position: center center; height: 250px; width: 100%;' %>
+          </div>
+        <% end %>
+
+        <div class="row">
+          <label class="col-sm-3 col-form-label">Image</label>
+          <div class="col-sm-8 form-group">
+            <%= f.file_field :image, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-sm-3 col-form-label">Descripcion</label>
+          <div class="col-sm-8 form-group">
+            <%= f.text_field :description, class: "form-control", autocomplete: "off" %>
+          </div>
+        </div>
+
+        <div class='row'>
+          <label class="col-sm-3 col-form-label">Dietitian</label>
+          <div class="col-sm-8 form-group">
+            <%= f.select(:entry_type,
+              create_options_from_collection({
+                data: Entry::ENTRY_TYPES,
+                selected: entry.entry_type.to_sym,
+              }), {}, { class: "form-control", autocomplete: "off"} ) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer d-flex justify-content-center form-group bg-transparent border-0">
+        <%= f.button :submit, action_button, class: "btn btn-primary mr-10" %>
+        <%= link_to 'back', entries_path, class: "btn btn-secondary ml-10" %>
+      </div>
+    </div>
+
+  <% end %>
+</div>

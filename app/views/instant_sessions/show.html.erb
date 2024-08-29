@@ -1,0 +1,205 @@
+<div class="col-12">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Patient: Instant</h1>
+    <%= link_to t('sessions.back'), instant_sessions_path %>
+  </div>
+
+  <div class="table-responsive d-flex mb-4">
+    <div class="card col-12 col-sm-6" id="left-card">
+      <div class="card-header bg-transparent">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#about" data-toggle="tab">Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#advanced" data-toggle="tab">Advanced</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body tab-content">
+          <!-- about -->
+        <div class="tab-pane active" id="about">
+          <div class="row">
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Fecha:</p>
+                <p class="mb-2 text-left">Weight:</p>
+                <p class="mb-2 text-left">Height:</p>
+                <p class="mb-2 text-left">Abdomen Bajo:</p>
+                <p class="mb-2 text-left">Abdomen Alto:</p>
+                <p class="mb-2 text-left "> Cadera </p>
+                <p class="mb-2 text-left diagonis_pdc"> Cinctura </p>
+                <p class="mb-2 text-left diagonis_imc"> IMC </p>
+                <p class="mb-2 text-left diagonis_icc"> ICC </p>	
+              </div>
+            </div>
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= @instant_session&.date || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.weight || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.height || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.low_abdomen || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.high_abdomen || '-' %></p>
+                <p class="mb-2 "><%= @instant_session&.hip || '-' %></p>
+                <p class="mb-2 diagonis_pdc"><%= @instant_session&.waist || '-' %> </p>
+                <p class="mb-2 diagonis_imc"><%= @instant_session&.imc || '-' %></p>
+                <p class="mb-2 diagonis_icc"><%= @icc || '-' %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- advanced -->
+        <div id="advanced" class="tab-pane" role="tabpanel">
+          <div class="row">
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 text-left">Grasa Corporal:</p>
+                <p class="mb-2 text-left">Grasa Visceral:</p>
+                <p class="mb-2 text-left "> Masa Muscular </p>
+                <p class="mb-2 text-left "> Masa Osea </p>
+                <p class="mb-2 text-left "> BMR </p>
+                <p class="mb-2 text-left "> Edad Metabolica </p>
+                <p class="mb-2 text-left "> Porcetaje de Agua </p>
+                <p class="mb-2 text-left "> Comlexion Fisica </p>
+              </div>
+            </div>
+            <div class="col-6 p-0">
+              <div class="list-unstyled">
+                <p class="mb-2 "><%= @instant_session.body_grease %> <strong>%</strong></p>
+                <p class="mb-2 "><%= @instant_session.visceral_grease %> <strong>%</strong></p>
+                <p class="mb-2 "><%= @instant_session.muscle_mass %> <strong>Kg</strong></p>
+                <p class="mb-2 "><%= @instant_session.bone_mass %> <strong>Kg</strong></p>
+                <p class="mb-2 "><%= (@instant_session&.bmr || 0) * (@instant_session&.activity_factor.value || 0) %> <strong>Kca</strong></td></p>
+                <p class="mb-2 "><%= @instant_session.metabolic_age %></p>
+                <p class="mb-2 "><%= @instant_session.water_percentage %> <strong>%</strong></p>
+                <p class="mb-2 "><%= @instant_session.physical_complexion %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer bg-transparent p-2">
+        <div scope="row" colspan="4">
+          <%= link_to t('instant_sessions.edit'), edit_instant_session_path, class: "btn btn-success btn-block" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-12 col-sm-6" id="right-card">
+      <div class="card-header bg-transparent justify-content-between d-flex flex-column flex-sm-row">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#imc" role="tab" aria-controls="imc" aria-selected="true" data-toggle="tab">IMC</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pdc" role="tab" aria-controls="pdc" data-toggle="tab">PDC</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#icc" role="tab" aria-controls="icc" data-toggle="tab">ICC</a>
+          </li>
+        </ul>
+        <button type="button" class="btn btn-primary mt-4 mt-sm-0" data-toggle="modal" data-target="#newPatient">
+          Crear Paciente
+        </button>
+      </div>
+      <div class="card-body tab-content px-0 px-sm-5">
+        <!-- IMC -->
+        <div id="imc" class="tab-pane active" role="tabpanel">
+          <div class="col-12 px-0">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsImc,
+              diagnosis: @diagnosisImc,
+              title: "IMC" %>
+          </div>
+        </div>
+
+        <!-- ICC -->
+        <div id="icc" class="tab-pane" role="tabpanel">
+          <div class="col-12 px-0">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsIcc,
+              diagnosis: @diagnosisIcc,
+              title: "ICC" %>
+          </div>
+        </div>
+
+        <!-- PDC -->
+        <div id="pdc" class="tab-pane" role="tabpanel">
+          <div class="col-12 px-0">
+            <%= render 'sessions/diagnoses_partial',
+              indicators: @indicatorsDpc,
+              diagnosis: @diagnosisDpc,
+              title: "PDC" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <%= render layout: "layouts/components/modal",
+    locals: {
+      id_modal: 'newPatient',
+      title: 'Create Patient',
+      action_name: 'Create',
+      action_call: nil
+    } do %>
+
+    <div>
+      <%= form_with scope: User.new, url: create_patient_from_instant_session_path(@instant_session), data: { type: :json }, html: { id:"instant_patient_id", class: '', multipart: true, remote: true} do |f| %>
+        <div class="py-4">
+          <div class="row">
+            <label class="col-5 col-form-label"><%= t('.first_name')%></label>
+            <div class="col-6">
+                <div class="form-group">
+                <%= f.text_field :first_name, label: false, class: "form-control" %>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-5 col-form-label"><%= t('.last_name') %></label>
+            <div class="col-6">
+                <div class="form-group">
+                  <%= f.text_field :last_name, label: false, class: "form-control"%>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+              <label class="col-sm-5 col-form-label"><%= t('.date_of_birth') %></label>
+              <div class="col-sm-6 form-group">
+                <div class="select-date-wrapper">
+                  <%= f.date_select(:date_of_birth,
+                        options = { start_year: DateTime.now.year - 18, end_year: DateTime.now.year - 75, order: [ :day, :month, :year], include_blank: true},
+                        html_options = { class: 'select-date form-control'})%>
+                </div>
+              </div>
+          </div>
+
+          <div class="row">
+            <label class="col-sm-5 col-form-label">Gender</label>
+            <div class="col-sm-6">
+              <%= f.select(:gender_id, options_for_select(Gender.all.map {|k| [k.name.to_s.humanize, k.id]}, :selected => @instant_session&.gender&.id ), {}, {:required => true ,:class => 'form-control'}) %>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-sm-5 col-form-label">Package</label>
+            <div class="col-sm-6">
+              <%= f.select(:package_id, options_for_select(Package.all.map {|k| [k.name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+            </div>
+          </div>
+
+          <div class="pt-4 text-center d-flex justify-content-center" style="background: transparent; gap: 15px;">
+            <%= f.button :submit, value: 'Crear', class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  <% end %>
+</div>

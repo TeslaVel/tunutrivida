@@ -1,0 +1,16 @@
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, product_path(object)) }},
+    { field: :description },
+    { field: :code },
+    { field: :price },
+    { field: :new_price },
+  ],
+  row_objects: products,
+  table_alias: products.model.to_s.downcase,
+  row_actions:  {
+    # edit: nil,
+    # show: { with_icon: { name: 'eye' }, classes: 'c-red', label: nil },
+    # delete: { with_icon: { name: 'trash' }, classes: 'c-red', label: nil, method: :delete,  data: { confirm: t('patients.are_you_sure') } }
+  }
+)%>

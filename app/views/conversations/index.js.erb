@@ -1,0 +1,7 @@
+$("#conversations_section").html("\
+		<%= escape_javascript(render(:partial => 'conversations/conversations', :locals => {\
+																 :conversations => @conversations} )) %>");
+
+$("#current_conversation").html("\
+		<%= escape_javascript(render(:partial => 'conversations/chat', :locals => {\
+																 :conversation => @conversation} )) %>");

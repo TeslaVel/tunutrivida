@@ -1,0 +1,30 @@
+<div class="col-12 mx-auto">
+  <%= render Elements::Card::CardComponent.new(
+    header_tabs: [
+      { label: 'Restricted Info', target: '#info' },
+    ],
+    extra_item_options: [
+      { element: ->() {
+        link_to 'Edit', edit_restricted_ingredient_condition_path(@restricted_ingredient)
+      }}
+    ],
+    card_class: '',
+    card_body_class: 'tab-content p-2',
+    card_component_id: 'billings_info_component'
+  ) do %>
+    <div id="info" class="tab-pane active" role="tabpanel">
+      <%= render Elements::TableShowComponent.new(
+        row_fields: [
+          { field: "meal.name", label: 'Meal', classes: 'text-primary-400' },
+          { field: "condition.name", label: 'Condition', classes: 'text-primary-400' },
+        ],
+        row_object: @restricted_ingredient,
+        table_alias: @restricted_ingredient.model_name.to_s.downcase,
+        table_class: 'table-borderless'
+      )%>
+    </div>
+  <% end %>
+  <div class="d-flex col-12 align-items-center justify-content-center my-2">
+      <%= link_to 'Back', restricted_ingredient_conditions_path, class: "text-primary-700" %>
+  </div>
+</div>

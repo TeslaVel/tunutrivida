@@ -1,0 +1,11 @@
+<div class="table-responsive">
+  <table class="table <%= table_class %>">
+    <thead>
+      <% row_fields.each do |option| %>
+        <tr>
+          <%= render_header_and_row(option) %>
+        </tr>
+      <% end %>
+    </thead>
+  </table>
+</div>

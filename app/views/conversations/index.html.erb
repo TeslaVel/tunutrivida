@@ -1,0 +1,139 @@
+<div class="col-12">
+  <div class="d-flex flex-column flex-grow-1" style="height: 576px;">
+    <div id="conversations-list-id" style="border: solid 1px gray;" class="w-200px p-3 d-none">
+      <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#newConversationModal">
+        New Conversation
+      </button>
+      <header class="p-0 pb-3">Conversations (<%= @conversations.count %>)</header>
+      <section id='conversations_section'>
+        <%= render 'conversations', conversations: @conversations %>
+      </section>
+    </div>
+    <div class="d-flex flex-column justify-content-center px-2">
+      <button id="btn-open-conversation-aside" class="btn btn-link btn-transparent p-0">
+        <%= render "layouts/components/icons", type: 'arrow-bar-right', height: '20', width: '20', color: 'purple' %>
+      </button>
+    </div>
+    <div class="flex-grow-1 d-flex justify-content-center" id='current_conversation'>
+      <%= render 'chat', conversation: @conversation %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newConversationModal" tabindex="-1" role="dialog" aria-labelledby="newConversationModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Select Patient</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with scope: Conversation.new,
+          url: conversations_path,
+          data: { type: :json },
+          html: {
+            id:"new_conversation_form_id",
+            class: 'mx-4 h-auto',
+            multipart: true,
+            remote: true} do |f| %>
+          <div class="form-group">
+            <label for="discount_id">Patient</label>
+            <%= f.select(:patient_id, options_for_select(User.active_patients.map {|k| [k.full_name.to_s.humanize, k.id]}, :selected => nil ), {}, {:required => true ,:class => 'form-control'}) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="create_conversation()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :javascript do %>
+  <script>
+    function scroll_down() {
+      const myDiv = document.getElementById('content-notes-scoll');
+      if (myDiv) {
+        myDiv.scrollTop = myDiv.scrollHeight;
+      }
+    }
+    $(document).on('turbolinks:load', function() {
+      scroll_down()
+    });
+
+    $(document).on('click','#btn-open-conversation-aside',function(e) {
+      $("#conversations-list-id").toggleClass('d-none');
+      $("#conversations-list-id").toggleClass('w-200px');
+    });
+
+    function sendComment() {
+      let dataToSubmit = $("#conversation_form").serialize();
+      console.log('dataToSubmit', dataToSubmit)
+      $.ajax({
+        url: $("#conversation_form").attr('action'),
+        type: "POST",
+        data: dataToSubmit,
+        dataType: "script",
+        success: function(data) {
+          $("#messageInput").val('');
+           scroll_down()
+        },
+        error: function(err) {
+          console.log('err', err);
+        }
+      })
+    }
+
+    function addComment(event) {
+      event.preventDefault();
+      sendComment()
+    }
+
+    function addEmoji(event) {
+      const inputField = document.getElementById('messageInput');
+      const emoji = event.target.value
+
+      if (inputField === document.activeElement) {
+        // Obtiene la posición actual del cursor
+        var start = inputField.selectionStart;
+        var end = inputField.selectionEnd;
+
+        // Inserta el emoji en la posición actual del cursor
+        inputField.value = inputField.value.substring(0, start) + emoji + inputField.value.substring(end);
+
+        // Mueve el cursor después del emoji insertado
+        var newCursorPosition = start + emoji.length;
+        inputField.setSelectionRange(newCursorPosition, newCursorPosition);
+      } else {
+        inputField.value += emoji;
+      }
+    }
+
+    //******************
+    //* Create billing item
+    //*
+    function create_conversation() {
+        var dataToSubmit = $("#new_conversation_form_id").serialize();
+        console.log('dataToSubmit', dataToSubmit);
+        // document.getElementById('new_conversation_form_id').submit();
+         $.ajax({
+           url: $("#new_conversation_form_id").attr('action'),
+           type: "POST",
+           data: dataToSubmit,
+           // contentType: "application/json; charset=utf-8",
+           dataType: "script",
+           success: function(data) {
+            customCloseModal('newConversationModal');
+           },
+           error: function(err) {
+             console.log('err', err);
+           }
+         })
+    }
+  </script>
+<% end %>

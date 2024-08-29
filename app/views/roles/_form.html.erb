@@ -1,0 +1,17 @@
+<%= simple_form_for(@role) do |f| %>
+  <h1><%= t(title) %></h1>
+
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-group">
+
+    <%= f.input :name, label: t('.name'), class: "form-control" %>
+    <%= f.input :description, label: t('.description'), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit, t(action_button), class: "btn btn-primary" %>
+     <%= link_to t('roles.back'), roles_path %>
+  </div>
+<% end %>

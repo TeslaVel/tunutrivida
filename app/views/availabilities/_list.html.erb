@@ -1,0 +1,11 @@
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: 'dietitian.full_name', label: t('dietitian') },
+    { field: 'time_start', element: -> (row) { row.time_start.strftime("%I:%M %p")}, label: 'Time Start' },
+    { field: 'time_end', element: -> (row) { row.time_end.strftime("%I:%M %p")}, label: 'Time End' },
+  ],
+  row_objects: availabilities,
+  table_alias: availabilities.model.name.to_s.downcase,
+  row_actions: {
+  }
+) %>

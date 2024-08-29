@@ -1,0 +1,28 @@
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'Aailability Info', target: '#info' },
+  ],
+  extra_item_options: [
+    { element: ->() {
+      link_to 'Edit', edit_availability_path(@availability)
+    }}
+  ],
+  card_class: '',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'billings_info_component'
+) do %>
+  <div id="info" class="tab-pane active" role="tabpanel">
+    <%= render Elements::TableShowComponent.new(
+      row_object: @availability,
+      table_alias: @availability.model_name.to_s.downcase,
+      row_fields: [
+        { field: 'time_start', value: @availability.time_start.strftime("%I:%M %p"), classes: 'text-primary-400', width: '15%' },
+        { field: 'time_end', value: @availability.time_end.strftime("%I:%M %p"), classes: 'text-primary-400', width: '15%' },
+      ],
+      table_class: 'table-borderless'
+    )%>
+  </div>
+<% end %>
+<div class="d-flex col-3 mx-auto justify-content-center p-2">
+  <%= link_to 'Back', availabilities_path, class: 'text-primary-700' %>
+</div>

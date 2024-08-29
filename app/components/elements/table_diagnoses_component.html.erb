@@ -1,0 +1,17 @@
+<div class="table-responsive">
+  <table class="table <%= table_class %>">
+    <thead>
+      <tr>
+        <% header_fields.each do |head| %>
+          <%= render_header(head) %>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% row_objects.each do |row| %>
+        <%= render_row(row) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

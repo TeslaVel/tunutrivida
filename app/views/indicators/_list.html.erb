@@ -1,0 +1,17 @@
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: :value_min },
+    { field: :value_max },
+    { field: :position },
+    { field: 'indicator_type.name', label: 'Indicator Type' },
+    { field: 'gender.name', label: 'Gender' },
+  ],
+  row_objects: indicators,
+  table_alias: indicators.model.name.to_s.downcase,
+  row_actions:  {
+    # edit: nil,
+    # show: { with_icon: { name: 'eye' }, classes: 'c-red', label: nil },
+    # delete: { with_icon: { name: 'trash' }, classes: 'c-red', label: nil, method: :delete,  data: { confirm: t('patients.are_you_sure') } }
+  }
+)%>
+

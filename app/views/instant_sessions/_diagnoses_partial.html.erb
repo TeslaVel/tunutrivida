@@ -1,0 +1,25 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary text-center">Diagnostics <%= title %></h6>
+  </div>
+  <div class="card-body p-0 table-responsive">
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+					<th width="" class="text-center">Rango 1</th>
+					<th width="" class="text-center">Rango 2</th>
+					<th width="">Description</th>
+				</tr>
+			</thead>
+		  <tbody>
+				<% indicators.each do |indi| %>
+			  <tr class=" <%= diagnosis&.id == indi.id ? 'diagonis_imc' : '' %> ">
+			    <td class="text-center"><%= indi['value_min'] <= 0.0 ? '<' : indi['value_min'] %></td>
+			    <td class="text-center"><%= indi['value_max'] >= 999 ? '>' : indi['value_max'] %></td>
+			    <td ><%= indi['description'] %></td>
+			  </tr>
+			 	<% end %>
+		  </tbody>
+		</table>
+  </div>
+</div>

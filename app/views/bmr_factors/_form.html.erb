@@ -1,0 +1,53 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: bmr_factor,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"bmr_factor_form_id", class: 'form', remote: false},
+      action_buttons: {},
+      fields: [
+            {
+              type: 'number', name: :base_value, label: :base_value,
+              value: bmr_factor.base_value,
+              input_class: ''
+            },
+            {
+              type: 'number', name: :base_height, label: :base_height,
+              value: bmr_factor.base_height,
+              input_class: ''
+            },
+            {
+              type: 'number', name: :base_weight, label: :base_weight,
+              value: bmr_factor.base_weight,
+              input_class: ''
+            },
+            {
+              type: 'number', name: :base_age, label: :base_age,
+              value: bmr_factor.base_age,
+              nput_class: ''
+            },
+            {
+              type: 'text', name: :name, label: :name, value: bmr_factor.name,
+              nput_class: ''
+            },
+            {
+              type: 'number', name: :position, label: :position,
+              value: bmr_factor.position,
+              nput_class: ''
+            },
+            {
+              type: 'number', name: :source, label: :source,
+              value: bmr_factor.source,
+              nput_class: ''
+            },
+            {
+              type: 'select', name: :gender_id, label: :gender,
+              nput_class: '',
+              collection: { data: @genders,
+                label_method: :name,
+                selected: bmr_factor.gender_id,
+              },
+            }
+          ],
+  ) %>
+</div>

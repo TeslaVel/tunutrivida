@@ -1,0 +1,509 @@
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/brands';
+@import '@fortawesome/fontawesome-free/scss/solid';
+
+@import "./shared/sb-admin-2";
+@import "toastr/toastr";
+@import "simple_calendar";
+
+
+/* Colors */
+$white-01: #EEE;
+$red-01: red;
+$gray-red-400: rgb(130, 63, 76);
+$gray-red-300: rgb(164, 71, 88);
+$gray-red-200: rgb(184, 87, 105);
+$gray-red-100: rgb(202, 105, 122);
+
+.no-background { background: none;}
+.d-none { display: none !important;}
+.btn-none {
+  background: none;
+  border: none;
+}
+
+
+$arrayPrimaryColorNames: (
+  primary-700, primary-600, primary-500, primary-400,
+  primary-300, primary-200, primary-100, primary-50,
+  primary-40, primary-30, primary-20, primary-10,
+  primary-05
+);
+
+$arrayPrimaryColors: (
+  // primary-700: rgb(70, 3, 96),
+  // primary-600: rgb(74, 7, 100),
+  // primary-500: rgb(78, 11, 104),
+  // primary-400: rgb(82, 15, 108),
+  // primary-300: rgb(86, 19, 112),
+  // primary-200: rgb(90, 23, 116),
+  // primary-100: rgb(94, 27, 120),
+  // primary-50: rgb(98, 31, 124),
+  // primary-40: rgb(102, 35, 128),
+  // primary-30: rgb(106, 39, 132),
+  // primary-20: rgb(110, 43, 136),
+  // primary-10: rgb(114, 47, 140),
+  // primary-05: rgb(118, 51, 144),
+
+
+  primary-700: rgb(3, 4, 94),
+  primary-600: rgb(2, 62, 138),
+  primary-500: rgb(0, 119, 182),
+  primary-400: rgb(0, 150, 199),
+  primary-300: rgb(0, 180, 216),
+  primary-200: rgb(72, 202, 228),
+  primary-100: rgb(144, 224, 239),
+  primary-50: rgb(173, 232, 244),
+  primary-40: rgb(195, 245, 255),
+  primary-30: rgb(226, 250, 255),
+  primary-20: red,
+  primary-10: red,
+  primary-05: red,
+);
+
+$arraySecondayColorNames: (
+  secondary-500, secondary-400, secondary-300, secondary-200,
+  secondary-100, secondary-50, secondary-30, secondary-20,
+  secondary-15, secondary-10, secondary-05, secondary-01,
+);
+
+$arraySecondaryColors: (
+  // secondary-500: rgb(145, 98, 145),
+  // secondary-400: rgb(156, 108, 156),
+  // secondary-300: rgb(167, 118, 167),
+  // secondary-200: rgb(178, 128, 178),
+  // secondary-100: rgb(189, 138, 189),
+  // secondary-50: rgb(210, 148, 210),
+  // secondary-30: rgb(222, 158, 222),
+  // secondary-20: rgb(233, 168, 233),
+  // secondary-15: rgb(244, 178, 244),
+  // secondary-10: rgb(255, 188, 255),
+  // secondary-05: rgb(255, 198, 255),
+  // secondary-01: rgb(255, 208, 255)
+
+  secondary-700: rgb(38, 50, 56),
+  secondary-600: rgb(55, 71, 79),
+  secondary-500: rgb(69, 90, 100),
+  secondary-400: rgb(84, 110, 122),
+  secondary-300: rgb(96, 125, 139),
+  secondary-200: rgb(120, 144, 156),
+  secondary-100: rgb(144, 164, 174),
+  secondary-50: rgb(176, 190, 197),
+  secondary-40: rgb(191, 200, 203),
+  secondary-30: rgb(236, 239, 241),
+
+  secondary-20: yellow,
+  secondary-10: yellow,
+  secondary-05: yellow,
+  secondary-01: yellow,
+);
+
+
+.text-white-01 { color: $white-01 }
+.bg-white-01 { background-color: $white-01 }
+.hidden { display: none;}
+.c-red { color: $gray-red-100; }
+.c-blue { color:  map-get($arrayPrimaryColors, primary-400 ); }
+.c-green { color: #358688; }
+.c-gray-light { color: #d1d3e2; }
+.pointer {cursor: pointer;}
+
+
+/************ CUSTOM CSS ************/
+/* custom date field */
+.select-date-wrapper{
+  display: flex;
+  gap: 3px;
+  select.select-date {
+    width: 25%;
+    margin-right: 10px;
+  }
+  // &.custom-width {
+  //   select:first-of-type {
+  //     width: 15%;
+  //   }
+  //   select:nth-of-type(2) {
+  //     width: 15%;
+  //   }
+  //   select:last-of-type {
+  //     width: 15%;
+  //     margin-right: 0;
+  //   }
+  // }
+} /* end custom date field */
+
+/* STYLE for simple calendar */
+.simple-calendar {
+  .day {
+    width: 400px;
+    height: 130px;
+    .appointment-title {
+      font-size: 11px;
+    }
+  }
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today { background-color: map-get($arrayPrimaryColors, primary-100 );}
+  .past {}
+  .future {}
+
+  .start-date {}
+
+  .prev-month {background-color: map-get($arraySecondaryColors, secondary-40); }
+  .next-month {background-color: map-get($arraySecondaryColors, secondary-50); }
+  .current-month {}
+
+  .has-events {}
+
+  .calendar-heading {
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      padding: 4px 0 4px 0;
+    }
+  }
+} /* EN STYLE FOR CALENDAR */
+
+
+.overflow-y-scroll { overflow-y: scroll;}
+.overflow-x-scroll { overflow-x: scroll;}
+.overflow-scroll { overflow: scroll;}
+
+#new_patient, .simple_form {
+  width: 100%;
+}
+
+#route_table tbody.exact_matches, #route_table tbody.fuzzy_matches {
+    color: #1aeaaf;
+}
+
+/********* LOOPS TO CREATE CLASSES  *******/
+
+/* Defining width  w-[10 to 400]px 10 in 10 */
+@for $i from 1 through 50 {
+  .w-#{$i*10}px {
+    width: 10px * $i;
+  }
+
+  .h-#{$i*10}px {
+    height: 10px * $i;
+  }
+}
+
+
+/* Defining font-size-px */
+@for $i from 8 through 25 {
+  .f-size-#{$i} {
+    font-size: 1px * $i;
+  }
+}
+
+@for $i from 1 through 50 {
+  .border-radius-#{$i} {
+    border-radius: 0.5px * $i;
+  }
+}
+
+/* Generate classes for secondary */
+@each $key in $arraySecondayColorNames {
+  $value: map-get($arraySecondaryColors, $key);
+
+  .bg-#{$key} { background-color: $value; }
+  .text-#{$key} { color: $value; }
+
+  .border-#{$key} { border: 0.1rem solid $value !important }
+  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
+}
+
+/* Generate classes for primary purple */
+@each $key in $arrayPrimaryColorNames {
+  $value: map-get($arrayPrimaryColors, $key);
+
+  .bg-#{$key} { background-color: $value; }
+  .text-#{$key} { color: $value; }
+
+  .border-#{$key} { border: 0.1rem solid $value !important }
+  .border-bottom-#{$key} { border-bottom: 0.1rem solid $value !important }
+}
+/* Fin de los loops*/
+
+
+/* HEIGHT CLASSES */
+.h-100vh { height: 100vh; }
+.h-100vhi { height: 100vh !important; }
+/* clases para width */
+.w-20   { width: 20%; }
+.w-20i  { width: 20% !important;}
+/* w-25 actual exist in boostrap */
+.w-30   { width: 30%; }
+.w-30i  { width: 30% !important;}
+
+.w-40   { width: 40%; }
+.w-40i  { width: 40% !important;}
+/* w-50 actual exist in boostrap */
+.w-60   { width: 60%; }
+.w-60i  { width: 60% !important;}
+
+.w-70   { width: 70%; }
+.w-70i  { width: 70% !important;}
+/* w-75 actual exist in boostrap  */
+.w-80   { width: 80%; }
+.w-80i  { width: 80% !important;}
+.w-90   { width: 90%; }
+.w-90i  { width: 90% !important;}
+.w-100   { width: 100%; }
+.w-100i  { width: 100% !important;}
+
+
+.diagonis_imc {
+  background: #f9d1a7b5;
+  color: black;
+}
+.diagonis_pdc {
+  background: #d1eac6b5;
+  color: black;
+}
+.diagonis_icc{
+  background: #bee8f4b5;
+  color: black;
+}
+
+/*@mixin bg-pink-custom { background-color: $pink-custom }*/
+@mixin bg-secondary-gradient {
+  background: linear-gradient(30deg, map-get($arrayPrimaryColors, primary-300) 0%, map-get($arrayPrimaryColors, primary-400) 100%);
+}
+/* End Colors */
+
+
+/************ OVERRIDING CLASES ****************/
+/* Override SIDEBAR **/
+.navbar-nav.sidebar {
+  @include bg-secondary-gradient;
+
+  /* Color de los items nivel 1 */
+  & .sidebar-brand, & .nav-item .nav-link {
+    & span {
+      color: $white-01;
+    }
+    & span:hover {
+      color: map-get($arrayPrimaryColors, secondary-30);
+    }
+  }
+
+  /* Sidebar Icons */
+  & .nav-item  {
+    & .nav-link svg path {
+      fill: map-get($arraySecondaryColors, secondary-30);
+    }
+
+    &.active {
+      &.single > .nav-link {
+        background: map-get($arrayPrimaryColors, primary-200);
+
+        & span {
+          color: map-get($arrayPrimaryColors, primary-30);
+          font-weight: 700;
+        }
+        & svg path {
+          fill: map-get($arrayPrimaryColors, primary-30);
+        }
+      }
+
+      /* Minimized Sidebar -> Icons  */
+      & > .nav-link {
+        & span {
+          color: map-get($arrayPrimaryColors, primary-30);
+          font-weight: 700;
+        }
+        & svg path {
+          fill: map-get($arrayPrimaryColors, primary-30);
+        }
+      }
+    }
+  }
+
+  /* Background color del dropdown */
+  & .nav-item .collapse .bg-white,
+  & .nav-item .collapse .collapse-inner,
+  & .nav-item .collapsing .collapse-inner {
+    background-color: map-get($arrayPrimaryColors, secondary-30) !important;
+  }
+
+  /* Hover bg color de los items nivel 2 dentro del dropdown */
+  & .nav-item {
+    & .collapse.show {
+      z-index: 900;
+
+      & .collapse-inner .collapse-item:hover {
+        color: $white-01;
+        background: map-get($arrayPrimaryColors, primary-400);
+      }
+    }
+  }
+
+  /* color de texto de los items dentro del dropdown */
+  & .nav-item .collapse.show .collapse-inner .collapse-item,
+  & .nav-item .collapse .collapse-inner .collapse-item,
+  & .nav-item .collapsing .collapse-inner .collapse-item {
+    color: map-get($arrayPrimaryColors, primary-500);
+  }
+
+  /* bg color del item seleccionado dentro del dropdown */
+  & .nav-item .collapse.show .collapse-inner .collapse-item.active,
+  & .nav-item .collapse .collapse-inner .collapse-item.active,
+  & .nav-item .collapsing .collapse-inner .collapse-item.active {
+    color: $white-01;
+    background: map-get($arrayPrimaryColors, primary-400);
+  }
+
+  /* Color del sub title de los dropdowns */
+  & .nav-item .collapse .collapse-inner .collapse-header,
+  & .nav-item .collapsing .collapse-inner .collapse-header {
+    color: map-get($arraySecondaryColors, secondary-200);
+  }
+} /* end override sidebar */
+
+
+.sticky-footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.custom-responsible-table {
+  width: 100%;
+
+  @media (max-width: 360px) {
+    overflow-x: scroll;
+    width: 320px;
+    overflow-y: hidden;
+
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+}
+
+
+/* override pagination styles */
+.page-item {
+  & .page-link {
+    background-color: map-get($arrayPrimaryColors, primary-30);
+    border-color: map-get($arrayPrimaryColors, primary-300);
+    color: map-get($arrayPrimaryColors, primary-500);
+  }
+
+  &.active .page-link  {
+    background-color: map-get($arrayPrimaryColors, primary-500);
+    border-color: map-get($arrayPrimaryColors, primary-300);
+    color: $white-01;
+  }
+}
+
+/* override buttons styles */
+.btn {
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background-color: map-get($arrayPrimaryColors, primary-500);
+  border-color: map-get($arrayPrimaryColors, primary-500);
+  color: $white-01;
+
+  & > :first-child {
+    color: $white-01;
+  }
+
+  &:hover, &:focus {
+    background-color: map-get($arrayPrimaryColors, primary-400);
+    border-color:map-get($arrayPrimaryColors, primary-500);
+  }
+
+  &:not(:disabled):not(.disabled):active {
+    background-color: map-get($arrayPrimaryColors, primary-700);
+    border-color: map-get($arrayPrimaryColors, primary-300);
+  }
+
+  &:not(:disabled):not(.disabled):active:focus ,
+  &:focus { box-shadow: none; }
+
+  &:disabled, &.disabled {
+    background-color: map-get($arraySecondaryColors, primary-100);
+    border-color: map-get($arraySecondaryColors, primary-200);
+  }
+}
+
+.btn-secondary {
+  background-color: $gray-red-100;
+  border-color:  $gray-red-200;
+
+
+  &:hover, &:focus {
+    background-color:  $gray-red-300;
+    border-color: $gray-red-200;
+  }
+
+  &:not(:disabled):not(.disabled):active {
+    background-color:  $gray-red-300;
+    border-color: $gray-red-400;
+  }
+
+  &:not(:disabled):not(.disabled):active:focus ,
+  &:focus { box-shadow: none }
+}
+
+/* override notification styles */
+.topbar {
+  & .dropdown-list {
+    border: 1px solid map-get($arrayPrimaryColors, primary-500);
+
+    & .dropdown-header {
+      background-color: map-get($arrayPrimaryColors, primary-400);
+      border: 1px solid map-get($arrayPrimaryColors, primary-500);
+    }
+  }
+
+  & #sidebarToggleTop:hover {
+    background-color: map-get($arrayPrimaryColors, primary-30);
+  }
+}
+/************ END OVERRIDING CLASES ****************/
+
+/* Color for entry categories */
+.workout-entry {
+  background: #ebf1f1;
+  border-bottom-color: #a9d9e8 !important
+}
+
+.food-entry {
+  background: #ffeddf;
+  border-bottom-color: #f3bf97 !important;
+}
+
+/* css for entries and chat emoji */
+.button-emoji:hover {
+  background-color: map-get($arraySecondaryColors, secondary-200);
+  border-color: map-get($arraySecondaryColors, secondary-200);
+}
+
+
+/* Override form style */
+.error_notification { color: red; }
+
+.field_with_errors {
+  .error {
+    font-size: 13px;
+    color: red;
+  }
+}
+
+.form-group {
+  margin-bottom: 6px;
+}

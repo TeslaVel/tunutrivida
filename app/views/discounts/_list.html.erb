@@ -1,0 +1,9 @@
+<%= render Elements::TableComponent.new(
+  row_objects: discounts,
+  table_alias: discounts.model.name.underscore,
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, discount_path(object)) }},
+    { field: :description },
+  ],
+  row_actions: {}
+) %>

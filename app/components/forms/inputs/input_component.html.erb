@@ -1,0 +1,106 @@
+
+<%
+def render_field
+%>
+
+  <% if attrs[:type] == 'image' &&  attrs[:value].present? %>
+    <div class="px-0 pb-2 col-sm-12">
+      <div class="bg-transparent">
+        <%= image_tag attrs[:value], style: 'background-size: cover; background-position: center center; height: 250px; width: 100%;' %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if is_row %>
+    <div class="row">
+      <% if attrs[:label].present? %>
+        <%= form.label  attrs[:label], for: attrs[:name].to_sym, class: "col-sm-4 col-form-label#{attrs[:label_class]}" %>
+      <% end %>
+
+      <div class="col-sm-8">
+        <div class="form-group <%= attrs[:parent_class].present? ? attrs[:parent_class] : '' %>" style="<%= attrs[:styles].present? ? attrs[:styles] : '' %>">
+          <%= render_field_input %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if !is_row %>
+    <div class="form-group <%= attrs[:parent_class].present? ? attrs[:parent_class] : '' %>" style="<%= attrs[:styles].present? ? attrs[:styles] : '' %>">
+      <% if attrs[:label].present? %>
+        <%= form.label attrs[:label], for: attrs[:name].to_sym, class: "form-label #{attrs[:label_class]}" %>
+      <% end %>
+
+      <%= render_field_input %>
+    </div>
+  <% end %>
+<% end %>
+
+<%
+  def render_field_input
+%>
+  <%
+     props = {
+      autocomplete: "off",
+      class: "form-control #{attrs[:input_class].present? ? attrs[:input_class] : ''}"
+     }
+    props[:disabled] = attrs[:disabled] if attrs.key?(:disabled)
+
+    if ['label', 'number', 'date'].include?(attrs[:type])
+      props[:value] = attrs[:value].present? ? attrs[:value] : nil
+    end
+  %>
+
+  <% if attrs[:type] == 'label' %>
+    <label class="col-form-label w-100 pl-3<% attrs[:label_class] %>">
+      <%= attrs[:value] %>
+    </label>
+  <% end %>
+  <% if attrs[:type] == 'text' %>
+    <%= form.text_field attrs[:name].to_sym, **props %>
+  <% end %>
+
+  <% if attrs[:type] == 'number' %>
+    <%= form.number_field attrs[:name].to_sym, **props %>
+  <% end %>
+
+  <% if attrs[:type] == 'checkbox' %>
+    <%= form.check_box attrs[:name].to_sym, **props %>
+  <% end %>
+
+  <% if attrs[:type] == 'date' %>
+    <%= form.text_field attrs[:name].to_sym, type: :date, **props %>
+  <% end %>
+
+  <% if attrs[:type] == 'select' %>
+    <% collection = attrs[:collection] %>
+    <% if attrs.key?(:disabled) && attrs[:disabled] %>
+      <% value = create_options_from_collection(collection, true)[0] %>
+      <%= form.text_field attrs[:name].to_sym, **(props.except(:value)), value: value %>
+    <% else %>
+      <%= form.select(attrs[:name].to_sym, create_options_from_collection(collection), {}, { **props}) %>
+    <% end %>
+  <% end %>
+
+  <% if attrs[:type] == 'custom_time' %>
+    <% options = attrs[:options] %>
+
+    <%= form.select(attrs[:name].to_sym, create_options_for_range_times(options), {}, { **props}) %>
+  <% end %>
+
+  <% if attrs[:type] == 'image' %>
+    <%= form.file_field attrs[:name].to_sym, **props %>
+  <% end %>
+<% end %>
+
+
+<% if attrs[:type] == 'brake_line' %>
+  <hr class="<%= attrs[:input_class] %>">
+<% elsif attrs[:type] == 'brake' %>
+  <br>
+<% elsif attrs[:type] == 'hidden' %>
+  <%= form.hidden_field attrs[:name].to_sym, autocomplete: "off" %>
+<% else %>
+  <!-- Fields -->
+  <% render_field %>
+<% end %>

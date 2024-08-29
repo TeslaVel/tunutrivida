@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Template</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+
+    <%= action_cable_meta_tag %>
+    <%= yield :javascript %>
+  </head>
+
+  <body id="page-top">
+    <main id="wrapper" class="">
+      <%= render Navigation::SidebarComponent.new(organization: @organization, device:) %>
+
+      <section class="d-flex flex-column bg-secondary-30 w-100">
+        <%= render TopBar::TopBarComponent.new(current_user:) %>
+
+        <section class=" mt-4 text-primary-400"
+          style="height: calc(100vh - 172px); scroll-behavior: smooth; overflow: scroll; overflow-x: hidden; width: 100%;">
+          <%= render Notifications::FlashComponent.new %>
+          <%= yield %>
+        </section>
+
+        <footer class="sticky-footer bg-primary-200 text-white-01">
+          <%= render FooterComponent.new(text: 'TeslaDev All Rights Reserved') %>
+        </footer>
+      </section>
+    </main>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <%= render Forms::ModalComponent.new(
+      id_modal: 'logoutModal',
+      title: 'Ready to Leave?',
+      primary_actions: {
+        component: Elements::LinkComponent.new(
+          label: 'Logout',
+          url: destroy_user_session_path,
+          classes: 'btn btn-primary',
+          action_method: 'delete'
+        )
+      }
+    ) do %>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+    <% end %>
+  </body>
+</html>

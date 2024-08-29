@@ -1,0 +1,55 @@
+<% if conversation %>
+  <div class="col-sm-12 col-md-10 col-lg-9 col-xl-8 mb-5 p-0">
+    <div class="card p-0 border-secondary-300">
+        <!-- Cabecera de la converzacion -->
+        <div class="card-header bg-secondary-500 text-white-01 d-flex justify-content-between align-items-center px-0 py-2">
+          <div class="px-2">
+            <img src="" alt="profile" tile="profile">
+          </div>
+          <div class="d-flex flex-column flex-grow-1 px-2">
+              <span>
+                <%= link_to patient_path(conversation.patient.id), class: 'text-secondary-10' do %>
+                  <%= conversation.patient.full_name %>
+                <% end %>
+              </span>
+              <span class='text-white-01'><%= conversation.created_at.strftime('%b %-d at %I:%M:%P') %></span>
+          </div>
+        </div>
+        <div class="card-body px-0 pt-0 h-400px overflow-hidden" id="content-notes">
+            <!-- Renderizamos las notas -->
+          <div class="px-3 h-100 overflow-y-scroll" id="content-notes-scoll">
+              <div id="notes-partial" class="d-flex flex-column ">
+                <%= render 'conversations/note', notes: conversation.notes%>
+              </div>
+          </div>
+        </div>
+
+        <div class="px-2 py-2 bg-secondary-500">
+          <!-- Renderizamos los emojis -->
+          <div class="d-flex flex-start mb-2">
+            <div class="border-radius-40 d-flex justify-content-center">
+              <span class="px-0 p-0 m-0 pl-2 d-flex emoji-panel" id="emoji-panel">
+                <%= render "layouts/components/emojis", action_call: 'addEmoji(event)' %>
+              </span>
+            </div>
+          </div>
+
+          <!-- Renderizamos el formulario para comentar -->
+          <%= simple_form_for([conversation, Note.new],
+            data: { type: :json }, html: { class: 'd-flex justify-between items-center',
+            id:"conversation_form", remote: true
+          }) do |f| %>
+            <input
+            id="messageInput" type="text" name="note[message]" placeholder="Escribe tu mensaje..."
+            class="flex-grow-1 pl-2 mx-2 border-radius-40 border-0"
+            />
+            <input type="submit"
+            name="commit" onclick="addComment(event)" value="Crear"
+            class="btn btn-primary text-wghite-01 border-radius-40 px-2"
+            id="create_comment_button" data-disable-with="Crear" style="color: white;">
+          <% end %>
+        </div>
+    </div>
+  </div>
+<% end %>
+

@@ -1,0 +1,33 @@
+<div class="col-12 mx-auto">
+    <%= render Elements::Card::CardComponent.new(
+      header_tabs: [
+        { label: 'Task Info', target: '#info' },
+      ],
+      extra_item_options: [
+        { element: ->() {
+          link_to 'Edit', edit_task_path(@task)
+        }}
+      ],
+      card_class: '',
+      card_body_class: 'tab-content p-2',
+      card_component_id: 'billings_info_component'
+    ) do %>
+      <div id="info" class="tab-pane active" role="tabpanel">
+        <%= render Elements::TableShowComponent.new(
+          row_fields: [
+            { field: :title, classes: 'text-primary-400' },
+            { field: :description, classes: 'text-primary-400' },
+            { field: 'patient.full_name', label: 'Patient', classes: 'text-primary-400' },
+            { field: 'dietitian.full_name', label: 'Patient', classes: 'text-primary-400' },
+            { field: :status, classes: 'text-primary-400' },
+          ],
+          row_object: @task,
+          table_alias: @task.model_name.to_s.downcase,
+          table_class: 'table-borderless'
+        )%>
+      </div>
+    <% end %>
+    <div class="d-flex col-3 mx-auto justify-content-center my-1">
+      <%= link_to 'Back', tasks_path, class: 'text-primary-700 p-2' %>
+    </div>
+</div>

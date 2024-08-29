@@ -1,0 +1,11 @@
+<div class="col-12">
+  <h1>Availability</h1>
+
+  <div class="w-100 text-right mb-4">
+    <%= link_to 'New Availability', new_availability_path , class: "btn btn-primary" %>
+  </div>
+
+  <div id="availabilities_list_partial">
+    <%= render 'list', availabilities: @availabilities %>
+  </div>
+</div>

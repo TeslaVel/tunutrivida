@@ -1,0 +1,29 @@
+import consumer from "./consumer"
+
+$(document).on('turbolinks:load', function() {
+  //const element = $('#patient_page');
+
+  // if (element[0] != undefined) {
+    // get id from div element in patient index
+    // const channel_id = element[0].getAttribute('data-patient-id')
+  // }
+  consumer.subscriptions.create({channel: "GlobalEvents"}, {
+    connected() {
+      // Called when the subscription is ready for use on the server
+      console.log(`from bck js global GlobalEvents`)
+    },
+
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
+
+    received(data) {
+      console.log('recibimos en el js', data)
+      if(data.type == 'contactus') {
+        $("#emails-counter").removeClass('d-none');
+        $("#emails-counter").text(`${data.emails_count} +`);
+      }
+    }
+  });
+
+});

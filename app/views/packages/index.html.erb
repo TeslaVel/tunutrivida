@@ -1,0 +1,14 @@
+<div class="col-12">
+  <h1>packages</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('packages.new_package'), new_package_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @packages %>
+  </div>
+
+  <div id="packages_list_partial">
+    <%= render 'list', packages: @packages %>
+  </div>
+</div>

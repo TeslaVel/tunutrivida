@@ -1,0 +1,52 @@
+<%= content_tag :aside, class: "", style: "z-index:8000" do %>
+  <!-- Navigation::Sidebar -->
+  <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+    <%= render Navigation::SidebarBrandComponent.new(name: organization.name) %>
+    <!-- Navigation::Sidebar-Divider -->
+    <hr class="sidebar-divider my-0">
+
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+      <a class="nav-link" href="<%= root_path %>">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+
+     <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Navigation::Sidebar-Heading -->
+    <div class="sidebar-heading">
+      Interface
+    </div>
+
+    <%= render Navigation::SidebarCollapsibleNavItemsComponent.new(
+        link_modules: modules[:patient_modules],
+        item_name: 'patient_modules',
+        icon: 'cog',
+        device:
+      )
+    %>
+
+    <%= render Navigation::SidebarCollapsibleNavItemsComponent.new(
+        link_modules: modules[:admin_modules],
+        item_name: 'admin_modules',
+        icon: 'cog',
+        device:
+      )
+    %>
+
+    <%= render Navigation::SidebarNavItemComponent.new(
+        name: 'Emails',
+        path: contact_us_path,
+      )
+    %>
+
+    <%= render Navigation::SidebarNavItemComponent.new(
+        name: 'Chat',
+        path: conversations_path,
+      )
+    %>
+  </ul>
+<% end %>

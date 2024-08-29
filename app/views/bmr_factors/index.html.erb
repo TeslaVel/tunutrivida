@@ -1,0 +1,15 @@
+<div class="col-12">
+  <h1>Bmr Factors</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to 'New', new_bmr_factor_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <%= render 'paginations/pagination', objectData: @bmr_factors %>
+  </div>
+
+  <div id="bmr_factors_list_partial">
+    <%= render 'list', bmr_factors: @bmr_factors %>
+  </div>
+</div>
+

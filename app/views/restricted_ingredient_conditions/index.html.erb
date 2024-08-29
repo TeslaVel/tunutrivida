@@ -1,0 +1,15 @@
+<div class="col-md-12 ">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1>Restricted Meal by condition</h1>
+    <%= link_to 'New Condition', new_restricted_ingredient_condition_path , class: "btn btn-primary" %>
+  </div>
+
+  <div class="d-sm-flex justify-content-center mb-3">
+    <%= render 'paginations/pagination', objectData: @restricted_ingredients %>
+  </div>
+
+  <div id="restricted_ingredient_conditions_list_partial">
+    <%= render 'list', restricted_ingredients: @restricted_ingredients %>
+  </div>
+</div>
+

@@ -1,0 +1,53 @@
+<div class="col-12 mx-auto">
+  <h3> <%= t(title) %>
+  <%= simple_form_for(@diet) do |form| %>
+    <div class="card col-sm-12">
+      <div class="card-header bg-transparent d-flex justify-content-between align-items-rigth">
+        <span></span>
+        <span class="">
+          <%= form.submit t(action_button), class: 'btn btn-success' %>
+          <%= link_to t('diets.back'), diets_path, class: 'btn btn-secondary' %>
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12 p-0">
+          <div class="list-unstyled">
+            <p class="mb-2 text-left">Patient:</p>
+          </div>
+        </div>
+        <div class="col-md-12 p-0">
+          <div class="form-group">
+            <%= form.select(:patient_id,
+                create_options_from_collection({
+                  data: @patients,
+                  label_method: :first_name,
+                  selected: @diet.patient_id,
+                }), {}, { class: "form-control", autocomplete: "off", disabled: !@diet.new_record? } ) %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12 p-0">
+          <div class="list-unstyled">
+            <p class="mb-2 text-left">Description:</p>
+          </div>
+        </div>
+        <div class="col-md-12 p-0">
+          <div class="list-unstyled">
+            <%= form.text_area :description, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 px-0 mt-4">
+      <div class="w-100">
+        <% if @diet.new_record? %>
+          <%= render 'new_diet_meal_fields', diet: @diet, form: form %>
+        <% else %>
+          <%= render 'edit_diet_meal_fields', diet: @diet, form: form %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

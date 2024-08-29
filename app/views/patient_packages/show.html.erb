@@ -1,0 +1,33 @@
+<div class="col-12 patient-package-view" id="patient-package-view">
+  <div class="d-flex col-12 align-items-center justify-content-between mb-4">
+    <% if device == 'mobile' %>
+      <span class="h3 mb-0 d-flex flex-column" >[Patient Packages] </span>
+    <% else %>
+      <span class="h3 mb-0">[Packages] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= @patient_package.package.name %></span>
+    <% end %>
+  	<%= link_to t('back'), patient_path(@patient) %>
+  </div>
+
+  <%= render 'patient_sessions_chart',
+        patient_id: @patient.id,
+        patient_package_id: @patient_package.id,
+        title: "Graficos [IMC]- [WEIGHT - [Body Grease] - [Muscle Mass]",
+        all: false,
+        device: device
+  %>
+
+  <%= render 'patient_sessions',
+        key: 5,
+        expanded: true,
+        patient_package: @patient_package,
+        show_button_new: @show_button_new,
+        title: "patient_sessions"
+  %>
+
+  <%= render 'comparative_table',
+        key: 6,
+        expanded: false,
+        sessions: @patient_package.sessions,
+        title: "patient_packages.comparative_table"
+  %>
+</div>

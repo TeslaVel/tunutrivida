@@ -1,0 +1,27 @@
+<div class="card <%= card_class %>" id="<%= card_component_id %>">
+
+  <% if header_tabs.present? || title.present? %>
+    <div class="card-header <%= card_header_class %> ">
+      <% if header_tabs.present? %>
+        <%= render Elements::Card::CardHeaderTabsComponent.new(
+          options: header_tabs,
+          extra_item_options: extra_item_options
+        ) %>
+      <% end %>
+
+      <% if title.present? %>
+        <h6 class="m-0 font-weight-bold text-primary"> <%= title %> </h6>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="card-body <%= card_body_class %>">
+      <%= content %>
+  </div>
+
+  <% if text_footer.present? %>
+    <div class="card-footer <%= card_footer_class %>">
+      <%= text_footer %>
+    </div>
+  <% end %>
+</div>

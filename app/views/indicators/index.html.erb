@@ -1,0 +1,23 @@
+<div class="col-12">
+  <h1>Indicators</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('indicators.new_indicator'), new_indicator_path , class: "btn btn-primary" %>
+  </div>
+
+  <%= render(Pagination::PaginatorComponent.new(
+    collection: @indicators,
+    filter_url: indicators_filter_path,
+    filter_options: {
+      parent_class: '',
+      input_class: 'w-180px',
+      options: [
+        { name: 'indicator_type', type: 'collection' },
+        { name: 'gender', type: 'collection' },
+      ]
+    }
+  )) %>
+
+  <div id="indicators_list_partial">
+    <%= render 'list', indicators: @indicators %>
+  </div>
+</div>

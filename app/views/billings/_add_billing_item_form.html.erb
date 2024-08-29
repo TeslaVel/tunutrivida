@@ -1,0 +1,54 @@
+<%= render Forms::CustomFormComponent.new(
+    scope_instance: BillingItem.new,
+    url: billing_items_create_path(billing),
+    data_type: { type: :json },
+    html_options: {
+      id:"billing_item_form_id",
+      class: 'billing_item_form'
+    },
+    fields: [
+      { type: 'hidden', name: :billing_id, value: billing.id },
+      { type: 'hidden', name: :current_user_id, value: current_user_id },
+      {
+        type: 'select', name: :item_type, label: 'Billing Item',
+        collection: { data: BillingItem::ItemTypes }
+      },
+      {
+        type: 'select', name: :patient_package_id, label: 'Package',
+        input_class: 'package',
+        parent_class: 'to-hide',
+        styles: "display: none;",
+        collection: { data: patient_packages, label_method: :name },
+      },
+      {
+        type: 'select', name: :product_id, label: 'Product',
+        parent_class: 'to-hide', styles: "display: none;",
+        input_class: 'product',
+        collection: { data: products, label_method: :name },
+        # value: [@products.last.name, @products.last.id]
+      },
+      {
+        type: 'text', name: :quantity,
+        input_class: 'quantity',
+        parent_class: 'to-hide',
+        styles: "display: none;",
+        label: 'quantity',
+      },
+      {
+        type: 'select', name: :discount_id, label: 'Discount',
+        input_class: 'discount',
+        parent_class: 'to-hide',
+        styles: "display: none;",
+        collection: { data: discounts, label_method: :name},
+        # value: [@discounts.last.name, @discounts.last.id]
+      },
+      {
+        type: 'text', name: :description, styles: "display: none;",
+        input_class: '',
+        parent_class: 'to-hide',
+        label: 'description',
+      }
+      # { type: 'brake_line', input_class: 'bg-primary-100' },
+      # { type: 'brake'},
+    ]
+) %>

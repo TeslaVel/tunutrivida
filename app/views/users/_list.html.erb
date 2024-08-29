@@ -1,0 +1,22 @@
+
+  <div class="d-flex flex-column justify-content-between align-items-center">
+    <%= render Elements::TableComponent.new(
+      row_fields: [
+        { field: 'full_name', link: ->(label, object) { link_to(label, patient_path(object)) }},
+        { field: :age },
+        # { field: :date_of_birth },
+        { field: 'gender.name', label: 'Gender' },
+        { field: 'sessions.count', label: 'Packages-Sessions' },
+      ],
+      row_objects: patients,
+      table_alias: 'patient',
+      # table_alias: patients.model.to_s.downcase,
+      row_actions:  {
+        edit: nil,
+        # show: { with_icon: { name: 'eye' }, classes: 'c-red', label: nil },
+        # delete: { with_icon: { name: 'trash' }, classes: 'c-red', label: nil, method: :delete,  data: { confirm: t('patients.are_you_sure') } }
+      }
+    )%>
+  </div>
+
+

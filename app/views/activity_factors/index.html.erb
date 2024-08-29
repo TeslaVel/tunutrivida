@@ -1,0 +1,10 @@
+<div class="col-12">
+  <h1>Activity Factors</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('genders.new_gender'), new_gender_path , class: "btn btn-primary" %>
+  </div>
+
+  <div id="activity_factors_list_partial">
+    <%= render 'list', activity_factors: @activity_factors %>
+  </div>
+</div>

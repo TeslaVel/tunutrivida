@@ -1,0 +1,9 @@
+$("#patients_list_partial").html("\
+		<%= escape_javascript(render(:partial => 'users/list', :locals => {\
+															   :patients => @patients} )) %>");
+
+$("#pagination").html(`
+  <%= escape_javascript(render(Pagination::PaginateComponent.new(collection: @patients))) %>
+`);
+
+$('#searcher').focus();

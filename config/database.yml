@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: tunutriclave123*
+
+development:
+  <<: *default
+  database: tunutrivida_development
+
+test:
+  <<: *default
+  database: tunutrivida_test
+
+production:
+  <<: *default
+  database: tunutrivida_production
+  host: localhost

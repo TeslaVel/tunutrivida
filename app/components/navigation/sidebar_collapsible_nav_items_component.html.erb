@@ -1,0 +1,8 @@
+<% active_patient_modules = active_link?(includes: pluck_column(link_modules, :name)) %>
+
+<%= nav_context item_name.to_s, item_name.titleize.pluralize, icon:, active_link: (active_patient_modules && device == 'mobile') do %>
+  <h6 class="collapse-header"> <%= item_name %></h6>
+    <% link_modules.each do |lnk| %>
+      <%= active_link_to (lnk[:title] || lnk[:name]).titleize, lnk[:path], class: 'collapse-item' %>
+    <% end %>
+<% end %>

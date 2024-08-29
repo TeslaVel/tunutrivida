@@ -1,0 +1,16 @@
+development:
+  adapter: redis
+  url: redis://localhost:6379/1
+  log_level: debug
+  params:
+    token: your-token-here
+
+test:
+  adapter: test
+  params:
+    token: your-token-here
+
+production:
+  adapter: redis
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: sb_admin_production

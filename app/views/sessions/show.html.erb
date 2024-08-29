@@ -1,0 +1,68 @@
+<div class="col-12">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<% if device == 'mobile' %>
+			<span class="h3 mb-0 d-flex flex-column" >[Patient Session] </span>
+		<% else %>
+			<h1 class="h3 mb-0 text-gray-800"> [Session] <%= link_to @patient.full_name, patient_path(@patient) %> > <%= link_to @session.patient_package.package.name, patient_package_show_path(@patient, @session.patient_package) %> > <%= @session&.date %> </h1>
+		<% end %>
+
+		<%= link_to t('sessions.back'), patient_package_show_path(@patient, @session.patient_package) %>
+
+    <% if @session.diet %>
+      <button onclick="scroll_to('diet-card-component')" class='btn btn-secondary'> <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        Ver dieta
+      </button>
+    <% else %>
+      <%= link_to create_diet_session_path(@session), method: :post, class: 'btn btn-primary' do %>
+        + Create Diet
+      <% end %>
+    <% end  %>
+	</div>
+
+	<div class="row justify-content-between">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12" id="patient_session_data">
+			<%= render 'patient_session_data', patient: @patient, session: @session, title: "Session" %>
+		</div>
+
+		<div class="col-12 col-sm-12 col-md-6 col-lg-4" id="diagnoses_partial">
+			<%= render 'diagnoses_partial', indicators: @indicatorsImc, diagnosis: @diagnosisImc, title: "IMC" %>
+		</div>
+
+		<div class="col-12 col-sm-12 col-md-6 col-lg-4" id="diagnoses_partial">
+			<%= render 'diagnoses_partial', indicators: @indicatorsDpc, diagnosis: @diagnosisDpc, title: "PDC" %>
+		</div>
+
+		<div class="col-12 col-sm-12 col-md-6 col-lg-4" id="diagnoses_partial">
+			<%= render 'diagnoses_partial', indicators: @indicatorsIcc, diagnosis: @diagnosisIcc, title: "ICC" %>
+		</div>
+
+		<div class="col-12 col-sm-12 col-md-12" id="comparative_table">
+			<%= render 'comparative_table', patient: @patient, session: @session, title: "Comparative table" %>
+		</div>
+
+    <% if @session.diet %>
+      <div class="col-12 col-sm-12 col-md-12" id="diet_partial">
+        <%= render 'diets/diet_meal_weeks',
+                      key: 2,
+                      expanded: true,
+                      show_sub_header_edit: true,
+                      diet: @session.diet,
+                      title: 'Dieta' %>
+      </div>
+    <% end %>
+	</div>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    function scroll_to(id) {
+      let div = document.getElementById(id);
+      if (div) {
+        div.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
+  </script>
+<% end %>

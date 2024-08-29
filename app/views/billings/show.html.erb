@@ -1,0 +1,211 @@
+<div class="billing-view">
+  <div class="d-flex col-12 align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0">[Billing info]</span>
+     <%= link_to t('billings.back'), billings_path(@billing) %>
+  </div>
+
+  <div id="billing_items_partial" class="col-12 mb-4">
+    <%= render 'billing_items',
+        key: 2,
+        billing: @billing,
+        title: "Billing Items" %>
+  </div>
+
+  <!-- Modal -->
+  <%= render Forms::ModalComponent.new(
+    id_modal: 'newItemModal',
+    title: 'Add Item',
+    primary_actions: {
+      name: 'Create',
+      action: 'add_billing_item()',
+    },
+    secondary_actions: {
+      name: 'Close',
+      action: 'close_and_reset_form()',
+    }
+  ) do %>
+    <div id="add_billing_item_form_partial">
+      <%= render 'add_billing_item_form',
+          billing: @billing,
+          current_user_id: current_user.id,
+          patient_packages: @patient_packages,
+          products: @products,
+          discounts: @discounts
+        %>
+    </div>
+  <% end %>
+
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    //******************
+    //* Close modal and reset inputs
+    //*
+    function close_and_reset_form() {
+      $("#billing_item_form_id")[0].reset();
+      hide_all_inputs();
+      customCloseModal('newItemModal');
+    }
+
+    //******************
+    //* Hide field on event change
+    //*
+    function hide_all_inputs() {
+      const elements = $('#billing_item_form_id .to-hide').toArray();
+      elements.map(e => {
+        $(e).css("display", "none");
+      })
+    }
+
+    //******************
+    //* Event Onchange item type
+    //*
+    $(document).on('change','#billing_item_item_type',function(e){
+      const type = e.target.value
+      hide_all_inputs();
+
+      if (type)
+      {
+        // console.log('type', type);
+        const act = $(`#billing_item_form_id .${type}`)[0].parentNode
+        // console.log('act', act);
+        const desc = $(`#billing_item_description`)[0].parentNode
+        // console.log('desc', desc);
+        $(act).css("display", "unset");
+        $(desc).css("display", "unset");
+
+        const qty = $('#billing_item_quantity')[0].parentNode;
+        if (type == 'product') {
+          $(qty).css("display", "unset");
+        } else {
+          $(qty).css("display", "none");
+        }
+      }
+    });
+
+    //******************
+    //* Create billing item
+    //*
+    function add_billing_item() {
+        let form = $("#billing_item_form_id");
+        let dataToSubmit = form.serialize();
+        // console.log('dataToSubmit', dataToSubmit);
+        // document.getElementById('billing_item_form_id').submit();
+        $.ajax({
+          url: $("#billing_item_form_id").attr('action'),
+          type: "POST",
+          data: dataToSubmit,
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            close_and_reset_form();
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    }
+
+    //******************
+    //* Create payment
+    //*
+
+    // function add_paid_item() {
+    //   const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+    //   const item_ids = []
+    //   const billing_id = $("#billing_item_current_user_id")[0].value;
+    //   const current_user_id = $("#billing_item_current_user_id")[0].value;
+    //   checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+
+    //   if (item_ids.length < 1) {
+    //      toastr.error('Must select a leats one item');
+    //      return;
+    //   }
+    //   const billing_data = {
+    //     payment: {
+    //       billing_id,
+    //       item_ids,
+    //       current_user_id
+    //     }
+    //   };
+    //   const url = `/billings/${billing_id}/paid_items/create`
+    //   $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(billing_data),
+    //     contentType: "application/json;",
+    //     dataType: "script",
+    //     success: function(data) {
+    //     },
+    //     error: function(err) {
+    //       console.log('err', err);
+    //     }
+    //   })
+    // };
+
+    //******************
+    //* Destroy payment item
+    //*
+    function destroy_paid_item(el, id) {
+      const billing_id = $("#billing_item_current_user_id")[0].value;
+      if (billing_id && id) {
+        const url = `/billings/${billing_id}/payments/payment_items/${id}`
+        const resp = window.confirm('Are you sure?');
+
+        if (!resp) return;
+
+        $.ajax({
+          url: url,
+          type: "DELETE",
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            // $(el).closest('tr').remove();
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
+    }
+
+    function pay_billing() {
+      // const checkboxes = $("input[class='checkbox_item_ids']:checked").toArray();
+      // const item_ids = []
+      // checkboxes.map(e => item_ids.push({billing_id, billing_item_id: e.value}));
+      const billing_id = $("#billing_item_current_user_id")[0].value;
+      const current_user_id = $("#billing_item_current_user_id")[0].value;
+
+      // if (item_ids.length < 1) {
+      //    toastr.error('Must select a leats one item');
+      //    return;
+      // }
+      const billing_data = {
+        payment: {
+          billing_id,
+          current_user_id
+        }
+      };
+
+      console.log('billing_data', billing_data);
+      const url = `/billings/${billing_id}/payment/create`
+
+      const resp = window.confirm('Esta seguro de pagar esta billing')
+      if (resp) {
+        $.ajax({
+          url: url,
+          type: "POST",
+          data: JSON.stringify(billing_data),
+          contentType: "application/json;",
+          dataType: "script",
+          success: function(data) {
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
+    };
+  </script>
+<% end %>

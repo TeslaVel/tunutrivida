@@ -1,0 +1,29 @@
+<div id='patient_page' data-patient-id="target_page_patients_1"></div>
+
+<div class="col-12">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1><%= t('patients.title') %></h1>
+    <%= link_to t('patients.new_patient'), new_patient_path , class: "btn btn-primary" %>
+  </div>
+
+  <%= render(Pagination::PaginatorComponent.new(
+    collection: @patients,
+    filter_url: patients_filter_path,
+    filter_options: {
+      parent_class: '',
+      input_class: 'w-180px',
+      options: [
+        { name: 'gender', type: 'collection' },
+      ],
+    },
+    searcher_options: {
+      parent_class: 'd-flex flex-1 px-2',
+      input_class: 'w-180px',
+      options: [{ name: 'name', type: 'text', place_holder: 'Search Patient' }],
+    }
+  )) %>
+
+  <div id="patients_list_partial">
+    <%= render 'list', patients: @patients %>
+  </div>
+</div>

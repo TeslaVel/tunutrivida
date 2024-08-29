@@ -1,0 +1,57 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary text-center"><%= title %></h6>
+  </div>
+  <div class="card-body p-0">
+  	<div class="table-responsive">
+			<table class="table table-bordered" width="100%">
+				<thead>
+					<tr>
+						<th width="">Concept</th>
+						<th width="">First Session</th>
+						<th width="">Actual Session</th>
+						<th class="text-center" width="">Total tost</th>
+					</tr>
+				</thead>
+			  <tbody>
+				  <tr class="">
+				    <td >Date</td>
+				    <td ><%= patient.sessions.first.date %></td>
+				    <td ><%= session.date %> </td>
+				    <td class="text-center" >- </td>
+				  </tr>
+				  <tr class="">
+				    <td >Weight</td>
+				    <td ><%= patient.sessions.first.weight %></td>
+				    <td ><%= session.weight %> </td>
+				    <td class="text-center" ><%= ((patient&.sessions&.first&.weight || 0) - (session&.weight || 0)).round(2) %></td>
+				  </tr>
+				  <tr class="">
+				    <td >Waist</td>
+				    <td ><%= patient.sessions.first.waist %></td>
+				    <td ><%= session.waist %> </td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.waist || 0) - (session&.waist || 0)).round(2) %></td>
+				  </tr>
+				   <tr class="">
+				    <td >Hip</td>
+				    <td ><%= patient.sessions.first.hip %></td>
+				    <td ><%= session.hip %> </td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.hip || 0) - (session&.hip || 0)).round(2) %></td>
+				  </tr>
+				  <tr class="">
+				    <td >High abdomen</td>
+				    <td ><%= patient.sessions.first.high_abdomen %></td>
+				    <td ><%= session.high_abdomen %> </td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.high_abdomen || 0) - (session&.high_abdomen || 0)).round(2) %></td>
+				  </tr>
+				   <tr class="">
+				    <td >IMC</td>
+				    <td ><%= patient.sessions.first.imc %></td>
+				    <td ><%= session.imc %> </td>
+				    <td class="text-center" ><%= ((patient&.sessions.first.imc || 0) - (session&.imc || 0)).round(2) %></td>
+				  </tr>
+			  </tbody>
+			</table>
+		</div>
+  </div>
+</div>

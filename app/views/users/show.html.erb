@@ -1,0 +1,114 @@
+<div class="col-12 patient-view">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <span class="h3 mb-0">[Patient Info]</span>
+     <%= link_to t('patient.back'), patients_path %>
+  </div>
+
+  <div class="table-responsive d-flex mb-4">
+    <%= render 'patient_info',
+                key: 1,
+                expanded: true,
+                patient: @patient,
+                session: @session %>
+
+     <%= render 'patient_indicators',
+            key: 3,
+            expanded: true,
+            diagnosis_dpc: @diagnosisDpc,
+            diagnosis_icc: @diagnosisIcc,
+            diagnosis_imc: @diagnosisImc,
+            indicators_icc: @indicatorsIcc,
+            indicators_imc: @indicatorsImc,
+            indicators_dpc: @indicatorsDpc
+            %>
+  </div>
+
+
+  <%= render 'patient_packages/patient_sessions_chart',
+        patient_id: @patient.id,
+        title: "Graficos [IMC]- [WEIGHT - [Body Grease] - [Muscle Mass]",
+        patient_package_id: nil,
+        all: true,
+        device: device
+  %>
+
+  <%= render 'patient_packages',
+              key: 3,
+              expanded: true,
+              patient: @patient,
+              title: "Packages"
+  %>
+
+</div>
+
+
+ <!-- Modal -->
+  <%= render layout: "layouts/components/modal",
+    locals: {
+      id_modal: 'newPatientConditionModal',
+      title: 'Add Condition',
+      action_name: 'Create',
+      action_call: 'add_patient_condition()'
+    } do %>
+
+    <div>
+      <%= form_with scope: PatientCondition.new, url: patient_post_patient_conditions_path(@patient), data: { type: :json }, html: {id:"patient_condition_form_id", class: 'patient_condition_form', multipart: true, remote: true} do |f| %>
+        <div class="form-group">
+          <label for="condition_id">Condition</label>
+          <%= f.collection_select :condition_id, Condition.where.not(id: @patient.reload.conditions.select(:id)), :id, :name, {selected: nil }, { class: 'form-control' } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+<% content_for :javascript do %>
+  <script>
+    //******************
+    //* Create patient conditions
+    //*
+    function add_patient_condition() {
+        var dataToSubmit = $("#patient_condition_form_id").serialize();
+        // console.log('dataToSubmit', dataToSubmit);
+        // document.getElementById('patient_condition_form_id').submit();
+        $.ajax({
+          url: $("#patient_condition_form_id").attr('action'),
+          type: "POST",
+          data: dataToSubmit,
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            customCloseModal('newPatientConditionModal');
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+    }
+
+    //******************
+    //* Destroy payment item
+    //*
+    function destroy_patient_condition(el, patient_id, patient_condition_id) {
+      if (patient_condition_id) {
+        const url = `/patients/${patient_id}/patient_conditions/${patient_condition_id}`
+        const resp = window.confirm('Are you sure?');
+
+        if (!resp) return;
+
+        $.ajax({
+          url: url,
+          type: "DELETE",
+          // contentType: "application/json; charset=utf-8",
+          dataType: "script",
+          success: function(data) {
+            // $(el).closest('tr').remove();
+          },
+          error: function(err) {
+            console.log('err', err);
+          }
+        })
+      }
+    }
+  </script>
+<% end %>
+

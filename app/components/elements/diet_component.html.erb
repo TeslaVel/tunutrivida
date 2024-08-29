@@ -1,0 +1,22 @@
+<div class="table-responsive">
+    <div style="grid-template-columns: repeat(7, minmax(180px, 1fr)); grid-template-rows: 45px; display: grid; column-gap: 4px;">
+      <% body_data.keys.each do |day| %>
+        <div class="text-center border pt-2">
+          <strong><%= t(day) %></strong>
+        </div>
+      <% end %>
+    </div>
+    <div style="grid-template-columns: repeat(7, minmax(180px, 1fr)); column-gap: 4px; row-gap: 15px;display: grid;">
+      <% body_data.keys.each do |day| %>
+        <div style="white-space: normal; white-space: normal;display: flex;flex-direction: column;justify-content: space-between;gap: 5px;" >
+        <% body_data[day].each do |meal_time| %>
+            <div class="border p-1" style="min-height: 150px;">
+              <strong class="text-center"><%= t(meal_time[1][:meal_time]) %>:</strong>
+              <div class="ml-0"><%= meal_time[1][:meal_name] %></div>
+              <small class="ml-1" style="color: gray"><%= meal_time[1][:instructions] %></small>
+            </div>
+        <% end %>
+        </div>
+      <% end %>
+    </div>
+</div>

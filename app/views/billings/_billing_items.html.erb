@@ -1,0 +1,88 @@
+<!-- BILLING INFO -->
+<% show_total = ->() {
+  content_tag(:span, class: 'text-primary-400') do
+    data_total = billing.obtain_pending_total_value
+    "#{@gbl_configuration.currency_code} #{data_total[:total] || 0} | #{billing.target_currency_code} #{data_total[:total_conversion]|| 0}"
+  end
+}%>
+
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'Info', target: '#info' },
+    {
+      label: 'Edit', target: edit_billing_path(billing.id),
+      is_link: true,
+      hidden: billing.paid?
+    },
+  ],
+  extra_item_options: [
+    { element: ->() {
+      if billing.unpaid?
+        content_tag(:button, class: "btn btn-success", onclick: "pay_billing()") do
+          t('pay')
+        end
+      end
+    }},
+  ],
+  card_class: '',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'billings_info_component'
+) do %>
+  <div id="info" class="tab-pane active" role="tabpanel">
+    <%= render Elements::TableShowComponent.new(
+      row_fields: [
+        { field: :status, width: '10%',
+          classes:  "#{billing.paid? ? 'c-green' : 'c-red'}"},
+        { field: :code, classes: 'text-primary-400', },
+        { field: 'patient.full_name', label: 'Patient', classes: 'text-primary-400' },
+        { field: :description, classes: 'text-primary-400', },
+        { field: 'total', element: ->(object) { show_total.call } },
+      ],
+      row_object: billing,
+      table_alias: billing.model_name.to_s.downcase,
+      table_class: 'table-borderless'
+    )%>
+  </div>
+<% end %>
+
+<!-- BILLING ITEMS -->
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: "Billing Items (#{billing.billing_items.size})", target: '#billing_items' },
+  ],
+  card_class: 'px-0',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'billings_info_component',
+  extra_item_options: [{
+    element: ->() {
+      if billing.unpaid?
+        content_tag(:span, class: "nav-link pointer", "data-toggle" => "modal", "data-target" => "#newItemModal") do
+          t('new_item') + " (+)"
+        end
+      end
+    }
+  }],
+) do %>
+  <div id="billing_items" class="tab-pane active" role="tabpanel">
+    <%= render Elements::TableComponent.new(
+      row_objects: billing.billing_items,
+      table_alias: billing.billing_items.model.name.pluralize.underscore,
+      row_fields: [
+        { field: :item_type, label: 'type', width: "10%"},
+        { field: :description, classes:  ""},
+        { field: 'show_correct_mount_text', label: 'amount' },
+        { field: :quantity, classes: "text-center" },
+        { field: :target_conversion, classes:  "text-center"},
+        { field: 'show_correct_total_text', label: 'total', classes: "text-center" },
+      ],
+      table_class: 'table-bordered',
+      row_actions: {
+        show: nil, edit: nil,
+        delete: {
+          custom_path_method: -> (object) { billing_items_destroy_path(object.billing_id, object.id)},
+          should_hide: ->(_) { billing.paid? }
+        }
+      }
+    )%>
+  </div>
+<% end %>

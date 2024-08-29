@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs card-header-tabs d-flex d-flex justify-content-between"
+  id="card_header_tabs_component"
+>
+  <span class="d-flex">
+    <% options.each_with_index do |option, idx| %>
+      <% hidden = (option.key?(:hidden) && option[:hidden]) %>
+      <% if !hidden %>
+        <li class="nav-item">
+          <a class="nav-link <%= classes %><%= idx == 0 ? 'active' : '' %>" href="<%= option[:target]%>" <%= option[:is_link] ? "" : 'data-toggle=tab' %>  ><%= option[:label] %></a>
+        </li>
+      <% end %>
+    <% end %>
+  </span>
+
+  <span class="d-flex">
+    <% if extra_item_options.present?%>
+        <% extra_item_options.each do |option| %>
+          <li class="nav-item px-2 d-flex align-items-center">
+            <% if option[:element].present? %>
+              <%= option[:element].call() %>
+            <% end %>
+          </li>
+        <% end %>
+    <% end %>
+  </span>
+</ul>

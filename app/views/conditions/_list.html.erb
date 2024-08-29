@@ -1,0 +1,9 @@
+<%= render Elements::TableComponent.new(
+  row_fields: [
+    { field: :name, link: ->(label, object) { link_to(label, condition_path(object)) }},
+    { field: :description },
+  ],
+  row_objects: conditions,
+  table_alias: conditions.model.name.to_s.downcase,
+  row_actions:  {}
+) %>

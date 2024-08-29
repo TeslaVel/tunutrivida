@@ -1,0 +1,34 @@
+<%= render Elements::Card::CardComponent.new(
+  header_tabs: [
+    { label: 'IMC', target: '#imc' },
+    { label: 'PDC', target: '#pdc' },
+    { label: 'ICC', target: '#icc' }
+  ],
+  card_class: 'col-12 col-sm-6',
+  card_body_class: 'tab-content p-2',
+  card_component_id: 'patient-show-indicators-right-card'
+) do %>
+  <!-- IMC -->
+  <div id="imc" class="tab-pane active" role="tabpanel">
+      <%= render 'sessions/diagnoses_partial',
+        indicators: indicators_imc,
+        diagnosis: diagnosis_imc,
+        title: '' %>
+  </div>
+
+  <!-- ICC -->
+  <div id="icc" class="tab-pane" role="tabpanel">
+    <%= render 'sessions/diagnoses_partial',
+      indicators: indicators_icc,
+      diagnosis: diagnosis_icc,
+      title: '' %>
+  </div>
+
+  <!-- PDC -->
+  <div id="pdc" class="tab-pane" role="tabpanel">
+    <%= render 'sessions/diagnoses_partial',
+      indicators: indicators_dpc,
+      diagnosis: diagnosis_dpc,
+      title: '' %>
+  </div>
+<% end %>

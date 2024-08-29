@@ -1,0 +1,23 @@
+<%= render Elements::Card::CardCollapsibleComponent.new(
+  collapsible_key: "#{key}-collapsible-1",
+  collapsed: expanded,
+  title_object: {
+    title_text: title,
+    title_classes: '',
+    parent_classes: 'justify-content-center'
+  },
+  card_classes: 'col-xs-6 col-sm-12 shadow mb-4',
+  card_body_class: 'p-2',
+  card_header_class: 'p-2',
+  sub_header: {
+    component: Elements::LinkComponent.new(
+      label: t('edit'),
+      url: edit_diet_path(diet),
+      classes: ''
+    ),
+    classes: 'justify-content-end py-2 pr-4'
+  },
+  card_collapsible_component_id: "diet-card-component"
+) do %>
+  <%= render Elements::DietComponent.new(diet: diet)%>
+<% end %>

@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12 pl-0 text-right">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPatientConditionModal">
+      + Add Condition
+    </button>
+  </div>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Restricciones</th>
+        <th colspan="1">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% patient.patient_conditions.each do |p_condition| %>
+        <tr class="h-20">
+          <td><%= p_condition.condition.name %></td>
+          <td>
+            <p class="ml-1 my-1">No puede comer</p>
+            <ul>
+              <% p_condition.condition.restricted_ingredients.map do |meal| %>
+                <li>
+                  <%= meal.name %>
+                </li>
+              <% end %>
+            </ul>
+          </td>
+          <td>
+            <%= link_to 'Delete', "javascript:void(0)", id: 'destroy_patient_condition', onclick: "destroy_patient_condition(this, #{patient.id}, #{p_condition.id})" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,36 @@
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+  <%= render Forms::FormComponent.new(
+      scope_instance: indicator,
+      is_row: true,
+      data_type: { type: :json },
+      html_options: { id:"patient_form_id", class: 'form', remote: false},
+      action_buttons: {
+      },
+      fields: [
+        { type: 'label', name: :id, label: :id, value: indicator.id },
+        { type: 'number', name: :value_min, label: :value_min, value: indicator.value_min },
+        { type: 'number', name: :value_max, label: :value_max, value: indicator.value_max },
+        { type: 'number', name: :position, label: :position, value: indicator.position },
+        { type: 'text', name: :description, label: :description, value: indicator.description },
+        {
+          type: 'select', name: :gender_id, label: 'Gender',
+          collection: {
+            data: @genders,
+						label_method: :name,
+						selected: indicator.gender_id,
+          },
+        },
+        {
+          type: 'select', name: :indicator_type_id, label: :indicator_type,
+          collection: {
+            data: @indicator_types,
+						label_method: :name,
+						selected: indicator.indicator_type_id,
+          },
+        },
+      ]
+  ) %>
+</div>
+
+
+

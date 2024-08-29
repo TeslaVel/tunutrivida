@@ -1,0 +1,15 @@
+$("#indicators_list_partial").html("\
+  <%= escape_javascript(render(:partial => 'indicators/list', :locals => {\
+                               :indicators => @indicators} )) %>");
+
+$("#pagination").html(`
+  <%= escape_javascript(render(Pagination::PaginateComponent.new(collection: @indicators))) %>
+`);
+
+
+// Remove the active class from all page-item elements
+// $(".page-item").removeClass("active");
+
+// Add the active class to the appropriate page-item element
+// const currentPage = $("#indicators_list_partial").find('.table-responsive'); ;
+// $(`.page-item[data-page="${currentPage}"]`).addClass("active");

@@ -1,0 +1,10 @@
+$('#exampleModalCenter').removeClass('show').css('display', 'none')
+$('.modal-backdrop').removeClass('show')
+
+$("#paid_items_partial").html("\
+		<%= escape_javascript(render(:partial => 'billings/paid_items', :locals => {\
+																 :key => '2',\
+																 :expanded => true,\
+															   :payments => @billing.payments,\
+															   :title => 'Pending to pay'} )) %>");
+

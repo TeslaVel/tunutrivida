@@ -1,0 +1,32 @@
+<li class="nav-item dropdown no-arrow px1">
+  <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+    role="button" data-toggle="dropdown"aria-haspopup="true"
+    aria-expanded="false">
+    <%= render Elements::IconHandlerComponent.new(name: 'bell', classes: 'text-white') %>
+
+    <!-- Counter - Alerts -->
+    <span class="badge badge-danger badge-counter <%= 'd-none' if notifications.blank? %>" id="notification-counter">
+      <%= notifications&.size %>+
+    </span>
+  </a>
+
+  <!-- Dropdown - Alerts -->
+  <div aria-labelledby="alertsDropdown"
+    class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+    <h6 class="dropdown-header">
+      Notifications Center
+    </h6>
+
+    <div id="notifications-container" class="h-300px overflow-hidden">
+     <div class="h-100 overflow-y-scroll">
+      <% notifications.each do |notification| %>
+        <%= render TopBar::NotificationComponent.new(notification:)%>
+      <% end %>
+     </div>
+    </div>
+
+    <a class="dropdown-item text-center small text-gray-500" href="#">
+      Show All Notifications
+    </a>
+  </div>
+</li>

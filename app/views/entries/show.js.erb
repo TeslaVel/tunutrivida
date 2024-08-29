@@ -1,0 +1,4 @@
+
+$("#comments_partial").html("\
+		<%= escape_javascript(render(:partial => 'entries/comments', :locals => {\
+																 comments: @comments} )) %>");

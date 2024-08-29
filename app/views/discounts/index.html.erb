@@ -1,0 +1,10 @@
+<div class="col-12">
+  <h1>Discounts</h1>
+  <div class="w-100 text-right mb-4">
+    <%= link_to t('discounts.new_discount'), new_discount_path , class: "btn btn-primary" %>
+  </div>
+
+  <div id="discounts_list_partial">
+    <%= render 'list', discounts: @discounts %>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="col-12 mx-auto">
+  <%= render Elements::Card::CardComponent.new(
+    header_tabs: [
+      { label: 'Discount Info', target: '#info' },
+    ],
+    extra_item_options: [
+      { element: ->() {
+        link_to 'Edit', edit_discount_path(@discount)
+      }}
+    ],
+    card_class: '',
+    card_body_class: 'tab-content p-2',
+    card_component_id: 'billings_info_component'
+  ) do %>
+    <div id="info" class="tab-pane active" role="tabpanel">
+      <%= render Elements::TableShowComponent.new(
+        row_fields: [
+          { field: :name, classes: 'text-primary-400' },
+          { field: :description, classes: 'text-primary-400' },
+          { field: :discount_type, classes: 'text-primary-400' },
+          { field: :amount, classes: 'text-primary-400' },
+        ],
+        row_object: @discount,
+        table_alias: @discount.model_name.to_s.downcase,
+        table_class: 'table-borderless'
+      )%>
+    </div>
+  <% end %>
+  <div class="d-flex col-12 align-items-center justify-content-center my-2">
+      <%= link_to 'Back', discounts_path, class: "text-primary-700" %>
+  </div>
+</div>

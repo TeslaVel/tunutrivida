@@ -1,0 +1,17 @@
+<%= render Elements::TableComponent.new(
+  row_objects: @bmr_factors,
+  table_alias: @bmr_factors.model.name.underscore,
+  row_fields: [
+    # { field: :name, link: ->(label, object) { link_to(label, gender_path(object)) }},
+    { field: :name },
+    { field: :base_value },
+    { field: :base_height },
+    { field: :base_weight },
+    { field: :base_age },
+    { field: :position },
+    { field: :source },
+    { field: 'gender.name', label: 'gender' },
+    { field: 'created_by.full_name', label: 'created_by' },
+  ],
+  row_actions: {}
+) %>

@@ -1,0 +1,13 @@
+<%= form_with scope: scope_instance,
+  url: url,
+  data: data_type,
+  html: html_options do |form| %>
+
+  <% if fields.present? %>
+    <% fields.each do |field| %>
+      <%= render Forms::Inputs::InputComponent.new(form, is_row, **field) %>
+    <% end %>
+  <% elsif content.present? %>
+    <%= content %>
+  <% end %>
+<% end %>

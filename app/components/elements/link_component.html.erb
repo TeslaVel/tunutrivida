@@ -1,0 +1,17 @@
+<% if content.present? %>
+  <% if action_method.present? %>
+    <%= link_to(label, url, method: action_method.to_sym, class: classes) do %>
+        <%= content %>
+    <% end %>
+  <% else %>
+    <%= link_to(label, url, class: classes) do %>
+      <%= content %>
+    <% end %>
+  <% end %>
+<% else %>
+  <% if action_method.present? %>
+    <%= link_to(label, url, method: action_method.to_sym, class: classes) %>
+  <% else %>
+    <%= link_to(label, url, class: classes) %>
+  <% end %>
+<% end %>

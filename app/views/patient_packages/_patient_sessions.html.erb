@@ -1,0 +1,39 @@
+<% sessions = patient_package.sessions.date_desc %>
+<%= render Elements::Card::CardCollapsibleComponent.new(
+  collapsible_key: "#{key}-collapsible",
+  collapsed: expanded,
+  title_object: {
+    title_text: title ,
+    title_classes: '',
+    parent_classes: 'justify-content-center'
+  },
+  card_classes: 'col-xs-6 col-sm-12 shadow mb-4',
+  card_body_class: 'p-2',
+  card_header_class: 'px-3', #d-flex align-items-center justify-content-center
+  sub_header: {
+    component: (patient_package.active? && show_button_new) ?
+                  Elements::LinkComponent.new(
+                  label: 'New Package',
+                  url: patient_patient_package_new_session_path(patient_package.patient, patient_package),
+                  classes: 'btn btn-primary'
+                ) : nil,
+    classes: 'justify-content-end p-2'
+  },
+  card_collapsible_component_id: "patient-packages-card-component"
+) do %>
+    <%= render Elements::TableComponent.new(
+      row_fields: [
+        { field: :date, link: ->(label, object) { link_to(label,  patient_patient_package_session_show_path(object.patient, object.patient_package, object)) }},
+        { field: :weight },
+        { field: :waist },
+        { field: :hip },
+        { field: :high_abdomen },
+        { field: :low_abdomen },
+        { field: :imc },
+      ],
+      table_class: 'table-bordered',
+      row_objects: sessions,
+      table_alias: sessions.model.to_s.downcase,
+      row_actions:  { render: false }
+    )%>
+<% end %>
